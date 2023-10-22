@@ -1,0 +1,13 @@
+{
+  "extends": "@typhoon41/eslint-config",
+  "rules": {
+    "new-cap": [
+      "error",
+      {
+        "capIsNewExceptions": [
+          "Component", "NgModule"
+        ]
+      }
+    ]
+  }
+}
