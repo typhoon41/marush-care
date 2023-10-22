@@ -1,0 +1,20 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.map
+*.js
+*.css
+*.tests.js
+.env.development
+app_offline.htm
+
+.vs
+bin
+obj
+packages
+*.vspscc
+
+Site/Gmf.Marush.Care.App/dist/*
+Site/Gmf.Marush.Care.App/node_modules/*
+Site/Gmf.Marush.Care.App/coverage/*

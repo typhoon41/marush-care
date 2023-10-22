@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="3.4.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+</Project>
