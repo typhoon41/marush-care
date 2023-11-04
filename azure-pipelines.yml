@@ -64,14 +64,6 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: DownloadBuildArtifacts@1
-              displayName: 'Download Build Artifacts'
-              inputs:
-                buildType: specific
-                project: 'Marush Care'
-                pipeline: 'Marush Care'
-                artifactName: 'Marush'
-                downloadPath: '$(Build.ArtifactsDirectory)'
             - task: ExtractFiles@1
               displayName: 'Extract Marush Artifacts '
               inputs:
