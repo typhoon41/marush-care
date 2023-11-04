@@ -67,13 +67,13 @@ stages:
             - task: ExtractFiles@1
               displayName: 'Extract Marush Artifacts '
               inputs:
-                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/Marush/Gmf.Marush.Care.App.zip'
-                destinationFolder: '$(System.DefaultWorkingDirectory)/Marush/Temp/App'
+                archiveFilePatterns: '$(Agent.BuildDirectory)/Marush/Gmf.Marush.Care.App.zip'
+                destinationFolder: '$(Agent.BuildDirectory)/Marush/Temp/App'
               retryCountOnTaskFailure: 3
             - task: qetza.replacetokens.replacetokens-task.replacetokens@5
               displayName: 'Tokens replacement'
               inputs:
-                rootDirectory: '$(System.DefaultWorkingDirectory)/MarushCare/Temp'
+                rootDirectory: '$(Agent.BuildDirectory)/MarushCare/Temp'
                 targetFiles: |
                   **/dist/js/**/*.js
                   **/appsettings.json
@@ -82,12 +82,12 @@ stages:
             - task: ArchiveFiles@2
               displayName: 'Pack Marush'
               inputs:
-                rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Marush/Temp/App'
+                rootFolderOrFile: '$(Agent.BuildDirectory)/Marush/Temp/App'
                 includeRootFolder: false
                 archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
               retryCountOnTaskFailure: 3
             - script: |
-                msdeploy.exe -source:contentPath="$(System.DefaultWorkingDirectory)/Marush/Temp/App/Properties/app_offline_template.htm" -dest:contentPath='marush test/app_offline.htm' –verb:sync
+                msdeploy.exe -source:contentPath="$(Agent.BuildDirectory)/Marush/Temp/App/Properties/app_offline_template.htm" -dest:contentPath='marush test/app_offline.htm' –verb:sync
                 workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
                 failOnStderr: true
                 displayName: 'Put App Offline page'
@@ -107,7 +107,7 @@ stages:
             - task: DeleteFiles@1
               displayName: 'Delete files from Temp'
               inputs:
-                SourceFolder: '$(System.DefaultWorkingDirectory)/Marush/Temp'
+                SourceFolder: '$(Agent.BuildDirectory)/Marush/Temp'
                 Contents: Gmf
                 RemoveSourceFolder: true
               retryCountOnTaskFailure: 3
