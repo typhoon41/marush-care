@@ -16,7 +16,7 @@ stages:
   displayName: 'Build Marush'
   jobs:
     - job: 'Prerequisites'
-      displayName: 'Prepar Build for Marush'
+      displayName: 'Prepare Build for Marush'
       steps:
       - task: DotNetCoreCLI@2
         displayName: Add Manifest for tool installation
@@ -64,8 +64,14 @@ stages:
         runOnce:
           deploy:
             steps:
-            - download: '$(Build.ArtifactsDirectory)'
-              artifact: Marush Artifacts
+            - task: DownloadBuildArtifacts@1
+              displayName: 'Download Build Artifacts'
+              inputs:
+                buildType: specific
+                project: 'Marush Care'
+                pipeline: 'Marush Care'
+                artifactName: 'Marush'
+                downloadPath: '$(Build.ArtifactsDirectory)'
             - task: ExtractFiles@1
               displayName: 'Extract Marush Artifacts '
               inputs:
