@@ -1,0 +1,117 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+  environment: 'Production'
+  applicationVersion: 0.0
+
+name: $(applicationVersion).$(Rev:r)
+
+stages:
+- stage: 'Build'
+  displayName: 'Build Marush'
+  jobs:
+    - job: 'Prerequisites'
+      displayName: 'Prepar Build for Marush'
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: Add Manifest for tool installation
+        inputs:
+          command: 'custom'
+          custom: 'new'
+          arguments: tool-manifest
+
+      - task: DotNetCoreCLI@2
+        displayName: Install EF Tool
+        inputs:
+          command: 'custom'
+          custom: 'tool '
+          arguments: install dotnet-ef
+
+      - script: |
+          dotnet restore -r win-x64
+          echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
+          dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+        displayName: '.Net Core Build'
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Prepare artifacts for publishing'
+        inputs:
+          command: 'publish'
+          configuration: $(BuildConfiguration)
+          nobuild: True 
+          publishWebProjects: True
+          arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=$(environment) -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+          zipAfterPublish: True
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish artifacts'
+        inputs:
+          ArtifactName: Marush
+
+- stage: 'DeployToTest'
+  displayName: 'Deploy to the test environment'
+  dependsOn: 'Build'
+  condition:  succeeded()
+  jobs:
+    - deployment: DeployToTest
+      environment: Test
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: Marush Artifacts
+            - task: ExtractFiles@1
+              displayName: 'Extract Marush Artifacts '
+              inputs:
+                archiveFilePatterns: '$(System.DefaultWorkingDirectory)/Marush/Gmf.Marush.Care.App.zip'
+                destinationFolder: '$(System.DefaultWorkingDirectory)/Marush/Temp/App'
+              retryCountOnTaskFailure: 3
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+              displayName: 'Tokens replacement'
+              inputs:
+                rootDirectory: '$(System.DefaultWorkingDirectory)/MarushCare/Temp'
+                targetFiles: |
+                  **/dist/js/**/*.js
+                  **/appsettings.json
+                  tokenPattern: rm
+                  keepToken: true
+            - task: ArchiveFiles@2
+              displayName: 'Pack Marush'
+              inputs:
+                rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Marush/Temp/App'
+                includeRootFolder: false
+                archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
+              retryCountOnTaskFailure: 3
+            - script: |
+                msdeploy.exe -source:contentPath="$(System.DefaultWorkingDirectory)/Marush/Temp/App/Properties/app_offline_template.htm" -dest:contentPath='marush test/app_offline.htm' –verb:sync
+                workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
+                failOnStderr: true
+                displayName: 'Put App Offline page'
+                retryCountOnTaskFailure: 3
+            - task: IISWebAppDeploymentOnMachineGroup@0
+              displayName: 'Trigger built-in backup & Deploy Marush'
+              inputs:
+                WebSiteName: Marush Test
+                Package: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
+              retryCountOnTaskFailure: 3
+            - script: |
+                msdeploy.exe -dest:contentPath='marush test/app_offline.htm' –verb:delete
+                workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
+              failOnStderr: true
+              displayName: 'Remove App Offline pages'
+              retryCountOnTaskFailure: 3
+            - task: DeleteFiles@1
+              displayName: 'Delete files from Temp'
+              inputs:
+                SourceFolder: '$(System.DefaultWorkingDirectory)/Marush/Temp'
+                Contents: Gmf
+                RemoveSourceFolder: true
+              retryCountOnTaskFailure: 3
+
+
