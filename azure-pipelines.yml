@@ -86,6 +86,13 @@ stages:
                 includeRootFolder: false
                 archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
               retryCountOnTaskFailure: 3
+            - task: IISWebAppDeploymentOnMachineGroup@0
+              displayName: 'Trigger built-in backup & Deploy Marush'
+              inputs:
+                WebSiteName: 'Marush Test'
+                Package: '$(Agent.BuildDirectory)/Marush/Temp/App/Properties/app_offline_template.htm'
+                AdditionalArguments: -dest:contentPath='marush test/app_offline.htm' –verb:sync
+              retryCountOnTaskFailure: 3
             - script: |
                 msdeploy.exe -source:contentPath="$(Agent.BuildDirectory)/Marush/Temp/App/Properties/app_offline_template.htm" -dest:contentPath='marush test/app_offline.htm' –verb:sync
               workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
