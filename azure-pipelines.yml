@@ -64,7 +64,7 @@ stages:
         runOnce:
           deploy:
             steps:
-            - download: current
+            - download: '$(Build.ArtifactsDirectory)'
               artifact: Marush Artifacts
             - task: ExtractFiles@1
               displayName: 'Extract Marush Artifacts '
