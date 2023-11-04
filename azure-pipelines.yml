@@ -73,7 +73,7 @@ stages:
             - task: qetza.replacetokens.replacetokens-task.replacetokens@5
               displayName: 'Tokens replacement'
               inputs:
-                rootDirectory: '$(Agent.BuildDirectory)/MarushCare/Temp'
+                rootDirectory: '$(Agent.BuildDirectory)/Marush/Temp'
                 targetFiles: |
                   **/dist/js/**/*.js
                   **/appsettings.json
