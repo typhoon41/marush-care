@@ -86,12 +86,12 @@ stages:
                 includeRootFolder: false
                 archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
               retryCountOnTaskFailure: 3
-            - task: IISWebAppDeploymentOnMachineGroup@0
+              
+            - script: |
+                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)/Marush/Temp/App/Properties/app_offline_template.htm" -dest:contentPath='Marush Test/app_offline.htm' –verb:sync
               displayName: 'Put App Offline page'
-              inputs:
-                WebSiteName: 'Marush Test'
-                Package: '$(Agent.BuildDirectory)/Marush/Temp/App/Properties'
               retryCountOnTaskFailure: 3
+              
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'Trigger built-in backup & Deploy Marush'
               inputs:
