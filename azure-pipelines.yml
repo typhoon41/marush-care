@@ -16,7 +16,7 @@ stages:
   displayName: 'Build Marush'
   jobs:
     - job: 'Prerequisites'
-      displayName: 'Prepare Build for Marush'
+      displayName: 'Prerequisites for Marush Build'
       steps:
       - task: DotNetCoreCLI@2
         displayName: Add Manifest for tool installation
@@ -32,14 +32,20 @@ stages:
           custom: 'tool '
           arguments: install dotnet-ef
 
+    - job: 'Build'
+      displayName: 'Build'
+      steps:
       - script: |
           dotnet restore -r win-x64
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
         displayName: '.Net Core Build'
 
+    - job: 'Artifacts'
+      displayName: 'Publishing Artifacts'
+      steps:
       - task: DotNetCoreCLI@2
-        displayName: 'Prepare artifacts for publishing'
+        displayName: 'Packing artifacts'
         inputs:
           command: 'publish'
           configuration: $(BuildConfiguration)
@@ -49,12 +55,12 @@ stages:
           zipAfterPublish: True
 
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish artifacts'
+        displayName: 'Publishing artifacts'
         inputs:
           ArtifactName: Marush
 
 - stage: 'DeployToTest'
-  displayName: 'Deploy to the test environment'
+  displayName: 'Deploy to Test'
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
@@ -68,7 +74,7 @@ stages:
           deploy:
             steps:
             - task: ExtractFiles@1
-              displayName: 'Extract Marush Artifacts '
+              displayName: 'Extract Marush Artifacts'
               inputs:
                 archiveFilePatterns: '$(Agent.BuildDirectory)/Marush/Gmf.Marush.Care.App.zip'
                 destinationFolder: '$(Agent.BuildDirectory)/Marush/Temp/App'
