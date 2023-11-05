@@ -60,6 +60,7 @@ stages:
   jobs:
     - deployment: DeployToTest
       environment: Test
+      pool: 'windows-latest'
       strategy:
         runOnce:
           deploy:
