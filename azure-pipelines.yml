@@ -88,18 +88,18 @@ stages:
               retryCountOnTaskFailure: 3
               
             - script: |
-                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\Marush\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='Marush Test\app_offline.htm' –verb:sync
+                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\Marush\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='MarushTest\app_offline.htm' –verb:sync
               displayName: 'Put App Offline page'
               retryCountOnTaskFailure: 3
 
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'Trigger built-in backup & Deploy Marush'
               inputs:
-                WebSiteName: Marush Test
+                WebSiteName: MarushTest
                 Package: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
               retryCountOnTaskFailure: 3
             - script: |
-                msdeploy.exe -dest:contentPath='marush test/app_offline.htm' –verb:delete
+                msdeploy.exe -dest:contentPath='marushtest/app_offline.htm' –verb:delete
                 workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
               failOnStderr: true
               displayName: 'Remove App Offline pages'
