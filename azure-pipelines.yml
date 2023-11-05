@@ -59,7 +59,10 @@ stages:
   condition:  succeeded()
   jobs:
     - deployment: DeployToTest
-      environment: Test
+      environment: 
+        name: 'Test'
+        resourceName: VMI1461179
+        resourceType: virtualMachine
       strategy:
         runOnce:
           deploy:
