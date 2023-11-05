@@ -1,6 +1,9 @@
 trigger:
 - main
 
+pool:
+  vmImage: windows-latest
+
 variables:
   buildConfiguration: 'Release'
   environment: 'Production'
@@ -11,7 +14,6 @@ name: $(applicationVersion).$(Rev:r)
 stages:
 - stage: 'Build'
   displayName: 'Build Marush'
-  pool: ubuntu-latest
   jobs:
     - job: 'Prerequisites'
       displayName: 'Prepare Build for Marush'
@@ -55,7 +57,6 @@ stages:
   displayName: 'Deploy to the test environment'
   dependsOn: 'Build'
   condition:  succeeded()
-  pool: windows-latest
   jobs:
     - deployment: DeployToTest
       environment: Test
