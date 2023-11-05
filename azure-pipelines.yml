@@ -88,6 +88,7 @@ stages:
               retryCountOnTaskFailure: 3
               
             - script: |
+                %windir%\system32\inetsrv\appcmd.exe list site
                 "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\Marush\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='MarushTest\app_offline.htm' –verb:sync
               displayName: 'Put App Offline page'
               retryCountOnTaskFailure: 3
