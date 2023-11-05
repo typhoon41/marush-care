@@ -91,7 +91,7 @@ stages:
               inputs:
                 WebSiteName: 'Marush Test'
                 Package: '$(Agent.BuildDirectory)/Marush/Temp/App/Properties'
-                AdditionalArguments: -dest:contentPath='marush test' –verb:sync
+                AdditionalArguments: –verb:sync
               retryCountOnTaskFailure: 3
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'Trigger built-in backup & Deploy Marush'
