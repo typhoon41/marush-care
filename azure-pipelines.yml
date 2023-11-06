@@ -24,14 +24,12 @@ stages:
           command: 'custom'
           custom: 'new'
           arguments: tool-manifest
-
       - task: DotNetCoreCLI@2
         displayName: Install EF Tool
         inputs:
           command: 'custom'
           custom: 'tool '
           arguments: install dotnet-ef
-
     - job: 'Build'
       displayName: 'Build'
       steps:
@@ -40,7 +38,6 @@ stages:
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
         displayName: '.Net Core Build'
-
     - job: 'Artifacts'
       displayName: 'Publishing Artifacts'
       steps:
@@ -53,19 +50,17 @@ stages:
           publishWebProjects: True
           arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=$(environment) -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
           zipAfterPublish: True
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing artifacts'
         inputs:
           ArtifactName: Marush
-
 - stage: 'DeployToTest'
   displayName: 'Deploy to Test'
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
     - deployment: DeployToTest
-      displayName: 'Deploy'
+      displayName: 'Executing Deploy'
       environment: 
         name: 'Test'
         resourceName: VMI1461179
@@ -96,13 +91,10 @@ stages:
                 includeRootFolder: false
                 archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
               retryCountOnTaskFailure: 3
-            - task: IISWebAppDeploymentOnMachineGroup@0
+            - script: |
+                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\Marush\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='MarushTest\app_offline.htm' –verb:sync
               displayName: 'Put App Offline page'
-              inputs:
-                 WebSiteName: MarushTest
-                 Package: '$(Agent.BuildDirectory)\Marush\Temp\App\Properties'
               retryCountOnTaskFailure: 3
-
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'Trigger built-in backup & Deploy Marush'
               inputs:
@@ -114,8 +106,7 @@ stages:
               workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
               failOnStderr: true
               displayName: 'Remove App Offline pages'
-              retryCountOnTaskFailure: 3
-    
+              retryCountOnTaskFailure: 3 
     - job: 'CleanUp'
       displayName: 'Clean up'
       steps:
