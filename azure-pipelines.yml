@@ -64,32 +64,6 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
-    - job: 'Prerequisites'
-      displayName: 'Prerequisites for Deploy'
-      steps:
-        - task: ExtractFiles@1
-          displayName: 'Extract Marush Artifacts'
-          inputs:
-            archiveFilePatterns: '$(Agent.BuildDirectory)/Marush/Gmf.Marush.Care.App.zip'
-            destinationFolder: '$(Agent.BuildDirectory)/Marush/Temp/App'
-          retryCountOnTaskFailure: 3
-        - task: qetza.replacetokens.replacetokens-task.replacetokens@5
-          displayName: 'Tokens replacement'
-          inputs:
-            rootDirectory: '$(Agent.BuildDirectory)/Marush/Temp'
-            targetFiles: |
-              **/dist/js/**/*.js
-              **/appsettings.json
-              tokenPattern: rm
-              keepToken: true
-        - task: ArchiveFiles@2
-          displayName: 'Pack Marush'
-          inputs:
-            rootFolderOrFile: '$(Agent.BuildDirectory)/Marush/Temp/App'
-            includeRootFolder: false
-            archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
-          retryCountOnTaskFailure: 3
-
     - deployment: DeployToTest
       displayName: 'Deploy'
       environment: 
@@ -100,11 +74,33 @@ stages:
         runOnce:
           deploy:
             steps:
+            - task: ExtractFiles@1
+              displayName: 'Extract Marush Artifacts'
+              inputs:
+                archiveFilePatterns: '$(Agent.BuildDirectory)/Marush/Gmf.Marush.Care.App.zip'
+                destinationFolder: '$(Agent.BuildDirectory)/Marush/Temp/App'
+              retryCountOnTaskFailure: 3
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+              displayName: 'Tokens replacement'
+              inputs:
+                rootDirectory: '$(Agent.BuildDirectory)/Marush/Temp'
+                targetFiles: |
+                  **/dist/js/**/*.js
+                  **/appsettings.json
+                  tokenPattern: rm
+                  keepToken: true
+            - task: ArchiveFiles@2
+              displayName: 'Pack Marush'
+              inputs:
+                rootFolderOrFile: '$(Agent.BuildDirectory)/Marush/Temp/App'
+                includeRootFolder: false
+                archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
+              retryCountOnTaskFailure: 3
             - task: IISWebAppDeploymentOnMachineGroup@0
               displayName: 'Put App Offline page'
               inputs:
-                WebSiteName: MarushTest
-                Package: '$(Agent.BuildDirectory)\Marush\Temp\App\Properties'
+                 WebSiteName: MarushTest
+                 Package: '$(Agent.BuildDirectory)\Marush\Temp\App\Properties'
               retryCountOnTaskFailure: 3
 
             - task: IISWebAppDeploymentOnMachineGroup@0
