@@ -10,7 +10,7 @@ parameters:
 
 jobs:
   - deployment: ${{ parameters.deploymentName }}
-    displayName: 'Executing Deploy'
+    displayName: 'Executing '
     environment: 
       name: ${{ parameters.environment }}
       resourceName: VMI1461179
@@ -59,6 +59,7 @@ jobs:
             retryCountOnTaskFailure: 3 
   - job: 'CleanUp'
     displayName: 'Clean up'
+    dependsOn: ${{ parameters.deploymentName }}
     steps:
       - task: DeleteFiles@1
         displayName: 'Delete files from Temp'
