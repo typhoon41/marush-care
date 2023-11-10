@@ -8,62 +8,62 @@ parameters:
 - name: archiveFile
   default: 'Gmf.Marush.Care.App.zip'
 
-  jobs:
-    - deployment: ${{ parameters.deploymentName }}
-      displayName: 'Executing Deploy'
-      environment: 
-        name: ${{ parameters.environment }}
-        resourceName: VMI1461179
-        resourceType: virtualMachine
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - task: ExtractFiles@1
-              displayName: 'Extract ${{ parameters.projectName }} Artifacts'
-              inputs:
-                archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/${{ parameters.archiveFile }}'
-                destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
+jobs:
+  - deployment: ${{ parameters.deploymentName }}
+    displayName: 'Executing Deploy'
+    environment: 
+      name: ${{ parameters.environment }}
+      resourceName: VMI1461179
+      resourceType: virtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: ExtractFiles@1
+            displayName: 'Extract ${{ parameters.projectName }} Artifacts'
+            inputs:
+              archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/${{ parameters.archiveFile }}'
+              destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
+            retryCountOnTaskFailure: 3
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+            displayName: 'Tokens replacement'
+            inputs:
+              rootDirectory: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
+              targetFiles: |
+                **/dist/js/**/*.js
+                **/appsettings.json
+                tokenPattern: rm
+                keepToken: true
+          - task: ArchiveFiles@2
+            displayName: 'Pack ${{ parameters.projectName }}'
+            inputs:
+              rootFolderOrFile: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
+              includeRootFolder: false
+              archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
-            - task: qetza.replacetokens.replacetokens-task.replacetokens@5
-              displayName: 'Tokens replacement'
-              inputs:
-                rootDirectory: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
-                targetFiles: |
-                  **/dist/js/**/*.js
-                  **/appsettings.json
-                  tokenPattern: rm
-                  keepToken: true
-            - task: ArchiveFiles@2
-              displayName: 'Pack ${{ parameters.projectName }}'
-              inputs:
-                rootFolderOrFile: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
-                includeRootFolder: false
-                archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
-              retryCountOnTaskFailure: 3
-            - script: |
-                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync
-              displayName: 'Put App Offline page'
-              retryCountOnTaskFailure: 3
-            - task: IISWebAppDeploymentOnMachineGroup@0
-              displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }}'
-              inputs:
-                WebSiteName: ${{ parameters.destinationWebsiteName }}
-                Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
-              retryCountOnTaskFailure: 3
-            - script: |
-                msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete
-              workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
-              failOnStderr: true
-              displayName: 'Remove App Offline pages'
-              retryCountOnTaskFailure: 3 
-    - job: 'CleanUp'
-      displayName: 'Clean up'
-      steps:
-        - task: DeleteFiles@1
-          displayName: 'Delete files from Temp'
-          inputs:
-            SourceFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
-            Contents: Gmf
-            RemoveSourceFolder: true
-          retryCountOnTaskFailure: 3
+          - script: |
+              "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync
+            displayName: 'Put App Offline page'
+            retryCountOnTaskFailure: 3
+          - task: IISWebAppDeploymentOnMachineGroup@0
+            displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }}'
+            inputs:
+              WebSiteName: ${{ parameters.destinationWebsiteName }}
+              Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
+            retryCountOnTaskFailure: 3
+          - script: |
+              msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete
+            workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
+            failOnStderr: true
+            displayName: 'Remove App Offline pages'
+            retryCountOnTaskFailure: 3 
+  - job: 'CleanUp'
+    displayName: 'Clean up'
+    steps:
+      - task: DeleteFiles@1
+        displayName: 'Delete files from Temp'
+        inputs:
+          SourceFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
+          Contents: Gmf
+          RemoveSourceFolder: true
+        retryCountOnTaskFailure: 3
