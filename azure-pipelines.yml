@@ -59,61 +59,8 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
-    - deployment: DeployToTest
-      displayName: 'Executing Deploy'
-      environment: 
-        name: 'Test'
-        resourceName: VMI1461179
-        resourceType: virtualMachine
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - task: ExtractFiles@1
-              displayName: 'Extract Marush Artifacts'
-              inputs:
-                archiveFilePatterns: '$(Agent.BuildDirectory)/Marush/Gmf.Marush.Care.App.zip'
-                destinationFolder: '$(Agent.BuildDirectory)/Marush/Temp/App'
-              retryCountOnTaskFailure: 3
-            - task: qetza.replacetokens.replacetokens-task.replacetokens@5
-              displayName: 'Tokens replacement'
-              inputs:
-                rootDirectory: '$(Agent.BuildDirectory)/Marush/Temp'
-                targetFiles: |
-                  **/dist/js/**/*.js
-                  **/appsettings.json
-                  tokenPattern: rm
-                  keepToken: true
-            - task: ArchiveFiles@2
-              displayName: 'Pack Marush'
-              inputs:
-                rootFolderOrFile: '$(Agent.BuildDirectory)/Marush/Temp/App'
-                includeRootFolder: false
-                archiveFile: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
-              retryCountOnTaskFailure: 3
-            - script: |
-                "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\Marush\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='MarushTest\app_offline.htm' –verb:sync
-              displayName: 'Put App Offline page'
-              retryCountOnTaskFailure: 3
-            - task: IISWebAppDeploymentOnMachineGroup@0
-              displayName: 'Trigger built-in backup & Deploy Marush'
-              inputs:
-                WebSiteName: MarushTest
-                Package: '$(Build.ArtifactStagingDirectory)/Gmf.Marush.Care.App.zip'
-              retryCountOnTaskFailure: 3
-            - script: |
-                msdeploy.exe -dest:contentPath='marushtest/app_offline.htm' –verb:delete
-              workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
-              failOnStderr: true
-              displayName: 'Remove App Offline pages'
-              retryCountOnTaskFailure: 3 
-    - job: 'CleanUp'
-      displayName: 'Clean up'
-      steps:
-        - task: DeleteFiles@1
-          displayName: 'Delete files from Temp'
-          inputs:
-            SourceFolder: '$(Agent.BuildDirectory)/Marush/Temp'
-            Contents: Gmf
-            RemoveSourceFolder: true
-          retryCountOnTaskFailure: 3
+    - template: Deployment/Templates/environment-deploy.yml
+    parameters:
+      deploymentName: 'DeployToTest'
+      environment: 'Test'
+      destinationWebsiteName: MarushTest
