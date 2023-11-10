@@ -59,8 +59,8 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
-    - template: 'Deployment/Templates/environment-deploy.yaml'
-      parameters:
-        deploymentName: 'DeployToTest'
-        environment: 'Test'
-        destinationWebsiteName: MarushTest
+  - template: 'Deployment/Templates/environment-deploy.yaml'
+    parameters:
+      deploymentName: 'DeployToTest'
+      environment: 'Test'
+      destinationWebsiteName: MarushTest
