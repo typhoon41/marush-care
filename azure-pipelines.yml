@@ -44,13 +44,11 @@ stages:
               nuget
           path: $(NUGET_PACKAGES)
           cacheHitVar: 'NUGET_CACHE_RESTORED'
-      - task: NuGetCommand@2
+      - script: |
+          echo Restoring NuGet packages since packages weren't found in the cache...
+          dotnet restore -r win-x64
         displayName: 'Restoring NuGet Packages'
-        condition: ne(variables.CACHE_RESTORED, true)
-        inputs:
-          command: 'custom'
-          arguments: 'restore -r win-x64'
-          restoreSolution: '**/*.sln'
+        condition: ne(variables.NUGET_CACHE_RESTORED, true)
       - script: |
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
