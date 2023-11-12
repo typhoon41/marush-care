@@ -8,6 +8,7 @@ variables:
   buildConfiguration: 'Release'
   environment: 'Production'
   applicationVersion: 0.0
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 
 name: $(applicationVersion).$(Rev:r)
 
@@ -34,8 +35,22 @@ stages:
       dependsOn: 'Prerequisites'
       displayName: 'Build'
       steps:
+      - task: Cache@2
+        displayName: 'NuGet Cache'
+        inputs:
+          key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'
+          restoreKeys: |
+              nuget | "$(Agent.OS)"
+              nuget
+          path: $(NUGET_PACKAGES)
+          cacheHitVar: 'NUGET_CACHE_RESTORED'
+      - task: NuGetCommand@2
+        condition: ne(variables.CACHE_RESTORED, true)
+        inputs:
+          command: 'restore'
+          arguments: '-r win-x64'
+          restoreSolution: '**/*.sln'
       - script: |
-          dotnet restore -r win-x64
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
         displayName: '.Net Core Build'
