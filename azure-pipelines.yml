@@ -45,10 +45,11 @@ stages:
           path: $(NUGET_PACKAGES)
           cacheHitVar: 'NUGET_CACHE_RESTORED'
       - task: NuGetCommand@2
+        displayName: 'Restoring NuGet Packages'
         condition: ne(variables.CACHE_RESTORED, true)
         inputs:
-          command: 'restore'
-          arguments: '-r win-x64'
+          command: 'custom'
+          arguments: 'restore -r win-x64'
           restoreSolution: '**/*.sln'
       - script: |
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
