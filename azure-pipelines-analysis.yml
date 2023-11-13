@@ -27,6 +27,10 @@ steps:
     inputs:
       command: 'build'
       projects: '**/*.sln'
+  - powershell: |
+      $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
+      Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+    displayName: 'Fixing Sonar Branch'
   - task: SonarQubeAnalyze@5
     displayName: 'Run SonarQube analysis'
   - task: SonarQubePublish@5
