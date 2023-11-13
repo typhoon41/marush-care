@@ -1,8 +1,12 @@
 trigger: none
 
-pool:
-  name: 'Marush Analysis Pool'
-  vmImage: 'ubuntu-latest'
+schedules:
+- cron: '0 12 * * 0'
+  displayName: Weekly Sunday build
+  branches:
+    include:
+    - main
+  always: false
 
 steps:
   - task: DotNetCoreCLI@2
