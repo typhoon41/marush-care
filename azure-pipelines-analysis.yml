@@ -16,7 +16,6 @@ steps:
       projects: '**/*.sln'
   - task: SonarQubePrepare@5
     displayName: 'Prepare SonarQube analysis'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     inputs:
       SonarQube: 'SonarQube'
       scannerMode: 'MSBuild'
@@ -47,9 +46,7 @@ steps:
       summaryFileLocation: 'coveragereport/Cobertura.xml'
   - task: SonarQubeAnalyze@5
     displayName: 'Run SonarQube analysis'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   - task: SonarQubePublish@5
     displayName: 'Publish SonarQube analysis'
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     inputs:
       pollingTimeoutSec: '300'
