@@ -1,4 +1,5 @@
 trigger: none
+name: 'Executing Marush Care Analysis'
 
 schedules:
 - cron: '0 12 * * 0'
@@ -27,12 +28,35 @@ steps:
     inputs:
       command: 'build'
       projects: '**/*.sln'
+
   - powershell: |
       $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
       Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
     displayName: 'Fixing Sonar Branch'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run Tests'
+    inputs:
+      command: 'test'
+      projects: '**/*.Tests.csproj'
+      arguments: '--no-build --collect "XPlat Code Coverage"'
+
+  - task: ReportGenerator@5
+    displayName: 'Generate Reports'
+    inputs:
+      reports: 'tests/**/coverage.cobertura.xml;$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+      targetdir: 'coveragereport'
+      reporttypes: 'HtmlInline_AzurePipelines;Cobertura;SonarQube'
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish Results'
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: 'coveragereport/Cobertura.xml'
+
   - task: SonarQubeAnalyze@5
     displayName: 'Run SonarQube analysis'
+
   - task: SonarQubePublish@5
     displayName: 'Publish SonarQube analysis'
     inputs:
