@@ -45,15 +45,15 @@ jobs:
           reports: 'tests/**/coverage.cobertura.xml;$(Agent.TempDirectory)/**/coverage.cobertura.xml'
           targetdir: 'coveragereport'
           reporttypes: 'HtmlInline_AzurePipelines;Cobertura;SonarQube'
-      - task:  PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@1
         displayName: 'Publish Results'
         inputs:
           codeCoverageTool: 'Cobertura'
           summaryFileLocation: 'coveragereport/Cobertura.xml'
-      - task:  SonarQubeAnalyze@5
+      - task: SonarQubeAnalyze@5
         displayName: 'Run SonarQube analysis'
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-      - task:  SonarQubePublish@5
+      - task: SonarQubePublish@5
         displayName: 'Publish SonarQube analysis'
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
         inputs:
