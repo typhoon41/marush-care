@@ -1,7 +1,8 @@
 trigger: none
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'Marush Analysis Pool'
+  vmImage: 'ubuntu-latest'
 
 schedules:
 - cron: '0 12 * * 0'
