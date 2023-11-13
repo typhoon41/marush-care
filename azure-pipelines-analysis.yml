@@ -1,0 +1,65 @@
+trigger: none
+
+schedules:
+- cron: '0 12 * * 0'
+  displayName: Weekly Sunday build
+  branches:
+    include:
+    - main
+  always: false
+
+jobs:
+  - job: 'CodeAnalysis'
+    displayName: 'Code Analysis'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - task: mend@21
+        displayName: 'Run Mend Bolt analysis'
+        inputs:
+          cwd: '$(System.DefaultWorkingDirectory)'
+          projectName: 'Marush'
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore Packages'
+        inputs:
+          command: 'restore'
+          projects: '**/*.sln'
+      - task: SonarQubePrepare@5
+        displayName: 'Prepare SonarQube analysis'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+        inputs:
+          SonarQube: 'SonarQube'
+          scannerMode: 'MSBuild'
+          projectKey: 'Marush'
+          projectName: 'Marush'
+          extraProperties: 'sonar.coverageReportPaths=coveragereport/SonarQube.xml'
+      - task: DotNetCoreCLI@2
+        displayName: 'Build'
+        inputs:
+          command: 'build'
+          projects: '**/*.sln'
+      - task: DotNetCoreCLI@2
+        displayName: 'Run Tests'
+        inputs:
+          command: 'test'
+          projects: '**/*.Tests.csproj'
+          arguments: '--no-build --collect "XPlat Code Coverage"'
+      - task: ReportGenerator@5
+        displayName: 'Generate Reports'
+        inputs:
+          reports: 'tests/**/coverage.cobertura.xml;$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+          targetdir: 'coveragereport'
+          reporttypes: 'HtmlInline_AzurePipelines;Cobertura;SonarQube'
+      - task:  PublishCodeCoverageResults@1
+        displayName: 'Publish Results'
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: 'coveragereport/Cobertura.xml'
+      - task:  SonarQubeAnalyze@5
+        displayName: 'Run SonarQube analysis'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+      - task:  SonarQubePublish@5
+        displayName: 'Publish SonarQube analysis'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+        inputs:
+          pollingTimeoutSec: '300'
