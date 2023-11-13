@@ -1,5 +1,8 @@
 trigger: none
 
+pool:
+  vmImage: 'ubuntu-latest'
+
 schedules:
 - cron: '0 12 * * 0'
   displayName: Weekly Sunday build
@@ -11,8 +14,7 @@ schedules:
 jobs:
   - job: 'CodeAnalysis'
     displayName: 'Code Analysis'
-    pool:
-      vmImage: 'ubuntu-latest'
+
     steps:
       - task: DotNetCoreCLI@2
         displayName: 'Restore Packages'
