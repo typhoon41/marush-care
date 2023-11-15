@@ -28,8 +28,8 @@ jobs:
           - task: PowerShell@2
             displayName: 'Copy Robots.txt'
             inputs:
-            targetType: inline
-            script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.${{ parameters.environment }}.txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/robots.txt"
+                targetType: inline
+                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.${{ parameters.environment }}.txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/robots.txt"
           - task: qetza.replacetokens.replacetokens-task.replacetokens@5
             displayName: 'Tokens replacement'
             inputs:
