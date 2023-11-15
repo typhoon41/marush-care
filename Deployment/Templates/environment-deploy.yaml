@@ -25,6 +25,11 @@ jobs:
               archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/${{ parameters.archiveFile }}'
               destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
             retryCountOnTaskFailure: 3
+          - task: PowerShell@2
+            displayName: 'Copy Robots.txt'
+            inputs:
+            targetType: inline
+            script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.${{ parameters.environment }}.txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/robots.txt"
           - task: qetza.replacetokens.replacetokens-task.replacetokens@5
             displayName: 'Tokens replacement'
             inputs:
