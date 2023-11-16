@@ -19,18 +19,22 @@ stages:
     - job: 'Prerequisites'
       displayName: 'Prerequisites for Build'
       steps:
+      - task: UseDotNet@2
+        displayName: 'Set .Net version'
+        inputs:
+          version: 8
       - task: DotNetCoreCLI@2
-        displayName: Add Manifest for tool installation
+        displayName: 'Add Manifest for tool installation'
         inputs:
           command: 'custom'
           custom: 'new'
           arguments: tool-manifest
       - task: DotNetCoreCLI@2
-        displayName: Install EF Tool
+        displayName: 'Install EF Tool'
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef --version 7.0.14
+          arguments: install dotnet-ef
     - job: 'Build'
       dependsOn: 'Prerequisites'
       displayName: 'Build'
@@ -46,12 +50,12 @@ stages:
           cacheHitVar: 'NUGET_CACHE_RESTORED'
       - script: |
           echo Restoring NuGet packages since packages weren't found in the cache...
-          dotnet restore -r win-x64 --version 7.0.14
+          dotnet restore -r win-x64
         displayName: 'Restoring NuGet Packages'
         condition: ne(variables.NUGET_CACHE_RESTORED, true)
       - script: |
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
-          dotnet build --version 7.0.14 --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+          dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
         displayName: '.Net Core Build'
     - job: 'Artifacts'
       dependsOn: 'Build'
