@@ -46,7 +46,7 @@ stages:
           cacheHitVar: 'NUGET_CACHE_RESTORED'
       - script: |
           echo Restoring NuGet packages since packages weren't found in the cache...
-          dotnet restore -r win-x64
+          dotnet restore -r win-x64 --version 7.0.14
         displayName: 'Restoring NuGet Packages'
         condition: ne(variables.NUGET_CACHE_RESTORED, true)
       - script: |
