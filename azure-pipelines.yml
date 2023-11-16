@@ -30,7 +30,7 @@ stages:
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef
+          arguments: install dotnet-ef --version 7.0.14
     - job: 'Build'
       dependsOn: 'Prerequisites'
       displayName: 'Build'
