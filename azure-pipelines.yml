@@ -22,7 +22,7 @@ stages:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
-          version: 8
+          version: 8.x
       - task: DotNetCoreCLI@2
         displayName: 'Add Manifest for tool installation'
         inputs:
