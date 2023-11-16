@@ -39,6 +39,10 @@ stages:
       dependsOn: 'Prerequisites'
       displayName: 'Build'
       steps:
+      - task: UseDotNet@2
+        displayName: 'Set .Net version'
+        inputs:
+          version: 8.x
       - task: Cache@2
         displayName: 'NuGet Cache'
         inputs:
@@ -61,6 +65,10 @@ stages:
       dependsOn: 'Build'
       displayName: 'Publishing Artifacts'
       steps:
+      - task: UseDotNet@2
+        displayName: 'Set .Net version'
+        inputs:
+          version: 8.x
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
