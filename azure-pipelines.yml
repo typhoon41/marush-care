@@ -8,6 +8,8 @@ variables:
   buildConfiguration: 'Release'
   environment: 'Production'
   applicationVersion: 0.0
+  dotNetVersion: 8.0.100
+  assetsExists: false
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
 
 name: $(applicationVersion).$(Rev:r)
@@ -22,7 +24,7 @@ stages:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
-          version: 8.x
+          version: $(dotNetVersion)
       - task: DotNetCoreCLI@2
         displayName: 'Add Manifest for tool installation'
         inputs:
@@ -42,7 +44,12 @@ stages:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
-          version: 8.x
+          version: $(dotNetVersion)
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: |
+            $assetsExists = Test-Path -Path "$(System.DefaultWorkingDirectory)/obj/project.assets.json"
       - task: Cache@2
         displayName: 'NuGet Cache'
         inputs:
@@ -56,7 +63,7 @@ stages:
           echo Restoring NuGet packages since packages weren't found in the cache...
           dotnet restore -r win-x64
         displayName: 'Restoring NuGet Packages'
-        condition: ne(variables.NUGET_CACHE_RESTORED, true)
+        condition: and(variables.assetsExists, ne(variables.NUGET_CACHE_RESTORED, true))
       - script: |
           echo Building application version $(ApplicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(ApplicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
@@ -68,7 +75,7 @@ stages:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
-          version: 8.x
+          version: $(dotNetVersion)
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
