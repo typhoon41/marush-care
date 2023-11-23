@@ -1,13 +1,52 @@
 {
-  "extends": "@typhoon41/eslint-config",
-  "rules": {
-    "new-cap": [
-      "error",
-      {
-        "capIsNewExceptions": [
-          "Component", "NgModule"
+  "root": true,
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "@typhoon41/eslint-config"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "new-cap": [
+          "error",
+          {
+            "capIsNewExceptions": [
+              "Component",
+              "NgModule"
+            ]
+          }
         ]
       }
-    ]
-  }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
+      "rules": {}
+    }
+  ]
 }
