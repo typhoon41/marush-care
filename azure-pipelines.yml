@@ -11,6 +11,7 @@ variables:
   dotNetVersion: 8.0.100
   assetsExists: false
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+  NPM_PACKAGES: $(Pipeline.Workspace)/.npm
 
 name: $(applicationVersion).$(Rev:r)
 
@@ -41,6 +42,32 @@ stages:
       dependsOn: 'Prerequisites'
       displayName: 'Build'
       steps:
+      - task: Cache@2
+        displayName: 'Cache NPM Dependencies'
+        inputs:
+          key: 'npm | "$(Agent.OS)" | $(Pipeline.Workspace)/Site/Gmf.Marush.Care.App/package-lock.json'
+          path: $(NPM_PACKAGES)
+          cacheHitVar: 'NPM_CACHE_RESTORED'
+      - task: Npm@1
+        displayName: 'Install node modules'
+        inputs:
+          command: 'ci'
+          workingDir: '$(Pipeline.Workspace)/Site/Gmf.Marush.Care.App'
+        condition: ne(variables.NPM_CACHE_RESTORED, true)  
+      - task: Npm@1
+        displayName: 'Execute Linting'
+        inputs:
+          command: 'custom'
+          customCommand: 'run lint'
+          workingDir: '$(Pipeline.Workspace)/Site/Gmf.Marush.Care.App'
+        
+      - task: Npm@1
+        displayName: 'Building Angular Application'
+        inputs:
+          command: 'custom'
+          customCommand: 'run build -- --configuration production'
+          workingDir: '$(Pipeline.Workspace)/Site/Gmf.Marush.Care.App'
+
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
