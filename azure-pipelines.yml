@@ -20,8 +20,8 @@ stages:
 - stage: 'Build'
   displayName: 'Build'
   jobs:
-    - job: 'Prerequisites'
-      displayName: 'Prerequisites for Build'
+    - job: 'Core'
+      displayName: 'Core Job'
       steps:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
@@ -39,15 +39,10 @@ stages:
           command: 'custom'
           custom: 'tool '
           arguments: install dotnet-ef
-    - job: 'Build'
-      dependsOn: 'Prerequisites'
-      displayName: 'Build'
-      steps:
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
           script: 'New-Item -ItemType directory -Path $(NPM_PACKAGES)'
-
       - task: Cache@2
         displayName: 'Cache NPM Dependencies'
         inputs:
@@ -65,19 +60,13 @@ stages:
         inputs:
           command: 'custom'
           customCommand: 'run lint'
-          workingDir: $(angularApplicationPath)
-        
+          workingDir: $(angularApplicationPath)   
       - task: Npm@1
         displayName: 'Building Angular Application'
         inputs:
           command: 'custom'
           customCommand: 'run build -- --configuration production'
           workingDir: $(angularApplicationPath)
-
-      - task: UseDotNet@2
-        displayName: 'Set .Net version'
-        inputs:
-          version: $(dotNetVersion)
       - task: PowerShell@2
         inputs:
           targetType: 'inline'
@@ -101,14 +90,6 @@ stages:
           echo Building application version $(applicationVersion) $(Build.BuildNumber).
           dotnet build --no-incremental --no-self-contained --configuration $(buildConfiguration) --no-restore -p:Version=$(applicationVersion) -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
         displayName: '.Net Core Build'
-    - job: 'Artifacts'
-      dependsOn: 'Build'
-      displayName: 'Publishing Artifacts'
-      steps:
-      - task: UseDotNet@2
-        displayName: 'Set .Net version'
-        inputs:
-          version: $(dotNetVersion)
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
