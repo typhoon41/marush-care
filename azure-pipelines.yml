@@ -43,6 +43,11 @@ stages:
       dependsOn: 'Prerequisites'
       displayName: 'Build'
       steps:
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'New-Item -ItemType directory -Path $(NPM_PACKAGES)'
+
       - task: Cache@2
         displayName: 'Cache NPM Dependencies'
         inputs:
