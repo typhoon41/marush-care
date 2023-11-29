@@ -4,9 +4,13 @@
     <SpaRoot />
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled> 
   </PropertyGroup>
   <ItemGroup>
     <Content Include="dist\**" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\app_offline_template.htm">
