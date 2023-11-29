@@ -11,7 +11,7 @@ variables:
   dotNetVersion: 8.0.100
   assetsExists: false
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
-  NPM_PACKAGES: $(Build.SourcesDirectory)/.npm
+  NPM_PACKAGES: $(Pipeline.Workspace)/.npm
   angularApplicationPath: '$(Build.SourcesDirectory)/Site/Gmf.Marush.Care.App'
 
 name: $(applicationVersion).$(Rev:r)
@@ -54,7 +54,7 @@ stages:
         inputs:
           command: 'ci'
           workingDir: $(angularApplicationPath)
-        condition: ne(variables.NPM_CACHE_RESTORED, true)  
+        condition: and(succeeded(), ne(variables.NPM_CACHE_RESTORED, true)) 
       - task: Npm@1
         displayName: 'Execute Linting'
         inputs:
