@@ -1,5 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseWebRoot("dist");
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+  ApplicationName = typeof(Program).Assembly.FullName,
+  ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
+  WebRootPath = "dist",
+  Args = args
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
