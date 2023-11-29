@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
   ApplicationName = typeof(Program).Assembly.FullName,
   ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
-  WebRootPath = "dist",
+  WebRootPath = "dist/browser",
   Args = args
 });
 
