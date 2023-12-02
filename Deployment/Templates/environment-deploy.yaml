@@ -11,6 +11,9 @@ parameters:
 jobs:
   - deployment: ${{ parameters.deploymentName }}
     displayName: 'Executing '
+    variables:
+    - name: environment
+      value: ${{ parameters.environment }}
     environment: 
       name: $(environment)
       resourceName: VMI1461179
@@ -18,9 +21,6 @@ jobs:
     strategy:
       runOnce:
         deploy:
-          variables:
-          - name: environment
-            value: ${{ parameters.environment }}
           steps:
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
