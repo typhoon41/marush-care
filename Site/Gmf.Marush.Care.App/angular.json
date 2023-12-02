@@ -32,6 +32,12 @@
             "styles": [
               "src/styles/main.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles/modules",
+                "node_modules"
+              ]
+            },
             "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
