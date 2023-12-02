@@ -1,8 +1,7 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { environment } from '../environments/environment';
-
+import { environment } from '@env';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,6 @@ import { environment } from '../environments/environment';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  // eslint-disable-next-line new-cap
   constructor(@Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2) { }
 

@@ -32,6 +32,7 @@
           {
             "capIsNewExceptions": [
               "Component",
+              "Inject",
               "NgModule"
             ]
           }

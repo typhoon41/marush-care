@@ -1,3 +1,8 @@
+$breakpoints: (
+	tablet: (description: 'tablet', size: 600px),
+	desktop: (description: 'desktop', size: 1200px)
+);
+
 $primary: #FDF1ED;
 $body-color: #FFFBFA;
 $font-color: #292727;
