@@ -6,7 +6,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  environment: 'Production'
   applicationVersion: 0.0
   dotNetVersion: 8.0.100
   angularApplicationPath: '$(Build.SourcesDirectory)/Site/Gmf.Marush.Care.App'
@@ -16,6 +15,8 @@ name: $(applicationVersion).$(Rev:r)
 stages:
 - stage: 'Build'
   displayName: 'Build'
+  variables:
+    environment: 'Production'
   jobs:
     - job: 'Core'
       displayName: 'Core Job'
