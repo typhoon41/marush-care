@@ -55,36 +55,7 @@
               ],
               "outputHashing": "all"
             },
-            "staging": {
-              "index": {
-                "input": "src/index.development.html",
-                "output": "index.html"
-              },
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
             "development": {
-              "index": {
-                "input": "src/index.development.html",
-                "output": "index.html"
-              },
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
@@ -103,9 +74,6 @@
           "configurations": {
             "production": {
               "buildTarget": "marush:build:production"
-            },
-            "staging": {
-              "buildTarget": "marush:build:staging"
             },
             "development": {
               "buildTarget": "marush:build:development"
