@@ -1,0 +1,11 @@
+@use 'variables';
+
+body {
+	margin: 0;
+	background-color: variables.$body-color;
+	color: variables.$font-color;
+}
+
+html, body {
+	height: 100%;
+}

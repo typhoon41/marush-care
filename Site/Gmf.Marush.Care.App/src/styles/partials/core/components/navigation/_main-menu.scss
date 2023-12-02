@@ -1,0 +1,15 @@
+@use 'variables';
+
+.main-menu {
+	display: flex;
+	align-items: center;
+	height: 110px;
+	background-color: variables.$primary;
+
+	.logo {
+		position: absolute;
+		left: 60px;
+		width: 152px;
+		height: 32px;
+	}
+}

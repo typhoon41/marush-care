@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit() {
-    if (environment.name === 'production') {
+    if (environment.name === 'Production') {
       this.setupGoogleAnalytics();
     }
   }
