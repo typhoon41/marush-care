@@ -1,4 +1,4 @@
 /* eslint-disable camelcase */
 export const environment = {
-    name: '__environment__'
+    name: '__parameters.environment__'
 };
