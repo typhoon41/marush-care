@@ -37,8 +37,8 @@ jobs:
               targetFiles: |
                 **/dist/**/*.js
                 **/appsettings.json
-                tokenPattern: rm
-                keepToken: true
+              tokenPattern: rm
+              keepToken: true
           - task: ArchiveFiles@2
             displayName: 'Pack ${{ parameters.projectName }}'
             inputs:
