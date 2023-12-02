@@ -35,7 +35,7 @@ jobs:
             inputs:
               rootDirectory: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
               targetFiles: |
-                **/dist/js/**/*.js
+                **/dist/**/*.js
                 **/appsettings.json
                 tokenPattern: rm
                 keepToken: true
