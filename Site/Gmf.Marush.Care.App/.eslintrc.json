@@ -11,6 +11,7 @@
         "@typhoon41/eslint-config"
       ],
       "rules": {
+        "@stylistic/no-confusing-arrow": ["error", {"onlyOneSimpleParam": true}],
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -33,6 +34,7 @@
             "capIsNewExceptions": [
               "Component",
               "Inject",
+              "ViewChild",
               "NgModule"
             ]
           }

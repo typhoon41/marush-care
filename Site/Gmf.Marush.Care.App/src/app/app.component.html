@@ -1,5 +1,7 @@
 <nav class="main-menu">
-  <img alt="Logo" src="assets/logo.png" />
+  <a routerLink="/home" routerLinkActive="active" #rla="routerLinkActive" ariaCurrentWhenActive="page">
+    <img src="{{logoPath()}}" alt="Logo" (mouseover)="logoHovered = true" (mouseleave)="logoHovered = false" (focus)="rla.isActive"/>
+  </a>
 </nav>
 <main>
   <router-outlet></router-outlet>
