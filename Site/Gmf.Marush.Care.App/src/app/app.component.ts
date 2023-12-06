@@ -1,24 +1,19 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { environment } from '@env';
+import { MenuComponent } from './shared/components/navigation/menu/menu.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, MenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
-
   constructor(@Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2) { }
-
-    logoHovered = false;
-    readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
-      'assets/images/logo-active.png' : 'assets/images/logo.png';
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit() {

@@ -5,19 +5,13 @@
 );
 @use 'scss-solutions/src/modules/layout/grid' as breakpoints;
 
-@mixin apply-on-mobile() {
-	@include breakpoints.apply-on(mobile) {
-		@content;
-	}
-}
-
-@mixin apply-on-tablet() {
+@mixin apply-from-tablet() {
 	@include breakpoints.apply-on(tablet) {
 		@content;
 	}
 }
 
-@mixin apply-on-desktop() {
+@mixin apply-from-desktop() {
 	@include breakpoints.apply-on(desktop) {
 		@content;
 	}
