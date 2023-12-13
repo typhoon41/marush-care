@@ -1,6 +1,9 @@
 <nav class="main-menu">
     <a routerLink="/home" routerLinkActive="active" #rla="routerLinkActive" ariaCurrentWhenActive="page">
         <img class="logo" src="{{logoPath()}}" alt="Logo" (mouseover)="logoHovered = true"
-         (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
+            (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
+    </a>
+    <a class="action" href="assets/cenovnik.pdf" target="_blank">
+        <span>Preuzmite cenovnik</span>
     </a>
 </nav>

@@ -1,0 +1,10 @@
+@use 'variables';
+
+a {
+	color: variables.$font-color;
+	font-family: 'Overpass-Bold', sans-serif;
+	text: {
+		decoration: none;
+		transform: uppercase;
+	}
+}

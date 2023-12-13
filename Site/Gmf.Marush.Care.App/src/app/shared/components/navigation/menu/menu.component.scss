@@ -2,6 +2,8 @@
 @use 'variables';
 @use 'breakpoints';
 
+$edge-spacing: 23px;
+
 .main-menu {
 	display: flex;
 	align-items: center;
@@ -13,7 +15,7 @@
 	}
 
 	.logo {
-		@include absolute.unset-position(29px, unset, unset, 23px);
+		@include absolute.unset-position(29px, unset, unset, $edge-spacing);
 		width: 100px;
 		height: 21px;
 
@@ -28,6 +30,24 @@
 			left: 60px;
 			width: 152px;
 			height: 32px;
+		}
+	}
+
+	.action {
+		font-size: 16px;
+
+		&:hover {
+			color: variables.$font-selection-color;
+		}
+
+		margin: {
+			right: $edge-spacing;
+			left: auto;
+		}
+
+		@include breakpoints.apply-from-tablet() {
+			margin-right: auto;
+			font-size: 18px;
 		}
 	}
 }
