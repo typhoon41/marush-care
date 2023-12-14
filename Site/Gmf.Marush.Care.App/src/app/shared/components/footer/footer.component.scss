@@ -1,0 +1,53 @@
+@use 'scss-solutions/src/modules/position/absolute';
+@use 'variables';
+@use 'breakpoints';
+
+$image-gaps: 50px;
+
+.main-footer {
+	display: flex;
+	background-color: variables.$primary;
+
+	.decoration {
+		width: 129px;
+		height: 119px;
+		margin: {
+			top: $image-gaps;
+			bottom: $image-gaps;
+		}
+	}
+
+	.contact {
+		font: {
+			style: normal;
+			weight: 400;
+		}
+	}
+
+	.title {
+		margin-bottom: 5px;
+		line-height: 22px;
+	}
+
+	.working-hours {
+		display: inline-block;
+	}
+
+	.working-hours-title {
+		margin-bottom: 20px;
+	}
+
+	.time-slots {
+		margin: {
+			bottom: $image-gaps;
+			left: 75px;
+		}
+	}
+	
+	.working-hours-content {
+		margin: {
+			top: 0;
+			bottom: 5px;
+		}
+	}
+}

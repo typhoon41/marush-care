@@ -34,7 +34,11 @@ $edge-spacing: 23px;
 	}
 
 	.action {
-		font-size: 16px;
+		font: {
+			family: 'Overpass-Bold', sans-serif;
+			size: 16px;
+		}
+		text-transform: uppercase;
 
 		&:hover {
 			color: variables.$font-selection-color;
