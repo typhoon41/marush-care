@@ -1,3 +1,5 @@
+using Microsoft.Extensions.FileProviders;
+
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
   ApplicationName = typeof(Program).Assembly.FullName,
@@ -23,6 +25,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+  FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "files"))
+});
 
 app.UseRouting();
 
