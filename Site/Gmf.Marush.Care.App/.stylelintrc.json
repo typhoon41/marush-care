@@ -1,6 +1,8 @@
 {
   "extends": "@typhoon41/stylelint-config",
   "rules": {
-    "no-empty-source": null
+    "no-empty-source": null,
+    "scss/declaration-nested-properties": "never",
+    "selector-max-combinators": 3
   }
 }

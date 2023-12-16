@@ -3,51 +3,102 @@
 @use 'breakpoints';
 
 $image-gaps: 50px;
+$default-padding: 60px;
+$font-size: 20px;
 
 .main-footer {
 	display: flex;
+	padding: $default-padding 20px;
 	background-color: variables.$primary;
+	font-size: 16px;
+	line-height: 22px;
 
-	.decoration {
-		width: 129px;
-		height: 119px;
-		margin: {
-			top: $image-gaps;
-			bottom: $image-gaps;
-		}
+	@include breakpoints.apply-from-tablet() {
+		padding: 30px 20px $default-padding;
+		font-size: $font-size;
+		line-height: 31px;
 	}
 
-	.contact {
-		font: {
-			style: normal;
-			weight: 400;
-		}
+	.decoration {
+		width: 168px;
+		height: 155px;
+		margin-right: $image-gaps;
+		margin-left: $image-gaps;
 	}
 
 	.title {
-		margin-bottom: 5px;
-		line-height: 22px;
+		margin-top: 20px;
+		margin-bottom: 2px;
+	}
+
+	.group-container {
+		display: flex;
+		align-items: center;
+		align-self: end;
+		justify-content: center;
+		margin-bottom: 40px;
+
+		&.last-group-container {
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		.tablet-left-aligned {
+			align-items: start;
+			justify-content: start;
+		}
+		
+		.tablet-right-aligned {
+			align-items: end;
+			justify-content: end;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		.group-container {
+			margin-bottom: 0;
+		}
+	}
+
+	.contact-group, .working-hours-group {
+		transform: translateY($font-size - 10px);
+	}
+
+	.working-hours-group .title {
+		margin-bottom: 20px;
+	}
+
+	.contact {
+		font-style: normal;
+		font-weight: 400;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		.title {
+			margin-top: 10px;
+		}
+
+		.contact-group-container {
+			margin-bottom: 0;
+		}
 	}
 
 	.working-hours {
 		display: inline-block;
-	}
 
-	.working-hours-title {
-		margin-bottom: 20px;
-	}
+		.content {
+			margin-top: 0;
+			margin-bottom: 5px;
 
-	.time-slots {
-		margin: {
-			bottom: $image-gaps;
-			left: 75px;
+			&.last {
+				margin-bottom: 0;
+			}
 		}
-	}
-	
-	.working-hours-content {
-		margin: {
-			top: 0;
-			bottom: 5px;
+
+		&.time-slots {
+			margin-left: 75px;
 		}
 	}
 }
