@@ -34,20 +34,16 @@ $edge-spacing: 23px;
 	}
 
 	.action {
-		font: {
-			family: 'Overpass-Bold', sans-serif;
-			size: 16px;
-		}
+		margin-right: $edge-spacing;
+		margin-left: auto;
+		font-family: 'Overpass-Bold', sans-serif;
+		font-size: 16px;
 		text-transform: uppercase;
 
 		&:hover {
 			color: variables.$font-selection-color;
 		}
-
-		margin: {
-			right: $edge-spacing;
-			left: auto;
-		}
+		
 
 		@include breakpoints.apply-from-tablet() {
 			margin-right: auto;
