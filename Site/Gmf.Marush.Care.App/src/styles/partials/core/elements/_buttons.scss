@@ -1,0 +1,20 @@
+@use 'variables';
+
+button {
+	padding: 12px 64px;
+	border: 2px solid variables.$accent;
+	border-radius: 12px;
+	background-color: variables.$primary;
+	color: variables.$accent;
+	font-family: 'Overpass', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	line-height: 28px;
+	text-transform: uppercase;
+	cursor: pointer;
+
+	&:active {
+		background-color: variables.$body-color;
+	}
+}

@@ -1,0 +1,10 @@
+@use 'variables';
+
+.main-action {
+	background-color: variables.$accent;
+	color: variables.$body-color;
+
+	&:active {
+		color: variables.$accent;
+	}
+}

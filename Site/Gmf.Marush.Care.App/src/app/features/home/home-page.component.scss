@@ -1,0 +1,26 @@
+$header-size: 22px;
+$description-size: 16px;
+
+.hero-container {
+	padding: 0 40px;
+	text-align: center;
+    
+	.main-action {
+		margin-bottom: 100px;
+	}
+}
+
+.hero-header {
+	margin-top: 2.5 * $header-size;
+	margin-bottom: 0;
+	font-size: $header-size;
+	letter-spacing: 1px;
+	line-height: 34px;
+	text-transform: uppercase;
+}
+
+.hero-description {
+	margin: 2 * $description-size 0;
+	font-size: 16px;
+	line-height: 25px;
+}

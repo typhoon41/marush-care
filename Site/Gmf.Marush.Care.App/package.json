@@ -49,7 +49,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.2.2",
     "@typhoon41/eslint-config": "1.0.4",
-    "@typhoon41/scss-solutions": "0.1.6",
+    "@typhoon41/scss-solutions": "0.1.7",
     "@typhoon41/stylelint-config": "1.0.5"
   }
 }
