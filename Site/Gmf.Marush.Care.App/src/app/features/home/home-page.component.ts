@@ -9,5 +9,8 @@ import { RouterOutlet } from '@angular/router';
     styleUrl: './home-page.component.scss'
   })
   export class HomePageComponent {
+    readonly contact = () => {
+      window.open('tel:+381605229593', '_self');
+    };
   }
 

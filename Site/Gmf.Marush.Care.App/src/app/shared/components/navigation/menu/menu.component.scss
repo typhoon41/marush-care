@@ -14,6 +14,10 @@ $edge-spacing: 23px;
 		height: 110px;
 	}
 
+	.logo-container {
+		width: 150px;
+	}
+
 	.logo {
 		@include absolute.unset-position(29px, unset, unset, $edge-spacing);
 		width: 100px;
