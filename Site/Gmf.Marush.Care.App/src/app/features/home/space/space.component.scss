@@ -1,0 +1,80 @@
+@use 'breakpoints';
+
+$header-size: 20px;
+$tablet-header-size: 22px;
+$description-size: 16px;
+$image-gaps: 5px;
+
+.space-header {
+	margin: 1.5 * $header-size 0 0;
+	font-size: $header-size;
+	letter-spacing: 2px;
+	line-height: 31px;
+	text-align: center;
+	text-transform: uppercase;
+
+	@include breakpoints.apply-from-tablet() {
+		margin: 2.5 * $tablet-header-size 0 0;
+		font-size: 22px;
+		line-height: 34px;
+		text-align: left;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		margin-left: -5px;
+		font-size: 32px;
+		letter-spacing: 4px;
+		line-height: 50px;
+	}
+}
+
+.space-description {
+	margin: 2.5 * $description-size 0;
+	font-size: $description-size;
+	line-height: 25px;
+
+	&.first {
+		@include breakpoints.apply-from-desktop() {
+			margin-right: 20px;
+			margin-left: -5px;
+		}
+	}
+
+	&.last {
+		margin-top: 20px;
+
+		@include breakpoints.apply-from-desktop() {
+			margin-top: 50px;
+			margin-right: -20px;
+			margin-left: 20px;
+			padding-right: 15px;
+		}
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		margin-top: 20px;
+		font-size: 18px;
+		line-height: 27px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 22px;
+		line-height: 34px;
+	}
+}
+
+.space-image {
+	margin-bottom: 20px;
+
+	@include breakpoints.apply-from-desktop() {
+		&.last {
+			margin-right: $image-gaps;
+			margin-left: -1 * $image-gaps;
+		}
+
+		&.first {
+			margin-right: -1 * $image-gaps;
+			margin-left: $image-gaps;
+		}
+	}
+}
