@@ -1,0 +1,9 @@
+@use 'breakpoints';
+
+.services-container {
+	padding: 100px 30px;
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 70px 150px;
+	}
+}
