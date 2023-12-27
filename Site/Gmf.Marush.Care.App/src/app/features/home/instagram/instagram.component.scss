@@ -1,0 +1,52 @@
+@use 'sass:math';
+@use 'breakpoints';
+
+$default-gap: 30px;
+
+.instagram-header {
+	margin-bottom: 40px;
+	font-size: 20px;
+	letter-spacing: 2px;
+	line-height: 31px;
+	text-align: center;
+	text-transform: uppercase;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: 22px;
+		line-height: 34px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 24px;
+		line-height: 37px;
+	}
+}
+
+.instagram-images {
+	display: flex;
+	flex-flow: wrap;
+
+	.instagram-image {
+		box-sizing: border-box;
+		width: calc(50% - math.div($default-gap, 2));
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		margin-bottom: $default-gap;
+
+		@include breakpoints.apply-from-tablet() {
+			width: calc(25% - math.ceil(3 * math.div($default-gap, 4)));
+
+			&.even {
+				margin-right: $default-gap;
+			}
+		}
+
+		&.odd {
+			margin-right: $default-gap;
+		}
+	}
+}
+
+.instagram-action {
+	margin: $default-gap auto 0;
+}
