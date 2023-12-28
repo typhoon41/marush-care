@@ -10,5 +10,9 @@ import { Component } from '@angular/core';
     readonly contact = () => {
       window.open('tel:+381605229593', '_self');
     };
+
+    readonly downloadPriceList = () => {
+      window.open('assets/cenovnik.pdf');
+    };
   }
 

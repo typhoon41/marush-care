@@ -29,8 +29,12 @@ $description-size: 16px;
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		margin-bottom: 90px;
+		margin-bottom: 50px;
 		font-size: 22px;
 		line-height: 34px;
 	}
+}
+
+.download-action {
+	margin-bottom: 70px;
 }

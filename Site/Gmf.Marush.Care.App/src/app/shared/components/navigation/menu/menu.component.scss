@@ -49,7 +49,6 @@ $edge-spacing: 23px;
 			color: variables.$accent;
 		}
 		
-
 		@include breakpoints.apply-from-tablet() {
 			margin-right: auto;
 			font-size: 18px;
