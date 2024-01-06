@@ -1,0 +1,75 @@
+@use 'variables';
+
+$default-gap: 15px;
+
+.discounts-placeholder {
+	display: flex;
+	background-color: variables.$accent;
+
+	.decoration {
+		width: 63px;
+		height: 95px;
+		margin: 25px $default-gap;
+	}
+
+	.description {
+		display: none;
+		animation-name: fade;
+		animation-duration: 1s;
+		color: variables.$body-color;
+		font-size: 16px;
+		letter-spacing: 1px;
+		line-height: 22px;
+		text-align: center;
+		text-transform: uppercase;
+		word-break: break-word;
+
+		&.active {
+			display: block;
+		}
+	}
+
+	.toggle-action {
+		width: 15px;
+		height: 30px;
+		padding: 0;
+		border-radius: 0;
+		background-color: transparent;
+
+		&:active span {
+			color: #FDF1ED;
+		}
+
+		&.right {
+			margin-left: $default-gap;
+		}
+
+		&.left {
+			margin-right: $default-gap;
+		}
+
+		.arrow-icon {
+			display: block;
+			width: 12px;
+			height: 21px;
+	
+			&.left {
+				background-image: url('/assets/images/home/arrow-left.svg');
+			}
+		
+			&.right {
+				background-image: url('/assets/images/home/arrow-right.svg');
+			}
+		}
+	}
+}
+  
+@keyframes fade {
+	from {
+		opacity: .1;
+	}
+
+	to {
+		opacity: 1;
+	}
+}

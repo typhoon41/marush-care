@@ -1,0 +1,10 @@
+<div class="discounts-placeholder center-content">
+  <img class="decoration" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />
+  <button type="button" class="toggle-action left" (click)="shift(-1)"><span class="arrow-icon left"></span></button>
+  @for (discount of currentDiscounts; track $index) {
+  <div class="description" [innerHTML]="discount"
+    [ngClass]="{'active': $index === currentDiscountPosition}"></div>
+  }
+  <button type="button" class="toggle-action right" (click)="shift(1)"><span class="arrow-icon right"></span></button>
+  <img class="decoration" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />
+</div>
