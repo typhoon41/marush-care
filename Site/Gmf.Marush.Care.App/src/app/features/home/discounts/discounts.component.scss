@@ -7,7 +7,14 @@ $default-gap: 15px;
 .discounts-placeholder {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	background-color: variables.$accent;
+
+	.discounts-content-container {
+		display: flex;
+		flex: 1 1 auto;
+		align-items: center;
+	}
 
 	.decoration {
 		width: 63px;
@@ -37,6 +44,7 @@ $default-gap: 15px;
 
 		&.active {
 			display: block;
+			flex: 1 1 auto;
 		}
 	}
 
@@ -78,7 +86,7 @@ $default-gap: 15px;
 
 		.decoration {
 			width: auto;
-			height: 30%;
+			height: 19%;
 		}
 
 		.description {
@@ -93,6 +101,10 @@ $default-gap: 15px;
 			font-size: 24px;
 			letter-spacing: 3px;
 			line-height: 37px;
+		}
+
+		.decoration {
+			height: 30%;
 		}
 
 		.toggle-action {
