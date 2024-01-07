@@ -1,15 +1,26 @@
+/* stylelint-disable pitcher/max-lines */
 @use 'variables';
+@use 'breakpoints';
 
 $default-gap: 15px;
 
 .discounts-placeholder {
 	display: flex;
+	align-items: center;
 	background-color: variables.$accent;
 
 	.decoration {
 		width: 63px;
 		height: 95px;
 		margin: 25px $default-gap;
+
+		@include breakpoints.apply-from-tablet() {
+			margin: 0 auto;
+
+			&.upper {
+				transform: rotate(180deg);
+			}
+		}
 	}
 
 	.description {
@@ -32,20 +43,13 @@ $default-gap: 15px;
 	.toggle-action {
 		width: 15px;
 		height: 30px;
+		margin: 0 $default-gap;
 		padding: 0;
 		border-radius: 0;
 		background-color: transparent;
 
 		&:active span {
 			color: #FDF1ED;
-		}
-
-		&.right {
-			margin-left: $default-gap;
-		}
-
-		&.left {
-			margin-right: $default-gap;
 		}
 
 		.arrow-icon {
@@ -60,6 +64,39 @@ $default-gap: 15px;
 			&.right {
 				background-image: url('/assets/images/home/arrow-right.svg');
 			}
+		}
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		flex-direction: column;
+		justify-content: space-evenly;
+		height: 100%;
+
+		.discounts-content-container {
+			display: flex;
+		}
+
+		.decoration {
+			width: auto;
+			height: 30%;
+		}
+
+		.description {
+			font-size: 20px;
+			letter-spacing: 2px;
+			line-height: 31px;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		.description {
+			font-size: 24px;
+			letter-spacing: 3px;
+			line-height: 37px;
+		}
+
+		.toggle-action {
+			margin: 0 3 * $default-gap;
 		}
 	}
 }

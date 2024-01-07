@@ -1,6 +1,7 @@
 /* eslint-disable @stylistic/max-len */
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-home-discounts',
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
   templateUrl: './discounts.component.html',
   styleUrl: './discounts.component.scss'
 })
-export class HomeDiscountsComponent {
+export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
     // eslint-disable-next-line no-secrets/no-secrets
     '<p><strong>10.1 - 20.1</strong></p><p>Mikro dermoabr. + neinv. mezoter. + alginatna maska <s>7000</s> 5000</p>',
@@ -18,6 +19,23 @@ export class HomeDiscountsComponent {
   ];
 
   currentDiscountPosition = 0;
+  private subscription: Subscription | undefined;
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const defaultRefreshTime = 10000;
+      this.subscription = interval(defaultRefreshTime).subscribe(_ => this.shift(1));
+    }
+  }
+
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   readonly shift = (position: number) => {
     const newPosition = this.currentDiscountPosition + position;

@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  applicationVersion: 0.0
+  applicationVersion: 0.1
   dotNetVersion: 8.0.100
   angularApplicationPath: '$(Build.SourcesDirectory)/Site/Gmf.Marush.Care.App'
 

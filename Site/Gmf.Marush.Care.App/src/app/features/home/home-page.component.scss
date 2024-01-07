@@ -1,0 +1,21 @@
+@use 'breakpoints';
+
+.main-ad-container {
+	position: relative;
+}
+
+@include breakpoints.apply-from-tablet() {
+	.discounts-container {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 6px;
+		width: 323px;
+	}
+}
+
+@include breakpoints.apply-from-desktop() {
+	.discounts-container {
+		width: 500px;
+	}
+}
