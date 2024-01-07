@@ -26,10 +26,14 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId) && this.showSlider) {
       const defaultRefreshTime = 10000;
       this.subscription = interval(defaultRefreshTime).subscribe(_ => this.shift(1));
     }
+  }
+
+  get showSlider() {
+    return this.currentDiscounts.length > 1;
   }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
