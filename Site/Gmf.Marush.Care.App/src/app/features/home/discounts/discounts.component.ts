@@ -28,7 +28,7 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId) && this.showSlider) {
       const defaultRefreshTime = 10000;
-      this.subscription = interval(defaultRefreshTime).subscribe(_ => this.shift(1));
+      this.subscription = interval(defaultRefreshTime).subscribe(_ => this.next());
     }
   }
 
@@ -41,7 +41,16 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  readonly shift = (position: number) => {
+  readonly next = () => {
+    this.shift(1);
+  };
+
+  readonly previous = () => {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    this.shift(-1);
+  };
+
+  private readonly shift = (position: number) => {
     const newPosition = this.currentDiscountPosition + position;
 
     if (newPosition < 0) {

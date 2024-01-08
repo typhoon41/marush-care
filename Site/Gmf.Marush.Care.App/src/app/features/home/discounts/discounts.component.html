@@ -1,15 +1,15 @@
 @if (currentDiscounts.length){
 <div class="discounts-placeholder">
   <img class="decoration upper" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />
-  <div class="discounts-content-container">
+  <div class="content">
     @if (showSlider){
-    <button type="button" class="toggle-action" (click)="shift(-1)"><span class="arrow-icon left"></span></button>
+    <button type="button" class="toggle-action" (click)="previous()"><span class="arrow-icon left"></span></button>
     }
     @for (discount of currentDiscounts; track $index) {
     <div class="description" [innerHTML]="discount" [ngClass]="{'active': $index === currentDiscountPosition}"></div>
     }
     @if (showSlider){
-    <button type="button" class="toggle-action" (click)="shift(1)"><span class="arrow-icon right"></span></button>
+    <button type="button" class="toggle-action" (click)="next()"><span class="arrow-icon right"></span></button>
     }
   </div>
   <img class="decoration" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />

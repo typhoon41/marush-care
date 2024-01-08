@@ -10,7 +10,7 @@ $default-gap: 15px;
 	justify-content: space-between;
 	background-color: variables.$accent;
 
-	.discounts-content-container {
+	.content {
 		display: flex;
 		flex: 1 1 auto;
 		align-items: center;
@@ -64,11 +64,11 @@ $default-gap: 15px;
 			display: block;
 			width: 12px;
 			height: 21px;
-	
+
 			&.left {
 				background-image: url('/assets/images/home/arrow-left.svg');
 			}
-		
+
 			&.right {
 				background-image: url('/assets/images/home/arrow-right.svg');
 			}
@@ -80,7 +80,7 @@ $default-gap: 15px;
 		justify-content: space-evenly;
 		height: 100%;
 
-		.discounts-content-container {
+		.content {
 			display: flex;
 		}
 
@@ -112,7 +112,7 @@ $default-gap: 15px;
 		}
 	}
 }
-  
+
 @keyframes fade {
 	from {
 		opacity: .1;
