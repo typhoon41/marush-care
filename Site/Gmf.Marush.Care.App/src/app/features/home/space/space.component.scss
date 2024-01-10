@@ -1,37 +1,27 @@
 @use 'breakpoints';
+@use 'headers';
 
-$header-size: 20px;
-$tablet-header-size: 22px;
-$description-size: 16px;
 $image-gaps: 5px;
 
 .space-header {
-	margin: 1.5 * $header-size 0 0;
-	font-size: $header-size;
-	letter-spacing: 2px;
-	line-height: 31px;
-	text-align: center;
-	text-transform: uppercase;
+	@extend %marush-header;
+	margin: 30px 0 0;
 
 	@include breakpoints.apply-from-tablet() {
-		margin: 2.5 * $tablet-header-size 0 0;
-		font-size: 22px;
-		line-height: 34px;
+		@include headers.marush-headline();
+		margin: 55px 0 0;
 		text-align: left;
 	}
 
 	@include breakpoints.apply-from-desktop() {
 		margin-left: -5px;
-		font-size: 32px;
-		letter-spacing: 4px;
-		line-height: 50px;
+		@include headers.marush-header(true);
 	}
 }
 
 .space-description {
-	margin: 2.5 * $description-size 0;
-	font-size: $description-size;
-	line-height: 25px;
+	@extend %marush-caption;
+	margin: 40px 0;
 
 	&.first {
 		@include breakpoints.apply-from-desktop() {
@@ -58,8 +48,7 @@ $image-gaps: 5px;
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 22px;
-		line-height: 34px;
+		@include headers.marush-headline();
 	}
 }
 

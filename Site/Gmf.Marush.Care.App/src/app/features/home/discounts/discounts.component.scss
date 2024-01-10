@@ -1,6 +1,6 @@
-/* stylelint-disable pitcher/max-lines */
 @use 'variables';
 @use 'breakpoints';
+@use 'headers';
 
 $default-gap: 15px;
 
@@ -31,15 +31,9 @@ $default-gap: 15px;
 	}
 
 	.description {
-		display: none;
-		animation-name: fade;
-		animation-duration: 1s;
+		@extend %marush-caption;
 		color: variables.$body-color;
-		font-size: 16px;
 		letter-spacing: 1px;
-		line-height: 22px;
-		text-align: center;
-		text-transform: uppercase;
 		word-break: break-word;
 
 		&.active {
@@ -57,7 +51,7 @@ $default-gap: 15px;
 		background-color: transparent;
 
 		&:active span {
-			color: #FDF1ED;
+			color: variables.$primary;
 		}
 
 		.arrow-icon {
@@ -90,17 +84,13 @@ $default-gap: 15px;
 		}
 
 		.description {
-			font-size: 20px;
-			letter-spacing: 2px;
-			line-height: 31px;
+			@include headers.marush-header();
 		}
 	}
 
 	@include breakpoints.apply-from-desktop() {
 		.description {
-			font-size: 24px;
-			letter-spacing: 3px;
-			line-height: 37px;
+			@include headers.marush-desktop-header();
 		}
 
 		.decoration {
@@ -110,15 +100,5 @@ $default-gap: 15px;
 		.toggle-action {
 			margin: 0 3 * $default-gap;
 		}
-	}
-}
-
-@keyframes fade {
-	from {
-		opacity: .1;
-	}
-
-	to {
-		opacity: 1;
 	}
 }

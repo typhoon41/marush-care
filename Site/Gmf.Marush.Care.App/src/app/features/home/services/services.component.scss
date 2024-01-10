@@ -1,48 +1,37 @@
 @use 'variables';
 @use 'breakpoints';
+@use 'headers';
 
 .services-header {
+	@extend %marush-header;
 	margin-bottom: 40px;
-	font-size: 20px;
-	letter-spacing: 2px;
-	line-height: 32px;
-	text-align: center;
-	text-transform: uppercase;
 
 	@include breakpoints.apply-from-tablet() {
-		font-size: 22px;
-		line-height: 34px;
+		@include headers.marush-headline();
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 32px;
-		letter-spacing: 4px;
-		line-height: 50px;
+		@include headers.marush-header(true);
 	}
 }
 
 .services-title {
+	@extend %marush-caption;
 	margin-top: 40px;
-	font-size: 16px;
 	letter-spacing: 1px;
-	line-height: 21px;
-	text-align: center;
-	text-transform: uppercase;
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 20px;
-		line-height: 28px;
+		@include headers.marush-header();
 	}
 }
 
 .services-description {
-	font-size: 16px;
-	line-height: 25px;
+	@extend %marush-caption;
 	text-align: center;
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 20px;
-		line-height: 31px;
+		@include headers.marush-header();
+		letter-spacing: normal;
 	}
 }
 
@@ -64,11 +53,11 @@
 		border-radius: 24px;
 		background-color: variables.$primary;
 		text-align: center;
-	
+
 		&.last {
 			margin-right: 0;
 		}
-	
+
 		@include breakpoints.apply-from-tablet() {
 			flex-basis: 100%;
 			width: unset;

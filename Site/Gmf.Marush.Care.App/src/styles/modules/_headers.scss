@@ -1,0 +1,40 @@
+@mixin marush-header($large: false) {
+	@if $large {
+		font-size: 32px;
+		letter-spacing: 1px;
+		line-height: 50px;
+	}
+	@else {
+		font-size: 20px;
+		letter-spacing: 2px;
+		line-height: 31px;
+	}
+}
+
+@mixin marush-desktop-header() {
+	font-size: 24px;
+	letter-spacing: 3px;
+	line-height: 37px;
+}
+
+@mixin marush-headline() {
+	font-size: 22px;
+	line-height: 34px;
+}
+
+@mixin marush-caption() {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+%marush-header {
+	@include marush-header();
+}
+
+%marush-headline {
+	@include marush-headline();
+}
+
+%marush-caption {
+	@include marush-caption();
+}
