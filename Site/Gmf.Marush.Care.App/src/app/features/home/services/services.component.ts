@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-home-services',
+    selector: 'marush-home-services',
     standalone: true,
     imports: [],
     templateUrl: './services.component.html',

@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'marush-menu',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './menu.component.html',

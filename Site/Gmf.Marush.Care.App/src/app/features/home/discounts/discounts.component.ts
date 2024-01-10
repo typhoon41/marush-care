@@ -4,7 +4,7 @@ import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core
 import { Subscription, interval } from 'rxjs';
 
 @Component({
-  selector: 'app-home-discounts',
+  selector: 'marush-home-discounts',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './discounts.component.html',

@@ -7,7 +7,7 @@ import { HomeServicesComponent } from './services/services.component';
 import { HomeSpaceComponent } from './space/space.component';
 
 @Component({
-    selector: 'app-home-page',
+    selector: 'marush-home-page',
     standalone: true,
     imports: [RouterOutlet, HomeHeroComponent, HomeSpaceComponent,
       HomeServicesComponent, HomeInstagramComponent, HomeDiscountsComponent],

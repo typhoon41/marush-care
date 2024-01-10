@@ -6,7 +6,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/navigation/menu/menu.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'marush-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, MenuComponent, FooterComponent],
   templateUrl: './app.component.html',

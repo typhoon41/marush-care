@@ -31,5 +31,8 @@
     },
     "workbench.iconTheme": "file-icons",
     "workbench.editor.enablePreview": false,
-    "git.openRepositoryInParentFolders": "never"
+    "git.openRepositoryInParentFolders": "never",
+    "cSpell.words": [
+        "marush"
+    ]
 }

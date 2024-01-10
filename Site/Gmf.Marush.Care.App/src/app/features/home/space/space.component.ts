@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home-space',
+  selector: 'marush-home-space',
   standalone: true,
   templateUrl: './space.component.html',
   styleUrl: './space.component.scss'
