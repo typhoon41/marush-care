@@ -38,7 +38,8 @@
               "NgModule"
             ]
           }
-        ]
+        ],
+        "@typescript-eslint/prefer-readonly-parameter-types": "off"
       }
     },
     {
