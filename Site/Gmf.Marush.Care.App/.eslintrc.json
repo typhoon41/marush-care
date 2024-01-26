@@ -11,6 +11,13 @@
         "@typhoon41/eslint-config"
       ],
       "rules": {
+        "@stylistic/max-len": [
+          "error",
+          {
+            "code": 140,
+            "ignoreComments": true
+          }
+        ],
         "@stylistic/no-confusing-arrow": ["error", {"onlyOneSimpleParam": true}],
         "@angular-eslint/directive-selector": [
           "error",
@@ -35,6 +42,7 @@
               "Component",
               "Inject",
               "ViewChild",
+              "ViewChildren",
               "NgModule"
             ]
           }

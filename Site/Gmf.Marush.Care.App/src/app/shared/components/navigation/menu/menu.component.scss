@@ -8,6 +8,7 @@ $edge-spacing: 23px;
 .main-menu {
 	display: flex;
 	align-items: center;
+	justify-content: end;
 	height: 85px;
 	background-color: variables.$primary;
 

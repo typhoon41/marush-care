@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
+import { LanguageSelectorComponent } from '../language/selector.component';
 
 @Component({
   selector: 'marush-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, LanguageSelectorComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })

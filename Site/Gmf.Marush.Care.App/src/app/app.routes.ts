@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/max-len */
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
