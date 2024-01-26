@@ -1,4 +1,5 @@
 @use 'variables';
+@use 'focus';
 
 .marush-combo-box {
 	position: relative;
@@ -14,6 +15,8 @@
 			color: variables.$accent;
 		}
 	}
+
+	@extend %focusable;
 }
 
 .options-container {
@@ -34,6 +37,12 @@
 		cursor: pointer;
 
 		&:hover {
+			color: variables.$accent;
+		}
+
+		@extend %focusable;
+
+		&:focus {
 			color: variables.$accent;
 		}
 

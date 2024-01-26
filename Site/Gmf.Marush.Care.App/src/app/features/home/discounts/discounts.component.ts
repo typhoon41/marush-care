@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/max-len */
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
@@ -27,8 +26,7 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId) && this.showSlider) {
-      const defaultRefreshTime = 10000;
-      this.subscription = interval(defaultRefreshTime).subscribe(_ => this.next());
+      this.resetSubscription();
     }
   }
 
@@ -51,6 +49,7 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
   };
 
   private readonly shift = (position: number) => {
+    this.resetSubscription();
     const newPosition = this.currentDiscountPosition + position;
 
     if (newPosition < 0) {
@@ -65,6 +64,10 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
 
     this.currentDiscountPosition = newPosition;
   };
+
+  private readonly resetSubscription = () => {
+    const defaultRefreshTime = 10000;
+    this.subscription?.unsubscribe();
+    this.subscription = interval(defaultRefreshTime).subscribe(_ => this.next());
+  };
 }
-
-

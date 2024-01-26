@@ -46,9 +46,10 @@ export class LanguageSelectorComponent {
   };
 
   readonly onBlur = (event: FocusEvent) => {
-    const parentElement = (event.relatedTarget as HTMLElement)?.parentElement;
+    const clickedElement = event.relatedTarget as HTMLElement;
+    const parentElement = clickedElement?.parentElement;
 
-    if (parentElement?.id !== 'language-container') {
+    if (parentElement?.id !== 'language-container' && clickedElement?.id !== 'language-selector') {
       this.hideDropdown();
     }
   };

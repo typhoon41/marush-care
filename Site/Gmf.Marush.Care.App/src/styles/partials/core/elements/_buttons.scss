@@ -1,6 +1,7 @@
 @use 'variables';
 @use 'breakpoints';
 @use 'headers';
+@use 'focus';
 
 button {
 	padding: 12px 64px;
@@ -14,6 +15,8 @@ button {
 	line-height: 28px;
 	text-transform: uppercase;
 	cursor: pointer;
+
+	@extend %focusable;
 
 	&:active {
 		background-color: variables.$body-color;
