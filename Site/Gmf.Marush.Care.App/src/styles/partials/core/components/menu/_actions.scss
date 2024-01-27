@@ -1,0 +1,9 @@
+@use 'variables';
+
+.menu-action {
+	font-family: 'Overpass-Bold', sans-serif;
+
+	&:hover {
+		color: variables.$accent;
+	}
+}

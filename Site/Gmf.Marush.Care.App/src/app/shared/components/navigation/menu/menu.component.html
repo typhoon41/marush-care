@@ -1,7 +1,10 @@
 <nav class="main-menu">
-    <a class="logo-container" routerLink="/home" routerLinkActive="active" #rla="routerLinkActive" ariaCurrentWhenActive="page">
+    <a class="logo-container" routerLink="/home" routerLinkActive="active" #rla="routerLinkActive"
+        ariaCurrentWhenActive="page">
         <img class="logo" src="{{logoPath()}}" alt="Logo" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
+    @if(environment.name !== 'development'){
     <marush-language-selector></marush-language-selector>
+    }
 </nav>

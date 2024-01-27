@@ -1,10 +1,10 @@
 <div class="marush-combo-box" role="combobox" aria-controls="language-container" aria-haspopup="listbox" tabindex="0" #combo
     aria-expanded="false" [ariaExpanded]="collapsed | async" (click)="toggleDropdown()" (keydown)="onKey($event)" id="language-selector">
-    <div class="selected-option"><span class="language-description">{{selectedLanguage.description}}</span><span>&#x2304;</span></div>
+    <div class="selected-option"><span class="language-description">{{selectedLanguage.description}}</span><span class="language-caret">&#x2304;</span></div>
     <ul class="options-container" [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
         [ariaHidden]="(collapsed | async) === false" id="language-container" (keydown)="onOptionsKey($event)">
         @for (language of supportedLanguages; track $index) {
-        <li #option class="option" [attr.data-value]="language.value" role="option" aria-selected="false" [ariaSelected]="selectedLanguage.value === language.value"
+        <li #option class="option language-description" [attr.data-value]="language.value" role="option" aria-selected="false" [ariaSelected]="selectedLanguage.value === language.value"
          tabindex="-1" (click)="select(language)" (keydown)="onOptionKey(language, $event, $index)" (blur)="onBlur($event)">{{language.description}}</li>
         }
     </ul>
