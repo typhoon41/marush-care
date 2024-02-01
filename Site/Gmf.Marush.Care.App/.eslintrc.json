@@ -41,6 +41,7 @@
             "capIsNewExceptions": [
               "Component",
               "Inject",
+              "Injectable",
               "ViewChild",
               "ViewChildren",
               "NgModule"

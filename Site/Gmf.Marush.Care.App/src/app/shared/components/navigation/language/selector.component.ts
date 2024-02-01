@@ -1,7 +1,8 @@
 /* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren, afterRender } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import Language, { ILanguage } from 'src/app/shared/models/language.model';
 
 @Component({
   selector: 'marush-language-selector',
@@ -11,14 +12,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './selector.component.scss'
 })
 export class LanguageSelectorComponent {
+  language = new Language();
   collapsed = new BehaviorSubject<boolean>(false);
 
   @ViewChild('combo') combo: ElementRef | undefined;
   @ViewChildren('option') options: QueryList<ElementRef> | undefined;
 
-  supportedLanguages = [{ description: 'SRB', value: 'sr' },
-  { description: 'ENG', value: 'en' },
-  { description: 'RUS', value: 'ru' }];
+  selectedLanguage: ILanguage;
 
   constructor() {
     this.collapsed.subscribe(collapsed => {
@@ -29,12 +29,13 @@ export class LanguageSelectorComponent {
         this.giveFocusTo(this.combo);
       }
     });
+
+    this.selectedLanguage = this.language.predefined();
   }
 
-  selectedLanguage = this.supportedLanguages[0];
-
-  readonly select = (language: { description: string; value: string }) => {
+  readonly select = (language: ILanguage) => {
     this.selectedLanguage = language;
+    this.language.changeTo(language);
   };
 
   readonly toggleDropdown = () => {
@@ -69,7 +70,7 @@ export class LanguageSelectorComponent {
     }
   };
 
-  readonly onOptionKey = (language: { description: string; value: string }, event: KeyboardEvent, index: number) => {
+  readonly onOptionKey = (language: ILanguage, event: KeyboardEvent, index: number) => {
     event.preventDefault();
     if (this.mainActionTriggeredBy(event)) {
       event.stopImmediatePropagation();
@@ -89,7 +90,7 @@ export class LanguageSelectorComponent {
   private readonly nextElementFrom = (index: number) => this.options?.get((index + 1) % this.options.length);
 
   private readonly getSelectedOption = () => this.options?.filter(option =>
-    option.nativeElement.dataset.value === this.selectedLanguage.value)[0];
+    option.nativeElement.dataset.value === this.selectedLanguage?.value)[0];
 
   private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
 }
