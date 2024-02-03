@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
+import { BaseRoutingComponent } from '../base-routing.component';
 import { LanguageSelectorComponent } from '../language/selector.component';
 
 @Component({
@@ -11,11 +12,11 @@ import { LanguageSelectorComponent } from '../language/selector.component';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent {
+export class MenuComponent extends BaseRoutingComponent {
   environment = environment;
   @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
 
-    logoHovered = false;
-    readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
-      'assets/images/logo-active.png' : 'assets/images/logo.png';
+  logoHovered = false;
+  readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
+    'assets/images/logo-active.png' : 'assets/images/logo.png';
 }

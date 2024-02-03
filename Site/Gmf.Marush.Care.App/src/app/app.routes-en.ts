@@ -6,9 +6,9 @@ export class RoutingDefinition extends BaseRoutingDefinition {
             key: 'default',
             path: '',
             pathMatch: 'full',
-            redirectTo: 'početna'
+            redirectTo: 'home'
         },
-        this.lazyRoute('home', 'početna', () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
+        this.lazyRoute('home', 'home', () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
         this.lazyRoute('unknown', '**', () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent))
     ];
 }

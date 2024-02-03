@@ -16,6 +16,10 @@
           "en": {
             "translation": "src/locale/messages.en.json",
             "baseHref": "en"
+          },
+          "ru": {
+            "translation": "src/locale/messages.ru.json",
+            "baseHref": "ru"
           }
         }
       },
@@ -88,7 +92,30 @@
               "localize": ["sr"]
             },
             "en": {
-              "localize": ["en"]
+              "localize": ["en"],
+              "fileReplacements": [
+                {
+                  "replace": "src/app/app.routes.ts",
+                  "with": "src/app/app.routes-en.ts"
+                },
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            },
+            "ru": {
+              "localize": ["ru"],
+              "fileReplacements": [
+                {
+                  "replace": "src/app/app.routes.ts",
+                  "with": "src/app/app.routes-ru.ts"
+                },
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -107,6 +134,9 @@
             },
             "en": {
               "buildTarget": "marush:build:development,en"
+            },
+            "ru": {
+              "buildTarget": "marush:build:development,ru"
             }
           },
           "defaultConfiguration": "development"
