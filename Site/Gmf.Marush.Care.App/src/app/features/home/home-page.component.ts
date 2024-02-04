@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '@env';
 import { HomeDiscountsComponent } from './discounts/discounts.component';
 import { HomeHeroComponent } from './hero/hero.component';
 import { HomeInstagramComponent } from './instagram/instagram.component';
@@ -15,5 +16,6 @@ import { HomeSpaceComponent } from './space/space.component';
     styleUrl: './home-page.component.scss'
   })
   export class HomePageComponent {
+    readonly mainImageUrl = `${environment.staticContentUrl}images/home/main.png`;
   }
 

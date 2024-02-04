@@ -1,13 +1,9 @@
 <h2 class="column-12 instagram-header header-centered">Marush na instagramu</h2>
 <section class="instagram-images">
-  <img class="instagram-image odd" src="https://marushcare.com/images/instagram/post1.jpg"
-  alt="The latest instagram posts from Marush" />
-<img class="instagram-image even" src="https://marushcare.com/images/instagram/post2.jpg"
-  alt="The latest instagram posts from Marush" />
-<img class="instagram-image odd" src="https://marushcare.com/images/instagram/post3.jpg"
-  alt="The latest instagram posts from Marush" />
-<img class="instagram-image" src="https://marushcare.com/images/instagram/post4.jpg"
-  alt="The latest instagram posts from Marush" />
+  <img class="instagram-image odd" [src]="instagramImageUrl(1)" alt="The latest instagram posts from Marush" />
+<img class="instagram-image even" [src]="instagramImageUrl(2)" alt="The latest instagram posts from Marush" />
+<img class="instagram-image odd" [src]="instagramImageUrl(3)" alt="The latest instagram posts from Marush" />
+<img class="instagram-image" [src]="instagramImageUrl(4)" alt="The latest instagram posts from Marush" />
 </section>
 
 <button type="button" class="instagram-action" (click)="follow()"><span>Pratite nas</span></button>

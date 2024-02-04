@@ -1,6 +1,7 @@
 {
   "locale": "en",
   "translations": {
-    "hero.description": "woohoo dang"
+    "hero.description": "woohoo dang",
+    "pricelist": "price-list"
   }
 }

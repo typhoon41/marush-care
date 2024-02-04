@@ -3,6 +3,7 @@ import { environment } from '@env';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 import Language from './app/shared/models/language.model';
+import '@angular/localize/init';
 
 const language = new Language();
 

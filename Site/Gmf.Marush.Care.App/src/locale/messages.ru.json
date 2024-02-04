@@ -1,6 +1,7 @@
 {
   "locale": "ru",
   "translations": {
-    "hero.description": "ruskaja"
+    "hero.description": "ruskaja",
+    "pricelist": "ценник"
   }
 }
