@@ -6,7 +6,8 @@
     <button type="button" class="toggle-action" (click)="previous()"><span class="arrow-icon left"></span></button>
     }
     @for (discount of currentDiscounts; track $index) {
-    <div class="description animate-fading header-centered" [innerHTML]="discount" [ngClass]="{'active': $index === currentDiscountPosition}"></div>
+    <div class="description animate-fading header-centered" [innerHTML]="discount"
+      [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
     }
     @if (showSlider){
     <button type="button" class="toggle-action" (click)="next()"><span class="arrow-icon right"></span></button>

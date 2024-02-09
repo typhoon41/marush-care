@@ -1,7 +1,8 @@
 {
   "locale": "ru",
   "translations": {
+    "discounts.1": "<p><strong>10.01 - 20.01</strong></p><p>Микро дермабр. + неинв. мезотер. + альгинатная маска <s>7000</s> 5000</p>",
     "hero.description": "ruskaja",
-    "pricelist": "ценник"
+    "pricelist": "прайс-лист"
   }
 }

@@ -14,7 +14,7 @@ import { environment } from '@env';
 
     readonly downloadPriceList = () => {
       const fileName = $localize`:@@pricelist:cenovnik`;
-      window.open(`${environment.staticContentUrl}files/${fileName}.pdf`);
+      window.open(`${environment.staticContentUrl}${fileName}.pdf`);
     };
   }
 

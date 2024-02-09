@@ -11,10 +11,7 @@ import { Subscription, interval } from 'rxjs';
 })
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
-    // eslint-disable-next-line no-secrets/no-secrets
-    '<p><strong>10.1 - 20.1</strong></p><p>Mikro dermoabr. + neinv. mezoter. + alginatna maska <s>7000</s> 5000</p>',
-    '<p><strong>10.1 - 20.1</strong></p><p>Hemijski piling + neinv. mezoter. <s>6500</s> 5500</p>',
-    '<p><strong>10.1 - 20.1</strong></p><p>Ultrazv. špatula + mikro dermoabr. + neinv. mezoter. <s>8500</s> 6000</p>'
+    $localize`:@@discounts.1:popusti`
   ];
 
   currentDiscountPosition = 0;
