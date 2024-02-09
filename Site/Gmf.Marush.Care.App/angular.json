@@ -92,30 +92,10 @@
               "localize": ["sr"]
             },
             "en": {
-              "localize": ["en"],
-              "fileReplacements": [
-                {
-                  "replace": "src/app/app.routes.ts",
-                  "with": "src/app/app.routes-en.ts"
-                },
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "localize": ["en"]
             },
             "ru": {
-              "localize": ["ru"],
-              "fileReplacements": [
-                {
-                  "replace": "src/app/app.routes.ts",
-                  "with": "src/app/app.routes-ru.ts"
-                },
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "localize": ["ru"]
             }
           },
           "defaultConfiguration": "production"
