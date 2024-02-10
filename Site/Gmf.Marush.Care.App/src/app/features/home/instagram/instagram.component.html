@@ -1,9 +1,9 @@
-<h2 class="column-12 instagram-header header-centered">Marush na instagramu</h2>
+<h2 class="column-12 instagram-header header-centered" i18n="@@home.instagram.title">Marush na instagramu</h2>
 <section class="instagram-images">
-  <img class="instagram-image odd" [src]="instagramImageUrl(1)" alt="The latest instagram posts from Marush" />
-<img class="instagram-image even" [src]="instagramImageUrl(2)" alt="The latest instagram posts from Marush" />
-<img class="instagram-image odd" [src]="instagramImageUrl(3)" alt="The latest instagram posts from Marush" />
-<img class="instagram-image" [src]="instagramImageUrl(4)" alt="The latest instagram posts from Marush" />
+  <img class="instagram-image odd" [src]="instagramImageUrl(1)" i18n-alt="@@home.instagram.image-description" alt="Poslednje instagram objave Marush profila" />
+  <img class="instagram-image even" [src]="instagramImageUrl(2)" i18n-alt="@@home.instagram.image-description" alt="Poslednje instagram objave Marush profila" />
+  <img class="instagram-image odd" [src]="instagramImageUrl(3)" i18n-alt="@@home.instagram.image-description" alt="Poslednje instagram objave Marush profila" />
+  <img class="instagram-image" [src]="instagramImageUrl(4)" i18n-alt="@@home.instagram.image-description" alt="Poslednje instagram objave Marush profila" />
 </section>
 
-<button type="button" class="instagram-action" (click)="follow()"><span>Pratite nas</span></button>
+<button type="button" class="instagram-action" (click)="follow()"><span i18n="@@home.instagram.follow">Pratite nas</span></button>

@@ -1,6 +1,6 @@
 @if (currentDiscounts.length){
 <div class="discounts-placeholder">
-  <img class="decoration upper" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />
+  <img class="decoration upper" src="assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration" alt="Dekorativni listovi u grafici" />
   <div class="content">
     @if (showSlider){
     <button type="button" class="toggle-action" (click)="previous()"><span class="arrow-icon left"></span></button>
@@ -13,6 +13,6 @@
     <button type="button" class="toggle-action" (click)="next()"><span class="arrow-icon right"></span></button>
     }
   </div>
-  <img class="decoration" src="assets/images/home/discount.svg" alt="Decoration leaves graphic vector" />
+  <img class="decoration" src="assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration" alt="Dekorativni listovi u grafici" />
 </div>
 }
