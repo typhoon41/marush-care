@@ -22,7 +22,7 @@ export class HomePageComponent {
 
   constructor(private readonly meta: Meta, private readonly title: Title) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.home.description:Kozmetički salon Marush: prostor za zdravlje i negu tela. U našem prijatnom okruženju u centru Beograda sprovodimo za Vas kozmetičke procedure nege kože i lica.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.home.keywords:kozmetički salon,salon lepote,nega lica,nega kože,otklanjanje akni,otklanjanje ožiljaka,tretmani hiperpigmentacije,nega kože akcija,tretmani lica popust,konsultacije,pregled kože,kućna nega lica,Beograd,Vlajkovićeva` });
+    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.home.keywords:kozmetički salon,salon lepote,nega lica,nega kože,otklanjanje akni,otklanjanje ožiljaka,tretmani hiperpigmentacije,tretmani akcija,tretmani lica popust,konsultacije,pregled kože,kućna nega lica,Beograd,Vlajkovićeva` });
     this.title.setTitle($localize`:@@routes.home.title:Marush: Space of Care - početna`);
   }
 }
