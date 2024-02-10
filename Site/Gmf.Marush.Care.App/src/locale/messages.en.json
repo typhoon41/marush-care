@@ -3,7 +3,11 @@
   "translations": {
     "discounts.1": "<p><strong>10/01 - 20/01</strong></p><p>Micro dermoabr. + non-inv. mesoter. + alginate mask <s>7000</s> 5000</p>",
     "hero.description": "woohoo dang",
+    "ie.warning": "We're sorry but Marush - Space of Care doesn't support Internet Explorer. Please try using some modern browser.",
     "pricelist": "pricelist",
-    "routes.home": "home"
+    "routes.home": "home",
+    "routes.home.description": "Marush beauty salon: space and place for health and care. Located in center of Belgrade, we offer various cosmetic procedures for skin and face care in our cozy environment.",
+    "routes.home.keywords": "beauty salon,facial care,skin care,acne removal,scar removal,hyperpigmentation treatments,treatments discounts,facial treatments discounts,consultations,skin examination,at-home facial,Belgrade,Vlajkovićeva",
+    "routes.home.title": "Marush: Space of Care - home"
   }
 }
