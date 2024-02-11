@@ -10,6 +10,19 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "sourceLocale": "sr",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.json",
+            "baseHref": "en"
+          },
+          "ru": {
+            "translation": "src/locale/messages.ru.json",
+            "baseHref": "ru"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,6 +30,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "localize": true,
+            "i18nMissingTranslation": "error",
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -72,6 +87,15 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "sr": {
+              "localize": ["sr"]
+            },
+            "en": {
+              "localize": ["en"]
+            },
+            "ru": {
+              "localize": ["ru"]
             }
           },
           "defaultConfiguration": "production"
@@ -84,6 +108,15 @@
             },
             "development": {
               "buildTarget": "marush:build:development"
+            },
+            "sr": {
+              "buildTarget": "marush:build:development,sr"
+            },
+            "en": {
+              "buildTarget": "marush:build:development,en"
+            },
+            "ru": {
+              "buildTarget": "marush:build:development,ru"
             }
           },
           "defaultConfiguration": "development"
@@ -91,7 +124,9 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "marush:build"
+            "buildTarget": "marush:build",
+            "format": "json",
+            "outputPath": "src/locale"
           }
         },
         "test": {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '@env';
 
 @Component({
     selector: 'marush-home-instagram',
@@ -10,4 +11,6 @@ import { Component } from '@angular/core';
     readonly follow = () => {
       window.open('https://www.instagram.com/marush_care_space');
     };
+
+    readonly instagramImageUrl = (index: number) => `${environment.staticContentUrl}images/instagram/post${index}.jpg`;
   }

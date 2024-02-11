@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '@env';
 
 @Component({
     selector: 'marush-home-hero',
@@ -12,7 +13,8 @@ import { Component } from '@angular/core';
     };
 
     readonly downloadPriceList = () => {
-      window.open('assets/cenovnik.pdf');
+      const fileName = $localize`:@@pricelist:cenovnik`;
+      window.open(`${environment.staticContentUrl}${fileName}.pdf`);
     };
   }
 

@@ -40,6 +40,10 @@ $default-gap: 15px;
 			display: block;
 			flex: 1 1 auto;
 		}
+
+		&.single {
+			padding: 0 $default-gap;
+		}
 	}
 
 	.toggle-action {

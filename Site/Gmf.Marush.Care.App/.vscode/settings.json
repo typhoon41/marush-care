@@ -12,20 +12,18 @@
     "editor.guides.bracketPairs": "active",
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll.stylelint": "explicit",
-        "source.fixAll.eslint": "explicit"
+        "source.fixAll.stylelint": "always",
+        "source.fixAll.eslint": "always"
     },
-    "files.autoSaveDelay": 500,
-    "files.trimTrailingWhitespace": true,
     "workbench.colorTheme": "Nord Light",
     "workbench.colorCustomizations": {
         "[Nord Light]": {
-            "editorBracketHighlight.foreground1": "#e78009",
+            "editorBracketHighlight.foreground1": "#7e4402",
             "editorBracketHighlight.foreground2": "#22990a",
             "editorBracketHighlight.foreground3": "#1411c4",
             "editorBracketHighlight.foreground4": "#a59e3b",
             "editorBracketHighlight.foreground5": "#9c15c5",
-            "editorBracketHighlight.foreground6": "#ffffff",
+            "editorBracketHighlight.foreground6": "#0d47e7",
             "editorBracketHighlight.unexpectedBracket.foreground": "#FF2C6D"
         }
     },
@@ -34,5 +32,29 @@
     "git.openRepositoryInParentFolders": "never",
     "cSpell.words": [
         "marush"
-    ]
+    ],
+    "files.autoSaveDelay": 500,
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+        "**/_ReSharper.Caches": true,
+        "**/.vs": true,
+        "**/*.user": true,
+        "**/*.csproj": true,
+        "**/web.config": true,
+        "**/Properties": true,
+        "**/bin": true,
+        "**/dist": true,
+        "**/obj": true,
+        "**/.git": true,
+        "**/.angular": true,
+        "**/node_modules": true,
+        "**/tmp": true,
+        ".editorconfig": true,
+        "packages.lock.json": true,
+        "appsettings.json": true,
+        "appsettings.Development.json": true,
+        "Program.cs": true,
+        "coverage": true
+    },
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

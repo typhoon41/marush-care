@@ -1,11 +1,13 @@
 <div class="column-12 column-desktop-6">
-  <h2 class="space-header header-centered">Prostor</h2>
-  <p class="space-description first">Marush je više od kozmetičkog salona, mesto gde možete da se potpuno opustite dok se mi
+  <h2 class="space-header header-centered" i18n="@@home.space.title">Prostor</h2>
+  <p class="space-description first" i18n="@@home.space.description.upper">Marush je više od kozmetičkog salona, mesto
+    gde možete da se potpuno opustite dok se mi
     brinemo o Vašoj koži.</p>
 </div>
-<img class="column-12 column-desktop-6 space-image first" src="https://marushcare.com/images/home/space-upper.png"
-  alt="Woman enjoying coffee time with magazine after treatment on balcony" />
-<img class="column-12 column-desktop-6 space-image last" src="https://marushcare.com/images/home/space-lower.png"
-  alt="Pouring lavender oil to aroma air freshener" />
-<p class="column-12 column-desktop-6 space-description last">Naši tretmani nisu vremenski ograničeni i zato možete odslušati podkast, pogledati
+<img class="column-12 column-desktop-6 space-image first" [src]="spaceImageUrl('upper')"
+  i18n-alt="@@home.space.decoration.upper" alt="Žena uživa u kafi na balkonu dok lista novine nakon tretmana" />
+<img class="column-12 column-desktop-6 space-image last" [src]="spaceImageUrl('lower')"
+  i18n-alt="@@home.space.decoration.lower" alt="Dolivanje ulja lavande u osveživač vazduha" />
+<p class="column-12 column-desktop-6 space-description last" i18n="@@home.space.description.lower">Naši tretmani nisu
+  vremenski ograničeni i zato možete odslušati podkast, pogledati
   epizodu omiljene serije uz šoljicu čaja ili čašu vina.</p>

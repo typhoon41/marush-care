@@ -1,6 +1,9 @@
 @use 'variables';
+@use 'focus';
 
 a {
 	color: variables.$font-color;
 	text-decoration: none;
+
+	@extend %focusable;
 }

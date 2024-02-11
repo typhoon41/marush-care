@@ -7,7 +7,9 @@ $edge-spacing: 23px;
 
 .main-menu {
 	display: flex;
+	position: relative;
 	align-items: center;
+	justify-content: end;
 	height: 85px;
 	background-color: variables.$primary;
 
@@ -16,23 +18,29 @@ $edge-spacing: 23px;
 	}
 
 	.logo-container {
-		width: 150px;
-	}
-
-	.logo {
 		@include absolute.unset-position(29px, unset, unset, $edge-spacing);
-		width: 100px;
-		height: 21px;
+		width: 150px;
 
 		@include breakpoints.apply-from-tablet() {
 			top: 40px;
 			left: 50px;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			left: 60px;
+		}
+	}
+
+	.logo {
+		width: 100px;
+		height: 21px;
+
+		@include breakpoints.apply-from-tablet() {
 			width: 130px;
 			height: 27px;
 		}
 
 		@include breakpoints.apply-from-desktop() {
-			left: 60px;
 			width: 152px;
 			height: 32px;
 		}

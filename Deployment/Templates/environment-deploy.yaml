@@ -14,6 +14,7 @@ jobs:
     variables:
     - name: environment
       value: ${{ parameters.environment }}
+    - template: ../Variables/${{ parameters.environment }}-variables.yaml 
     environment: 
       name: ${{ parameters.environment }}
       resourceName: VMI1461179

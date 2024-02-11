@@ -1,0 +1,78 @@
+@use 'variables';
+@use 'focus';
+@use 'headers';
+@use 'breakpoints';
+
+$height-gap: 10px;
+$side-gap: 15px;
+
+.marush-combo-box {
+	position: relative;
+	z-index: 2;
+	margin-right: 40px;
+	outline: none;
+	font-family: 'Overpass-Bold', sans-serif;
+	cursor: pointer;
+	user-select: none;
+
+	.selected-option {
+		display: block;
+		padding: $height-gap 25px $height-gap $side-gap;
+
+		&:hover {
+			color: variables.$accent;
+		}
+	}
+
+	@extend %focusable;
+}
+
+.language-description {
+	@extend %marush-caption;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 18px;
+		line-height: 24px;
+	}
+}
+
+.language-caret {
+	display: inline-block;
+	position: absolute;
+	top: 7px;
+	margin-left: 5px;
+	transform: scale(1.6, 1);
+}
+
+.options-container {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	left: 0;
+	transition: opacity .2s;
+	opacity: 0;
+	background-color: variables.$primary;
+
+	&.collapsed {
+		opacity: 1;
+	}
+
+	.option {
+		padding: $height-gap $side-gap;
+		cursor: pointer;
+
+		&:hover {
+			color: variables.$accent;
+		}
+
+		@extend %focusable;
+
+		&:focus {
+			color: variables.$accent;
+		}
+
+		&.selected {
+			color: variables.$accent;
+		}
+	}
+}
