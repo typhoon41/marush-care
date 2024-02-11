@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren, afterRender } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Language, { ILanguage } from 'src/app/shared/models/language.model';
 
