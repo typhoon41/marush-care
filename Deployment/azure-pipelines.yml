@@ -104,8 +104,8 @@ stages:
         instructions: 'Please approve production deploy so it could be executed'
         onTimeout: reject
   - template: 'Deployment/Templates/environment-deploy.yaml'
-    dependsOn: 'WaitForValidation'
     parameters:
       environment: 'Production'
       deploymentName: 'DeployToProduction'
+      approvalJobName: 'WaitForValidation'
       destinationWebsiteName: Marush

@@ -5,12 +5,16 @@ parameters:
 - name: environment
 - name: projectName
   default: 'Marush'
+- name: approvalJobName
+  default: ''
 - name: archiveFile
   default: 'Gmf.Marush.Care.App.zip'
 
 jobs:
   - deployment: ${{ parameters.deploymentName }}
     displayName: 'Executing '
+    dependsOn: ${{ parameters.approvalJobName }}
+    condition: or(eq(parameters.approvalJobName, ''), succeeded(parameters.approvalJobName))
     variables:
     - name: environment
       value: ${{ parameters.environment }}
