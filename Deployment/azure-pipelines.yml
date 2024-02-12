@@ -80,7 +80,7 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
-  - template: 'Deployment/Templates/environment-deploy.yaml'
+  - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
       deploymentName: 'DeployToTest'
@@ -103,7 +103,7 @@ stages:
           nizzotyphoon41@hotmail.com
         instructions: 'Please approve production deploy so it could be executed'
         onTimeout: reject
-  - template: 'Deployment/Templates/environment-deploy.yaml'
+  - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Production'
       deploymentName: 'DeployToProduction'
