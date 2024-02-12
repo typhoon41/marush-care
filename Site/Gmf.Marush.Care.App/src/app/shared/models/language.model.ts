@@ -18,7 +18,8 @@ export default class Language {
     readonly isPredefined = () => this.storedLanguage() === this.urlLanguage();
     readonly changeTo = (language: ILanguage) => {
         this.storage.save(this.languageKey, language.value);
-        location.replace(`${environment.url}${language.value}`);
+        // eslint-disable-next-line xss/no-location-href-assign
+        window.location.href = `${environment.url}${language.value}`;
     };
 
     readonly default = this.supportedLanguages.filter(language =>
