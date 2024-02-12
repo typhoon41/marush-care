@@ -91,7 +91,7 @@ stages:
   dependsOn: 'DeployToTest'
   condition:  succeeded()
   jobs:
-  - job: waitForValidation
+  - job: WaitForValidation
     displayName: Wait for approval
     pool: server
     timeoutInMinutes: 21600 # job times out in 15 days
@@ -104,6 +104,7 @@ stages:
         instructions: 'Please approve production deploy so it could be executed'
         onTimeout: reject
   - template: 'Deployment/Templates/environment-deploy.yaml'
+    dependsOn: 'WaitForValidation'
     parameters:
       environment: 'Production'
       deploymentName: 'DeployToProduction'
