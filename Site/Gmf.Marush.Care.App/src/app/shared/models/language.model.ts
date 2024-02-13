@@ -1,5 +1,5 @@
 import { environment } from '@env';
-import { StorageService } from '../services/storage.service';
+import { CookieStorage } from './cookie-storage.model';
 
 export interface ILanguage {
     description: 'SRB' | 'ENG' | 'RUS';
@@ -9,17 +9,22 @@ export interface ILanguage {
 export default class Language {
     private readonly initial = 'sr';
     private readonly languageKey = 'language';
-    private readonly storage = new StorageService();
+    private readonly storage = new CookieStorage();
 
     readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr' },
     { description: 'ENG', value: 'en' },
     { description: 'RUS', value: 'ru' }];
 
-    readonly isPredefined = () => this.storedLanguage() === this.urlLanguage();
+    readonly setup = () => {
+        const urlLanguage = this.urlLanguage();
+        if (this.storedLanguage() !== urlLanguage) {
+            this.save(urlLanguage);
+        }
+    };
+
     readonly changeTo = (language: ILanguage) => {
-        this.storage.save(this.languageKey, language.value);
-        // eslint-disable-next-line xss/no-location-href-assign
-        window.location.href = `${environment.url}${language.value}`;
+        this.save(language.value);
+        location.replace(`${environment.url}${language.value}`);
     };
 
     readonly default = this.supportedLanguages.filter(language =>
@@ -30,4 +35,5 @@ export default class Language {
 
     private readonly storedLanguage = () => this.storage.load(this.languageKey) ?? this.default.value;
     private readonly urlLanguage = () => window.location.pathname.split('/')[1] ?? this.default.value;
+    private readonly save = (language: string) => this.storage.save(this.languageKey, language);
 }
