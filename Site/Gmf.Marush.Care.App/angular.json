@@ -15,11 +15,11 @@
         "locales": {
           "en": {
             "translation": "src/locale/messages.en.json",
-            "baseHref": "en"
+            "baseHref": "/en/"
           },
           "ru": {
             "translation": "src/locale/messages.ru.json",
-            "baseHref": "ru"
+            "baseHref": "/ru/"
           }
         }
       },
