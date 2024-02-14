@@ -18,5 +18,5 @@ export class MenuComponent extends BaseRoutingComponent {
 
   logoHovered = false;
   readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
-    'assets/images/logo-active.png' : 'assets/images/logo.png';
+    '/assets/images/logo-active.png' : '/assets/images/logo.png';
 }

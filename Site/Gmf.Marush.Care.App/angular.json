@@ -40,9 +40,6 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/assets"
-            ],
             "styles": [
               "src/styles/main.scss"
             ],
@@ -77,6 +74,9 @@
               "outputHashing": "all"
             },
             "development": {
+              "assets": [
+                "src/assets"
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,

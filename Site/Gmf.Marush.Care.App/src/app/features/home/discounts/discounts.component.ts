@@ -17,8 +17,7 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
   currentDiscountPosition = 0;
   private subscription: Subscription | undefined;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit(): void {

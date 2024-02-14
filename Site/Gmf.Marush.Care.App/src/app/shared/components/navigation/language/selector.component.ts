@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, Inject, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import Language, { ILanguage } from 'src/app/shared/models/language.model';
 
@@ -20,7 +20,7 @@ export class LanguageSelectorComponent {
 
   selectedLanguage: ILanguage;
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {
     this.collapsed.subscribe(collapsed => {
       if (collapsed) {
         this.giveFocusTo(this.getSelectedOption());
@@ -30,7 +30,13 @@ export class LanguageSelectorComponent {
       }
     });
 
-    this.selectedLanguage = this.language.predefined();
+    if (isPlatformBrowser(this.platformId)) {
+      this.selectedLanguage = this.language.predefined();
+    }
+
+    else {
+      this.selectedLanguage = this.language.default;
+    }
   }
 
   readonly select = (language: ILanguage) => {

@@ -1,9 +1,10 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { environment } from '@env';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/navigation/menu/menu.component';
+import Language from './shared/models/language.model';
 
 @Component({
   selector: 'marush-root',
@@ -14,6 +15,7 @@ import { MenuComponent } from './shared/components/navigation/menu/menu.componen
 })
 export class AppComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private readonly document: Document,
+    @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly renderer: Renderer2) { }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
@@ -21,9 +23,11 @@ export class AppComponent implements OnInit {
     if (environment.name === 'Production') {
       this.setupGoogleAnalytics();
     }
-  }
 
-  title = 'marush';
+    if (isPlatformBrowser(this.platformId)) {
+      new Language().setup();
+    }
+  }
 
   private readonly setupGoogleAnalytics = () => {
     this.renderer.appendChild(this.document.body, this.setupScriptTag());
