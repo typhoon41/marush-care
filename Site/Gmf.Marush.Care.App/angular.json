@@ -30,6 +30,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "assets": [],
             "localize": true,
             "i18nMissingTranslation": "error",
             "outputPath": "dist",
