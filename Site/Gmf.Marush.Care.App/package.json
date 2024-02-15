@@ -10,7 +10,7 @@
     "watch": "ng build --watch --configuration=development",
     "test": "ng test",
     "translate": "ng extract-i18n && sortjson src/locale",
-    "serve:ssr:marush": "node dist/marush/server/server.mjs",
+    "serve:sr": "node dist/server/sr/server.mjs",
     "lint": "ng lint --format stylish --fix && stylelint --fix src/**/*.scss"
   },
   "private": true,
