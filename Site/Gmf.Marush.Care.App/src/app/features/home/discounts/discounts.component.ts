@@ -11,7 +11,7 @@ import { Subscription, interval } from 'rxjs';
 })
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
-    $localize`:@@discounts.1:<p><strong>10.1 - 20.1</strong></p><p>Mikro dermoabr. + neinv. mezoter. + alginatna maska <s>7000</s> 5000</p>`
+    $localize`:@@discounts.1:<p><strong>15.2 - 25.2</strong></p><p>Masaža lica + hig. tretman. + bio. tretman <s>7500</s> 6500</p>`
   ];
 
   currentDiscountPosition = 0;

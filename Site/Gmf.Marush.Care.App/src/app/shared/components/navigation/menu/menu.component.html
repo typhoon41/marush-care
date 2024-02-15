@@ -5,6 +5,6 @@
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
     @if(environment.name !== 'development'){
-    <marush-language-selector></marush-language-selector>
+    <marush-language-selector ngskiphydration></marush-language-selector>
     }
 </nav>
