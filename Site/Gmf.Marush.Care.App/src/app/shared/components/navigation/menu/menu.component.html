@@ -4,6 +4,7 @@
         <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Logo" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
+    <marush-hamburger-button></marush-hamburger-button>
     @if(environment.name !== 'development'){
     <marush-language-selector ngskiphydration></marush-language-selector>
     }

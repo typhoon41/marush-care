@@ -3,12 +3,13 @@ import { Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { BaseRoutingComponent } from '../base-routing.component';
+import { HamburgerButtonComponent } from '../hamburger/button.component';
 import { LanguageSelectorComponent } from '../language/selector.component';
 
 @Component({
   selector: 'marush-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule, LanguageSelectorComponent],
+  imports: [CommonModule, RouterModule, LanguageSelectorComponent, HamburgerButtonComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
