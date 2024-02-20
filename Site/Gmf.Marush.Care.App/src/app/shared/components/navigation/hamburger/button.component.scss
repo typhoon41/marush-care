@@ -49,8 +49,6 @@ $cross-vertical-gap: math.round(($hamburger-height - $cross-height) * .5);
 	}
 
 	&.collapsed .line {
-		background-color: variables.$accent;
-
 		&.first {
 			top: -1px - $cross-vertical-gap;
 			left: $cross-horizontal-gap;

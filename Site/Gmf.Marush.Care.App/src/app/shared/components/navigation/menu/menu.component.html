@@ -4,8 +4,16 @@
         <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Logo" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
-    <marush-hamburger-button></marush-hamburger-button>
+
+    @if(isMobile) {
+        <marush-hamburger-button (collapsedEvent)="toggleMobileMenu($event)"></marush-hamburger-button>
+    }
+
     @if(environment.name !== 'development'){
     <marush-language-selector ngskiphydration></marush-language-selector>
     }
 </nav>
+
+@if(isMobile) {
+    <marush-mobile-menu class="animate-fading" [ngClass]="{'show-mobile-menu': showMobileMenu }"></marush-mobile-menu>
+}

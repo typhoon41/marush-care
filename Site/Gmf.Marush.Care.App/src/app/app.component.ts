@@ -5,6 +5,7 @@ import { environment } from '@env';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/navigation/menu/menu.component';
 import Language from './shared/models/language.model';
+import { SizeService } from './shared/services/size.service';
 
 @Component({
   selector: 'marush-root',
@@ -16,6 +17,7 @@ import Language from './shared/models/language.model';
 export class AppComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private readonly document: Document,
     @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly sizeService: SizeService,
     private readonly renderer: Renderer2) { }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
@@ -26,6 +28,7 @@ export class AppComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       new Language().setup();
+      this.sizeService.startTrackingResizeOf(document);
     }
   }
 

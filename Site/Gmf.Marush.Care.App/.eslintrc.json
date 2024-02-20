@@ -43,9 +43,10 @@
               "HostBinding",
               "Inject",
               "Injectable",
+              "NgModule",
+              "Output",
               "ViewChild",
-              "ViewChildren",
-              "NgModule"
+              "ViewChildren"
             ]
           }
         ],
