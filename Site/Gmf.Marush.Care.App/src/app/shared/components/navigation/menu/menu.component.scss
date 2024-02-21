@@ -5,10 +5,6 @@
 
 $edge-spacing: 23px;
 
-.show-mobile-menu {
-	display: block;
-}
-
 .main-menu {
 	display: flex;
 	position: relative;
@@ -65,5 +61,17 @@ $edge-spacing: 23px;
 			margin-right: auto;
 			font-size: 18px;
 		}
+	}
+}
+
+.mobile-menu {
+	display: block;
+	width: 100%;
+	max-height: 0;
+	overflow: hidden;
+	transition: .5s ease-in-out;
+
+	&.collapsed {
+		max-height: 100%;
 	}
 }

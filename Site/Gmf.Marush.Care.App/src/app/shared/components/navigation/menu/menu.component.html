@@ -15,5 +15,5 @@
 </nav>
 
 @if(isMobile) {
-    <marush-mobile-menu class="animate-fading" [ngClass]="{'show-mobile-menu': showMobileMenu }"></marush-mobile-menu>
+    <marush-mobile-menu class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
 }

@@ -1,5 +1,7 @@
-.mobile-menu {
+@use 'variables';
+
+.menu-items {
 	width: 100%;
 	height: 200px;
-	background-color: red;
+	background-color: variables.$primary;
 }
