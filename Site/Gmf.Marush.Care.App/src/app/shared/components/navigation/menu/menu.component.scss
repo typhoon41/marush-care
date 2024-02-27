@@ -3,8 +3,6 @@
 @use 'breakpoints';
 @use 'headers';
 
-$edge-spacing: 23px;
-
 .main-menu {
 	display: flex;
 	position: relative;
@@ -18,7 +16,7 @@ $edge-spacing: 23px;
 	}
 
 	.logo-container {
-		@include absolute.unset-position(29px, unset, unset, $edge-spacing);
+		@include absolute.unset-position(29px, unset, unset, variables.$menu-edge-spacing);
 		width: 150px;
 
 		@include breakpoints.apply-from-tablet() {
@@ -45,33 +43,19 @@ $edge-spacing: 23px;
 			height: 32px;
 		}
 	}
-
-	.action {
-		@extend %marush-caption;
-		margin-right: $edge-spacing;
-		margin-left: auto;
-		font-family: 'Overpass-Bold', sans-serif;
-		letter-spacing: 1px;
-
-		&:hover {
-			color: variables.$accent;
-		}
-
-		@include breakpoints.apply-from-tablet() {
-			margin-right: auto;
-			font-size: 18px;
-		}
-	}
 }
 
 .mobile-menu {
 	display: block;
+	box-sizing: border-box;
 	width: 100%;
 	max-height: 0;
 	overflow: hidden;
 	transition: .5s ease-in-out;
+	background-color: variables.$primary;
 
 	&.collapsed {
 		max-height: 100%;
+		padding: 15px;
 	}
 }

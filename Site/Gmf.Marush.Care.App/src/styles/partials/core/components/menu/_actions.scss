@@ -1,9 +1,21 @@
 @use 'variables';
+@use 'breakpoints';
+@use 'headers';
 
-.menu-action {
+.marush-menu .action {
+	@extend %marush-caption;
+	margin-right: variables.$menu-edge-spacing;
+	margin-left: auto;
 	font-family: 'Overpass-Bold', sans-serif;
+	letter-spacing: 1px;
+	text-transform: uppercase;
 
 	&:hover {
 		color: variables.$accent;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		margin-right: auto;
+		font-size: 18px;
 	}
 }

@@ -1,0 +1,9 @@
+@use 'breakpoints';
+
+.mobile-hidden {
+	display: none;
+
+	@include breakpoints.apply-from-tablet() {
+		display: block;
+	}
+}

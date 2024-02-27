@@ -10,14 +10,12 @@ $side-gap: 15px;
 .marush-combo-box {
 	position: relative;
 	z-index: 2;
-	margin-right: 40px;
 	outline: none;
 	font-family: 'Overpass-Bold', sans-serif;
 	cursor: pointer;
 	user-select: none;
 
 	.selected-option {
-		display: block;
 		padding: $height-gap 25px $height-gap $side-gap;
 
 		&:hover {
@@ -26,6 +24,10 @@ $side-gap: 15px;
 	}
 
 	@extend %focusable;
+
+	@include breakpoints.apply-from-tablet() {
+		margin-right: 40px;
+	}
 }
 
 .language-description {
@@ -45,9 +47,11 @@ $side-gap: 15px;
 }
 
 .options-container {
-	@include absolute.zero-position(100%);
+	display: flex;
+	position: relative;
+	justify-content: space-evenly;
 	transition: opacity .2s;
-	opacity: 0;
+	opacity: 1;
 	background-color: variables.$primary;
 
 	&.collapsed {
@@ -71,5 +75,11 @@ $side-gap: 15px;
 		&.selected {
 			color: variables.$accent;
 		}
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		display: block;
+		@include absolute.unset-position(100%, 0, unset, 0);
+		opacity: 0;
 	}
 }
