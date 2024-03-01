@@ -1,0 +1,6 @@
+@use 'variables';
+@use 'sass:math';
+
+.action:not(.last) {
+	margin-bottom: variables.$menu-gaps * .75;
+}

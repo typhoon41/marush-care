@@ -1,7 +1,7 @@
 <div class="marush-combo-box" role="combobox" aria-controls="language-container" aria-haspopup="listbox" tabindex="0"
     #combo aria-expanded="false" [ariaExpanded]="collapsed | async" (click)="toggleDropdown()" (keydown)="onKey($event)"
     id="language-selector">
-    <div class="selected-option"><span class="language-description">{{selectedLanguage.description}}</span><span
+    <div class="selected-option mobile-hidden"><span class="language-description">{{selectedLanguage.description}}</span><span
             class="language-caret">&#x2304;</span></div>
     <ul class="options-container" [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
         [ariaHidden]="(collapsed | async) === false" id="language-container" (keydown)="onOptionsKey($event)">

@@ -1,7 +1,11 @@
 $breakpoints: (
+	mobile: (description: 'mobile', size: 360px),
 	tablet: (description: 'tablet', size: 768px),
 	desktop: (description: 'desktop', size: 1200px)
 );
+
+$menu-edge-spacing: 23px;
+$menu-gaps: 40px;
 
 $primary: #FDF1ED;
 $accent: #F5B57B;

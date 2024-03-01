@@ -1,0 +1,25 @@
+@use 'variables';
+@use 'sass:math';
+
+.menu-items {
+	width: 100%;
+	background-color: variables.$primary;
+
+	.decoration {
+		width: 155px;
+		height: auto;
+
+		&.lower {
+			margin-top: variables.$menu-gaps;
+			margin-bottom: math.div(variables.$menu-gaps, 2);
+		}
+
+		&.upper {
+			margin-bottom: variables.$menu-gaps;
+		}
+	}
+
+	.actions {
+		display: flex;
+	}
+}
