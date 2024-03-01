@@ -5,18 +5,17 @@
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
-    @if(sizeService.lastKnownSize){
-    @if(isMobile) {
-    <marush-hamburger-button (collapsedEvent)="toggleMobileMenu($event)"></marush-hamburger-button>
-    }
+    @if(sizeService.lastKnownSize) {
+        @if(isMobile) {
+            <marush-hamburger-button (collapsedEvent)="toggleMobileMenu($event)"></marush-hamburger-button>
+        }
 
-    @else {
-    <marush-menu-items></marush-menu-items>
-    }
-    }
-
-    @if(environment.name !== 'development'){
-    <marush-language-selector ngskiphydration></marush-language-selector>
+        @else {
+            <marush-menu-items></marush-menu-items>
+            @if(environment.name !== 'development'){
+                <marush-language-selector ngskiphydration></marush-language-selector>
+            }
+        }
     }
 </nav>
 
