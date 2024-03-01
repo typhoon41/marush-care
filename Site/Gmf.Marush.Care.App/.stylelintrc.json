@@ -3,6 +3,7 @@
   "rules": {
     "no-empty-source": null,
     "scss/declaration-nested-properties": "never",
+    "scss/function-no-unknown": null,
     "selector-max-combinators": 3
   }
 }
