@@ -5,8 +5,14 @@
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
+    @if(sizeService.lastKnownSize){
     @if(isMobile) {
-        <marush-hamburger-button (collapsedEvent)="toggleMobileMenu($event)"></marush-hamburger-button>
+    <marush-hamburger-button (collapsedEvent)="toggleMobileMenu($event)"></marush-hamburger-button>
+    }
+
+    @else {
+    <marush-menu-items></marush-menu-items>
+    }
     }
 
     @if(environment.name !== 'development'){
@@ -15,5 +21,5 @@
 </nav>
 
 @if(isMobile) {
-    <marush-mobile-menu class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
+<marush-mobile-menu class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
 }

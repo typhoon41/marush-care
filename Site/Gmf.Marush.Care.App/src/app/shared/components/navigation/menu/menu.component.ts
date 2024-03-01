@@ -7,12 +7,13 @@ import { BaseRoutingComponent } from '../base-routing.component';
 import { HamburgerButtonComponent } from '../hamburger/button.component';
 import { LanguageSelectorComponent } from '../language/selector.component';
 import { MobileMenuComponent } from '../mobile/menu.component';
+import { MenuItemsComponent } from './items/menu-items.component';
 
 @Component({
   selector: 'marush-menu',
   standalone: true,
   imports: [CommonModule, RouterModule, LanguageSelectorComponent,
-    HamburgerButtonComponent, MobileMenuComponent],
+    HamburgerButtonComponent, MobileMenuComponent, MenuItemsComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })

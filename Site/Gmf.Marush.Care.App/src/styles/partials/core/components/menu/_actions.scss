@@ -2,20 +2,24 @@
 @use 'breakpoints';
 @use 'headers';
 
-.marush-menu .action {
-	@extend %marush-caption;
-	margin-right: variables.$menu-edge-spacing;
-	margin-left: auto;
-	font-family: 'Overpass-Bold', sans-serif;
-	letter-spacing: 1px;
-	text-transform: uppercase;
+.marush-menu {
+	display: block;
+	background-color: variables.$primary;
 
-	&:hover {
-		color: variables.$accent;
-	}
-
-	@include breakpoints.apply-from-tablet() {
+	.action {
+		@extend %marush-caption;
 		margin-right: auto;
-		font-size: 18px;
+		margin-left: auto;
+		font-family: 'Overpass-Bold', sans-serif;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+
+		&:hover {
+			color: variables.$accent;
+		}
+
+		@include breakpoints.apply-from-tablet() {
+			font-size: 18px;
+		}
 	}
 }

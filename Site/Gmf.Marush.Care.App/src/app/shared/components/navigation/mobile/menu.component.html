@@ -1,10 +1,8 @@
 <nav class="menu-items center-content vertical-stack">
     <img class="decoration upper" src="/assets/images/menu/upper-decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
-    <a class="item action" href="assets/cenovnik.pdf" target="_blank">
-        <span>Cenovnik</span>
-    </a>
+    <marush-menu-items class="actions center-content vertical-stack"></marush-menu-items>
     <img class="decoration lower" src="/assets/images/menu/lower-decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
     @if(environment.name === 'development'){
-        <marush-language-selector ngskiphydration></marush-language-selector>
+        <marush-language-selector class="languages" ngskiphydration></marush-language-selector>
     }
 </nav>

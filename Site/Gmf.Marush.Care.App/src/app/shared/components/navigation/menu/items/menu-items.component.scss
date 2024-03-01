@@ -1,0 +1,5 @@
+@use 'variables';
+
+.action:not(.last) {
+	margin-bottom: variables.$menu-gaps;
+}
