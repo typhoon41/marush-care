@@ -11,6 +11,7 @@
 
 		&.lower {
 			margin-top: variables.$menu-gaps;
+			margin-bottom: math.div(variables.$menu-gaps, 2);
 		}
 
 		&.upper {
@@ -20,9 +21,5 @@
 
 	.actions {
 		display: flex;
-	}
-
-	.languages {
-		margin-top: math.div(variables.$menu-gaps, 2);
 	}
 }

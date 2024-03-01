@@ -7,26 +7,23 @@
 	display: flex;
 	position: relative;
 	align-items: center;
-	justify-content: end;
+	justify-content: space-between;
 	height: 85px;
+	padding: 0 variables.$menu-edge-spacing;
 	background-color: variables.$primary;
 
 	@include breakpoints.apply-from-tablet() {
 		height: 110px;
+		padding: 0 variables.$menu-gaps;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		height: 110px;
+		padding: 0 1.5 * variables.$menu-gaps;
 	}
 
 	.logo-container {
-		@include absolute.unset-position(29px, unset, unset, variables.$menu-edge-spacing);
-		width: 150px;
-
-		@include breakpoints.apply-from-tablet() {
-			top: 40px;
-			left: 50px;
-		}
-
-		@include breakpoints.apply-from-desktop() {
-			left: 60px;
-		}
+		padding: 5px;
 	}
 
 	.logo {

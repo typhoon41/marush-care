@@ -10,6 +10,7 @@
 		@extend %marush-caption;
 		margin-right: auto;
 		margin-left: auto;
+		padding: 10px 15px;
 		font-family: 'Overpass-Bold', sans-serif;
 		letter-spacing: 1px;
 		text-transform: uppercase;
@@ -18,7 +19,7 @@
 			color: variables.$accent;
 		}
 
-		@include breakpoints.apply-from-tablet() {
+		@include breakpoints.apply-from-desktop() {
 			font-size: 18px;
 		}
 	}

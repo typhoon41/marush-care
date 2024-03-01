@@ -24,10 +24,6 @@ $side-gap: 15px;
 	}
 
 	@extend %focusable;
-
-	@include breakpoints.apply-from-tablet() {
-		margin-right: 40px;
-	}
 }
 
 .language-description {
