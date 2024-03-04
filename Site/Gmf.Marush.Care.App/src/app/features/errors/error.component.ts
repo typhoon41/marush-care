@@ -1,5 +1,5 @@
 /* eslint-disable @stylistic/max-len */
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
     styleUrl: './error.component.scss'
 })
 export class ErrorPageComponent {
+    @HostBinding('class') classAttribute: string = 'center-content vertical-stack';
     systemError: boolean;
 
     constructor(private readonly title: Title, private readonly route: ActivatedRoute) {

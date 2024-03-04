@@ -50,7 +50,8 @@
             ]
           }
         ],
-        "@typescript-eslint/prefer-readonly-parameter-types": "off"
+        "@typescript-eslint/prefer-readonly-parameter-types": "off",
+        "@typescript-eslint/no-unsafe-enum-comparison": "off"
       }
     },
     {

@@ -1,0 +1,30 @@
+@use 'headers';
+@use 'breakpoints';
+
+$decoration-height: 200px;
+$gap: $decoration-height * .5;
+$mobile-gap: $gap * .5;
+
+.error-decoration {
+	width: auto;
+	height: $decoration-height;
+	margin-top: $mobile-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		margin-top: $gap;
+	}
+}
+
+.error-text {
+	@include headers.marush-caption();
+	margin: $decoration-height * .25 $gap * .75 $mobile-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-headline();
+		margin-bottom: $gap;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-desktop-header(false);
+	}
+}

@@ -11,10 +11,13 @@
 	}
 }
 
-@mixin marush-desktop-header() {
+@mixin marush-desktop-header($with-spacing: true) {
 	font-size: 24px;
-	letter-spacing: 3px;
 	line-height: 37px;
+
+	@if ($with-spacing) {
+		letter-spacing: 3px;
+	}
 }
 
 @mixin marush-headline() {
