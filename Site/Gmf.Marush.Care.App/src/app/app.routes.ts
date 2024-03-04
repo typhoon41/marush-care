@@ -13,6 +13,7 @@ export class RoutingDefinition {
     } as TranslatedRoute);
 
     readonly home = () => $localize`:@@routes.home:početna` as string;
+    readonly notFound = (errorType?: string) => `${$localize`:@@routes.error:greška`}/${errorType ?? ':errorType'}` as string;
 
     readonly routes: TranslatedRoute[] = [
         {
@@ -21,12 +22,14 @@ export class RoutingDefinition {
             pathMatch: 'full',
             redirectTo: this.home()
         },
-        this.lazyRoute('home', $localize`:@@routes.home:početna`,
+        this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
+        this.lazyRoute('error', this.notFound(),
+            () => import('./features/errors/error.component').then(mod => mod.ErrorPageComponent)),
         {
             key: 'unknown',
             path: '**',
-            redirectTo: this.home()
+            redirectTo: this.notFound($localize`:@@routes.error.not-found:stranica-nije-pronađena`)
         }
     ];
 }

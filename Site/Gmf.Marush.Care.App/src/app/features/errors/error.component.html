@@ -1,0 +1,10 @@
+<div>
+    <img src="/assets/images/errors/decoration.svg" i18n-alt="@@error.decoration" alt="Lišće koje opada sa drveta u grafici" />
+    @if(systemError) {
+        <p i18n="@@error.system.description">Dragi posetioče, došlo je do sistemske greške. Administratori sajta su obavešteni o ovom problemu.</p>
+    }
+
+    @else {
+        <p i18n="@@error.not-found.description">Dragi posetioče, tražena stranica ne postoji.</p>
+    }
+</div>
