@@ -1,0 +1,6 @@
+/greška/sistemska
+/greška/stranica-nije-pronađena
+/error/system
+/error/page-not-found
+/ошибка/системная
+/ошибка/страница-не-найдена
