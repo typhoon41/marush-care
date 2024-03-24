@@ -66,8 +66,7 @@ export function app(): express.Express {
       })
       // eslint-disable-next-line xss/no-mixed-html
       .then(html => res.send(html))
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .catch(_ => {});
+      .catch(err => next(err));
   });
 
   return server;
