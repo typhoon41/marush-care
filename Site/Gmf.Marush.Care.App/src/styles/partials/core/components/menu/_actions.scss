@@ -15,7 +15,7 @@
 		letter-spacing: 1px;
 		text-transform: uppercase;
 
-		&:hover {
+		&:hover, &.active {
 			color: variables.$accent;
 		}
 

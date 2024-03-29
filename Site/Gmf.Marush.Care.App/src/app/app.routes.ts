@@ -24,6 +24,8 @@ export class RoutingDefinition {
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
+        this.lazyRoute('services', $localize`:@@routes.services:usluge`,
+            () => import('./features/services/services-page.component').then(mod => mod.ServicesPageComponent)),
         this.lazyRoute('error', this.error(),
             () => import('./features/errors/error.component').then(mod => mod.ErrorPageComponent)),
         {

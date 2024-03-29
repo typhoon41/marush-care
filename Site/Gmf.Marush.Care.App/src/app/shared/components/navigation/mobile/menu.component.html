@@ -1,6 +1,6 @@
 <nav class="menu-items center-content vertical-stack">
     <img class="decoration upper" src="/assets/images/menu/upper-decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
-    <marush-menu-items class="actions center-content vertical-stack"></marush-menu-items>
+    <marush-menu-items (hideMobileMenu)="hideMenu()" class="actions center-content vertical-stack"></marush-menu-items>
     <img class="decoration lower" src="/assets/images/menu/lower-decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
     @if(environment.name !== 'development'){
         <marush-language-selector ngskiphydration></marush-language-selector>

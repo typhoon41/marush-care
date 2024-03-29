@@ -35,7 +35,7 @@ export class MenuComponent extends BaseRoutingComponent {
   readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
     '/assets/images/logo-active.png' : '/assets/images/logo.png';
 
-  readonly toggleMobileMenu = (showMobileMenu: boolean) => {
-    this.showMobileMenu = showMobileMenu;
+  readonly hideMobileMenu = () => {
+    this.showMobileMenu = false;
   };
 }
