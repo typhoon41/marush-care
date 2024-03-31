@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { environment } from '@env';
+import marushDetails from '@shared/models/marush-details.model';
 import { BaseRoutingComponent } from '../../base-routing.component';
 
 @Component({
@@ -13,11 +13,7 @@ import { BaseRoutingComponent } from '../../base-routing.component';
 })
 export class MenuItemsComponent extends BaseRoutingComponent {
   @Output() hideMobileMenu = new EventEmitter<boolean>();
-
-  readonly priceListUrl = () => {
-    const fileName = $localize`:@@pricelist:cenovnik`;
-    return `${environment.staticContentUrl}${fileName}.pdf`;
-  };
+  marushDetails = marushDetails;
 
   readonly hideMenu = () => this.hideMobileMenu.emit();
 }

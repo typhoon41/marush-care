@@ -1,1 +1,1 @@
-export type SelectedService = 'face' | 'combination' | 'brows-lashes' | '';
+export type SelectedService = 'face' | 'combination' | 'browsLashes' | '';

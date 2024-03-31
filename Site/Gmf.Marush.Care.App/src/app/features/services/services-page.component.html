@@ -1,1 +1,5 @@
 <marush-services-type-selector [(selectedService)]="selectedService"></marush-services-type-selector>
+<marush-services-treatment-selector class="center-content vertical-stack"
+  [selectedService]="selectedService"></marush-services-treatment-selector>
+<button type="button" class="download-action" (click)="marushDetails.openPriceList()"><span
+    i18n="@@pricelist">cenovnik</span></button>

@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, ElementRef, Inject, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import Language, { ILanguage } from '@shared/models/language.model';
 import { BehaviorSubject } from 'rxjs';
-import Language, { ILanguage } from 'src/app/shared/models/language.model';
 
 @Component({
   selector: 'marush-language-selector',
