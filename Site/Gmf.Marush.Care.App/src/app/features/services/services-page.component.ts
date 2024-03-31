@@ -1,17 +1,19 @@
 /* eslint-disable @stylistic/max-len */
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { environment } from '@env';
+import { SelectedService } from './models/types.model';
+import { TypeSelectorComponent } from './type-selector/type-selector.component';
 
 @Component({
   selector: 'marush-services-page',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, TypeSelectorComponent],
   templateUrl: './services-page.component.html',
   styleUrl: './services-page.component.scss'
 })
 export class ServicesPageComponent {
-  readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
+  selectedService: SelectedService = '';
 
   constructor(private readonly meta: Meta, private readonly title: Title) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.services.description:Kozmetički salon Marush nudi usluge tretmana lica, sređivanja obrva i trepavica, kao i kombinacije tretmana. Pregled kože lica i konsultacije su besplatni.` });

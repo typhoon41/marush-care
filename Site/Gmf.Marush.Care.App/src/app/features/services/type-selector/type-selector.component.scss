@@ -84,5 +84,9 @@ $radius: 24px;
 		&.brows-lashes {
 			object-position: 0 55%;
 		}
+
+		@include breakpoints.apply-from-tablet() {
+			height: 62px;
+		}
 	}
 }
