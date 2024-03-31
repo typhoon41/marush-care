@@ -3,7 +3,7 @@
     id="language-selector">
     <div class="selected-option mobile-hidden"><span class="language-description">{{selectedLanguage.description}}</span><span
             class="language-caret">&#x2304;</span></div>
-    <ul class="options-container" [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
+    <ul class="options-container aligned-centrally stretch-equally" [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
         [ariaHidden]="(collapsed | async) === false" id="language-container" (keydown)="onOptionsKey($event)">
         @for (supportedLanguage of language.supportedLanguages; track $index) {
         <li #option class="option language-description" [attr.data-value]="supportedLanguage.value" role="option"

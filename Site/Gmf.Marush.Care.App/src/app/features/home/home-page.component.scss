@@ -3,11 +3,12 @@
 
 .main-ad-container {
 	position: relative;
+	line-height: 0;
 }
 
 @include breakpoints.apply-from-tablet() {
 	.discounts-container {
-		@include absolute.unset-position(0, 0, 6px);
+		@include absolute.unset-position(0, 0, 0);
 		width: 323px;
 	}
 }

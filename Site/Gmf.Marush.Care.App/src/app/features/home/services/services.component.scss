@@ -16,9 +16,8 @@
 }
 
 .services-title {
-	@extend %marush-caption;
+	@include headers.marush-caption(true);
 	margin-top: 40px;
-	letter-spacing: 1px;
 
 	@include breakpoints.apply-from-desktop() {
 		@include headers.marush-header();

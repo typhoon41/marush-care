@@ -5,9 +5,6 @@
 $default-gap: 15px;
 
 .discounts-placeholder {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 	background-color: variables.$accent;
 
 	.content {
@@ -31,10 +28,8 @@ $default-gap: 15px;
 	}
 
 	.description {
-		@extend %marush-caption;
+		@include headers.marush-caption(true);
 		color: variables.$body-color;
-		letter-spacing: 1px;
-		word-break: break-word;
 
 		&.active {
 			display: block;

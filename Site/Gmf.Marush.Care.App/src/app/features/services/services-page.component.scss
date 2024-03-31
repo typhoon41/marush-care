@@ -1,0 +1,69 @@
+@use 'headers';
+@use 'variables';
+@use 'breakpoints';
+
+$mobile-size: 148px;
+$placeholder-gap: 8px;
+$radius: 24px;
+
+.services-container {
+	flex-wrap: wrap;
+	align-items: baseline;
+}
+
+.service-placeholder {
+	width: $mobile-size;
+	margin: 0 $placeholder-gap 2 * $placeholder-gap $placeholder-gap;
+	line-height: 0;
+	cursor: pointer;
+
+	@include breakpoints.apply-from-tablet() {
+		$placeholder-tablet-gap: 24px;
+		width: 215px;
+		margin: 0 $placeholder-tablet-gap $placeholder-tablet-gap $placeholder-tablet-gap;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		$placeholder-desktop-gap: 30px;
+		width: 282px;
+		margin: 0 $placeholder-desktop-gap $placeholder-desktop-gap $placeholder-desktop-gap;
+	}
+
+	.image {
+		width: inherit;
+		height: auto;
+		border-radius: $radius;
+	}
+
+	.title {
+		@include headers.marush-caption(true);
+		margin: 0;
+		padding: 10px;
+		font-family: 'Overpass-Bold', sans-serif;
+		text-align: center;
+
+		@include breakpoints.apply-from-tablet() {
+			padding: 15px;
+			font-size: 18px;
+			line-height: 27px;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			@include headers.marush-header();
+			padding: 20px;
+		}
+	}
+
+	&:hover {
+		.title {
+			border-bottom-right-radius: $radius;
+			border-bottom-left-radius: $radius;
+			background-color: variables.$accent;
+		}
+
+		.image {
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+	}
+}

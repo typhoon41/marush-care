@@ -43,9 +43,7 @@ $side-gap: 15px;
 }
 
 .options-container {
-	display: flex;
 	position: relative;
-	justify-content: space-evenly;
 	transition: opacity .2s;
 	opacity: 1;
 	background-color: variables.$primary;

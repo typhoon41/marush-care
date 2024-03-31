@@ -4,10 +4,7 @@
 @use 'headers';
 
 .main-menu {
-	display: flex;
 	position: relative;
-	align-items: center;
-	justify-content: space-between;
 	height: 85px;
 	padding: 0 variables.$menu-edge-spacing;
 	background-color: variables.$primary;
