@@ -1,17 +1,17 @@
 <section class="aligned-centrally stretch-equally services-container" [ngClass]="{'active': selectedService}">
-  <div class="service-placeholder" [ngClass]="{'active': selectedService === 'face' }" (click)="selectService('face')"
+  <div class="service-placeholder clickable" [ngClass]="{'active': selectedService === 'face' }" (click)="selectService('face')"
     (keydown)="selectService('face', $event)" tabindex="0">
     <img class="image face-treatment" [src]="servicesImageFor('treatments-face')"
       i18n-alt="@@services.treatments.image-description" alt="Žena uživa u tretmanu lica" />
     <h5 class="title" i18n="@@services.treatments.title">Tretmani Lica</h5>
   </div>
-  <div class="service-placeholder" [ngClass]="{'active': selectedService === 'combination' }"
+  <div class="service-placeholder clickable" [ngClass]="{'active': selectedService === 'combination' }"
     (click)="selectService('combination')" (keydown)="selectService('combination', $event)" tabindex="0">
     <img class="image combination-treatment" [src]="servicesImageFor('treatments-combination')"
       i18n-alt="@@services.treatments-combination.image-description" alt="Kozmetički preparati za negu lica" />
     <p class="title" i18n="@@services.treatments-combination.title">Kombinacije Tretmana</p>
   </div>
-  <div class="service-placeholder" [ngClass]="{'active': selectedService === 'browsLashes' }"
+  <div class="service-placeholder clickable" [ngClass]="{'active': selectedService === 'browsLashes' }"
     (click)="selectService('browsLashes')" (keydown)="selectService('browsLashes', $event)" tabindex="0">
     <img class="image brows-lashes" [src]="servicesImageFor('brows-lashes')"
       i18n-alt="@@services.brows-lashes.image-description" alt="Obrva i trepavica žene koja žmuri" />

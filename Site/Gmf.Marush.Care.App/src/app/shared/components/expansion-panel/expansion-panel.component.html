@@ -1,0 +1,9 @@
+<div class="panel-header clickable column-12" (click)="toggle()" (keydown)="toggle($event)" tabindex="0">
+    <span class="description">{{title}}</span>
+    <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
+</div>
+@if(collapsed){
+    <div class="column-12">
+        <ng-content></ng-content>
+    </div>
+}

@@ -1,4 +1,10 @@
-<section class="aligned-centrally stretch-equally services-container">
-woohoo
+<section id="treatments-section" class="aligned-centrally vertical-stack column-12 treatments-container">
+    @for(treatment of treatments; track $index)
+    {
+        <marush-expansion-panel [title]="treatment[0]" class="column-12">
+            <article class="treatment-description column-12">{{treatment[1]}}</article>
+        </marush-expansion-panel>
+    }
 </section>
+
 <button type="button" class="main-action" (click)="marushDetails.phoneContact()"><span i18n="@@schedule">Zakaži</span></button>

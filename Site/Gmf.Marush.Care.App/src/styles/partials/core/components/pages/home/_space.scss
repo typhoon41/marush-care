@@ -2,7 +2,7 @@
 @use 'breakpoints';
 
 .space-container {
-	padding: 0 40px;
+	padding: 0 variables.$side-gaps;
 	background-color: variables.$primary;
 
 	@include breakpoints.apply-from-tablet() {

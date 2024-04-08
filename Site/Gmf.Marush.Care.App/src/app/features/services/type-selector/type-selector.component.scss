@@ -1,7 +1,6 @@
 @use 'headers';
 @use 'variables';
 @use 'breakpoints';
-@use 'focus';
 
 $mobile-size: 148px;
 $placeholder-gap: 8px;
@@ -9,15 +8,13 @@ $radius: 24px;
 
 .service-placeholder {
 	width: $mobile-size;
-	margin: 0 $placeholder-gap 2 * $placeholder-gap $placeholder-gap;
+	margin: 0 $placeholder-gap 5 * $placeholder-gap $placeholder-gap;
 	line-height: 0;
-	cursor: pointer;
-	@extend %focusable;
 
 	@include breakpoints.apply-from-tablet() {
 		$placeholder-tablet-gap: 24px;
 		width: 215px;
-		margin: 0 $placeholder-tablet-gap $placeholder-tablet-gap $placeholder-tablet-gap;
+		margin: 0 $placeholder-tablet-gap 2 * $placeholder-tablet-gap $placeholder-tablet-gap;
 	}
 
 	@include breakpoints.apply-from-desktop() {
@@ -68,6 +65,11 @@ $radius: 24px;
 .services-container {
 	flex-wrap: wrap;
 	align-items: baseline;
+	padding-top: 60px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding-top: 120px;
+	}
 
 	&.active .image {
 		height: 42px;

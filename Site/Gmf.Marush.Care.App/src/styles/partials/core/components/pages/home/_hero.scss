@@ -1,7 +1,8 @@
 @use 'breakpoints';
+@use 'variables';
 
 .hero-container {
-	padding: 0 40px;
+	padding: 0 variables.$side-gaps;
 	text-align: center;
 
 	.main-action {

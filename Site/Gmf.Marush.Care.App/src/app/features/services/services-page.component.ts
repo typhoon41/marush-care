@@ -15,7 +15,7 @@ import { TypeSelectorComponent } from './type-selector/type-selector.component';
   styleUrl: './services-page.component.scss'
 })
 export class ServicesPageComponent {
-  @HostBinding('class') classAttribute: string = 'center-content vertical-stack';
+  @HostBinding('class') classAttribute: string = 'row center-content vertical-stack';
   selectedService: SelectedService = '';
   marushDetails = marushDetails;
 
