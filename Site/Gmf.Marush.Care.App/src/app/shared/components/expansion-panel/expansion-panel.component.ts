@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'marush-expansion-panel',
@@ -11,11 +11,14 @@ import { Component, HostBinding, Input } from '@angular/core';
 export class ExpansionPanelComponent {
   @HostBinding('class') classAttribute: string = 'row';
   @Input() title: string = '';
+  @Input() index: number = -1;
+  @Output() collapsedEvent = new EventEmitter<number>();
   collapsed = false;
 
   readonly toggle = (event: KeyboardEvent | null = null) => {
     if (!event || event.key === 'Enter' || event.key === ' ') {
       this.collapsed = !this.collapsed;
+      this.collapsedEvent.emit(this.index);
     }
   };
 }

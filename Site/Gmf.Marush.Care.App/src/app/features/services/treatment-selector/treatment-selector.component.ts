@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import marushDetails from '@shared/models/marush-details.model';
 import supportedTreatments from '../models/supported-treatments.model';
@@ -14,6 +14,7 @@ import { SelectedService } from '../models/types.model';
 })
 export class TreatmentSelectorComponent implements OnChanges {
   @Input() selectedService: SelectedService = '';
+  @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   marushDetails = marushDetails;
   treatments: [string, string][] = [];
 
@@ -26,6 +27,11 @@ export class TreatmentSelectorComponent implements OnChanges {
     }
   }
 
+  readonly collapseOpenedPanel = (indexToSkip: number) => {
+    this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
+      panel.collapsed = false; });
+  };
+
   private readonly handleSelectedService = (selectedService: SelectedService) => {
     if (selectedService === '') {
       this.treatments = [];
@@ -33,6 +39,6 @@ export class TreatmentSelectorComponent implements OnChanges {
     }
 
     this.treatments = Object.entries(supportedTreatments[selectedService]);
-    document.getElementById('treatments-section')?.scrollIntoView();
+    document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
   };
 }
