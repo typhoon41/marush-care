@@ -9,15 +9,14 @@
 	@extend %marush-header;
 
 	.description {
+		display: inline-block;
 		padding-right: 25px;
 		padding-left: 10px;
 	}
 
 	.caret {
 		display: inline-block;
-		@include absolute.unset-position(0, 5px);
-		bottom: unset;
-		left: unset;
+		@include absolute.unset-position(unset, 5px, 0);
 		margin-left: 5px;
 		transform: scaleX(1.5);
 	}
