@@ -12,9 +12,10 @@ import { Subscription, interval } from 'rxjs';
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
     // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.1:<p><strong>22.3. - 3.4.</strong></p><p>Mikro dermoabr. + unos vitam.C dermapen.<br/><s>9500</s> 7500</p>`,
-    $localize`:@@discounts.2:<p><strong>22.3. - 3.4.</strong></p><p>Skeyndor tretman vitamin C<br/><s>5500</s> 4700</p>`,
-    $localize`:@@discounts.3:<p><strong>22.3. - 3.4.</strong></p><p>Hijalur. pen<br/><s>5000</s> 4000</p>`
+    $localize`:@@discounts.1:<p><strong>8.4. - 30.4.</strong></p><p>Higij. tretman pola leđa<br/><s>4500</s> 4000</p>`,
+    $localize`:@@discounts.2:<p><strong>8.4. - 30.4.</strong></p><p>Higij. tretman cela leđa<br/><s>6000</s> 5000</p>`,
+    $localize`:@@discounts.3:<p><strong>8.4. - 30.4.</strong></p><p>Anti celulit masaža<br/><s>3000</s> 2500</p>`,
+    $localize`:@@discounts.4:<p><strong>8.4. - 30.4.</strong></p><p>Vacuslim 48<br/><s>2500</s> 2000</p>`
   ];
 
   currentDiscountPosition = 0;

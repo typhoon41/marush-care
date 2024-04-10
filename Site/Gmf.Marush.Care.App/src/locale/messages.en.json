@@ -2,9 +2,10 @@
   "locale": "en",
   "translations": {
     "address": "ADDRESS",
-    "discounts.1": "<p><strong>22/03 - 03/04</strong></p><p>Micro dermoabr. + inject. vitam.C dermapen.<br/><s>9500</s> 7500</p>",
-    "discounts.2": "<p><strong>22/03 - 03/04</strong></p><p>Skeyndor treat. vitamin C<br/><s>5500</s> 4700</p>",
-    "discounts.3": "<p><strong>22/03 - 03/04</strong></p><p>Hyalur. pen<br/><s>5000</s> 4000</p>",
+    "discounts.1": "<p><strong>08/04 - 30/04</strong></p><p>Upper back hygiene treat.<br/><s>4500</s> 4000</p>",
+    "discounts.2": "<p><strong>08/04 - 30/04</strong></p><p>Whole back hygiene treat.<br/><s>6000</s> 5000</p>",
+    "discounts.3": "<p><strong>08/04 - 30/04</strong></p><p>Anti cellul. massage<br/><s>3000</s> 2500</p>",
+    "discounts.4": "<p><strong>08/04 - 30/04</strong></p><p>Vacuslim 48<br/><s>2500</s> 2000</p>",
     "email": "EMAIL",
     "error.decoration": "Falling leaves graphic vector",
     "error.not-found.description": "Dear visitor, the given page does not exist.",
