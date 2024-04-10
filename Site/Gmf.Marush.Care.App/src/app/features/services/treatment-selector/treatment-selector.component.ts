@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } f
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import marushDetails from '@shared/models/marush-details.model';
 import supportedTreatments from '../models/supported-treatments.model';
-import { SelectedService } from '../models/types.model';
+import { IDefineTreatment, SelectedService } from '../models/types.model';
 
 @Component({
   selector: 'marush-services-treatment-selector',
@@ -16,7 +16,7 @@ export class TreatmentSelectorComponent implements OnChanges {
   @Input() selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   marushDetails = marushDetails;
-  treatments: [string, string][] = [];
+  treatments: IDefineTreatment[] = [];
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnChanges(changes: SimpleChanges) {
@@ -38,7 +38,7 @@ export class TreatmentSelectorComponent implements OnChanges {
       return;
     }
 
-    this.treatments = Object.entries(supportedTreatments[selectedService]);
+    this.treatments = supportedTreatments[selectedService];
     document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
   };
 }

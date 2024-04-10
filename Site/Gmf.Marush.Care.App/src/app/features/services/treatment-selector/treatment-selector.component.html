@@ -1,10 +1,10 @@
 @if(treatments.length)
 {
 <section class="aligned-centrally vertical-stack column-12 treatments-container">
-    @for(treatment of treatments; track treatment[0])
+    @for(treatment of treatments; track treatment.title)
     {
-    <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="treatment[0]" [index]="$index" class="column-12">
-        <article class="treatment-description column-12">{{treatment[1]}}</article>
+    <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="treatment.title" [index]="$index" class="column-12">
+        <article class="treatment-description column-12" [innerHTML]="treatment.description"></article>
     </marush-expansion-panel>
     }
 </section>
