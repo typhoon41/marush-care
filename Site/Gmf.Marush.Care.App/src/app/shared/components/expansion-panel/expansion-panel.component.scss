@@ -1,0 +1,23 @@
+@use 'headers';
+@use 'variables';
+@use 'scss-solutions/src/modules/position/absolute';
+
+.panel-header {
+	position: relative;
+	margin-top: 30px;
+	border-bottom: solid 2px variables.$accent;
+	@extend %marush-header;
+
+	.description {
+		display: inline-block;
+		padding-right: 25px;
+		padding-left: 10px;
+	}
+
+	.caret {
+		display: inline-block;
+		@include absolute.unset-position(unset, 5px, 0);
+		margin-left: 5px;
+		transform: scaleX(1.5);
+	}
+}

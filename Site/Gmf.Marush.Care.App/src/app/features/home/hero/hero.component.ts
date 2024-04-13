@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import marushDetails from '@shared/models/marush-details.model';
 
 @Component({
     selector: 'marush-home-hero',
@@ -7,7 +8,5 @@ import { Component } from '@angular/core';
     styleUrl: './hero.component.scss'
   })
   export class HomeHeroComponent {
-    readonly contact = () => {
-      window.open('tel:+381605229593', '_self');
-    };
+    marushDetails = marushDetails;
   }

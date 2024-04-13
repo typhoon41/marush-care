@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'marush-hamburger-button',
@@ -9,9 +9,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     styleUrl: './button.component.scss'
 })
 export class HamburgerButtonComponent implements OnInit {
-    @Output() collapsedEvent = new EventEmitter<boolean>();
+    @Input() collapsed: boolean = false;
+    @Output() collapsedChange = new EventEmitter<boolean>();
 
-    collapsed = false;
 
     // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     ngOnInit(): void {
@@ -23,5 +23,5 @@ export class HamburgerButtonComponent implements OnInit {
         this.emitEvent();
     };
 
-    private readonly emitEvent = () => this.collapsedEvent.emit(this.collapsed);
+    private readonly emitEvent = () => this.collapsedChange.emit(this.collapsed);
 }

@@ -7,15 +7,13 @@
 	background-color: variables.$primary;
 
 	.action {
-		@extend %marush-caption;
+		@include headers.marush-caption(true);
 		margin-right: auto;
 		margin-left: auto;
 		padding: 10px 15px;
 		font-family: 'Overpass-Bold', sans-serif;
-		letter-spacing: 1px;
-		text-transform: uppercase;
 
-		&:hover {
+		&:hover, &.active {
 			color: variables.$accent;
 		}
 

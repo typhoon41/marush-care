@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
-import { SizeService } from 'src/app/shared/services/size.service';
+import { SizeService } from '@shared/services/size.service';
 import { BaseRoutingComponent } from '../base-routing.component';
 import { HamburgerButtonComponent } from '../hamburger/button.component';
 import { LanguageSelectorComponent } from '../language/selector.component';
@@ -35,7 +35,7 @@ export class MenuComponent extends BaseRoutingComponent {
   readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
     '/assets/images/logo-active.png' : '/assets/images/logo.png';
 
-  readonly toggleMobileMenu = (showMobileMenu: boolean) => {
-    this.showMobileMenu = showMobileMenu;
+  readonly hideMobileMenu = () => {
+    this.showMobileMenu = false;
   };
 }

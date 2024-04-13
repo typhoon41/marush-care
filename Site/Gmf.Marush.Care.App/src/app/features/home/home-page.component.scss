@@ -1,13 +1,22 @@
 @use 'breakpoints';
 @use 'scss-solutions/src/modules/position/absolute';
 
+.services-container {
+	padding: 40px 30px;
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 45px 150px;
+	}
+}
+
 .main-ad-container {
 	position: relative;
+	line-height: 0;
 }
 
 @include breakpoints.apply-from-tablet() {
 	.discounts-container {
-		@include absolute.unset-position(0, 0, 6px);
+		@include absolute.unset-position(0, 0, 0);
 		width: 323px;
 	}
 }

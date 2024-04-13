@@ -43,8 +43,10 @@
               "HostBinding",
               "Inject",
               "Injectable",
+              "Input",
               "NgModule",
               "Output",
+              "Subjectize",
               "ViewChild",
               "ViewChildren"
             ]

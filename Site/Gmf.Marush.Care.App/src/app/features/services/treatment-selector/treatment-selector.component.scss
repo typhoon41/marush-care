@@ -1,0 +1,16 @@
+@use 'headers';
+@use 'variables';
+
+$radius: 12px;
+
+.treatment-description {
+	padding: 20px;
+	border-bottom-right-radius: $radius;
+	border-bottom-left-radius: $radius;
+	background-color: variables.$primary;
+	@extend %marush-caption;
+}
+
+.main-action {
+	margin-top: 70px;
+}

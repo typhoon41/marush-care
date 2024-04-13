@@ -1,0 +1,14 @@
+@if(treatments.length)
+{
+<section class="aligned-centrally vertical-stack column-12 treatments-container">
+    @for(treatment of treatments; track treatment.title)
+    {
+    <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="treatment.title" [index]="$index" class="column-12">
+        <article class="treatment-description column-12" [innerHTML]="treatment.description"></article>
+    </marush-expansion-panel>
+    }
+</section>
+}
+<button id="schedule-action" type="button" class="main-action" (click)="marushDetails.phoneContact()">
+    <span i18n="@@schedule">Zakaži</span>
+</button>
