@@ -45,6 +45,22 @@ const supportedTreatments = {
     {
         title: $localize`:@@treatments.face.ultrasonic:Ultrazvučno čišćenje kože`,
         description: $localize`:@@treatments.face.ultrasonic.description:Tretman čišćenja kože ultrazvučnom špatulom namenjen je koži bez vidljivih problema na licu kao što su npr. akne ili duboki mitiseri.<br><br>Špatula nežno čisti lice zahvaljujući ultrazvučnim talasima koje emituje te uklanja sebum, sitne mitisere i izumrle ćelije kože. Lako se kombinuje sa drugim tretmanima.`
+    },
+    {
+        title: $localize`:@@treatments.face.radio-lifting:Radiotalasni lifting`,
+        description: $localize`:@@treatments.face.radio-lifting.description:Radiotalasni lifting je veoma efikasan nehirurški tretman zatezanja opuštene kože i redukovanja bora. Metodom radiotalasa zagreva se srednji sloj kože u kojem se nalaze kolagen i elastin. Ova stimulacija podstiče kožu da pokrene proces obnavljanja elastičnih vlakana, a rezultat je jedrija, zategnutija i čvršća koža.<br><br>Tretman se može izvoditi i na licu i na telu. Uvek se sprovodi u serijama gde jednu seriju čine četiri tretmana koja se izvode na svakih pet do sedam dana.`
+    },
+    {
+        title: $localize`:@@treatments.face.vitamin:Vitaminski tretman`,
+        description: $localize`:@@treatments.face.vitamin.description:Vitaminski tretman je biološka procedura nege kože koja ima za cilj da hrani kožu esencijalnim vitaminima. Preporučuje se za kožu kojoj je neophodno "buđenje", odnosno kožu koja je suva, dehidrirana koža koja pokazuje znake oksidativnog stresa.`
+    },
+    {
+        title: $localize`:@@treatments.face.microdermabrasion:Mikrodermoabrazija`,
+        description: $localize`:@@treatments.face.microdermabrasion.description:Mikrodermoabrazija je aparaturna metoda tretmana kojom se koža polira, odnosno kojom se skida orožali sloj kože.<br><br>Postupak koristi uređaj opremljen sondom koja pri svom vrhu ima glavu sa dijamantskim mikročesticama koje nežno ljušte površinu kože mehanički, uklanjajući mrtve ćelije. Istovremeno, funkcija vakuuma izvlači nečistoće sa lica, a ujedno stimuliše mikrocirkulaciju kože i podstiče limfnu drenažu.<br><br>Koža je meka, baršunasta i vidno svetlija sa glatkim, čistijim i blistavim izgledom. Najčešće se koristi u kombinaciji sa drugim tretmanima kako bi se poboljšali ukupni rezulati.`
+    },
+    {
+        title: $localize`:@@treatments.face.hyaluron-pen:Hijaluron pen`,
+        description: $localize`:@@treatments.face.hyaluron-pen.description:Hijaluron pen je tretman za bezbolno popunjavanje bora ili povećanje usana hijaluronom. Za ovaj tretman ne koriste se nikakve igle i nema potrebnog perioda oporavka kože.<br><br>Inovacija iza hijaluron pena leži u njenoj sposobnosti da isporuči hijaluronsku kiselinu pod visokim pritiskom, stvarajući mikrokanale u koži kroz koje hijaluron prodire.`
     }],
     combination: [],
     browsLashes: []
