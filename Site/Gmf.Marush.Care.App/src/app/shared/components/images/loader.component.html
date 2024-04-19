@@ -3,4 +3,4 @@
     <img class="loader" i18n-alt="@@loading" alt="Učitavanje..." src="/assets/images/loader-small.gif" />
 }
 
-<img [class]="givenClass" [ngClass]="{'hidden': isLoading}" [alt]="description" [src]="url" (load)="hideLoader()" (error)="hideLoader()"/>
+<img class="image" [class]="givenClass" [ngClass]="{'visible': !isLoading}" [alt]="description" [src]="url" (load)="hideLoader()" (error)="hideLoader()"/>
