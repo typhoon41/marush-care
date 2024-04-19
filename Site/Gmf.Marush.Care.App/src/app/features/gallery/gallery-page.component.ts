@@ -21,6 +21,7 @@ export class GalleryPageComponent implements OnInit {
   private readonly pageSize = 9;
   private readonly imagesLocation = '/images/gallery/';
   private readonly previewsLocation = `${this.imagesLocation}previews/`;
+  readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
   constructor(private readonly meta: Meta, private readonly title: Title,
     @Inject(PLATFORM_ID) private readonly platformId: object,
