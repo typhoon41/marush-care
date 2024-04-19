@@ -16,7 +16,11 @@ export default class Language {
     { description: 'RUS', value: 'ru' }];
 
     readonly setup = () => {
-        const urlLanguage = this.urlLanguage();
+        let urlLanguage = this.urlLanguage();
+        if (this.supportedLanguages.every(language => language.value !== urlLanguage)) {
+            urlLanguage = this.default.value;
+        }
+
         if (this.storedLanguage() !== urlLanguage) {
             this.save(urlLanguage);
         }

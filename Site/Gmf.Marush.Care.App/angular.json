@@ -109,7 +109,8 @@
               "buildTarget": "marush:build:production"
             },
             "development": {
-              "buildTarget": "marush:build:development"
+              "buildTarget": "marush:build:development",
+              "proxyConfig": "src/proxy.config.json"
             },
             "sr": {
               "buildTarget": "marush:build:development,sr"

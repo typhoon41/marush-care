@@ -1,0 +1,6 @@
+@if(isLoading)
+{
+    <img class="loader" alt="loading..." src="/assets/images/loader-small.gif" />
+}
+
+<img [class]="givenClass" [ngClass]="{'hidden': isLoading}" [alt]="description" [src]="url" (load)="hideLoader()" (error)="hideLoader()"/>
