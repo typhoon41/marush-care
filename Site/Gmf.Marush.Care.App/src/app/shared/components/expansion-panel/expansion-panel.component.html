@@ -2,8 +2,7 @@
     <span class="description">{{title}}</span>
     <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
 </div>
-@if(collapsed){
-    <div class="column-12">
-        <ng-content></ng-content>
-    </div>
-}
+
+<div class="hidden column-12" [ngClass]="{'animate-fading-in': collapsed}">
+    <ng-content></ng-content>
+</div>
