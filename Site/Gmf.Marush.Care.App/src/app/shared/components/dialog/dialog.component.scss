@@ -1,0 +1,31 @@
+@use 'variables';
+@use 'sass:color';
+@use 'breakpoints';
+
+dialog {
+	box-sizing: border-box;
+	width: calc(100% - 40px);
+	height: calc(100% - 40px);
+	padding: 0;
+	border: 1px solid variables.$font-color;
+
+	@include breakpoints.apply-from-tablet() {
+		width: calc(100% - 100px);
+		height: calc(100% - 100px);
+	}
+
+	&::backdrop {
+		background-color: color.adjust(variables.$primary, $alpha: -.1);
+	}
+
+	/* stylelint-disable-next-line selector-max-attribute,selector-no-qualifying-type */
+	&[open] {
+		/* stylelint-disable-next-line no-unknown-animations */
+		animation: fade .5s;
+	}
+}
+
+.dialog-body {
+	width: 100%;
+	height: 100%;
+}

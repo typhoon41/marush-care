@@ -1,0 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events -->
+<dialog #dialog (click)="close()">
+    <header class="dialog-header" (click)="onDialogClick($event)">
+        <h2>{{title}}</h2>
+        <button class="line-button crossed" (click)="close()" (keydown)="close($event)">
+            <div class="line-placeholder">
+                <span class="first line"></span>
+                <span class="last line"></span>
+            </div>
+        </button>
+    </header>
+    <div class="dialog-body" (click)="onDialogClick($event)">
+    </div>
+    <div class="dialog-footer" (click)="onDialogClick($event)">
+    </div>
+</dialog>

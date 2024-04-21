@@ -1,19 +1,21 @@
 /* eslint-disable @stylistic/max-len */
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, HostBinding, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
 
 @Component({
   selector: 'marush-gallery-page',
   standalone: true,
-  imports: [ImageLoaderComponent],
+  imports: [ImageLoaderComponent, DialogComponent],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss'
 })
 export class GalleryPageComponent implements OnInit {
   @HostBinding('class') classAttribute: string = 'gallery';
+  @ViewChild(DialogComponent) detailsDialog!: DialogComponent;
 
   imageCount = 0;
   fetchedCount = 0;
@@ -57,5 +59,9 @@ export class GalleryPageComponent implements OnInit {
     [...Array(this.imageCount + 1).keys()]
       .filter(counter => counter <= this.fetchedCount && counter >= lastFetchCount + 1)
       .forEach(imageCounter => this.imageUrls.push(`${this.previewsLocation + imageCounter}.jpg`));
+  };
+
+  readonly openFullImage = () => {
+    this.detailsDialog.open();
   };
 }

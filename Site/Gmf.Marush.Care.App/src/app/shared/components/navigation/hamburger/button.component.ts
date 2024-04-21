@@ -18,9 +18,12 @@ export class HamburgerButtonComponent implements OnInit {
         this.emitEvent();
     }
 
-    readonly toggle = () => {
-        this.collapsed = !this.collapsed;
-        this.emitEvent();
+    readonly toggle = (event: KeyboardEvent | null = null) => {
+        if (!event || event.key === 'Enter' || event.key === ' ') {
+            event?.preventDefault();
+            this.collapsed = !this.collapsed;
+            this.emitEvent();
+        }
     };
 
     private readonly emitEvent = () => this.collapsedChange.emit(this.collapsed);

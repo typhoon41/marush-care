@@ -1,7 +1,8 @@
 <section class="previews-container">
     @for(imageUrl of imageUrls; track imageUrl)
     {
-        <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions" [url]="imageUrl" [givenClass]="'preview-image clickable'"  />
+        <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
+            [url]="imageUrl" [givenClass]="'preview-image clickable'" (click)="openFullImage()" />
     }
 </section>
 
@@ -11,3 +12,5 @@
         <span i18n="@@gallery.load-more">Učitaj još slika</span>
     </button>
 }
+
+<marush-dialog></marush-dialog>
