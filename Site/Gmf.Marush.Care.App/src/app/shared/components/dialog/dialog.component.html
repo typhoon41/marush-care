@@ -3,13 +3,13 @@
     <header class="dialog-header" (click)="onDialogClick($event)">
         <h2>{{title}}</h2>
         <button class="line-button crossed" (click)="close()" (keydown)="close($event)">
-            <div class="line-placeholder">
+            <div class="line-placeholder stretch">
                 <span class="first line"></span>
                 <span class="last line"></span>
             </div>
         </button>
     </header>
-    <div class="dialog-body" (click)="onDialogClick($event)">
+    <div class="dialog-body stretch" (click)="onDialogClick($event)">
     </div>
     <div class="dialog-footer" (click)="onDialogClick($event)">
     </div>

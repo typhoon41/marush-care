@@ -7,7 +7,7 @@
         [ariaHidden]="(collapsed | async) === false" id="language-container" (keydown)="onOptionsKey($event)">
         @for (supportedLanguage of language.supportedLanguages; track $index) {
         <li #option class="option clickable language-description" [attr.data-value]="supportedLanguage.value" role="option"
-            aria-selected="false" [ariaSelected]="selectedLanguage.value === supportedLanguage.value" tabindex="-1"
+            aria-selected="false" [ariaSelected]="selectedLanguage.value === supportedLanguage.value" [tabindex]="collapsed ? 0 : -1"
             (click)="select(supportedLanguage)" (keydown)="onOptionKey(supportedLanguage, $event, $index)"
             (blur)="onBlur($event)">{{supportedLanguage.description}}</li>
         }

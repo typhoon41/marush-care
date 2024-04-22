@@ -20,5 +20,5 @@
 </nav>
 
 @if(isMobile) {
-<marush-mobile-menu (hideMobileMenu)="hideMobileMenu()" class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
+<marush-mobile-menu [collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
 }

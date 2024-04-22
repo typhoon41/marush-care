@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { LanguageSelectorComponent } from '../language/selector.component';
@@ -14,6 +14,7 @@ import { MenuItemsComponent } from '../menu/items/menu-items.component';
 })
 export class MobileMenuComponent {
   @Output() hideMobileMenu = new EventEmitter<boolean>();
+  @Input() collapsed = true;
   environment = environment;
 
   readonly hideMenu = () => this.hideMobileMenu.emit();

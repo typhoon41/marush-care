@@ -2,7 +2,7 @@
     @for(imageUrl of imageUrls; track imageUrl)
     {
         <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
-            [url]="imageUrl" [givenClass]="'preview-image clickable'" (click)="openFullImage()" />
+            [url]="imageUrl" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage()" />
     }
 </section>
 

@@ -9,7 +9,7 @@ import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/c
     styleUrl: './dialog.component.scss'
 })
 export class DialogComponent {
-    @HostBinding('class') classAttribute: string = 'marush-dialog';
+    @HostBinding('class') classAttribute: string = 'marush-dialog stretch';
     @ViewChild('dialog') dialog: ElementRef | undefined;
     @Input() title: string = '';
 
