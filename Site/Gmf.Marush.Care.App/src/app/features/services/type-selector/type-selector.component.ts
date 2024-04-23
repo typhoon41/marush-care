@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '@env';
+import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import { SelectedService } from '../models/types.model';
 
 @Component({
@@ -15,8 +16,8 @@ export class TypeSelectorComponent {
   @Input() selectedService: SelectedService = '';
   @Output() selectedServiceChange = new EventEmitter<SelectedService>();
 
-  readonly selectService = (service: SelectedService, event: KeyboardEvent | null = null) => {
-    if (!event || event.key === 'Enter' || event.key === ' ') {
+  readonly selectService = (service: SelectedService, event?: OptionalKeyboardEvent) => {
+    if (isAction(event)) {
       this.setSelectedService(service);
     }
   };

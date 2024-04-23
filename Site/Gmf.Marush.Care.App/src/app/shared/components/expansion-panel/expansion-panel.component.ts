@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
   selector: 'marush-expansion-panel',
@@ -15,8 +16,8 @@ export class ExpansionPanelComponent {
   @Output() collapsedEvent = new EventEmitter<number>();
   collapsed = false;
 
-  readonly toggle = (event: KeyboardEvent | null = null) => {
-    if (!event || event.key === 'Enter' || event.key === ' ') {
+  readonly toggle = (event?: OptionalKeyboardEvent) => {
+    if (isAction(event)) {
       this.collapsed = !this.collapsed;
       this.collapsedEvent.emit(this.index);
     }

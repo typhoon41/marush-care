@@ -2,7 +2,7 @@
     @for(imageUrl of imageUrls; track imageUrl)
     {
         <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
-            [url]="imageUrl" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage()" />
+            [url]="imageUrl" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage(imageUrl)" />
     }
 </section>
 
@@ -13,4 +13,7 @@
     </button>
 }
 
-<marush-dialog></marush-dialog>
+<marush-dialog [title]="getImageName()">
+    <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body" [url]="selectedImage" [givenClass]="'full-size-image'" />
+    <span slot="actions">This is a demo.</span>
+</marush-dialog>

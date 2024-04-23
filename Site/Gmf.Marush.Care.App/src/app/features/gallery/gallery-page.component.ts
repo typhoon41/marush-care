@@ -20,9 +20,10 @@ export class GalleryPageComponent implements OnInit {
   imageCount = 0;
   fetchedCount = 0;
   imageUrls: string[] = [];
+  selectedImage = '';
   private readonly pageSize = 9;
-  private readonly imagesLocation = '/images/gallery/';
-  private readonly previewsLocation = `${this.imagesLocation}previews/`;
+  private readonly previewsSuffix = 'previews/';
+  private readonly previewsLocation = `/images/gallery/${this.previewsSuffix}`;
   readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
   constructor(private readonly meta: Meta, private readonly title: Title,
@@ -61,7 +62,10 @@ export class GalleryPageComponent implements OnInit {
       .forEach(imageCounter => this.imageUrls.push(`${this.previewsLocation + imageCounter}.jpg`));
   };
 
-  readonly openFullImage = () => {
+  readonly openFullImage = (imageUrl: string) => {
+    this.selectedImage = imageUrl.replace(this.previewsSuffix, '');
     this.detailsDialog.open();
   };
+
+  readonly getImageName = () => this.selectedImage.split('/').pop();
 }
