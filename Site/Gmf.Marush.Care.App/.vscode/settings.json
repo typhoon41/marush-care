@@ -29,6 +29,8 @@
     },
     "workbench.iconTheme": "file-icons",
     "workbench.editor.enablePreview": false,
+    "workbench.editor.wrapTabs": true,
+    "workbench.editor.tabSizing": "fit",
     "git.openRepositoryInParentFolders": "never",
     "cSpell.words": [
         "marush"

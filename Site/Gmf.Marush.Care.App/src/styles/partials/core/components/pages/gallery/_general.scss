@@ -1,3 +1,5 @@
+@use 'variables';
+
 $side-gap: 15px;
 $front-gap: 40px;
 
@@ -28,8 +30,30 @@ $front-gap: 40px;
 		margin-left: $side-gap;
 	}
 
-	.full-size-image {
+	.dialog-footer {
+		.close-action {
+			margin: 0 30px;
+		}
+
+		.slide-action {
+			width: 60px;
+			height: 60px;
+			border-radius: 12px;
+			background-color: variables.$accent;
+		}
+
+		.arrow-icon {
+			margin: 0 auto;
+		}
+	}
+
+	.portrait {
 		width: auto;
 		height: 100%;
+	}
+
+	.landscape {
+		width: 100%;
+		height: auto;
 	}
 }

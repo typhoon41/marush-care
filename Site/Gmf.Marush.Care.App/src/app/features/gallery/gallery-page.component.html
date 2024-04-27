@@ -1,19 +1,22 @@
 <section class="previews-container">
-    @for(imageUrl of imageUrls; track imageUrl)
+    @for(image of fetchedImages; track image.name)
     {
-        <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
-            [url]="imageUrl" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage(imageUrl)" />
+    <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
+        [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage(image)" />
     }
 </section>
 
 @if(fetchedCount !== imageCount)
 {
-    <button type="button" class="main-action" (click)="loadMoreImages()">
-        <span i18n="@@gallery.load-more">Učitaj još slika</span>
-    </button>
+<button type="button" class="main-action" (click)="loadMoreImages()">
+    <span i18n="@@gallery.load-more">Učitaj još slika</span>
+</button>
 }
 
-<marush-dialog [title]="getImageName()">
-    <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body" [url]="selectedImage" [givenClass]="'full-size-image'" />
-    <span slot="actions">This is a demo.</span>
+<marush-dialog>
+    <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
+        [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
+    <button type="button" slot="actions" class="slide-action main-action"><span class="arrow-icon left"></span></button>
+    <button type="button" slot="actions" class="close-action"><span>Zatvori (prevedi me)</span></button>
+    <button type="button" slot="actions" class="slide-action main-action"><span class="arrow-icon right"></span></button>
 </marush-dialog>

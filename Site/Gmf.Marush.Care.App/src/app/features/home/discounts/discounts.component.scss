@@ -41,30 +41,9 @@ $default-gap: 15px;
 		}
 	}
 
-	.toggle-action {
-		width: 15px;
-		height: 30px;
-		margin: 0 $default-gap;
-		padding: 0;
-		border-radius: 0;
-		background-color: transparent;
-
-		&:active span {
+	.slide-action:active {
+		&.arrow-left, .arrow-right {
 			color: variables.$primary;
-		}
-
-		.arrow-icon {
-			display: block;
-			width: 12px;
-			height: 21px;
-
-			&.left {
-				background-image: url('/assets/images/home/arrow-left.svg');
-			}
-
-			&.right {
-				background-image: url('/assets/images/home/arrow-right.svg');
-			}
 		}
 	}
 
@@ -96,7 +75,7 @@ $default-gap: 15px;
 			height: 30%;
 		}
 
-		.toggle-action {
+		.slide-action {
 			margin: 0 3 * $default-gap;
 		}
 	}

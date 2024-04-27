@@ -5,6 +5,7 @@ import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, ViewChild } from '
 import { Meta, Title } from '@angular/platform-browser';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
+import { GalleryImage, GalleryMetadata } from './models/gallery.model';
 
 @Component({
   selector: 'marush-gallery-page',
@@ -19,11 +20,10 @@ export class GalleryPageComponent implements OnInit {
 
   imageCount = 0;
   fetchedCount = 0;
-  imageUrls: string[] = [];
-  selectedImage = '';
+  images: GalleryImage[] = [];
+  fetchedImages: GalleryImage[] = [];
+  selectedImage: GalleryImage | undefined;
   private readonly pageSize = 9;
-  private readonly previewsSuffix = 'previews/';
-  private readonly previewsLocation = `/images/gallery/${this.previewsSuffix}`;
   readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
   constructor(private readonly meta: Meta, private readonly title: Title,
@@ -42,9 +42,10 @@ export class GalleryPageComponent implements OnInit {
   }
 
   readonly loadImages = () => {
-    this.http.get<{ imageCount: number }>(`${this.previewsLocation}metadata.json`)
+    this.http.get<{ images: GalleryImage[] }>(GalleryMetadata.filePath)
       .subscribe(data => {
-        this.imageCount = data.imageCount;
+        this.images = new GalleryMetadata(data.images).allImages;
+        this.imageCount = data.images.length;
         this.loadMoreImages();
       });
   };
@@ -59,13 +60,12 @@ export class GalleryPageComponent implements OnInit {
 
     [...Array(this.imageCount + 1).keys()]
       .filter(counter => counter <= this.fetchedCount && counter >= lastFetchCount + 1)
-      .forEach(imageCounter => this.imageUrls.push(`${this.previewsLocation + imageCounter}.jpg`));
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .forEach(imageCounter => this.fetchedImages.push(this.images.find(image => image.name === `${imageCounter}.jpg`)!));
   };
 
-  readonly openFullImage = (imageUrl: string) => {
-    this.selectedImage = imageUrl.replace(this.previewsSuffix, '');
+  readonly openFullImage = (image: GalleryImage) => {
+    this.selectedImage = image;
     this.detailsDialog.open();
   };
-
-  readonly getImageName = () => this.selectedImage.split('/').pop();
 }

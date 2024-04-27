@@ -12,7 +12,7 @@
     <div class="dialog-body" (click)="onDialogClick($event)">
         <ng-content select="[slot=body]"></ng-content>
     </div>
-    <div class="dialog-footer" (click)="onDialogClick($event)">
+    <footer class="dialog-footer center-content" (click)="onDialogClick($event)">
         <ng-content select="[slot=actions]"></ng-content>
-    </div>
+    </footer>
 </dialog>

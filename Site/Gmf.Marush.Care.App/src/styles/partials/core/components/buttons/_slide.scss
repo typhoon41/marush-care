@@ -1,0 +1,26 @@
+.slide-action {
+	width: 15px;
+	height: 30px;
+	margin: 0 15px;
+	padding: 0;
+	border-radius: 0;
+	background-color: transparent;
+
+	&:active {
+		background-color: transparent;
+	}
+
+	.arrow-icon {
+		display: block;
+		width: 12px;
+		height: 21px;
+
+		&.left {
+			background-image: url('/assets/images/home/arrow-left.svg');
+		}
+
+		&.right {
+			background-image: url('/assets/images/home/arrow-right.svg');
+		}
+	}
+}

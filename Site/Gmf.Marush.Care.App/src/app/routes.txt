@@ -1,3 +1,9 @@
+/usluge
+/services
+/услуги
+/galerija
+/gallery
+/галерея
 /greška/sistemska
 /greška/stranica-nije-pronađena
 /error/system
