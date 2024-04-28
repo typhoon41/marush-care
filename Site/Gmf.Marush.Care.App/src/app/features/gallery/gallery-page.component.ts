@@ -5,6 +5,7 @@ import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, ViewChild } from '
 import { Meta, Title } from '@angular/platform-browser';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
+import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import { GalleryImage, GalleryMetadata } from './models/gallery.model';
 
 @Component({
@@ -17,12 +18,12 @@ import { GalleryImage, GalleryMetadata } from './models/gallery.model';
 export class GalleryPageComponent implements OnInit {
   @HostBinding('class') classAttribute: string = 'gallery';
   @ViewChild(DialogComponent) detailsDialog!: DialogComponent;
-
   imageCount = 0;
   fetchedCount = 0;
   images: GalleryImage[] = [];
   fetchedImages: GalleryImage[] = [];
   selectedImage: GalleryImage | undefined;
+  selectedImageIndex: number | undefined;
   private readonly pageSize = 9;
   readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
@@ -42,8 +43,7 @@ export class GalleryPageComponent implements OnInit {
   }
 
   readonly loadImages = () => {
-    this.http.get<{ images: GalleryImage[] }>(GalleryMetadata.filePath)
-      .subscribe(data => {
+    this.http.get<{ images: GalleryImage[] }>(GalleryMetadata.filePath).subscribe(data => {
         this.images = new GalleryMetadata(data.images).allImages;
         this.imageCount = data.images.length;
         this.loadMoreImages();
@@ -64,8 +64,36 @@ export class GalleryPageComponent implements OnInit {
       .forEach(imageCounter => this.fetchedImages.push(this.images.find(image => image.name === `${imageCounter}.jpg`)!));
   };
 
-  readonly openFullImage = (image: GalleryImage) => {
-    this.selectedImage = image;
-    this.detailsDialog.open();
+  readonly openFullImage = (image: GalleryImage, imageIndex: number, event?: OptionalKeyboardEvent) => {
+    if (isAction(event)) {
+      event?.preventDefault();
+      this.selectedImage = image;
+      this.selectedImageIndex = imageIndex;
+      this.detailsDialog.open();
+    }
+  };
+
+  readonly close = () => {
+    this.detailsDialog.close();
+  };
+
+  readonly next = () => {
+    let newIndex = (this.selectedImageIndex ?? 0) + 1;
+    if (newIndex >= this.fetchedCount) {
+      newIndex = 0;
+    }
+
+    this.selectedImageIndex = newIndex;
+    this.selectedImage = this.fetchedImages[this.selectedImageIndex];
+  };
+
+  readonly previous = () => {
+    let newIndex = (this.selectedImageIndex ?? 0) - 1;
+    if (newIndex < 0) {
+      newIndex = this.fetchedCount - 1;
+    }
+
+    this.selectedImageIndex = newIndex;
+    this.selectedImage = this.fetchedImages[this.selectedImageIndex];
   };
 }

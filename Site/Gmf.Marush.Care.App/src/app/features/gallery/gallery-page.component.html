@@ -1,8 +1,9 @@
 <section class="previews-container">
-    @for(image of fetchedImages; track image.name)
+    @for(image of fetchedImages; track image.name; let imageIndex = $index)
     {
     <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
-        [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'" (click)="openFullImage(image)" />
+        [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
+        (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
     }
 </section>
 
@@ -16,7 +17,10 @@
 <marush-dialog>
     <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
-    <button type="button" slot="actions" class="slide-action main-action"><span class="arrow-icon left"></span></button>
-    <button type="button" slot="actions" class="close-action"><span>Zatvori (prevedi me)</span></button>
-    <button type="button" slot="actions" class="slide-action main-action"><span class="arrow-icon right"></span></button>
+    <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"><span
+            class="arrow-icon left"></span></button>
+    <button type="button" slot="actions" class="close-action" (click)="close()"><span
+            i18n="@@close">Zatvori</span></button>
+    <button type="button" slot="actions" class="slide-action main-action" (click)="next()"><span
+            class="arrow-icon right"></span></button>
 </marush-dialog>

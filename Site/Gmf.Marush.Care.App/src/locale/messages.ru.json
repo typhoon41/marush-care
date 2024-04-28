@@ -2,6 +2,7 @@
   "locale": "ru",
   "translations": {
     "address": "АДРЕС",
+    "close": "Закрыть",
     "discounts.1": "<p><strong>08.04 - 30.04</strong></p><p>Гигиен. процед. верхней части спины<br/><s>4500</s> 4000</p>",
     "discounts.2": "<p><strong>08.04 - 30.04</strong></p><p>Гигиен. процед. всей спины<br/><s>6000</s> 5000</p>",
     "discounts.3": "<p><strong>08.04 - 30.04</strong></p><p>Анти целлюл. массаж<br/><s>3000</s> 2500</p>",

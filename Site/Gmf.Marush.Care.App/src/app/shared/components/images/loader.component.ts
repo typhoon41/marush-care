@@ -12,6 +12,7 @@ export class ImageLoaderComponent {
     @Input() url: string = '';
     @Input() description: string = '';
     @Input() givenClass: string = '';
+    @Input() selectable: boolean = false;
 
     isLoading: boolean = true;
 

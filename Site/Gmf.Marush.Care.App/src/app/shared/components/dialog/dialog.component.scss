@@ -4,8 +4,10 @@
 @use 'breakpoints';
 @use 'scss-solutions/src/modules/position/absolute';
 
-$header-height: 80px;
-$footer-height: 120px;
+$header-height-mobile: 60px;
+$header-height: 70px;
+$footer-height-mobile: 80px;
+$footer-height: 100px;
 
 .dialog-container {
 	box-sizing: border-box;
@@ -33,8 +35,13 @@ $footer-height: 120px;
 .dialog-header {
 	position: relative;
 	box-sizing: border-box;
-	height: $header-height;
-	padding: 20px 0;
+	height: $header-height-mobile;
+	padding: 10px 0;
+
+	@include breakpoints.apply-from-desktop() {
+		height: $header-height;
+		padding: 20px 0;
+	}
 
 	.title {
 		@include headers.marush-header();
@@ -52,9 +59,17 @@ $footer-height: 120px;
 }
 
 .dialog-body {
-	height: calc(100% - $header-height - $footer-height);
+	height: calc(100% - $header-height-mobile - $footer-height-mobile);
+
+	@include breakpoints.apply-from-desktop() {
+		height: calc(100% - $header-height - $footer-height);
+	}
 }
 
 .dialog-footer {
-	height: $footer-height;
+	height: $footer-height-mobile;
+
+	@include breakpoints.apply-from-desktop() {
+		height: $footer-height;
+	}
 }
