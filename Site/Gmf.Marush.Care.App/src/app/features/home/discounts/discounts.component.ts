@@ -12,10 +12,9 @@ import { Subscription, interval } from 'rxjs';
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
     // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.1:<p><strong>8.4. - 30.4.</strong></p><p>Higij. tretman pola leđa<br/><s>4500</s> 4000</p>`,
-    $localize`:@@discounts.2:<p><strong>8.4. - 30.4.</strong></p><p>Higij. tretman cela leđa<br/><s>6000</s> 5000</p>`,
-    $localize`:@@discounts.3:<p><strong>8.4. - 30.4.</strong></p><p>Anti celulit masaža<br/><s>3000</s> 2500</p>`,
-    $localize`:@@discounts.4:<p><strong>8.4. - 30.4.</strong></p><p>Vacuslim 48<br/><s>2500</s> 2000</p>`
+    $localize`:@@discounts.1:<p><strong>7.5. - 24.5.</strong></p><p>Premium hig. tretman + intenz. hidrat.<br/><s>8000</s> 5500</p>`,
+    $localize`:@@discounts.2:<p><strong>7.5. - 24.5.</strong></p><p>Higij. tretman + čišćenje ultrazv. špat.<br/><s>5500</s> 4000</p>`,
+    $localize`:@@discounts.3:<p><strong>7.5. - 24.5.</strong></p><p>T50T35 piling + koktel vitam. infuzije<br/><s>8500</s> 5500</p>`
   ];
 
   currentDiscountPosition = 0;
