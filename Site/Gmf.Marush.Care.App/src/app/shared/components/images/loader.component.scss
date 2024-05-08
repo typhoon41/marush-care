@@ -1,7 +1,9 @@
 .image {
 	visibility: hidden;
+	position: absolute;
 
 	&.visible {
+		position: relative;
 		animation: 1s fadeIn;
 		animation-fill-mode: forwards;
 	}
