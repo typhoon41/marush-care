@@ -1,0 +1,67 @@
+@use 'variables';
+@use 'breakpoints';
+
+$side-gap: 15px;
+$front-gap: 40px;
+
+.gallery {
+	display: block;
+	margin: $front-gap 20px;
+
+	.previews-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		margin-bottom: $front-gap;
+	}
+
+	.preview-image-placeholder {
+		width: 192px;
+		height: 192px;
+		padding: $side-gap;
+	}
+
+	.preview-image {
+		border-radius: 12px;
+	}
+
+	.main-action {
+		width: calc(100% - 2 * $side-gap);
+		margin-right: $side-gap;
+		margin-left: $side-gap;
+	}
+
+	.dialog-footer {
+		.close-action {
+			margin: 0 10px;
+			padding: 12px 25px;
+
+			@include breakpoints.apply-from-tablet() {
+				margin: 0 30px;
+			}
+		}
+
+		.slide-action {
+			width: 60px;
+			height: 60px;
+			border-radius: 12px;
+			background-color: variables.$accent;
+		}
+
+		.arrow-icon {
+			margin: 0 auto;
+		}
+	}
+
+	.portrait {
+		width: auto;
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+	.landscape {
+		max-width: 100%;
+		height: auto;
+		max-height: 100%;
+	}
+}

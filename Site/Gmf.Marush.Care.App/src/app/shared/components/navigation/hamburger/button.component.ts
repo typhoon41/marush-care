@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
     selector: 'marush-hamburger-button',
@@ -18,9 +19,12 @@ export class HamburgerButtonComponent implements OnInit {
         this.emitEvent();
     }
 
-    readonly toggle = () => {
-        this.collapsed = !this.collapsed;
-        this.emitEvent();
+    readonly toggle = (event?: OptionalKeyboardEvent) => {
+        if (isAction(event)) {
+            event?.preventDefault();
+            this.collapsed = !this.collapsed;
+            this.emitEvent();
+        }
     };
 
     private readonly emitEvent = () => this.collapsedChange.emit(this.collapsed);

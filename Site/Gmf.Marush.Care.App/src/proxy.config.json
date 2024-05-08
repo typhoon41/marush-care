@@ -1,0 +1,6 @@
+{
+  "/images": {
+    "target": "https://marushcare.com",
+    "changeOrigin": true
+  }
+}

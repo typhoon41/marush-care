@@ -1,0 +1,26 @@
+.image {
+	visibility: hidden;
+	position: absolute;
+
+	&.visible {
+		position: relative;
+		animation: 1s fadeIn;
+		animation-fill-mode: forwards;
+	}
+}
+
+.loader {
+	width: 115px;
+	height: 115px;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		visibility: visible;
+		opacity: 1;
+	}
+}

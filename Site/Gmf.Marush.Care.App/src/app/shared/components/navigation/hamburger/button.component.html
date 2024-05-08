@@ -1,5 +1,7 @@
-<button class="hamburger" (click)="toggle()" (keydown)="toggle()" [ngClass]="{'collapsed': collapsed}">
-    <span class="first line"></span>
-    <span class="middle line"></span>
-    <span class="last line"></span>
+<button class="line-button" (click)="toggle()" (keydown)="toggle($event)" [ngClass]="{'crossed': collapsed}">
+    <div class="line-placeholder stretch">
+        <span class="first line"></span>
+        <span class="middle line"></span>
+        <span class="last line"></span>
+    </div>
 </button>

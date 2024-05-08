@@ -41,6 +41,7 @@
             "capIsNewExceptions": [
               "Component",
               "HostBinding",
+              "HostListener",
               "Inject",
               "Injectable",
               "Input",

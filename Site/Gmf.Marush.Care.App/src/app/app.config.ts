@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { InMemoryScrollingOptions, provideRouter, withInMemoryScrolling } from '@angular/router';
@@ -13,7 +13,7 @@ const scrollConfig: InMemoryScrollingOptions = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([languageInterceptor, errorInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([languageInterceptor, errorInterceptor])),
     provideRouter(new RoutingDefinition().routes, withInMemoryScrolling(scrollConfig)),
     provideClientHydration()]
 };

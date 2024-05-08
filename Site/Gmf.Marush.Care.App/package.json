@@ -46,7 +46,7 @@
     "@typescript-eslint/eslint-plugin": "6.17.0",
     "@typescript-eslint/parser": "6.17.0",
     "@typhoon41/eslint-config": "1.0.4",
-    "@typhoon41/scss-solutions": "0.1.11",
+    "@typhoon41/scss-solutions": "0.1.12",
     "@typhoon41/stylelint-config": "1.0.5",
     "copyfiles": "2.4.1",
     "jasmine-core": "~5.1.0",

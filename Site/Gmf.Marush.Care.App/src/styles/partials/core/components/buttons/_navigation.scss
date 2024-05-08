@@ -1,0 +1,73 @@
+@use 'sass:math';
+@use 'scss-solutions/src/modules/position/absolute';
+@use 'variables';
+@use 'units';
+
+$button-width: 34px;
+$button-height: $button-width * .75;
+$line-thickness: math.ceil(math.div($button-height, 6));
+$cross-height: math.sqrt(math.div(math.pow(units.strip($button-width), 2), 2));
+$cross-horizontal-gap: math.round(($button-width - $cross-height) * .5);
+$cross-vertical-gap: math.round(($button-height - $cross-height) * .5);
+
+/* stylelint-disable-next-line csstools/use-nesting */
+.line-button .line {
+	display: block;
+	@include absolute.unset-position(unset, unset, unset, 0);
+	width: 100%;
+	height: 2px;
+	transform: rotate(0deg);
+	transform-origin: left center;
+	transition: .25s ease-in-out;
+	opacity: 1;
+	background-color: variables.$font-color;
+
+	&.first {
+		top: 0;
+	}
+
+	&.middle {
+		top: 2 * $line-thickness;
+	}
+
+	&.last {
+		top: 4 * $line-thickness;
+	}
+}
+
+.line-button {
+	all: unset;
+	width: $button-width;
+	height: math.floor($button-height);
+	padding: 7px 4px;
+	transform: rotate(0deg);
+	transition: .5s ease-in-out;
+	cursor: pointer;
+
+	&:hover .line {
+		background-color: variables.$accent;
+	}
+
+	&.crossed .line {
+		&.first {
+			top: -1px - $cross-vertical-gap;
+			left: $cross-horizontal-gap;
+			transform: rotate(45deg);
+		}
+
+		&.middle {
+			width: 0%;
+			opacity: 0;
+		}
+
+		&.last {
+			top: -2px + math.floor($button-height) - $cross-vertical-gap;
+			left: $cross-horizontal-gap;
+			transform: rotate(-45deg);
+		}
+	}
+
+	.line-placeholder {
+		position: relative;
+	}
+}
