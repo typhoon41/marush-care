@@ -13,6 +13,8 @@ export class DialogComponent {
     @HostBinding('class') classAttribute: string = 'marush-dialog stretch';
     @ViewChild('dialog') dialog: ElementRef | undefined;
     @Input() title: string | undefined;
+    @Input() bodyClass: string | undefined;
+    @Input() footerClass: string | undefined;
 
     readonly open = () => {
         this.dialog?.nativeElement.showModal();

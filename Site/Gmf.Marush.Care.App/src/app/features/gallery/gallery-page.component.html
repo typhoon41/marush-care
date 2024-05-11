@@ -14,13 +14,11 @@
 </button>
 }
 
-<marush-dialog>
+<marush-dialog [bodyClass]="'stretch gallery-dialog-body'" [footerClass]="'gallery-dialog-footer'">
     <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
     <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"><span
             class="arrow-icon left"></span></button>
-    <button type="button" slot="actions" class="close-action" (click)="close()"><span
-            i18n="@@close">Zatvori</span></button>
     <button type="button" slot="actions" class="slide-action main-action" (click)="next()"><span
             class="arrow-icon right"></span></button>
 </marush-dialog>

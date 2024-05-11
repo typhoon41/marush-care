@@ -2,17 +2,17 @@
 <dialog class="dialog-container" #dialog (click)="close()" tabindex="-1">
     <header class="dialog-header" (click)="onDialogClick($event)">
         <h2 class="title header-centered">{{title}}</h2>
-        <button class="line-button crossed close-button" (click)="close()" (keydown)="close($event)">
+        <button class="line-button crossed close-button" (click)="close()" (keydown)="close($event)" i18n-title="@@close" title="Zatvori">
             <div class="line-placeholder stretch">
                 <span class="first line"></span>
                 <span class="last line"></span>
             </div>
         </button>
     </header>
-    <div class="dialog-body" (click)="onDialogClick($event)">
+    <div class="dialog-body {{bodyClass}}" (click)="onDialogClick($event)">
         <ng-content select="[slot=body]"></ng-content>
     </div>
-    <footer class="dialog-footer aligned-centrally stretch-equally" (click)="onDialogClick($event)">
+    <footer class="dialog-footer aligned-centrally stretch-between {{footerClass}}" (click)="onDialogClick($event)">
         <ng-content select="[slot=actions]"></ng-content>
     </footer>
 </dialog>

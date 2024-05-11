@@ -73,10 +73,6 @@ export class GalleryPageComponent implements OnInit {
     }
   };
 
-  readonly close = () => {
-    this.detailsDialog.close();
-  };
-
   readonly next = () => {
     let newIndex = (this.selectedImageIndex ?? 0) + 1;
     if (newIndex >= this.fetchedCount) {

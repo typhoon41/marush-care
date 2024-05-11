@@ -1,3 +1,83 @@
+@use 'variables';
+@use 'sass:color';
+@use 'headers';
+@use 'breakpoints';
+@use 'scss-solutions/src/modules/position/absolute';
+
+$header-height-mobile: 60px;
+$header-height: 70px;
+$footer-height-mobile: 60px;
+$footer-height: 75px;
+
 .marush-dialog {
 	display: block;
+}
+
+.dialog-container {
+	box-sizing: border-box;
+	width: calc(100% - 40px);
+	height: calc(100% - 40px);
+	padding: 0;
+	border: 1px solid variables.$font-color;
+	background-color: variables.$body-color;
+
+	@include breakpoints.apply-from-desktop() {
+		width: calc(100% - 70px);
+		height: calc(100% - 70px);
+	}
+
+	&::backdrop {
+		background-color: color.adjust(variables.$primary, $alpha: -.1);
+	}
+
+	/* stylelint-disable-next-line selector-max-attribute,selector-no-qualifying-type */
+	&[open] {
+		/* stylelint-disable-next-line no-unknown-animations */
+		animation: fade .5s;
+	}
+}
+
+.dialog-header {
+	position: relative;
+	z-index: 1;
+	box-sizing: border-box;
+	height: $header-height-mobile;
+	padding: 10px 0;
+
+	@include breakpoints.apply-from-desktop() {
+		height: $header-height;
+		padding: 20px 0;
+	}
+
+	.title {
+		@include headers.marush-header();
+		margin: 0;
+		padding-right: 60px;
+
+		@include breakpoints.apply-from-desktop() {
+			@include headers.marush-desktop-header();
+		}
+	}
+
+	.close-button {
+		@include absolute.unset-position(12px, 12px);
+		border-radius: 6px;
+		background-color: variables.$body-color;
+	}
+}
+
+.dialog-body {
+	height: calc(100% - $header-height-mobile - $footer-height-mobile);
+
+	@include breakpoints.apply-from-desktop() {
+		height: calc(100% - $header-height - $footer-height);
+	}
+}
+
+.dialog-footer {
+	height: $footer-height-mobile;
+
+	@include breakpoints.apply-from-desktop() {
+		height: $footer-height;
+	}
 }
