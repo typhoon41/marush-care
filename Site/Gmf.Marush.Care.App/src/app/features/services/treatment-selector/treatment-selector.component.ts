@@ -29,7 +29,8 @@ export class TreatmentSelectorComponent implements OnChanges {
 
   readonly collapseOpenedPanel = (indexToSkip: number) => {
     this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
-      panel.collapsed = false; });
+      panel.collapsed = false;
+    });
   };
 
   private readonly handleSelectedService = (selectedService: SelectedService) => {
@@ -41,4 +42,8 @@ export class TreatmentSelectorComponent implements OnChanges {
     this.treatments = supportedTreatments[selectedService];
     document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
   };
+
+  readonly format = (treatment: IDefineTreatment) =>
+    `${treatment.description}${treatment.description ? '<br><br>' : ''}` +
+    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.price}`}`;
 }
