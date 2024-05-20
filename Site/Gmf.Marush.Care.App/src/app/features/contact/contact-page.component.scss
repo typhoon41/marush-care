@@ -1,0 +1,71 @@
+@use 'headers';
+@use 'breakpoints';
+@use 'variables';
+
+$top-gap: 30px;
+$bottom-gap: 20px;
+
+.contact {
+	margin-bottom: $bottom-gap;
+	padding: 0 40px;
+	@extend %marush-caption;
+	letter-spacing: 1px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 0;
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		margin-top: 40px;
+		@include headers.marush-header();
+	}
+
+	.details {
+		letter-spacing: 0;
+	}
+
+	.metadata {
+		margin-bottom: $bottom-gap;
+		text-align: center;
+
+		@include breakpoints.apply-from-tablet() {
+			text-align: left;
+		}
+	}
+
+	.address {
+		font-style: normal;
+
+		.line {
+			margin-top: 5px;
+			margin-bottom: 0;
+		}
+	}
+
+	.title {
+		margin-top: $top-gap;
+		margin-bottom: 10px;
+	}
+
+	.disclaimer {
+		margin-top: $top-gap;
+	}
+}
+
+.map {
+	height: 400px;
+	margin-top: 40px;
+	margin-bottom: $bottom-gap;
+	border: none;
+
+	@include breakpoints.apply-from-tablet() {
+		margin-top: 60px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		height: 500px;
+		margin-top: 70px;
+		margin-bottom: 70px;
+	}
+}

@@ -26,8 +26,7 @@ $side-gap: 15px;
 	@extend %marush-caption;
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 18px;
-		line-height: 24px;
+		@include headers.marush-tablet-caption();
 	}
 }
 

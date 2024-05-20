@@ -1,10 +1,13 @@
 import { environment } from '@env';
 
 class MarushDetails {
-    readonly phoneNumber = 'tel:+381605229593';
+    readonly phoneNumber = '060/522-95-93';
+    readonly phoneNumberAction = 'tel:+381605229593';
+    readonly email = 'office@marushcare.com';
+    readonly emailAction = 'mailto:office@marushcare.com';
 
     readonly phoneContact = () => {
-        window.open(this.phoneNumber, '_self');
+        window.open(this.phoneNumberAction, '_self');
     };
 
     readonly openPriceList = () => {

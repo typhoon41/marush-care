@@ -38,8 +38,7 @@ $radius: 24px;
 
 		@include breakpoints.apply-from-tablet() {
 			padding: 15px;
-			font-size: 18px;
-			line-height: 27px;
+			@include headers.marush-tablet-caption();
 		}
 
 		@include breakpoints.apply-from-desktop() {

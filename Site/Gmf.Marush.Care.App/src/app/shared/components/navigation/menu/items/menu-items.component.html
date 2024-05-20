@@ -4,6 +4,9 @@
 <a class="action" routerLink="{{translateRoute('gallery')}}" routerLinkActive="active" (click)="hideMenu()" [tabIndex]="tabIndex">
     <span i18n="@@routes.gallery">galerija</span>
 </a>
-<a class="action last" [href]="marushDetails.priceListUrl()" target="_blank" [tabIndex]="tabIndex">
+<a class="action" [href]="marushDetails.priceListUrl()" target="_blank" [tabIndex]="tabIndex">
     <span i18n="@@pricelist">cenovnik</span>
+</a>
+<a class="action last" routerLink="{{translateRoute('contact')}}" routerLinkActive="active" (click)="hideMenu()" [tabIndex]="tabIndex">
+    <span i18n="@@routes.contact">kontakt</span>
 </a>

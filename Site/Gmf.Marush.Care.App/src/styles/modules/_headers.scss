@@ -36,6 +36,11 @@
 	}
 }
 
+@mixin marush-tablet-caption() {
+	font-size: 18px;
+	line-height: 25px;
+}
+
 %marush-header {
 	@include marush-header();
 	letter-spacing: 1px;

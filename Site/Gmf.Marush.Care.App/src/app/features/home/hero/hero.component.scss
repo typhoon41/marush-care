@@ -18,7 +18,7 @@
 	margin: 32px 0;
 
 	@include breakpoints.apply-from-tablet() {
-		font-size: 18px;
+		@include headers.marush-tablet-caption();
 	}
 
 	@include breakpoints.apply-from-desktop() {

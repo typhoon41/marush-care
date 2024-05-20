@@ -24,7 +24,7 @@ button {
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 18px;
+		@include headers.marush-tablet-caption();
 		line-height: 32px;
 	}
 }

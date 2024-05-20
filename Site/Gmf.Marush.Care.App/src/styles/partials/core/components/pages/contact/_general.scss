@@ -1,0 +1,9 @@
+@use 'breakpoints';
+
+.contact-container {
+	display: flex;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 0 140px;
+	}
+}

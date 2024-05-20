@@ -26,11 +26,14 @@
     <section class="group-container contact-group-container row column-12 column-tablet-6 column-desktop-3 vertical-stack tablet-right-aligned">
         <div class="contact-group">
             <h4 class="title" i18n="@@address">ADRESA</h4>
-            <address class="contact" i18n="@@marush.address">Vlajkovićeva 27/6, Beograd</address>
+            <address class="contact clickable" (click)="redirectToContact()" tabindex="0"
+                (keydown)="redirectToContact($event)">
+                <span i18n="@@contact.address">Vlajkovićeva 27/6</span>, <span i18n="@@contact.city">Beograd</span>
+            </address>
             <h4 class="title" i18n="@@mobile">MOBILNI</h4>
-            <a class="contact" [href]="marushDetails.phoneNumber">060/522-95-93</a>
+            <a class="contact" [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
             <h4 class="title" i18n="@@email">MAIL</h4>
-            <a class="contact" href="mailto:office@marushcare.com">office&#64;marushcare.com</a>
+            <a class="contact" [href]="marushDetails.emailAction">{{marushDetails.email}}</a>
         </div>
     </section>
     <div class="group-container last-group-container column-12 column-tablet-6 column-desktop-3 tablet-left-aligned">

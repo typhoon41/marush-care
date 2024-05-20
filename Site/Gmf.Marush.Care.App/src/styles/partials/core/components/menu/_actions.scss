@@ -10,7 +10,7 @@
 		@include headers.marush-caption(true);
 		margin-right: auto;
 		margin-left: auto;
-		padding: 10px 15px;
+		padding: 10px;
 		font-family: 'Overpass-Bold', sans-serif;
 
 		&:hover, &.active {
@@ -18,7 +18,8 @@
 		}
 
 		@include breakpoints.apply-from-desktop() {
-			font-size: 18px;
+			padding: 10px 20px;
+			@include headers.marush-tablet-caption();
 		}
 	}
 }

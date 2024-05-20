@@ -26,6 +26,8 @@ export class RoutingDefinition {
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
         this.lazyRoute('gallery', $localize`:@@routes.gallery:galerija`,
             () => import('./features/gallery/gallery-page.component').then(mod => mod.GalleryPageComponent)),
+        this.lazyRoute('contact', $localize`:@@routes.contact:kontakt`,
+            () => import('./features/contact/contact-page.component').then(mod => mod.ContactPageComponent)),
         this.lazyRoute('services', $localize`:@@routes.services:usluge`,
             () => import('./features/services/services-page.component').then(mod => mod.ServicesPageComponent)),
         this.lazyRoute('error', this.error(),

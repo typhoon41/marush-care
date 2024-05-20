@@ -1,6 +1,9 @@
 /usluge
 /services
 /услуги
+/kontakt
+/contact
+/контакт
 /galerija
 /gallery
 /галерея
