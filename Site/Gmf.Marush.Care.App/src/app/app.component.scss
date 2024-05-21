@@ -4,7 +4,7 @@
 
 .loader {
 	@include fixed.zero-position();
-	z-index: 2;
+	z-index: 3;
 	justify-content: center;
 	background-color: variables.$backdrop;
 
