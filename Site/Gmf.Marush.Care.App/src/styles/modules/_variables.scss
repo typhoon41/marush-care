@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $breakpoints: (
 	mobile: (description: 'mobile', size: 360px),
 	tablet: (description: 'tablet', size: 768px),
@@ -12,3 +14,4 @@ $primary: #FDF1ED;
 $accent: #F5B57B;
 $body-color: #FFFBFA;
 $font-color: #583616;
+$backdrop: color.adjust($primary, $alpha: -.1);

@@ -1,0 +1,23 @@
+@use 'variables';
+@use 'scss-solutions/src/modules/position/fixed';
+@use 'breakpoints';
+
+.loader {
+	@include fixed.zero-position();
+	z-index: 2;
+	justify-content: center;
+	background-color: variables.$backdrop;
+
+	.image {
+		width: 100px;
+		height: auto;
+
+		@include breakpoints.apply-from-tablet() {
+			width: 150px;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			width: 200px;
+		}
+	}
+}

@@ -27,7 +27,7 @@ $footer-height: 75px;
 	}
 
 	&::backdrop {
-		background-color: color.adjust(variables.$primary, $alpha: -.1);
+		background-color: variables.$backdrop;
 	}
 
 	/* stylelint-disable-next-line selector-max-attribute,selector-no-qualifying-type */
