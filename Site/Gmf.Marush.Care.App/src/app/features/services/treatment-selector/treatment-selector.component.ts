@@ -1,22 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
-import marushDetails from '@shared/models/marush-details.model';
+import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import supportedTreatments from '../models/supported-treatments.model';
 import { IDefineTreatment, SelectedService } from '../models/types.model';
 
 @Component({
   selector: 'marush-services-treatment-selector',
   standalone: true,
-  imports: [CommonModule, ExpansionPanelComponent],
+  imports: [CommonModule, RouterModule, ExpansionPanelComponent],
   templateUrl: './treatment-selector.component.html',
   styleUrl: './treatment-selector.component.scss'
 })
-export class TreatmentSelectorComponent implements OnChanges {
+export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges {
   @Input() selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
-  marushDetails = marushDetails;
   treatments: IDefineTreatment[] = [];
+
+  constructor(private readonly router: Router) {
+    super();
+  }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnChanges(changes: SimpleChanges) {
@@ -41,6 +45,10 @@ export class TreatmentSelectorComponent implements OnChanges {
 
     this.treatments = supportedTreatments[selectedService];
     document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
+  };
+
+  readonly redirectToAppointment = () => {
+    this.router.navigate([this.translateRoute('appointment')]);
   };
 
   readonly format = (treatment: IDefineTreatment) =>

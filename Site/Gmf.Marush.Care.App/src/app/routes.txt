@@ -1,3 +1,9 @@
+/početna
+/home
+/начальное
+/zakazivanje
+/appointment
+/назначение
 /usluge
 /services
 /услуги
