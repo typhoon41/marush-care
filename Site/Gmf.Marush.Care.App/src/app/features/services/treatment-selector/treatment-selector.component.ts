@@ -3,8 +3,8 @@ import { Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } f
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
-import supportedTreatments from '../models/supported-treatments.model';
-import { IDefineTreatment, SelectedService } from '../models/types.model';
+import supportedTreatments from '@shared/models/services/supported-treatments.model';
+import { IDefineTreatment, SelectedService } from '@shared/models/services/types.model';
 
 @Component({
   selector: 'marush-services-treatment-selector',
@@ -43,7 +43,7 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
       return;
     }
 
-    this.treatments = supportedTreatments[selectedService];
+    this.treatments = supportedTreatments.find(treatment => treatment.key === selectedService)?.treatments ?? [];
     document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
   };
 

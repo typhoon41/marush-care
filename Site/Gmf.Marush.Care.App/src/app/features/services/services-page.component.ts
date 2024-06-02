@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import marushDetails from '@shared/models/marush-details.model';
-import { SelectedService } from './models/types.model';
+import { SelectedService } from '@shared/models/services/types.model';
 import { TreatmentSelectorComponent } from './treatment-selector/treatment-selector.component';
 import { TypeSelectorComponent } from './type-selector/type-selector.component';
 

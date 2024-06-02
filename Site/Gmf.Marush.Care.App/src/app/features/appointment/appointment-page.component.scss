@@ -1,0 +1,14 @@
+@use 'headers';
+@use 'breakpoints';
+
+.main-header {
+	@extend %marush-header;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-headline();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-desktop-header();
+	}
+}
