@@ -2,6 +2,8 @@
   "locale": "en",
   "translations": {
     "address": "ADDRESS",
+    "appointment.disclaimer": "In case of cancellation, please notify us at least 24 hours before the scheduled appointment. You can do so via message or call at",
+    "appointment.title": "Choose services",
     "close": "Close",
     "contact.address": "Vlajković's street 27/6",
     "contact.city": "Belgrade",

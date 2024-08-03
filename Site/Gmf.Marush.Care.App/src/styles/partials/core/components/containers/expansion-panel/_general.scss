@@ -1,0 +1,5 @@
+@use 'headers';
+
+.panel-header {
+	@extend %marush-header;
+}

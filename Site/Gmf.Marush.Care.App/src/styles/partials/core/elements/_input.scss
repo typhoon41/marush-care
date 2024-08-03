@@ -1,0 +1,9 @@
+/* stylelint-disable selector-max-attribute, selector-no-qualifying-type */
+@use 'variables';
+
+input[type = 'checkbox'] {
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+	accent-color: variables.$accent;
+}

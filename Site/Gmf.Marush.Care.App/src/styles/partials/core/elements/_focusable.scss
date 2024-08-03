@@ -1,7 +1,8 @@
 @use 'variables';
+@use 'behaviour';
 
-div, li, img, a, button, address {
+div, li, img, a, button, input, address {
 	&:focus-visible {
-		outline: 2px solid variables.$font-color;
+		@extend %marush-focusable;
 	}
 }

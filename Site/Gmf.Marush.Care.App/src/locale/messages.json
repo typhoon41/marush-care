@@ -2,6 +2,8 @@
   "locale": "sr",
   "translations": {
     "address": "ADRESA",
+    "appointment.disclaimer": "U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj",
+    "appointment.title": "Izaberite usluge",
     "close": "Zatvori",
     "contact.address": "Vlajkovićeva 27/6",
     "contact.city": "Beograd",

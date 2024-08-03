@@ -1,0 +1,5 @@
+@use 'variables';
+
+%marush-focusable {
+	outline: 2px solid variables.$font-color;
+}

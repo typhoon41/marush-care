@@ -1,0 +1,64 @@
+@use 'scss-solutions/src/modules/position/absolute';
+@use 'variables';
+@use 'behaviour';
+
+$checkbox-size: 24px;
+
+.checkmark {
+	@include absolute.zero-position(auto, unset, unset, 0);
+	box-sizing: border-box;
+	width: $checkbox-size;
+	height: $checkbox-size;
+	border: 2px solid variables.$accent;
+	border-radius: 6px;
+	background-color: variables.$body-color;
+
+	&::after {
+		content: '';
+		display: none;
+		position: absolute;
+	}
+}
+
+.description {
+	display: inline-flex;
+	align-self: end;
+}
+
+.container {
+	position: relative;
+	min-height: $checkbox-size;
+	padding-left: 35px;
+
+	.checkmark::after {
+		top: 2px;
+		left: 7px;
+		width: 5px;
+		height: 10px;
+		transform: rotate(45deg);
+		border: solid variables.$body-color;
+		border-width: 0 3px 3px 0;
+	}
+
+	.field {
+		position: absolute;
+		width: 0;
+		height: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		opacity: 0;
+
+		&:checked ~ .checkmark {
+			background-color: variables.$accent;
+
+			&::after {
+				display: block;
+			}
+		}
+
+		&:focus-visible ~ .checkmark {
+			@extend %marush-focusable;
+		}
+	}
+}
