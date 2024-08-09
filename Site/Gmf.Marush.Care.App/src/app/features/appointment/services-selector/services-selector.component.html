@@ -1,5 +1,4 @@
-<section class="aligned-centrally vertical-stack column-12"
-    [ngClass]="{'animate-fading-in': services.length }">
+<section class="aligned-centrally vertical-stack column-12" [ngClass]="{'animate-fading-in': services.length }">
     @for(service of services; track service.key)
     {
     <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="service.title"
@@ -7,7 +6,9 @@
         @for(treatment of service.treatments; track treatment.title)
         {
         <div class="row service-container aligned-centrally">
-            <marush-checkbox class="service-selection grow-nested-block" [labelText]="treatment.title"></marush-checkbox>
+            <marush-checkbox class="service-selection grow-nested-block" [onChange]="onTreatmentChanged(treatment)"
+                [checked]="checkedServices.includes(treatment)"
+                [labelText]="treatment.title"></marush-checkbox>
             <span class="price">{{treatment.price}}</span>
         </div>
         }

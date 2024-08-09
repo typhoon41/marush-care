@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox.component';
 import supportedTreatments from '@shared/models/services/supported-treatments.model';
+import { IDefineTreatment } from '@shared/models/services/types.model';
 
 @Component({
     selector: 'marush-appointment-services-selector',
@@ -12,12 +13,21 @@ import supportedTreatments from '@shared/models/services/supported-treatments.mo
     styleUrl: './services-selector.component.scss'
 })
 export class ServicesSelectorComponent {
-    services = supportedTreatments;
+    @Input() checkedServices: IDefineTreatment[] = [];
+    @Output() toggleSelection = new EventEmitter<{ item: IDefineTreatment; checked: boolean }>();
     @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
+    services = supportedTreatments;
 
     readonly collapseOpenedPanel = (indexToSkip: number) => {
         this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
             panel.collapsed = false;
         });
     };
+
+    readonly onTreatmentChanged = (treatment: IDefineTreatment) => ($event: Event) => this.onCheckboxChange(treatment, $event);
+
+    readonly onCheckboxChange = (item: IDefineTreatment, event: Event) => {
+        const checked = (event.target as HTMLInputElement).checked;
+        this.toggleSelection.emit({ item, checked });
+      };
 }

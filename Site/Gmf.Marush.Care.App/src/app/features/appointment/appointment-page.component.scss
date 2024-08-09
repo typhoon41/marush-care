@@ -5,7 +5,8 @@
 $top-gap: 60px;
 
 .summary {
-	margin-top: math.div($top-gap, 2);
+	display: block;
+	margin-top: $top-gap;
 }
 
 .main-action, .disclaimer {

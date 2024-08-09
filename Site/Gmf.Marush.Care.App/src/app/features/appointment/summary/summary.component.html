@@ -1,12 +1,14 @@
 <section class="summary service-title">
     <h4 class="appointment-header" i18n="@@routes.services">usluge</h4>
-    <div class="row service-container aligned-centrally">
-        <button type="button" class="service-removal">
-            <img class="trash-can-icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
-        </button>
-        <span class="service grow-nested-block">Masaža lica + radiotalasni lifting</span>
-        <span class="price">5000</span>
-    </div>
+    @for(checkedService of checkedServices; track checkedService.title){
+        <div class="row service-container aligned-centrally">
+            <button type="button" class="service-removal" (click)="onRemove(checkedService)">
+                <img class="trash-can-icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
+            </button>
+            <span class="service grow-nested-block">{{checkedService.title}}</span>
+            <span class="price">{{checkedService.price}}</span>
+        </div>
+    }
     <h4 class="appointment-header" i18n="@@appointment.summary.total">Ukupno</h4>
-    <strong class="price">5000</strong>
+    <strong class="price">{{totalCost}}</strong>
 </section>

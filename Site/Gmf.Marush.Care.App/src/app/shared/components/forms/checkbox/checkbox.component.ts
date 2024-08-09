@@ -9,4 +9,11 @@ import { Component, Input } from '@angular/core';
   })
   export class CheckBoxComponent {
     @Input() labelText = '';
+    @Input() checked = false;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    @Input() onChange = (_$event: Event) => {};
+
+    readonly onCheckedChange = ($event: Event) => {
+      this.onChange($event);
+    };
   }
