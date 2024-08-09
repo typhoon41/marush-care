@@ -15,17 +15,12 @@
 		font-size: 20px;
 	}
 
-	.service {
-		flex-basis: 0;
-		flex-grow: 1;
-		overflow-wrap: break-word;
-	}
-
 	.price {
 		align-self: center;
-	}
+		margin: 0 10px;
 
-	.service, .price {
-		margin-left: 10px;
+		@include breakpoints.apply-from-tablet() {
+			margin: 0 20px;
+		}
 	}
 }

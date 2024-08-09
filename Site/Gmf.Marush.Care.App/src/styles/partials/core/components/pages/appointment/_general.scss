@@ -1,13 +1,17 @@
 @use 'breakpoints';
 @use 'headers';
+@use 'variables';
 
 .appointment-container {
 	padding: 40px 30px;
 }
 
 .service-title {
-	font-family: 'Overpass-Bold', sans-serif;
-	text-transform: uppercase;
+	&.emphasized {
+		font-family: 'Overpass-Bold', sans-serif;
+		text-transform: uppercase;
+	}
+
 	@include headers.marush-caption(true);
 
 	@include breakpoints.apply-from-tablet() {
@@ -16,5 +20,26 @@
 
 	@include breakpoints.apply-from-desktop() {
 		@include headers.marush-header();
+	}
+	text-transform: unset;
+}
+
+.appointment-container .service-selection {
+	padding-left: variables.$expansion-panel-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		padding-left: variables.$expansion-panel-gap-bigger;
+	}
+}
+
+.appointment-header {
+	@extend %marush-header;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-headline();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-desktop-header();
 	}
 }

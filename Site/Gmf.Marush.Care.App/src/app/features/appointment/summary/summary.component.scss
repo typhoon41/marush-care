@@ -1,0 +1,64 @@
+@use 'variables';
+@use 'breakpoints';
+@use 'sass:math';
+@use 'sass:color';
+
+$panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
+$panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
+
+.summary {
+	padding: 6px $panel-gap-half 24px;
+	border-radius: 24px;
+	background-color: variables.$accent;
+	color: variables.$body-color;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 40px $panel-gap-bigger-half;
+	}
+}
+
+.appointment-header {
+	padding-left: $panel-gap-half;
+	border-bottom: 1px solid variables.$body-color;
+	font-family: 'Overpass-Bold', sans-serif;
+	text-transform: uppercase;
+
+	@include breakpoints.apply-from-tablet() {
+		padding-left: $panel-gap-bigger-half;
+	}
+}
+
+.service-container {
+	padding-left: 3px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding-left: 12px;
+	}
+
+	.service {
+		margin-left: 6px;
+		letter-spacing: 1px;
+	}
+}
+
+.price {
+	display: block;
+	margin-left: 10px;
+	font-weight: 400;
+	letter-spacing: 1px;
+	text-align: right;
+}
+
+.service-removal {
+	padding: 0 10px 2px;
+	background-color: transparent;
+
+	.trash-can-icon {
+		width: 15px;
+		vertical-align: middle;
+	}
+
+	&:active {
+		background-color: color.adjust(variables.$accent, $lightness: -20%, $alpha: -.8);
+	}
+}

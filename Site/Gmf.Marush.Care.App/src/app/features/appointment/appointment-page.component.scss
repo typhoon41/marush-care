@@ -1,18 +1,13 @@
 @use 'headers';
 @use 'breakpoints';
+@use 'sass:math';
 
-.main-header {
-	@extend %marush-header;
+$top-gap: 60px;
 
-	@include breakpoints.apply-from-tablet() {
-		@include headers.marush-headline();
-	}
-
-	@include breakpoints.apply-from-desktop() {
-		@include headers.marush-desktop-header();
-	}
+.summary {
+	margin-top: math.div($top-gap, 2);
 }
 
 .main-action, .disclaimer {
-	margin-top: 60px;
+	margin-top: $top-gap;
 }

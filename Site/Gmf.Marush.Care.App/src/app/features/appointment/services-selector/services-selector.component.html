@@ -3,11 +3,11 @@
     @for(service of services; track service.key)
     {
     <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="service.title"
-        [panelHeaderClass]="'service-title'" [index]="$index" class="column-12">
+        [panelHeaderClass]="'service-title emphasized'" [index]="$index" class="column-12">
         @for(treatment of service.treatments; track treatment.title)
         {
         <div class="row service-container aligned-centrally">
-            <marush-checkbox class="service" [labelText]="treatment.title"></marush-checkbox>
+            <marush-checkbox class="service-selection grow-nested-block" [labelText]="treatment.title"></marush-checkbox>
             <span class="price">{{treatment.price}}</span>
         </div>
         }
