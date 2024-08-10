@@ -1,0 +1,12 @@
+<input class="column-12 field" type="text" i18n-placeholder="@@home.decoration.main" placeholder="Ime">
+<input class="column-12 field" type="text" i18n-placeholder="@@home.decoration.main" placeholder="Prezime">
+<input class="column-12 field" type="text" i18n-placeholder="@@home.decoration.main" placeholder="Telefon">
+<input class="column-12 field" type="text" i18n-placeholder="@@home.decoration.main" placeholder="Email">
+<input #appointmentDate readonly class="column-8 field" type="text" i18n-placeholder="@@home.decoration.main"
+ placeholder="Datum" (focus)="toggleDatePicker()">
+ <select class="column-4">
+    <option>12:00</option>
+    <option>13:00</option>
+    <option>14:00</option>
+    <option>15:00</option>
+ </select>
