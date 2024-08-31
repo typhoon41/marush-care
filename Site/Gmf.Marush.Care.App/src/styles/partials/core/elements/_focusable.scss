@@ -1,7 +1,7 @@
 @use 'variables';
 @use 'behaviour';
 
-div, li, img, a, button, input, address {
+div, li, img, a, button, input, address, label {
 	&:focus-visible {
 		@extend %marush-focusable;
 	}

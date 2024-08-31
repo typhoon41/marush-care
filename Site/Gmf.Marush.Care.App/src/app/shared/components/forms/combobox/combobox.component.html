@@ -1,0 +1,25 @@
+<div class="combo-box" role="combobox" [attr.aria-controls]="containerId" aria-haspopup="listbox"
+    aria-expanded="false" [ariaExpanded]="collapsed | async" [id]="id">
+    <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
+        (click)="toggleDropdown()" (keydown)="onKey($event)">
+        @if(selectedItem){
+        <span class="selected-value ellipsis">{{selectedItem}}</span>
+        }
+        @else {
+        <span class="selected-value">Datum</span>
+        }
+        <span class="caret">{{(collapsed | async) ? '&and;' : '&or;'}}</span>
+    </button>
+    <ul class="dropdown clickable column-12" role="listbox"
+        [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
+        [ariaHidden]="(collapsed | async) === false" [id]="containerId()" (keydown)="onOptionsKey($event)">
+        @for(item of items; track item){
+        <li #option aria-selected="false" [ariaSelected]="selectedItem === item" class="option-container"
+            [ngClass]="{'selected': selectedItem === item}" role="option"
+            [tabindex]="(collapsed | async) ? 0 : -1" (click)="select(item)"
+            (keydown)="onOptionKey(item, $event, $index)" (blur)="onBlur($event)">
+            <label class="control-description clickable" tabindex="-1">{{item}}<input [checked]="selectedItem === item" class="control" type="radio" [name]="id" tabindex="-1" /></label>
+        </li>
+        }
+    </ul>
+</div>

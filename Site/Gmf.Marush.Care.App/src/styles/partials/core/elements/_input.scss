@@ -1,31 +1,15 @@
 /* stylelint-disable selector-max-attribute, selector-no-qualifying-type */
 @use 'variables';
-@use 'headers';
-@use 'breakpoints';
+@use 'elements';
 
 input[type = 'checkbox'] {
 	width: 24px;
 	height: 24px;
 	border-radius: 6px;
-	accent-color: variables.$accent;
 }
 
 input[type = 'text'] {
-	padding: 8px 30px;
-	border: 1px solid variables.$accent;
-	border-radius: 12px;
-	background-color: variables.$body-color;
-	color: variables.$font-color;
-	@extend %marush-caption;
-
-	@include breakpoints.apply-from-tablet() {
-		@include headers.marush-tablet-caption();
-	}
-
-	@include breakpoints.apply-from-desktop() {
-		@include headers.marush-header();
-		letter-spacing: 1px;
-	}
+	@extend %element;
 
 	&.ng-invalid {
 		border-color: variables.$error-font-color;

@@ -1,4 +1,6 @@
 @use 'variables';
+@use 'breakpoints';
+@use 'scss-solutions/src/modules/position/absolute';
 
 .main-action {
 	background-color: variables.$accent;
@@ -6,5 +8,16 @@
 
 	&:active {
 		color: variables.$accent;
+	}
+}
+
+.caret {
+	display: inline-block;
+	@include absolute.unset-position(unset, 10px, 0);
+	margin-left: 5px;
+	transform: scaleX(1.5);
+
+	@include breakpoints.apply-from-tablet() {
+		right: 20px;
 	}
 }

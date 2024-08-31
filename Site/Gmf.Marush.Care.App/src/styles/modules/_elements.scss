@@ -1,0 +1,22 @@
+@use 'variables';
+@use 'breakpoints';
+@use 'headers';
+
+%element {
+	padding: 10px 30px 8px;
+	border: 1px solid variables.$accent;
+	border-radius: 12px;
+	background-color: variables.$body-color;
+	color: variables.$font-color;
+	font-family: 'Overpass', sans-serif;
+	@extend %marush-caption;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+		letter-spacing: 1px;
+	}
+}

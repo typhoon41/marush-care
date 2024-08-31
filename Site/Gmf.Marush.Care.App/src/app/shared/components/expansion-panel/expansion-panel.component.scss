@@ -1,7 +1,5 @@
-@use 'headers';
 @use 'variables';
 @use 'breakpoints';
-@use 'scss-solutions/src/modules/position/absolute';
 
 .panel-header {
 	position: relative;
@@ -15,17 +13,6 @@
 
 		@include breakpoints.apply-from-tablet() {
 			padding-left: variables.$expansion-panel-gap-bigger;
-		}
-	}
-
-	.caret {
-		display: inline-block;
-		@include absolute.unset-position(unset, 10px, 0);
-		margin-left: 5px;
-		transform: scaleX(1.5);
-
-		@include breakpoints.apply-from-tablet() {
-			right: 20px;
 		}
 	}
 }
