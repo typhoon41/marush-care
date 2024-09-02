@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef,
+  Input, QueryList, ViewChild, ViewChildren
+} from '@angular/core';
 import { isAction } from '@shared/functions/keyboard-event';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'marush-combobox',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule],
   templateUrl: './combobox.component.html',
@@ -14,44 +17,43 @@ export class ComboBoxComponent {
   @Input() items: string[] = [];
   @Input() id: string = 'combo-box';
   selectedItem: string | undefined;
-  collapsed = new BehaviorSubject<boolean>(false);
+  collapsed = false;
 
   @ViewChild('combo') combo: ElementRef | undefined;
   @ViewChildren('option') options: QueryList<ElementRef<HTMLLIElement>> | undefined;
 
-  constructor() {
-    this.collapsed.subscribe(collapsed => {
-      if (collapsed) {
-        this.giveFocusTo(this.getSelectedOption());
-      }
-      else {
-        this.giveFocusTo(this.combo);
-      }
-    });
-  }
+  constructor(private readonly cdr: ChangeDetectorRef) { }
 
   readonly containerId = () => `${this.id}-container`;
   readonly buttonId = () => `${this.id}-button`;
-
   readonly select = (item: string) => {
     this.selectedItem = item;
     this.hideDropdown();
   };
 
   readonly toggleDropdown = () => {
-    this.collapsed.next(!this.collapsed.value);
+    const shouldCollapse = !this.collapsed;
+    if (shouldCollapse) {
+      this.collapsed = shouldCollapse;
+      this.cdr.detectChanges();
+      this.giveFocusTo(this.getSelectedOption());
+      return;
+    }
+
+    this.hideDropdown();
   };
 
   readonly hideDropdown = () => {
-    this.collapsed.next(false);
+    this.collapsed = false;
+    this.giveFocusTo(this.combo);
   };
 
   readonly onBlur = (event: FocusEvent) => {
     const newTarget = event.relatedTarget as HTMLElement;
     const newTargetParent = newTarget?.parentElement;
 
-    if (newTargetParent?.id !== this.containerId() && newTarget?.id !== this.id &&
-      newTarget?.id !== this.buttonId() && newTarget?.id !== this.containerId()) {
+    if (newTargetParent?.id !== this.containerId() && newTargetParent?.parentElement?.id !== this.containerId()
+      && newTarget?.id !== this.id && newTarget?.id !== this.buttonId() && newTarget?.id !== this.containerId()) {
       this.hideDropdown();
     }
   };
@@ -76,7 +78,6 @@ export class ComboBoxComponent {
     if (this.mainActionTriggeredBy(event)) {
       event.stopImmediatePropagation();
       this.select(item);
-      this.hideDropdown();
     } else if (event.key === 'ArrowUp') {
       this.giveFocusTo(this.previousElementFrom(index));
     } else if (event.key === 'ArrowDown') {

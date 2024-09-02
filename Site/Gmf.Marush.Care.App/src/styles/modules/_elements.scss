@@ -2,11 +2,20 @@
 @use 'breakpoints';
 @use 'headers';
 
+@mixin marush-control-frame($with-edged-border: true) {
+	border: 1px solid variables.$accent;
+	background-color: variables.$body-color;
+	@if $with-edged-border {
+		border-radius: 0 0 12px 12px;
+	}
+	@else {
+		border-radius: 12px;
+	}
+}
+
 %element {
 	padding: 10px 30px 8px;
-	border: 1px solid variables.$accent;
-	border-radius: 12px;
-	background-color: variables.$body-color;
+	@include marush-control-frame(false);
 	color: variables.$font-color;
 	font-family: 'Overpass', sans-serif;
 	@extend %marush-caption;

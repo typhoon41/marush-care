@@ -12,6 +12,10 @@
 
 	.preview {
 		padding-right: 40px;
+
+		.placeholder {
+			color: #A59180;
+		}
 	}
 
 	.selected-value {
@@ -43,16 +47,15 @@
 
 	.dropdown {
 		display: block;
+		visibility: hidden;
 		position: absolute;
 		box-sizing: border-box;
 		max-height: 300px;
 		margin-top: 10px;
 		overflow-y: auto;
 		transition: opacity .2s;
-		border: 1px solid variables.$accent;
-		border-radius: 0 0 12px 12px;
 		opacity: 0;
-		background-color: variables.$body-color;
+		@include elements.marush-control-frame();
 
 		.control {
 			@include absolute.unset-position($left: 0);
@@ -60,6 +63,7 @@
 		}
 
 		&.collapsed {
+			visibility: visible;
 			opacity: 1;
 		}
 	}

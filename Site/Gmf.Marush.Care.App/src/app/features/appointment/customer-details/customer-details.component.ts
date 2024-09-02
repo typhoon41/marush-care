@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ComboBoxComponent } from '@shared/components/forms/combobox/combobox.component';
 import Language from '@shared/models/language.model';
@@ -20,8 +19,6 @@ export class CustomerDetailsComponent implements OnInit {
     ngOnInit(): void {
         const today = new Date();
         const nextMonth = new Date(new Date().setMonth(today.getMonth() + 1));
-        console.log(today);
-        console.log(nextMonth);
         new AirDatepicker(this.appointmentDate.nativeElement, {
             locale: new Language().predefined().datePickerLocale,
             autoClose: true,
@@ -29,15 +26,17 @@ export class CustomerDetailsComponent implements OnInit {
             moveToOtherMonthsOnSelect: false,
             selectOtherMonths: false,
             minDate: today,
-            maxDate: nextMonth
-// OnlyTimepicker: true,
-// Timepicker: true,
-// MinutesStep: 15,
-// MaxHours: 20,
-// MinHours: 12,
-// MinMinutes: 0,
-// MaxMinutes: 45,
-// StartDate: new Date(2024, 0, 1, 12, 0)
+            maxDate: nextMonth,
+            onBeforeSelect: ({ date }) => date.getDay() !== 0,
+            onRenderCell: ({ date, cellType }) => {
+                if (cellType === 'day' && date.getDay() === 0) {
+                    return {
+                        disabled: true
+                    };
+                }
+
+                return {};
+            }
         });
     }
 
