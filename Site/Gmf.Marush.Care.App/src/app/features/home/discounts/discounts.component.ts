@@ -12,9 +12,7 @@ import { Subscription, interval } from 'rxjs';
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
     // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.1:<p><strong>15.7. - 25.7.</strong></p><p>Neinv. mezoter. + radio talas. lifting<br/><s>8000</s> 6000</p>`,
-    // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.2:<p><strong>15.7. - 25.7.</strong></p><p>Radio talas. lifting + masaža lica + bio. tretman<br/><s>7500</s> 5500</p>`
+    $localize`:@@discounts.1:<p><strong>1.9. - 30.9.</strong></p><p>4 x PRX-T33 = Gratis PRP tretman u Bella Concept`
   ];
 
   currentDiscountPosition = 0;
