@@ -74,16 +74,28 @@ $radius: 24px;
 		height: 42px;
 		object-fit: cover;
 
-		&.face-treatment {
+		&.treatments-face {
 			object-position: 0 7%;
 		}
 
-		&.combination-treatment {
+		&.treatments-combination {
 			object-position: 0 50%;
 		}
 
-		&.brows-lashes {
+		&.brows-lashes, &.treatments-massage {
 			object-position: 0 55%;
+		}
+
+		&.treatments-waxing {
+			object-position: 0 0;
+		}
+
+		&.treatments-body {
+			object-position: 0 60%;
+		}
+
+		&.manicure-pedicure {
+			object-position: 0 100%;
 		}
 
 		@include breakpoints.apply-from-tablet() {

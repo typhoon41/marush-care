@@ -1,4 +1,4 @@
-<section class="aligned-centrally vertical-stack column-12 hidden" [ngClass]="{'animate-fading-in': treatments.length }">
+<section class="aligned-centrally vertical-stack column-12 hidden" [ngClass]="{'animate-fading-in': treatments.length }" #treatmentsContainer>
     @for(treatment of treatments; track treatment.title)
     {
     <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="treatment.title" [index]="$index" class="column-12">

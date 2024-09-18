@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable @stylistic/max-len */
 const supportedFaceTreatments = [
     {
@@ -6,9 +7,20 @@ const supportedFaceTreatments = [
         description: $localize`:@@treatments.face.hygiene.description:Klasičan higijenski tretman podrazumeva uklanjanje mitisera, akni i milija komedoekspresijom. Ova procedura se sastoji od pripreme kože, blagog pilinga, komedoekspresije i završne maske.`
     },
     {
-        title: $localize`:@@treatments.face.premium-hygiene:Premium higijenski tretman`,
-        price: 4500,
+        title: $localize`:@@treatments.face.premium-hygiene.basic:Premium higijenski tretman (malo akni)`,
+        clone: true,
+        price: 4500
+    },
+    {
+        title: $localize`:@@treatments.face.premium-hygiene.regular:Premium higijenski tretman`,
+        price: 5500,
+        rangedPrice: '4500 - 6500',
         description: $localize`:@@treatments.face.premium-hygiene.description:Premium higijenski tretman podrazumeva uklanjanje mitisera, akni i milija komedoekspresijom. Ova procedura se sastoji od pripreme kože, blagog pilinga, komedoekspresije, hemijskog pilinga i završne maske.<br><br>Hemijski piling je nežan; uklanja prvi izumrli sloj ćelija kože rastapajući ih. Ovaj piling čisti pore i sužava ih, smiruje upale i ujednačava ten. Nakon ove procedure nema crvenila i ljuštenja kože!`
+    },
+    {
+        title: $localize`:@@treatments.face.premium-hygiene.advanced:Premium higijenski tretman (puno akni)`,
+        clone: true,
+        price: 6500
     },
     {
         title: $localize`:@@treatments.face.non-invasive-mesotherapy:Neinvazivna mezoterapija`,
@@ -16,14 +28,24 @@ const supportedFaceTreatments = [
         description: $localize`:@@treatments.face.non-invasive-mesotherapy.description:Neinvazivna mezoterapija je postupak ubacivanja vitamina, minerala i drugih hranljivih sastojaka iz koktela u dublje slojeve kože.<br><br>Prilikom ove procedure koristi se aparat koji emituje blage strujne impulse koji privremeno otvaraju mezo kanale u koži putem kojih sastojci iz koktela prodiru u dublje slojeve kože.<br><br>Nakon tretmana nema perioda oporavka i generalno je bezbolan bez pridruženog crvenila. Pogodan je za sve tipove kože, a posebno za dehidriranu, suvu kožu i rozaceu, odnosno kuperozu.`
     },
     {
+        title: $localize`:@@treatments.face.skeyndor:Skeyndor hemijski piling`,
+        price: 5000,
+        description: $localize`:@@treatments.face.skeyndor.description:Skeyndor hemijski piling je inovativni pristup nezi kože koji uključuje eksfolijaciju kože ali i obnovu mikrobioma kože.<br><br>Svojom naprednom <em>probiome peel</em> tehnologijom, Skeyndor pilinzi nežno uklanjaju izumrli sloj kože, ali i hrane kožu postbioticima i prebioticima kako bi uravnotežili mikrobiom kože. Koža je obnovljena, čista i blistava.<br><br>Tretman je pogodan za sve tipove kože uključujući i tanku, osetljivu kožu kao i kuperoznu kožu. U sklopu tretmana dobija se i kućna nega u trajanju od sedam dana kako se produžio efekat tretmana.`
+    },
+    {
+        title: $localize`:@@treatments.face.skeyndor:Skeyndor hemijski piling` + $localize`:@@treatments.package.default: - 4 tretmana`,
+        clone: true,
+        price: 16000
+    },
+    {
         title: $localize`:@@treatments.face.prx-t33:PRX T33 piling`,
         price: 7000,
         description: $localize`:@@treatments.face.prx-t33.description:PRX T33 piling je hemijski piling za biorevitalizaciju kože. Preporučuje se za sve tipove kože, a može se raditi tokom cele godine. Osvežava kožu, vraća joj vitalnost i blistavost, istovremeno sužava pore, posvetljuje hiperpigmentacije i smanjuje bore.<br><br>Nakon tretmana nema perioda oporavka. Tretman traje kratko pa se može uraditi i na pauzi za ručak. Bezbolno je, nema crvenila ni ljuštenja kože.`
     },
     {
-        title: $localize`:@@treatments.face.skeyndor:Skeyndor hemijski piling`,
-        price: 5000,
-        description: $localize`:@@treatments.face.skeyndor.description:Skeyndor hemijski piling je inovativni pristup nezi kože koji uključuje eksfolijaciju kože ali i obnovu mikrobioma kože.<br><br>Svojom naprednom <em>probiome peel</em> tehnologijom, Skeyndor pilinzi nežno uklanjaju izumrli sloj kože, ali i hrane kožu postbioticima i prebioticima kako bi uravnotežili mikrobiom kože. Koža je obnovljena, čista i blistava.<br><br>Tretman je pogodan za sve tipove kože uključujući i tanku, osetljivu kožu kao i kuperoznu kožu. U sklopu tretmana dobija se i kućna nega u trajanju od sedam dana kako se produžio efekat tretmana.`
+        title: $localize`:@@treatments.face.prx-t33:PRX T33 piling` + $localize`:@@treatments.package.default: - 4 tretmana`,
+        price: 24000,
+        clone: true
     },
     {
         title: $localize`:@@treatments.face.purple-peel:Purple peel 4`,
@@ -31,9 +53,19 @@ const supportedFaceTreatments = [
         description: $localize`:@@treatments.face.purple-peel.description:Purple peel 4 je inovativni hemijski piling poznat po svojoj efikasnosti u smanjenju akni, ožiljaka od akni, dubokih bora i hiperpigmentacije.<br><br>Njegova jedinstvena svojstva podstiču obnavljanje i podmlađivanje kože. Spada u kategoriju dubokih pilinga koji stimulišu fibroplaste, a samim tim i proizvodnju kolagena i elastičnih vlakana.<br><br>Nakon tretmana nema perioda oporavka. U zavisnosti od stanja kože može se javiti praškasto perutanje kože, ali ne i ljuštenje kože. Za optimalne rezultate preporučuje se u kombinaciji sa drugim tretmanima.`
     },
     {
+        title: $localize`:@@treatments.face.purple-peel:Purple peel 4` + $localize`:@@treatments.package.default: - 4 tretmana`,
+        price: 24000,
+        clone: true
+    },
+    {
         title: $localize`:@@treatments.face.t50-t35:T50T35 hemijski piling`,
         price: 5000,
         description: $localize`:@@treatments.face.t50-t35.description:T50T35 hemijski piling nudi nekoliko bitnih prednosti za postizanje zdrave kože kao što su: revitalizacija, popravljanje teksture kože, ublažavanje hiperpigmentacija, rešavanje problema akni, popravljanje tonusa kože, ublažavanje bora i dr.<br><br>Već nakon prvog tretmana primećuju se vidljivi rezultati. Tretman biorevitalizacije može se raditi cele godine, čak i leti. Tretman ne zahteva period oporavka i idealan je u kombinaciji sa drugim tretmanima.`
+    },
+    {
+        title: $localize`:@@treatments.face.t50-t35:T50T35 hemijski piling` + $localize`:@@treatments.package.default: - 4 tretmana`,
+        price: 16000,
+        clone: true
     },
     {
         title: $localize`:@@treatments.face.dermapen:Dermapen`,
@@ -52,13 +84,17 @@ const supportedFaceTreatments = [
     },
     {
         title: $localize`:@@treatments.face.ultrasonic:Ultrazvučno čišćenje kože`,
-        price: 2000,
+        price: 2500,
         description: $localize`:@@treatments.face.ultrasonic.description:Tretman čišćenja kože ultrazvučnom špatulom namenjen je koži bez vidljivih problema na licu kao što su npr. akne ili duboki mitiseri.<br><br>Špatula nežno čisti lice zahvaljujući ultrazvučnim talasima koje emituje te uklanja sebum, sitne mitisere i izumrle ćelije kože. Lako se kombinuje sa drugim tretmanima.`
     },
     {
         title: $localize`:@@treatments.face.radio-lifting:Radiotalasni lifting`,
         price: 3500,
         description: $localize`:@@treatments.face.radio-lifting.description:Radiotalasni lifting je veoma efikasan nehirurški tretman zatezanja opuštene kože i redukovanja bora. Metodom radiotalasa zagreva se srednji sloj kože u kojem se nalaze kolagen i elastin. Ova stimulacija podstiče kožu da pokrene proces obnavljanja elastičnih vlakana, a rezultat je jedrija, zategnutija i čvršća koža.<br><br>Tretman se može izvoditi i na licu i na telu. Uvek se sprovodi u serijama gde jednu seriju čine četiri tretmana koja se izvode na svakih pet do sedam dana.`
+    },
+    {
+        title: $localize`:@@treatments.face.massage:Masaža lica i dekoltea`,
+        price: 2500
     },
     {
         title: $localize`:@@treatments.face.vitamin:Vitaminski tretman`,
@@ -77,13 +113,11 @@ const supportedFaceTreatments = [
     },
     {
         title: $localize`:@@treatments.face.oxygen:Tretman čistim kiseonikom`,
-        price: 3000,
-        description: ''
+        price: 3000
     },
     {
         title: $localize`:@@treatments.face.eye-contour:Eye contour`,
-        price: 6500,
-        description: ''
+        price: 6500
     }
 ];
 
