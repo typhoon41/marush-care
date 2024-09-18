@@ -5,7 +5,7 @@ const supportedFaceMassages = [
         price: 2500
     },
     {
-        title: $localize`:@@treatments.massages.face-gym:Face Gym`,
+        title: $localize`:@@treatments.massages.face-gym:Face gym`,
         description: $localize`:@@treatments.massages.face-gym.description:Intenzivna masaža preoblikovanja lica.`,
         price: 4500
     },

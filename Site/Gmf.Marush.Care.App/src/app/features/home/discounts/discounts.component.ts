@@ -12,7 +12,8 @@ import { Subscription, interval } from 'rxjs';
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
     // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.1:<p><strong>1.9. - 30.9.</strong></p><p>4 x PRX-T33 = Gratis PRP tretman u Bella Concept`
+    $localize`:@@discounts.1:<p><strong>Od 26.9.</strong></p><p>Nova adresa salona je Višegradska 25!</p>`,
+    $localize`:@@discounts.2:<p><strong>1.9. - 30.9.</strong></p><p>4 x PRX-T33 = Gratis PRP tretman u Bella Concept</p>`
   ];
 
   currentDiscountPosition = 0;
