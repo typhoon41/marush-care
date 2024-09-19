@@ -1,5 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+// eslint-disable-next-line @stylistic/max-len
+import { AfterViewChecked, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
@@ -13,12 +14,14 @@ import { IDefineTreatment, SelectedService } from '@shared/models/services/types
   templateUrl: './treatment-selector.component.html',
   styleUrl: './treatment-selector.component.scss'
 })
-export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges {
+export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges, AfterViewChecked {
   @Input() selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
+  @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
   treatments: IDefineTreatment[] = [];
+  selectedServiceChanging = false;
 
-  constructor(private readonly router: Router) {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router) {
     super();
   }
 
@@ -27,7 +30,16 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
     const selectedServiceChanges = changes['selectedService'];
 
     if (selectedServiceChanges) {
+      this.selectedServiceChanging = true;
       this.handleSelectedService(selectedServiceChanges.currentValue);
+    }
+  }
+
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  ngAfterViewChecked(): void {
+    if (isPlatformBrowser(this.platformId) && this.selectedServiceChanging) {
+      this.treatmentsContainer?.nativeElement.scrollIntoView({ block: 'start' });
+      this.selectedServiceChanging = false;
     }
   }
 
@@ -43,8 +55,8 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
       return;
     }
 
-    this.treatments = supportedTreatments.find(treatment => treatment.key === selectedService)?.treatments ?? [];
-    document.getElementById('schedule-action')?.scrollIntoView({ block: 'end' });
+    this.treatments = supportedTreatments.find(treatment => treatment.key === selectedService)?.treatments
+      ?.filter(treatment => !treatment.clone) ?? [];
   };
 
   readonly redirectToAppointment = () => {
@@ -52,6 +64,6 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
   };
 
   readonly format = (treatment: IDefineTreatment) =>
-    `${treatment.description}${treatment.description ? '<br><br>' : ''}` +
-    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.price}`}`;
+    `${treatment.description || ''}${treatment.description ? '<br><br>' : ''}` +
+    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ? treatment.rangedPrice : treatment.price}`}`;
 }

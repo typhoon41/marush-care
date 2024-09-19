@@ -1,4 +1,4 @@
-export type SelectedService = 'face' | 'combination' | 'browsLashes' | '';
+export type SelectedService = 'face' | 'combination' | 'browsLashes' | 'waxing' | 'body' | 'manicurePedicure' | 'faceMassage' | '';
 
 export interface IDefineTreatmentGroup {
     key: SelectedService;
@@ -10,6 +10,8 @@ export interface IDefineTreatmentGroup {
 
 export interface IDefineTreatment {
     title: string;
-    description: string;
+    description?: string;
+    clone?: boolean;
+    rangedPrice?: string;
     price: number;
 }

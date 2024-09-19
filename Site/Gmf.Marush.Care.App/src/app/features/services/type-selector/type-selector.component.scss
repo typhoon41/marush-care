@@ -82,8 +82,20 @@ $radius: 24px;
 			object-position: 0 50%;
 		}
 
-		&.brows-lashes {
+		&.brows-lashes, &.treatments-massage {
 			object-position: 0 55%;
+		}
+
+		&.treatments-waxing {
+			object-position: 0 0;
+		}
+
+		&.treatments-body {
+			object-position: 0 60%;
+		}
+
+		&.manicure-pedicure {
+			object-position: 0 100%;
 		}
 
 		@include breakpoints.apply-from-tablet() {

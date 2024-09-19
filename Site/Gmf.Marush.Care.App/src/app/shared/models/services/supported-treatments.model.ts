@@ -1,7 +1,10 @@
-/* eslint-disable @stylistic/max-len */
+import supportedBodyTreatments from './treatments/body-treatments.model';
 import supportedBrowsLashesTreatments from './treatments/brows-lashes.model';
 import supportedCombinationTreatments from './treatments/combination-treatments.model';
+import supportedFaceMassages from './treatments/face-massage.model';
 import supportedFaceTreatments from './treatments/face-treatments.model';
+import supportedManicurePedicure from './treatments/manicure-pedicure.model';
+import supportedWaxing from './treatments/waxing.model';
 import { IDefineTreatmentGroup } from './types.model';
 
 const supportedTreatments = [
@@ -25,6 +28,34 @@ const supportedTreatments = [
         image: 'brows-lashes',
         imageDescription: $localize`:@@services.brows-lashes.image-description:Obrva i trepavica žene koja žmuri`,
         treatments: supportedBrowsLashesTreatments
+    },
+    {
+        key: 'waxing',
+        title: $localize`:@@services.waxing.title:Depilacija`,
+        image: 'treatments-waxing',
+        imageDescription: $localize`:@@services.waxing.image-description:Priprema voska za depilaciju`,
+        treatments: supportedWaxing
+    },
+    {
+        key: 'body',
+        title: $localize`:@@services.body.title:Tretmani tela`,
+        image: 'treatments-body',
+        imageDescription: $localize`:@@services.body.image-description:Tretman tela`,
+        treatments: supportedBodyTreatments
+    },
+    {
+        key: 'manicurePedicure',
+        title: $localize`:@@services.manicure-pedicure.title:Manikir i Pedikir`,
+        image: 'manicure-pedicure',
+        imageDescription: $localize`:@@services.manicure-pedicure.image-description:Pedikirana ženska stopala`,
+        treatments: supportedManicurePedicure
+    },
+    {
+        key: 'massage',
+        title: $localize`:@@services.massage.title:Masaža lica`,
+        image: 'treatments-massage',
+        imageDescription: $localize`:@@services.massage.image-description:Žena uživa u masaži lica`,
+        treatments: supportedFaceMassages
     }
 ] as IDefineTreatmentGroup[];
 
