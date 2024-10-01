@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef,
-  Input, QueryList, ViewChild, ViewChildren
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { isAction } from '@shared/functions/keyboard-event';
+import { IComboBoxItem } from './combobox.model';
 
 @Component({
   selector: 'marush-combobox',
@@ -14,9 +13,12 @@ import { isAction } from '@shared/functions/keyboard-event';
   styleUrl: './combobox.component.scss'
 })
 export class ComboBoxComponent {
-  @Input() items: string[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  @Input() onValueChanged: (item: IComboBoxItem) => void = () => { };
+  @Input() items: IComboBoxItem[] = [];
   @Input() id: string = 'combo-box';
-  selectedItem: string | undefined;
+  @Input() placeholder: string = '';
+  @Input() selectedItem: IComboBoxItem | undefined;
   collapsed = false;
 
   @ViewChild('combo') combo: ElementRef | undefined;
@@ -26,9 +28,10 @@ export class ComboBoxComponent {
 
   readonly containerId = () => `${this.id}-container`;
   readonly buttonId = () => `${this.id}-button`;
-  readonly select = (item: string) => {
+  readonly select = (item: IComboBoxItem) => {
     this.selectedItem = item;
     this.hideDropdown();
+    this.onValueChanged(item);
   };
 
   readonly toggleDropdown = () => {
@@ -73,7 +76,7 @@ export class ComboBoxComponent {
     }
   };
 
-  readonly onOptionKey = (item: string, event: KeyboardEvent, index: number) => {
+  readonly onOptionKey = (item: IComboBoxItem, event: KeyboardEvent, index: number) => {
     event.preventDefault();
     if (this.mainActionTriggeredBy(event)) {
       event.stopImmediatePropagation();
@@ -90,7 +93,7 @@ export class ComboBoxComponent {
   private readonly previousElementFrom = (index: number) => this.options?.get((index - 1 + this.options.length) % this.options.length);
   private readonly nextElementFrom = (index: number) => this.options?.get((index + 1) % this.options.length);
   private readonly getSelectedOption = () => this.options?.filter(option =>
-    option.nativeElement.lastChild?.textContent === this.selectedItem)[0] ?? this.options?.get(0);
+    (option.nativeElement.lastChild as HTMLElement).getAttribute('value') === this.selectedItem?.value)[0] ?? this.options?.get(0);
 
   private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
 }

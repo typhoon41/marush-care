@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { ComboBoxComponent } from '@shared/components/forms/combobox/combobox.component';
+import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
 import Language from '@shared/models/language.model';
 import AirDatepicker from 'air-datepicker';
 
@@ -40,6 +41,7 @@ export class CustomerDetailsComponent implements OnInit {
         });
     }
 
+    readonly placeholder = $localize`:@@appointment.customer.time:Vreme`;
     readonly toggleDatePicker = () => this.datePicker?.show();
     readonly timeIntervals = () => {
         const workingHoursAmount = 480;
@@ -52,7 +54,11 @@ export class CustomerDetailsComponent implements OnInit {
             const totalMinutes = index * minutesInterval;
             const hour = beginningHour + Math.floor(totalMinutes / minutesInHour);
             const minutePart = totalMinutes % minutesInHour;
-            return `${hour.toString().padStart(digitsInHour, '0')}:${minutePart.toString().padStart(digitsInHour, '0')}`;
+            const value = `${hour.toString().padStart(digitsInHour, '0')}:${minutePart.toString().padStart(digitsInHour, '0')}`;
+            return {
+                label: value,
+                value
+            } as IComboBoxItem;
         });
     };
 }

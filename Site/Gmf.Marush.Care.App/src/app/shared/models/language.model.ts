@@ -31,6 +31,9 @@ export default class Language {
         }
     };
 
+    readonly findByValue = (value: string) => this.supportedLanguages.filter(language =>
+        language.value === value)[0] ?? this.default;
+
     readonly changeTo = (language: ILanguage) => {
         this.save(language.value);
         location.replace(`${environment.url}${language.value}/`);

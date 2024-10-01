@@ -6,7 +6,7 @@
 	display: block;
 	background-color: variables.$primary;
 
-	.action {
+	.action, .language-combo-box .preview, .language-combo-box .control-description {
 		@include headers.marush-caption(true);
 		margin-right: auto;
 		margin-left: auto;

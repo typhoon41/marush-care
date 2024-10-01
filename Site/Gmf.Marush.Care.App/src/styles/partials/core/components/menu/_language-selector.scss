@@ -1,0 +1,51 @@
+@use 'variables';
+@use 'headers';
+@use 'breakpoints';
+@use 'scss-solutions/src/modules/position/absolute';
+
+$height-gap: 10px;
+$side-gap: 15px;
+
+.language-combo-box {
+	position: relative;
+	z-index: 2;
+
+	.combo-box .preview {
+		padding: $height-gap 25px $height-gap $side-gap;
+		border: none;
+		background-color: transparent;
+		font-family: 'Overpass-Bold', sans-serif;
+		user-select: none;
+
+		&:hover {
+			color: variables.$accent;
+		}
+	}
+
+	.caret {
+		@include absolute.unset-position(9px, 7px);
+		transform: scale(1.3, .9);
+	}
+
+	.control-description {
+		background-color: transparent;
+	}
+
+	.dropdown {
+		margin: 0;
+		border: none;
+		border-radius: 0;
+		background-color: variables.$primary;
+
+		.control-description {
+			padding: $height-gap $side-gap;
+		}
+	}
+
+	.option-container {
+		&:hover, &.selected, &.selected .control-description, .control-description:hover {
+			background-color: transparent;
+			color: variables.$accent;
+		}
+	}
+}

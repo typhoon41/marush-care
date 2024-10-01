@@ -3,22 +3,22 @@
     <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
         (click)="toggleDropdown()" (keydown)="onKey($event)">
         @if(selectedItem){
-        <span class="selected-value ellipsis">{{selectedItem}}</span>
+        <span class="selected-value ellipsis">{{selectedItem.label}}</span>
         }
         @else {
-        <span class="selected-value ellipsis placeholder">Datum</span>
+        <span class="selected-value ellipsis placeholder">{{placeholder}}</span>
         }
         <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
     </button>
     <ul class="dropdown clickable column-12" role="listbox" tabindex="-1"
         [ngClass]="{'collapsed': collapsed}" role="listbox" aria-hidden="true"
-        [ariaHidden]="collapsed === false" [id]="containerId()" (keydown)="onOptionsKey($event)">
-        @for(item of items; track item){
-        <li #option aria-selected="false" [ariaSelected]="selectedItem === item" class="option-container"
-            [ngClass]="{'selected': selectedItem === item}" role="option"
+        [ariaHidden]="!collapsed" [id]="containerId()" (keydown)="onOptionsKey($event)">
+        @for(item of items; track item.value){
+        <li #option aria-selected="false" [ariaSelected]="selectedItem?.value === item.value" class="option-container"
+            [ngClass]="{'selected': selectedItem?.value === item.value}" role="option"
             [tabindex]="collapsed ? 0 : -1" (click)="select(item)"
             (keydown)="onOptionKey(item, $event, $index)" (blur)="onBlur($event)">
-            <label class="control-description clickable" tabindex="-1">{{item}}<input [checked]="selectedItem === item" class="control" type="radio" [name]="id" tabindex="-1" /></label>
+            <label class="control-description clickable" tabindex="-1">{{item.label}}<input [checked]="selectedItem?.value === item.value" class="control" type="radio" [name]="id" tabindex="-1" [value]="item.value" /></label>
         </li>
         }
     </ul>
