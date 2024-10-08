@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj" />
+    <ProjectReference Include="..\Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.csproj" />
+  </ItemGroup>
+</Project>

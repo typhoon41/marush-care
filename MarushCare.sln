@@ -12,6 +12,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		Deployment\Templates\environment-deploy.yaml = Deployment\Templates\environment-deploy.yaml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Api", "Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj", "{C87721F0-594A-496E-B596-54844B8EDA03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Net.Core.Common", "Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj", "{293DC33B-6BB0-4904-B3E0-4FB02A67B12F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Host", "Gmf.Marush.Care.Host\Gmf.Marush.Care.Host.csproj", "{CBB532D5-8D6C-4E17-9122-DB559D2A0A9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmf.DDD.Common", "Gmf.DDD.Common\Gmf.DDD.Common.csproj", "{F43EBB37-3CC9-4542-B9A7-667C5AC76064}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,12 +32,30 @@ Global
 		{1A0388E4-6840-40DD-8353-C2CC8846B5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A0388E4-6840-40DD-8353-C2CC8846B5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A0388E4-6840-40DD-8353-C2CC8846B5A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87721F0-594A-496E-B596-54844B8EDA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87721F0-594A-496E-B596-54844B8EDA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87721F0-594A-496E-B596-54844B8EDA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87721F0-594A-496E-B596-54844B8EDA03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB532D5-8D6C-4E17-9122-DB559D2A0A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB532D5-8D6C-4E17-9122-DB559D2A0A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB532D5-8D6C-4E17-9122-DB559D2A0A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB532D5-8D6C-4E17-9122-DB559D2A0A9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F43EBB37-3CC9-4542-B9A7-667C5AC76064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43EBB37-3CC9-4542-B9A7-667C5AC76064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F43EBB37-3CC9-4542-B9A7-667C5AC76064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F43EBB37-3CC9-4542-B9A7-667C5AC76064}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{541E6457-B117-4E6D-9B27-084FD0549D24} = {463C3FF8-7E7C-40ED-BF51-71D31E2535F8}
+		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F} = {250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}
+		{F43EBB37-3CC9-4542-B9A7-667C5AC76064} = {250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9AA636E-58CC-4FF7-99F1-4CE33374A010}
