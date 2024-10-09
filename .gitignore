@@ -12,7 +12,6 @@ app_offline.htm
 .vs
 bin
 obj
-packages
 *.vspscc
 
 Site/Gmf.Marush.Care.App/dist/*
