@@ -17,7 +17,7 @@ export class ContactPageComponent {
 
   constructor(private readonly meta: Meta, private readonly title: Title) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.contact.description:Otkrijte oličenje lepote i opuštanja u Marush salonu. Smešten u srcu Beograda, naš salon nudi miran beg od užurbanog gradskog života.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.contact.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,anticelulit masaža,kontakt,centar,Beograd,Vlajkovićeva` });
+    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.contact.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,kombinacije tretmana,lifting,anticelulit masaža,kontakt,centar,Beograd,Višegradska` });
     this.title.setTitle($localize`:@@routes.contact.title:Marush: Space of Care - kontakt`);
   }
 }

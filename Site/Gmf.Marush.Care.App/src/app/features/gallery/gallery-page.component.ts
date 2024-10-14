@@ -31,7 +31,7 @@ export class GalleryPageComponent implements OnInit {
     @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly http: HttpClient) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.gallery.description:Prepustite se zadivljujućoj galeriji i sveobuhvatnom pregledu koji prikazuje sve što Salon lepote Marush nudi za Vas.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.gallery.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Vlajkovićeva` });
+    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.gallery.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Višegradska` });
     this.title.setTitle($localize`:@@routes.gallery.title:Marush: Space of Care - galerija`);
   }
 
