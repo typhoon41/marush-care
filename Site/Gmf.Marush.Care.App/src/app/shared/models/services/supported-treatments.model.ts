@@ -3,7 +3,6 @@ import supportedBrowsLashesTreatments from './treatments/brows-lashes.model';
 import supportedCombinationTreatments from './treatments/combination-treatments.model';
 import supportedFaceMassages from './treatments/face-massage.model';
 import supportedFaceTreatments from './treatments/face-treatments.model';
-import supportedManicurePedicure from './treatments/manicure-pedicure.model';
 import supportedWaxing from './treatments/waxing.model';
 import { IDefineTreatmentGroup } from './types.model';
 
@@ -43,13 +42,13 @@ const supportedTreatments = [
         imageDescription: $localize`:@@services.body.image-description:Tretman tela`,
         treatments: supportedBodyTreatments
     },
-    {
-        key: 'manicurePedicure',
-        title: $localize`:@@services.manicure-pedicure.title:Manikir i Pedikir`,
-        image: 'manicure-pedicure',
-        imageDescription: $localize`:@@services.manicure-pedicure.image-description:Pedikirana ženska stopala`,
-        treatments: supportedManicurePedicure
-    },
+    // {
+    //     Key: 'manicurePedicure',
+    //     Title: $localize`:@@services.manicure-pedicure.title:Manikir i Pedikir`,
+    //     Image: 'manicure-pedicure',
+    //     ImageDescription: $localize`:@@services.manicure-pedicure.image-description:Pedikirana ženska stopala`,
+    //     Treatments: supportedManicurePedicure
+    // },
     {
         key: 'massage',
         title: $localize`:@@services.massage.title:Masaža lica`,
