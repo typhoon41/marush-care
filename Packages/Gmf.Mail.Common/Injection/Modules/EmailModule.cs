@@ -5,7 +5,7 @@ using Gmf.Mail.Common.Models;
 using Microsoft.Extensions.Logging;
 using Module = Autofac.Module;
 
-namespace Gmf.Mail.Common.Injection;
+namespace Gmf.Mail.Common.Injection.Modules;
 public class EmailModule : Module
 {
     protected override void Load(ContainerBuilder builder) =>
