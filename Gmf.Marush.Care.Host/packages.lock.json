@@ -2,6 +2,12 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "Aspire.Dashboard.Sdk.win-x64": {
+        "type": "Direct",
+        "requested": "[8.2.1, )",
+        "resolved": "8.2.1",
+        "contentHash": "IsIxNekKS/3Amk3jlVbdVJLUkm+bJzbBGIRHhFo2M8DLfma9YvQkpPllTkmBUkjHc8MSENxQnW8PTdGZcXl4CQ=="
+      },
       "Aspire.Hosting.AppHost": {
         "type": "Direct",
         "requested": "[8.1.0, )",
@@ -10,6 +16,12 @@
         "dependencies": {
           "Aspire.Hosting": "8.1.0"
         }
+      },
+      "Aspire.Hosting.Orchestration.win-x64": {
+        "type": "Direct",
+        "requested": "[8.2.1, )",
+        "resolved": "8.2.1",
+        "contentHash": "0kpikwiRAjQF5ahkO2b1s7pQNX8ACmEDvUgqYvwKDPadCThQQe0+dcXmN3B0gBic5GH3GmPsT86rsS0VmNlnVg=="
       },
       "Aspire.Hosting": {
         "type": "Transitive",

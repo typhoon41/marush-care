@@ -65,10 +65,10 @@ public class ApiRunner(string[] arguments) : ApplicationRunner(arguments)
         {
             _ = application.UseRouting();
             _ = application.MapControllers();
+            configureApplication(builder, application);
             _ = application.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
             _ = application.UseHttpsRedirection();
             application.UseExceptionsHandler();
-            configureApplication(builder, application);
             application.ConfigureFluentValidation();
         };
 

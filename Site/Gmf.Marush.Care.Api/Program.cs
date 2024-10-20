@@ -3,9 +3,12 @@ using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Initialization;
 using Gmf.Net.Core.Common.Initialization.Documentation;
 using Gmf.Net.Core.Common.Initialization.Injection;
+using Gmf.Net.Core.Common.Initialization.Middlewares;
 using Microsoft.AspNetCore.Mvc;
+using System.Resources;
 
 [assembly: ApiController]
+[assembly: NeutralResourcesLanguage("sr")]
 var swaggerSettings = new OpenApiSettings
 {
     Email = "office@marushcare.com",
@@ -23,6 +26,7 @@ new ApiRunner(args)
 
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)
 {
+    _ = application.UseMiddleware<LocalizationMiddleware>(new List<string>() { "sr", "en", "ru" });
     //app.UseDefaultFiles();
     //app.UseStaticFiles(new StaticFileOptions
     //{
