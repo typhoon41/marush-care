@@ -7,6 +7,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="System.Resources.ResourceManager" />

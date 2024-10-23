@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Initialization;
 using Gmf.Net.Core.Common.Initialization.Documentation;
@@ -52,7 +53,7 @@ static void ContainerCallback(HostBuilderContext context, ContainerBuilder build
 void ServiceCallback(WebApplicationBuilder builder)
 {
     var marushAssembly = new AssemblyFinder("Gmf.Marush.Care");
-
+    builder.AddSqlServerDbContext<MarushCareContext>("MarushCare");
     _ = builder.Services.AddCors();
     _ = builder.Services.AddAutoMapper(marushAssembly.Api);
     _ = builder.Services.AddMvc([], marushAssembly.Api);

@@ -1,16 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="packages.lock.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="packages.lock.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj" />
     <ProjectReference Include="..\Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.csproj" />
+    <ProjectReference Include="..\Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 </Project>

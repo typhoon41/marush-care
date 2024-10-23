@@ -21,9 +21,9 @@ public class ApiRunner(string[] arguments) : ApplicationRunner(arguments)
     {
         _ = builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
         _ = builder.Host.ConfigureContainer(_withGivenConfiguration);
+        _configureServicesWith(builder);
         builder.UseAspireServiceDiscovery();
 
-        _configureServicesWith(builder);
 
         var application = builder.Build();
         _ = application.MapDefaultEndpoints();

@@ -14,6 +14,10 @@ public class AppointmentController : ControllerBase
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //public async Task<IActionResult> Post([FromBody][Required] AppointmentRequest data)
     //{
+    // // Upisati zahtev u bazu
+    // Poslati klijentu mail
+    // Poslati Mariji mail
+
     //    return data != null ? Ok() : (StatusCodeResult)BadRequest();
     //}
 
