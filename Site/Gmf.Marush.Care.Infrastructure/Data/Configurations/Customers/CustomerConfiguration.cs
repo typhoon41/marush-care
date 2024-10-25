@@ -1,16 +1,15 @@
-﻿using Gmf.Marush.Care.Infrastructure.Data.Entities;
+﻿using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Gmf.Marush.Care.Infrastructure.Data.Configurations;
+namespace Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
 
 [ExcludeFromCodeCoverage]
 public class CustomerConfiguration : IEntityTypeConfiguration<CustomerDto>
 {
     private const string Customers = "Customers";
     public const int DefaultLength = 100;
-    public const int PhoneLength = 16;
 
     public void Configure(EntityTypeBuilder<CustomerDto> builder)
     {
@@ -18,9 +17,11 @@ public class CustomerConfiguration : IEntityTypeConfiguration<CustomerDto>
         _ = builder.ToTable(Customers);
         _ = builder.Navigation(e => e.Appointments)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
-        _ = builder.Property(x => x.Email).HasMaxLength(DefaultLength).IsRequired();
+        _ = builder.Navigation(e => e.Phones)
+            .UsePropertyAccessMode(PropertyAccessMode.Property);
+        _ = builder.Navigation(e => e.Emails)
+            .UsePropertyAccessMode(PropertyAccessMode.Property);
         _ = builder.Property(x => x.Name).HasMaxLength(DefaultLength).IsRequired();
         _ = builder.Property(x => x.Surname).HasMaxLength(DefaultLength).IsRequired();
-        _ = builder.Property(x => x.Phone).HasMaxLength(PhoneLength);
     }
 }

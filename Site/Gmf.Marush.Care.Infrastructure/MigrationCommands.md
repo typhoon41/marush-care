@@ -23,3 +23,20 @@ dotnet ef migrations add InitialCreate --project Site/Gmf.Marush.Care.Infrastruc
 ``` shell
 dotnet ef database update --project Site/Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj --startup-project Gmf.Marush.Care.Host/Gmf.Marush.Care.Host.csproj
 ```
+
+### Remove migration
+
+``` shell
+dotnet-ef migrations remove --project Site/Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj --startup-project Gmf.Marush.Care.Host/Gmf.Marush.Care.Host.csproj
+```
+
+### Revert to a specific migration (discard all migrations created after the specified one)
+
+``` shell
+dotnet-ef database update --project Site/Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj --startup-project Gmf.Marush.Care.Host/Gmf.Marush.Care.Host.csproj THE-LAST-GOOD-MIGRATION-NAME
+
+### Revert all migrations
+
+``` shell
+dotnet-ef database update --project Site/Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj --startup-project Gmf.Marush.Care.Host/Gmf.Marush.Care.Host.csproj 0
+```

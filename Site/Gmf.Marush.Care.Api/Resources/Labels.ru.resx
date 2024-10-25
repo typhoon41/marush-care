@@ -129,4 +129,7 @@
   <data name="ValidationInterval" xml:space="preserve">
     <value>Неверная дата/время встречи</value>
   </data>
+  <data name="ValidationDuration" xml:space="preserve">
+    <value>Продолжительность приема должна составлять от 15 до 240 минут</value>
+  </data>
 </root>

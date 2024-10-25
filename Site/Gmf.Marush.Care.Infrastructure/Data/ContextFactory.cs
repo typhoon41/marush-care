@@ -21,6 +21,6 @@ public class ContextFactory : IDesignTimeDbContextFactory<MarushCareContext>
         var optionsBuilder = new DbContextOptionsBuilder<MarushCareContext>();
         _ = optionsBuilder.UseSqlServer(configuration.GetConnectionString("Database")!);
 
-        return new MarushCareContext(new EventsDispatcherStub(), new EventsStore<IDomainEvent>(new EventsDispatcherStub()), optionsBuilder.Options);
+        return new MarushCareContext(new NoEventsDispatcher(), new EventsStore<IDomainEvent>(new NoEventsDispatcher()), optionsBuilder.Options);
     }
 }

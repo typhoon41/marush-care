@@ -2,7 +2,7 @@
 using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Resources;
-using Gmf.Marush.Care.Infrastructure.Data.Configurations;
+using Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
 using System.Linq.Expressions;
 
 namespace Gmf.Marush.Care.Api.Validation;
@@ -14,7 +14,7 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
         SetupValidationFor(request => request.Name);
         SetupValidationFor(request => request.Surname);
         SetupValidationFor(request => request.Email);
-        SetupValidationFor(request => request.Phone, CustomerConfiguration.PhoneLength);
+        SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength);
         _ = RuleFor(request => request.Date)
             .NotNull()
             .WithMessage(Labels.ValidationRequired)
@@ -34,6 +34,9 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
+        _ = RuleFor(appointment => appointment.Duration)
+            .InclusiveBetween(15, 240)
+            .WithMessage(Labels.ValidationDuration);
     }
 
     private void SetupValidationFor(Expression<Func<AppointmentRequest, string>> property, int? length = null)

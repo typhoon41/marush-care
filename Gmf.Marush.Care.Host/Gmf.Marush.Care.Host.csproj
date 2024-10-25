@@ -3,6 +3,7 @@
     <OutputType>Exe</OutputType>
     <IsAspireHost>true</IsAspireHost>
     <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
+    <SuppressCheckGrpcNetClientFactoryVersion>true</SuppressCheckGrpcNetClientFactoryVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="appsettings.json" />

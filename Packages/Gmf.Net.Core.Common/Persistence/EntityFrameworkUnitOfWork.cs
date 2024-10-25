@@ -6,13 +6,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace Gmf.Net.Core.Common.Persistence;
 
 [ExcludeFromCodeCoverage]
-public class EntityFrameworkUnitOfWork : IUnitOfWork
+public class EntityFrameworkUnitOfWork<T> : IUnitOfWork where T : DbContext
 {
     private readonly DbContext _context;
-    private readonly ILogger<EntityFrameworkUnitOfWork> _logger;
+    private readonly ILogger<EntityFrameworkUnitOfWork<T>> _logger;
     private bool _cancelSaving;
 
-    public EntityFrameworkUnitOfWork([NotNull] DbContext context, [NotNull] ILogger<EntityFrameworkUnitOfWork> logger)
+    public EntityFrameworkUnitOfWork([NotNull] T context, [NotNull] ILogger<EntityFrameworkUnitOfWork<T>> logger)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));

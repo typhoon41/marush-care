@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
+    <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
+    <ProjectReference Include="..\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj" />
+    <PackageReference Include="AutoMapper" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
   </ItemGroup>
 </Project>

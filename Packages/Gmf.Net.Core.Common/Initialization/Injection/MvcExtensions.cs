@@ -12,8 +12,6 @@ namespace Gmf.Net.Core.Common.Initialization.Injection;
 [ExcludeFromCodeCoverage]
 public static class MvcExtensions
 {
-    [SuppressMessage("Performance", "CA1823:Avoid unused private fields", Justification = "Temporarily suppressed")]
-    [SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "Temporarily suppressed")]
     private static readonly IEnumerable<IFilterMetadata> DefaultFilters = [
         new RollbackTransactionFilter<IUnitOfWork>(unitOfWork => unitOfWork.CancelSaving()),
         new TransactionFilter<IUnitOfWork>(async unitOfWork => await unitOfWork.SaveChangesAsync())
@@ -23,7 +21,7 @@ public static class MvcExtensions
     {
         var result = services.AddControllers(options =>
         {
-            foreach (var filter in filters.Union([]))
+            foreach (var filter in filters.Union(DefaultFilters))
             {
                 options.Filters.Add(filter);
             }

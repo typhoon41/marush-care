@@ -1202,11 +1202,26 @@
       "gmf.ddd.common": {
         "type": "Project"
       },
+      "gmf.marush.care.domain": {
+        "type": "Project",
+        "dependencies": {
+          "Gmf.DDD.Common": "[1.0.0, )"
+        }
+      },
       "gmf.marush.care.infrastructure": {
         "type": "Project",
         "dependencies": {
+          "AutoMapper": "[13.0.1, )",
+          "Gmf.Marush.Care.Domain": "[1.0.0, )",
+          "Gmf.Marush.Care.Services": "[1.0.0, )",
           "Gmf.Net.Core.Common": "[1.0.0, )",
           "Microsoft.EntityFrameworkCore.Design": "[8.0.0, )"
+        }
+      },
+      "gmf.marush.care.services": {
+        "type": "Project",
+        "dependencies": {
+          "Gmf.Marush.Care.Domain": "[1.0.0, )"
         }
       },
       "gmf.net.core.common": {

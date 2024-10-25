@@ -1158,11 +1158,26 @@
       "gmf.ddd.common": {
         "type": "Project"
       },
+      "gmf.marush.care.domain": {
+        "type": "Project",
+        "dependencies": {
+          "Gmf.DDD.Common": "[1.0.0, )"
+        }
+      },
       "gmf.marush.care.infrastructure": {
         "type": "Project",
         "dependencies": {
+          "AutoMapper": "[13.0.1, )",
+          "Gmf.Marush.Care.Domain": "[1.0.0, )",
+          "Gmf.Marush.Care.Services": "[1.0.0, )",
           "Gmf.Net.Core.Common": "[1.0.0, )",
           "Microsoft.EntityFrameworkCore.Design": "[8.0.0, )"
+        }
+      },
+      "gmf.marush.care.services": {
+        "type": "Project",
+        "dependencies": {
+          "Gmf.Marush.Care.Domain": "[1.0.0, )"
         }
       },
       "gmf.net.core.common": {
@@ -1199,6 +1214,15 @@
         "dependencies": {
           "Autofac": "8.1.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1"
+        }
+      },
+      "AutoMapper": {
+        "type": "CentralTransitive",
+        "requested": "[13.0.1, )",
+        "resolved": "13.0.1",
+        "contentHash": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Options": "6.0.0"
         }
       },
       "FluentValidation.AspNetCore": {

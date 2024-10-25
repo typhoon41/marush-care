@@ -61,6 +61,15 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vreme trajanje tretmana može biti od 15 do 240 minuta.
+        /// </summary>
+        public static string ValidationDuration {
+            get {
+                return ResourceManager.GetString("ValidationDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Neispravna mejl adresa.
         /// </summary>
         public static string ValidationEmail {
@@ -70,7 +79,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vremenski interval nije odgovarajući.
+        ///   Looks up a localized string similar to Neodgovarajući datum i(li) vreme tretmana.
         /// </summary>
         public static string ValidationInterval {
             get {

@@ -13,6 +13,6 @@ public class OrmModule<T> : Module where T : DbContext
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.AncestorRegistration<T, DbContext>();
-        builder.DefaultInterfaceRegistration<EntityFrameworkUnitOfWork>();
+        builder.DefaultInterfaceRegistration<EntityFrameworkUnitOfWork<T>>();
     }
 }

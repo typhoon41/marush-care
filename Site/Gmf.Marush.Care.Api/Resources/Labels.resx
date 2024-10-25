@@ -127,6 +127,9 @@
     <value>Uneta vrednost je predugačka</value>
   </data>
   <data name="ValidationInterval" xml:space="preserve">
-    <value>Vremenski interval nije odgovarajući</value>
+    <value>Neodgovarajući datum i(li) vreme tretmana</value>
+  </data>
+  <data name="ValidationDuration" xml:space="preserve">
+    <value>Vreme trajanje tretmana može biti od 15 do 240 minuta</value>
   </data>
 </root>

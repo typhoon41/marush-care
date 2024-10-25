@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Gmf.Marush.Care.Api.Injection;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Initialization;
@@ -47,7 +48,7 @@ void ApplicationCallback(WebApplicationBuilder builder, WebApplication applicati
 
 static void ContainerCallback(HostBuilderContext context, ContainerBuilder builder)
 {
-
+    builder.RegisterModules();
 }
 
 void ServiceCallback(WebApplicationBuilder builder)
