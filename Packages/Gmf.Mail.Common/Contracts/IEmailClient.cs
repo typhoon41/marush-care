@@ -3,5 +3,5 @@
 namespace Gmf.Mail.Common.Contracts;
 public interface IEmailClient
 {
-    void Send(EmailMessage email);
+    Task Send(EmailMessage email);
 }

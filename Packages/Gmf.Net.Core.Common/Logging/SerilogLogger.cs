@@ -17,7 +17,7 @@ internal class SerilogLogger
         ArgumentNullException.ThrowIfNull(builder);
 
         _defaultLogLevel = builder.Environment.IsDevelopment() ? LogEventLevel.Debug : LogEventLevel.Warning;
-        _logFilePath = builder.Configuration.ResolveFrom<string>("App:LogPath");
+        _logFilePath = builder.Configuration.ResolveFrom<string>("LogPath");
     }
 
     [SuppressMessage("Globalization", "CA1305:Specify IFormatProvider",

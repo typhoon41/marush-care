@@ -2,6 +2,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>Gmf.Marush.Care.Api.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="Gmf.Marush.Care.Api.xml" />
   </ItemGroup>
