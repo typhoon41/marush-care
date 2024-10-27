@@ -5,4 +5,7 @@
     <PackageReference Include="MailKit" />
     <PackageReference Include="MimeKit" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
+  </ItemGroup>
 </Project>

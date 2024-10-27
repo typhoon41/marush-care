@@ -18,7 +18,7 @@ internal static class Extensions
         _ = builder.RegisterModule<ConfigurationModule>();
         _ = builder.RegisterModule<OrmModule<MarushCareContext>>();
         _ = builder.RegisterModule<RepositoryModule>();
-        _ = builder.RegisterModule<EmailModule>();
+        _ = builder.RegisterModule(new EmailModule(true));
         _ = builder.RegisterModule<ServiceModule>();
 
     }

@@ -1078,6 +1078,7 @@
         "type": "Project",
         "dependencies": {
           "Autofac": "[8.1.1, )",
+          "Gmf.Net.Core.Common": "[1.0.0, )",
           "MailKit": "[4.8.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.2, )",
           "MimeKit": "[4.8.0, )"

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Gmf.Marush.Care.Services.Domain.Appointment;
+using Gmf.Marush.Care.Infrastructure.Services;
 using Gmf.Net.Core.Common.Initialization.Injection;
 
 namespace Gmf.Marush.Care.Infrastructure.Injection.Modules;
@@ -10,6 +10,6 @@ public class ServiceModule : Module
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.DefaultInterfaceRegistration<Service>();
+        builder.DefaultInterfaceRegistration<AppointmentNotificationService>();
     }
 }

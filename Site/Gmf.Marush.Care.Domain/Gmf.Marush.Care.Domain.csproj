@@ -2,4 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Packages\Gmf.DDD.Common\Gmf.DDD.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts\Services\Appointments\" />
+  </ItemGroup>
 </Project>

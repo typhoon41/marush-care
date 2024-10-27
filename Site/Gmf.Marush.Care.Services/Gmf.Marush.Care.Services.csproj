@@ -3,4 +3,7 @@
     <ProjectReference Include="..\..\Packages\Gmf.Mail.Common\Gmf.Mail.Common.csproj" />
     <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\Appointment\" />
+  </ItemGroup>
 </Project>
