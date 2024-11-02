@@ -88,11 +88,20 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Račun.
+        ///   Looks up a localized string similar to Očekivana cena usluge:.
         /// </summary>
-        internal static string Total {
+        internal static string ExpectedBill {
             get {
-                return ResourceManager.GetString("Total", resourceCulture);
+                return ResourceManager.GetString("ExpectedBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to u terminu:.
+        /// </summary>
+        internal static string OnInterval {
+            get {
+                return ResourceManager.GetString("OnInterval", resourceCulture);
             }
         }
         

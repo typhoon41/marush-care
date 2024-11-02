@@ -29,6 +29,6 @@ public class AppointmentController(IAppointmentRepository appointmentRepository,
     }
 
     private AppointmentRequestTemplate OwnerTemplateFrom(AppointmentRequest data, Guid appointmentId) =>
-        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/api/appointment/decision", appointmentId);
+        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/api/appointment/decision", data.Phone, appointmentId);
     private AppointmentSubmittedTemplate CustomerTemplateFrom(AppointmentRequest data) => new(data, _environment.WebRootPath, contactSettings.PhoneNumber);
 }

@@ -141,10 +141,13 @@
   <data name="BookedTreatments" xml:space="preserve">
     <value>You have submitted a request to schedule the following treatments:</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Bill</value>
-  </data>
   <data name="Disclaimer" xml:space="preserve">
     <value>In case of cancellation, please notify us at least 24 hours before the scheduled appointment. You can do so via message or call at </value>
+  </data>
+  <data name="OnInterval" xml:space="preserve">
+    <value>for:</value>
+  </data>
+  <data name="ExpectedBill" xml:space="preserve">
+    <value>Expected total price of all services:</value>
   </data>
 </root>

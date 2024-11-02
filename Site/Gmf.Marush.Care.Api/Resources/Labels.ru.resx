@@ -141,10 +141,13 @@
   <data name="BookedTreatments" xml:space="preserve">
     <value>Вы подали заявку на назначение следующих процедур:</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Счет</value>
-  </data>
   <data name="Disclaimer" xml:space="preserve">
     <value>В случае отмены, пожалуйста, сообщите нам об этом не позднее, чем за 24 часа до назначенного времени приема. Вы можете сделать это с помощью сообщения или по телефону </value>
+  </data>
+  <data name="OnInterval" xml:space="preserve">
+    <value>в:</value>
+  </data>
+  <data name="ExpectedBill" xml:space="preserve">
+    <value>Ожидаемая общая стоимость всех услуг:</value>
   </data>
 </root>

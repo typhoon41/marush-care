@@ -2,7 +2,7 @@
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
-public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, string webRootPath) : BaseMarushTemplate(webRootPath)
+public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, string webRootPath, string phoneNumber) : BaseMarushTemplate(webRootPath)
 {
     protected override IDictionary<string, string> Replacements => CommonReplacements.Union(AdditionalReplacements()).ToDictionary(x => x.Key, x => x.Value);
 
@@ -12,7 +12,9 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
     {
         { "{{services}}", GenerateListFrom(appointment.Treatments) },
         { "{{date}}", appointment.Period().StartDate.ToString("g",  CultureInfo.CurrentCulture) },
-        { "{{sum}}", appointment.Sum.ToString(CultureInfo.InvariantCulture) }
+        { "{{sum}}", appointment.Sum.ToString(CultureInfo.InvariantCulture) },
+        { "{{phone-number}}", phoneNumber },
+        { "{{phone-number-formatted}}", Format(phoneNumber) }
     };
 
     private static string GenerateListFrom(IEnumerable<string> treatments)
@@ -24,5 +26,11 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
         }
 
         return result;
+    }
+
+    private static string Format(string phoneNumber)
+    {
+        var formatted = phoneNumber.Replace("+381", "0", StringComparison.InvariantCultureIgnoreCase);
+        return formatted.Insert(3, "/").Insert(7, "-").Insert(10, "-");
     }
 }

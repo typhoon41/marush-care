@@ -141,10 +141,13 @@
   <data name="BookedTreatments" xml:space="preserve">
     <value>Podneli ste zahtev za zakazivanje sledećih tretmana:</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Račun</value>
-  </data>
   <data name="Disclaimer" xml:space="preserve">
     <value>U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj </value>
+  </data>
+  <data name="OnInterval" xml:space="preserve">
+    <value>u terminu:</value>
+  </data>
+  <data name="ExpectedBill" xml:space="preserve">
+    <value>Očekivana cena usluge:</value>
   </data>
 </root>
