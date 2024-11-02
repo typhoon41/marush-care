@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gmf.Marush.Care.Infrastructure.Migrations
 {
     [DbContext(typeof(MarushCareContext))]
-    [Migration("20241025160241_InitialCreate")]
+    [Migration("20241101231320_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -1,10 +1,18 @@
-﻿namespace Gmf.Marush.Care.Api.Models.Templates;
+﻿using Gmf.Marush.Care.Api.Resources;
 
-public class AppointmentSubmittedTemplate(string webRootPath) : BaseMarushTemplate(webRootPath)
+namespace Gmf.Marush.Care.Api.Models.Templates;
+
+public class AppointmentSubmittedTemplate(AppointmentRequest appointment, string webRootPath,
+    string phoneNumber) : BaseMarushRequestTemplate(appointment, webRootPath)
 {
     protected override string FileName => "appointment-submitted.html";
-    protected override IDictionary<string, string> Replacements { get; } = new Dictionary<string, string>()
+
+    protected override IEnumerable<KeyValuePair<string, string>> AdditionalReplacements() => new Dictionary<string, string>()
     {
-        { "{{content}}", "Podnet zahtev!" }
+        { "{{welcome-title}}", Labels.Welcome },
+        { "{{title}}", Labels.AtMarush },
+        { "{{order}}", Labels.BookedTreatments },
+        { "{{total}}", Labels.Total },
+        { "{{disclaimer}}", Labels.Disclaimer + phoneNumber },
     };
 }

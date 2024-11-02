@@ -22,7 +22,7 @@ namespace Gmf.Marush.Care.Api.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Labels {
+    internal class Labels {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gmf.Marush.Care.Api.Resources.Labels", typeof(Labels).Assembly);
@@ -51,7 +51,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,45 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to U Marush Space Of Care.
+        /// </summary>
+        internal static string AtMarush {
+            get {
+                return ResourceManager.GetString("AtMarush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podneli ste zahtev za zakazivanje sledećih tretmana:.
+        /// </summary>
+        internal static string BookedTreatments {
+            get {
+                return ResourceManager.GetString("BookedTreatments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj .
+        /// </summary>
+        internal static string Disclaimer {
+            get {
+                return ResourceManager.GetString("Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Račun.
+        /// </summary>
+        internal static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vreme trajanje tretmana može biti od 15 do 240 minuta.
         /// </summary>
-        public static string ValidationDuration {
+        internal static string ValidationDuration {
             get {
                 return ResourceManager.GetString("ValidationDuration", resourceCulture);
             }
@@ -72,7 +108,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Neispravna mejl adresa.
         /// </summary>
-        public static string ValidationEmail {
+        internal static string ValidationEmail {
             get {
                 return ResourceManager.GetString("ValidationEmail", resourceCulture);
             }
@@ -81,7 +117,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Neodgovarajući datum i(li) vreme tretmana.
         /// </summary>
-        public static string ValidationInterval {
+        internal static string ValidationInterval {
             get {
                 return ResourceManager.GetString("ValidationInterval", resourceCulture);
             }
@@ -90,7 +126,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Uneta vrednost je predugačka.
         /// </summary>
-        public static string ValidationLength {
+        internal static string ValidationLength {
             get {
                 return ResourceManager.GetString("ValidationLength", resourceCulture);
             }
@@ -99,9 +135,18 @@ namespace Gmf.Marush.Care.Api.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Ovo je obavezno polje.
         /// </summary>
-        public static string ValidationRequired {
+        internal static string ValidationRequired {
             get {
                 return ResourceManager.GetString("ValidationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dobrodošli.
+        /// </summary>
+        internal static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
     }

@@ -132,4 +132,19 @@
   <data name="ValidationDuration" xml:space="preserve">
     <value>Vreme trajanje tretmana može biti od 15 do 240 minuta</value>
   </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Dobrodošli</value>
+  </data>
+  <data name="AtMarush" xml:space="preserve">
+    <value>U Marush Space Of Care</value>
+  </data>
+  <data name="BookedTreatments" xml:space="preserve">
+    <value>Podneli ste zahtev za zakazivanje sledećih tretmana:</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Račun</value>
+  </data>
+  <data name="Disclaimer" xml:space="preserve">
+    <value>U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj </value>
+  </data>
 </root>

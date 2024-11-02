@@ -132,4 +132,19 @@
   <data name="ValidationDuration" xml:space="preserve">
     <value>Продолжительность приема должна составлять от 15 до 240 минут</value>
   </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Добро пожаловать</value>
+  </data>
+  <data name="AtMarush" xml:space="preserve">
+    <value>в Marush Space Of Care</value>
+  </data>
+  <data name="BookedTreatments" xml:space="preserve">
+    <value>Вы подали заявку на назначение следующих процедур:</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Счет</value>
+  </data>
+  <data name="Disclaimer" xml:space="preserve">
+    <value>В случае отмены, пожалуйста, сообщите нам об этом не позднее, чем за 24 часа до назначенного времени приема. Вы можете сделать это с помощью сообщения или по телефону </value>
+  </data>
 </root>

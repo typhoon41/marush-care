@@ -5,5 +5,5 @@ namespace Gmf.Marush.Care.Domain.Contracts.Repositories;
 
 public interface IAppointmentRepository
 {
-    Task Schedule(Customer customer, Period appointment);
+    Task<Guid> Schedule(Customer customer, Period appointment);
 }

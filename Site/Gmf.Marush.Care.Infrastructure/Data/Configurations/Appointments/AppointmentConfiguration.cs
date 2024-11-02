@@ -12,7 +12,7 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<AppointmentDto>
 
     public void Configure(EntityTypeBuilder<AppointmentDto> builder)
     {
-        _ = builder.HasKey(x => x.Id);
+        _ = builder.Property(x => x.Id).ValueGeneratedOnAdd();
         _ = builder.ToTable(Appointments);
         _ = builder.HasOne(o => o.CustomerEmail)
             .WithMany(c => c.Appointments)

@@ -9,11 +9,16 @@ public record AppointmentRequest
     public string Surname { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
+    public IEnumerable<string> Treatments { get; set; } = [];
+    public IEnumerable<string> SerbianTreatments { get; set; } = [];
+    public int Sum { get; set; }
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }
     public int Duration { get; set; }
 
     internal Customer Customer => new(Guid.Empty, Name, Surname, Email, Phone);
+
+    internal string FullName => $"{Name} {Surname}";
 
     internal Period Period()
     {
