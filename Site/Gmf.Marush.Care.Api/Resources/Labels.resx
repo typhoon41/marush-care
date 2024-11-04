@@ -175,6 +175,6 @@
     <value>Lokacija:</value>
   </data>
   <data name="AppointmentTime" xml:space="preserve">
-    <value>Vreme</value>
+    <value>Vreme:</value>
   </data>
 </root>

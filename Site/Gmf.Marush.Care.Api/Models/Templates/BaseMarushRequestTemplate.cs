@@ -14,7 +14,7 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
         { "{{date}}", appointment.FormattedAppointmentStart },
         { "{{sum}}", appointment.Sum.ToString("#.##0", CultureInfo.InvariantCulture) },
         { "{{phone-number}}", phoneNumber },
-        { "{{phone-number-formatted}}", Format(phoneNumber) }
+        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
     };
 
     private static string GenerateListFrom(IEnumerable<string> treatments)
@@ -26,11 +26,5 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
         }
 
         return result;
-    }
-
-    private static string Format(string phoneNumber)
-    {
-        var formatted = phoneNumber.Replace("+381", "0", StringComparison.InvariantCultureIgnoreCase);
-        return formatted.Insert(3, "/").Insert(7, "-").Insert(10, "-");
     }
 }

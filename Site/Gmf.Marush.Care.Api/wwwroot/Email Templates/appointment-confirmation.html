@@ -1,190 +1,38 @@
 ﻿<!DOCTYPE html>
-<html>
+<html style="height: 100%;background-color: #FDF1ED;">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="content-type" charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Nikola Dragićević" />
-    <link href="https://marushcare.com/images/mail/favicon.ico" rel="icon" type="image/x-icon" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Nikola Dragićević">
+    <link href="https://marushcare.com/images/mail/favicon.ico" rel="icon" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" rel="noopener" target="_blank" href="https://marushcare.com/mail/fonts.css" />
     <title>Marush: Space of Care</title>
-    <style>
-      /* latin-ext */
-      @font-face {
-		  font-family: 'Overpass';
-		  font-style: normal;
-		  font-weight: 400;
-		  src: url('https://marushcare.com/files/mail/Overpass-latin-ext.woff2') format('woff2');
-		  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-      }
-
-      /* latin */
-	  @font-face {
-		  font-family: 'Overpass';
-		  font-style: normal;
-		  font-weight: 400;
-		  src: url('https://marushcare.com/files/mail/Overpass-latin.woff2') format('woff2');
-		  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-
-      /* cyrillic-ext */
-      @font-face {
-		  font-family: 'Overpass';
-		  font-style: normal;
-		  font-weight: 400;
-		  src: url('https://marushcare.com/files/mail/Overpass-cyrillic-ext.woff2') format('woff2');
-		  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-      }
-
-      /* cyrillic */
-      @font-face {
-		  font-family: 'Overpass';
-		  font-style: normal;
-		  font-weight: 400;
-		  src: url('https://marushcare.com/files/mail/Overpass-cyrillic.woff2') format('woff2');
-		  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-      }
-
-      /* latin-ext-bold */
-      @font-face {
-		  font-family: 'Overpass-bold';
-		  font-style: normal;
-		  font-weight: 600;
-		  src: url('https://marushcare.com/files/mail/Overpass-bold-latin-ext.woff2') format('woff2');
-		  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-      }
-
-      /* latin-bold */
-      @font-face {
-		  font-family: 'Overpass-bold';
-		  font-style: normal;
-		  font-weight: 600;
-		  src: url('https://marushcare.com/files/mail/Overpass-bold-latin.woff2') format('woff2');
-		  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-
-      /* cyrillic-ext-bold */
-      @font-face {
-		  font-family: 'Overpass-bold';
-		  font-style: normal;
-		  font-weight: 600;
-		  src: url('https://marushcare.com/files/mail/Overpass-bold-cyrillic-ext.woff2') format('woff2');
-		  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-      }
-
-      /* cyrillic-bold cyrillic */
-      @font-face {
-		  font-family: 'Overpass-bold';
-		  font-style: normal;
-		  font-weight: 600;
-		  src: url('https://marushcare.com/files/mail/Overpass-bold-cyrillic.woff2') format('woff2');
-		  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-      }
-
-      html, body {
-		  height: 100%;
-		  background-color: #FDF1ED;
-      }
-
-      body {
-		  font-family: 'Overpass';
-		  color: #583616;
-		  margin: 0;
-		  font-size: 22px;
-		  line-height: 31px;
-		  letter-spacing: 1px;
-      }
-
-      h1 {
-		  font-family: 'Overpass-bold';
-		  font-size: 32px;
-		  line-height: 50px;
-		  letter-spacing: 3px;
-		  margin-top: 0;
-		  text-transform: uppercase;
-      }
-
-      .centered {
-		text-align: center;
-      }
-
-      .main-content {
-		  display: table;
-		  width: 100%;
-		  padding: 40px 0 60px;
-      }
-
-      .main-content .section {
-		margin-bottom: 65px;
-      }
-
-      .side-content {
-		  display: table-cell;
-		  width: 20%;
-		  vertical-align: middle;
-      }
-
-      .header {
-		padding-top: 30px;
-      }
-
-
-      .decoration {
-		  display: block;
-		  max-width: 100%;
-		  height: auto;
-		  padding: 0 30px;
-		  box-sizing: border-box;
-		  margin: 0 auto;
-      }
-
-      .center-content {
-		  display: table-cell;
-		  width: 60%;
-      }
-
-      @media only screen and (max-width: 750px) {
-		.center-content {
-		  width: 50%;
-		}
-
-      .side-content {
-		width: 25%;
-      }
-
-      .decoration {
-		padding: 0 10px;
-      }
-
-      body {
-		  font-size: 14px;
-		  line-height: 22px;
-		  letter-spacing: 1px;
-      }
-
-      h1 {
-		  font-size: 20px;
-		  line-height: 31px;
-		  letter-spacing: 2px;
-      }
-     }
-    </style>
   </head>
-  <body>
-    <div class="header">
-      <h1 class="centered">{{title}}</h1>
+  <body style="height: 100%;background-color: #FDF1ED;font-family: 'Overpass', 'Arial', 'Helvetica', 'Tahoma';color: #583616;margin: 0;font-size: 22px;line-height: 31px;letter-spacing: 1px;">
+    <div class="header" style="padding-top: 30px;">
+      <h1 class="centered" style="font-family: 'Overpass-bold';font-size: 32px;line-height: 50px;letter-spacing: 3px;margin-top: 0;text-transform: uppercase;text-align: center;">{{title}}</h1>
     </div>
-    <div class="main-content">
-      <div class="side-content">
-        <img alt="Decoration" class="decoration" src="https://marushcare.com/images/mail/decoration.svg" />
+    <div class="main-content" style="display: table;width: 100%;padding: 40px 0 60px;">
+      <div class="side-content" style="display: table-cell;width: 20%;vertical-align: middle;">
+		<img alt="Decoration" class="decoration" src="https://marushcare.com/images/mail/decoration.png" style="display: block;max-width: 100%;height: auto;padding: 0 30px;box-sizing: border-box;margin: 0 auto;">
       </div>
-      <div class="center-content centered">
-        <div class="section">{{text}}</div>
-      </div>
-      <div class="side-content">
-        <img alt="Decoration" class="decoration" src="https://marushcare.com/images/mail/decoration.svg" />
+      <div class="center-content centered" style="text-align: center;display: table-cell;width: 60%;">
+        <div class="section" style="margin-bottom: 65px;">{{text}}</div>
+		<table style="width:100%;">
+		  <tr>
+			<td style="text-align:right;width:50%;">{{location}}</td><td style="text-align:left;width:50%;padding-left: 5px;">{{location-value}}</td>
+		  </tr>
+		  <tr>
+			<td style="text-align:right;width:50%;">{{date}}</td><td style="text-align:left;width:50%;padding-left: 5px;">{{date-value}}</td>
+		  </tr>
+		 </table>
+	  </div>
+      <div class="side-content" style="display: table-cell;width: 20%;vertical-align: middle;">
+		<img alt="Decoration" class="decoration" src="https://marushcare.com/images/mail/decoration.png" style="display: block;max-width: 100%;height: auto;padding: 0 30px;box-sizing: border-box;margin: 0 auto;">
       </div>
     </div>
-    <p class="centered">{{disclaimer}}</p>
+    <p class="centered" style="text-align: center;">{{disclaimer}}<a style="margin-left:5px;color:#583616;" href="tel:{{phone-number}}">{{phone-number-formatted}}</a></p>
   </body>
 </html>

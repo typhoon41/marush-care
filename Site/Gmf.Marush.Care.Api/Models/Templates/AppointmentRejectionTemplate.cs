@@ -10,6 +10,7 @@ public class AppointmentRejectionTemplate(string webRootPath, string phoneNumber
         { "{{title}}", Labels.AppointmentRejectedSubtitle },
         { "{{text}}", Labels.AppointmentRejectedText },
         { "{{date}}", date },
-        { "{{phoneNumber}}", phoneNumber }
+        { "{{phone-number}}", phoneNumber },
+        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
     };
 }

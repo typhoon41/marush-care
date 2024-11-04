@@ -174,7 +174,7 @@
   <data name="Location" xml:space="preserve">
     <value>Расположение:</value>
   </data>
-  <data name="AppointmentInterval" xml:space="preserve">
+  <data name="AppointmentTime" xml:space="preserve">
     <value>Время:</value>
   </data>
 </root>

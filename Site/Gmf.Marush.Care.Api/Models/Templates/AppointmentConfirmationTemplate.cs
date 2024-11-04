@@ -14,6 +14,7 @@ public class AppointmentConfirmationTemplate(string webRootPath, string phoneNum
         { "{{date}}", Labels.AppointmentTime },
         { "{{date-value}}", date },
         { "{{disclaimer}}", Labels.Disclaimer },
-        { "{{phoneNumber}}", phoneNumber }
+        { "{{phone-number}}", phoneNumber },
+        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
     };
 }

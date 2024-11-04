@@ -124,7 +124,7 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vreme.
+        ///   Looks up a localized string similar to Vreme:.
         /// </summary>
         internal static string AppointmentTime {
             get {
