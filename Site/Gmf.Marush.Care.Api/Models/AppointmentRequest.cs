@@ -1,5 +1,6 @@
 ﻿using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Domain.Models;
+using System.Globalization;
 
 namespace Gmf.Marush.Care.Api.Models;
 
@@ -19,6 +20,8 @@ public record AppointmentRequest
     internal Customer Customer => new(Guid.Empty, Name, Surname, Email, Phone);
 
     internal string FullName => $"{Name} {Surname}";
+
+    internal string FormattedAppointmentStart => Period().StartDate.ToString("g", CultureInfo.CurrentCulture);
 
     internal Period Period()
     {

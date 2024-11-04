@@ -13,6 +13,22 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
     private readonly MarushCareContext _context = context ?? throw new ArgumentNullException(nameof(context));
     private readonly ICustomerRepository _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
 
+    public string? MakeDecisionFor(Guid appointmentId, bool decision)
+    {
+        var newStatus = new AppointmentStatusDto { Id = decision ? AppointmentStatus.Approved.Value : AppointmentStatus.Rejected.Value };
+        _ = _context.Set<AppointmentStatusDto>().Attach(newStatus);
+
+        var appointment = _appointments.SingleOrDefault(u => u.Id == appointmentId);
+
+        if (appointment == null)
+        {
+            return null;
+        }
+
+        appointment.Status = newStatus;
+        return appointment.Email;
+    }
+
     public async Task<Guid> Schedule(Customer customer, Period appointment)
     {
         var existingUser = _customerRepository.FindCustomerBy(customer.Email, customer.Phone);

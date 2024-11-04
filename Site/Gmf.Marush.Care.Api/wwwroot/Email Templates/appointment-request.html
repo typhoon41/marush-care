@@ -32,18 +32,19 @@
       </div>
     </div>
     <form action="{{endpoint}}" method="POST" style="display: table;width: 100%;">
-      <input type="hidden" name="appointmentId" value="{{appointmentId}}">
-	  <div class="action-content shift-right" style="text-align: right;display: table-cell;width: 33.33%;">
-		<button type="submit" name="accepted" value="true" class="main-action" style="padding: 12px 64px;border: 2px solid #F5B57B;border-radius: 12px;background-color: #f5b57b;color: #fffbfa;font-family: 'Overpass', 'Arial', 'Helvetica', 'Tahoma';font-size: 18px;line-height: 32px;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;">
-			<span>Prihvati</span>
-		</button>
-	  </div>
-	  <div class="action-content" style="display: table-cell;width: 33.33%;"></div>
-	  <div class="action-content" style="display: table-cell;width: 33.33%;">
-		  <button type="submit" name="accepted" value="false" style="padding: 12px 64px;border: 2px solid #F5B57B;border-radius: 12px;background-color: #fdf1ed;color: #F5B57B;font-family: 'Overpass', 'Arial', 'Helvetica', 'Tahoma';font-size: 18px;line-height: 32px;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;">
-			  <span>Odbij</span>
-		  </button>
-	  </div>
+        <input type="hidden" name="appointmentId" value="{{appointmentId}}">
+        <input type="hidden" name="date" value="{{date}}">
+        <div class="action-content shift-right" style="text-align: right;display: table-cell;width: 33.33%;">
+            <button type="submit" name="accepted" value="true" class="main-action" style="padding: 12px 64px;border: 2px solid #F5B57B;border-radius: 12px;background-color: #f5b57b;color: #fffbfa;font-family: 'Overpass', 'Arial', 'Helvetica', 'Tahoma';font-size: 18px;line-height: 32px;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;">
+                <span>Prihvati</span>
+            </button>
+        </div>
+        <div class="action-content" style="display: table-cell;width: 33.33%;"></div>
+        <div class="action-content" style="display: table-cell;width: 33.33%;">
+            <button type="submit" name="accepted" value="false" style="padding: 12px 64px;border: 2px solid #F5B57B;border-radius: 12px;background-color: #fdf1ed;color: #F5B57B;font-family: 'Overpass', 'Arial', 'Helvetica', 'Tahoma';font-size: 18px;line-height: 32px;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;">
+                <span>Odbij</span>
+            </button>
+        </div>
     </form>
   </body>
 </html>

@@ -6,4 +6,5 @@ namespace Gmf.Marush.Care.Domain.Contracts.Repositories;
 public interface IAppointmentRepository
 {
     Task<Guid> Schedule(Customer customer, Period appointment);
+    string? MakeDecisionFor(Guid appointmentId, bool decision);
 }

@@ -11,8 +11,8 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
     private IDictionary<string, string> CommonReplacements => new Dictionary<string, string>()
     {
         { "{{services}}", GenerateListFrom(appointment.Treatments) },
-        { "{{date}}", appointment.Period().StartDate.ToString("g",  CultureInfo.CurrentCulture) },
-        { "{{sum}}", appointment.Sum.ToString(CultureInfo.InvariantCulture) },
+        { "{{date}}", appointment.FormattedAppointmentStart },
+        { "{{sum}}", appointment.Sum.ToString("#.##0", CultureInfo.InvariantCulture) },
         { "{{phone-number}}", phoneNumber },
         { "{{phone-number-formatted}}", Format(phoneNumber) }
     };

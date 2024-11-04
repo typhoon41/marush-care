@@ -150,4 +150,31 @@
   <data name="ExpectedBill" xml:space="preserve">
     <value>Expected total price of all services:</value>
   </data>
+  <data name="AppointmentSubmitedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - appointment request has been submitted</value>
+  </data>
+  <data name="AppointmentAcceptedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - appointment request has been accepted</value>
+  </data>
+  <data name="AppointmentRejectedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - appointment request has been rejected</value>
+  </data>
+  <data name="AppointmentRejectedSubtitle" xml:space="preserve">
+    <value>Your appointment request has been rejected!</value>
+  </data>
+  <data name="AppointmentRejectedText" xml:space="preserve">
+    <value>Salon Marush: Space of Care has rejected your request for {{date}} for some reason. Try rescheduling through the website (another appointment) or call</value>
+  </data>
+  <data name="AppointmentAcceptedSubtitle" xml:space="preserve">
+    <value>Your appointment is confirmed!</value>
+  </data>
+  <data name="AppointmentAcceptedText" xml:space="preserve">
+    <value>Salon Marush: Space of Care has confirmed your request. See you!</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="AppointmentInterval" xml:space="preserve">
+    <value>Time:</value>
+  </data>
 </root>

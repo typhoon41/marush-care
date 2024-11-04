@@ -1,10 +1,15 @@
-﻿namespace Gmf.Marush.Care.Api.Models.Templates;
+﻿using Gmf.Marush.Care.Api.Resources;
 
-public class AppointmentRejectionTemplate(string webRootPath) : BaseMarushTemplate(webRootPath)
+namespace Gmf.Marush.Care.Api.Models.Templates;
+
+public class AppointmentRejectionTemplate(string webRootPath, string phoneNumber, string date) : BaseMarushTemplate(webRootPath)
 {
     protected override string FileName => "appointment-rejection.html";
     protected override IDictionary<string, string> Replacements { get; } = new Dictionary<string, string>()
     {
-        { "{{content}}", "Podnet zahtev!" }
+        { "{{title}}", Labels.AppointmentRejectedSubtitle },
+        { "{{text}}", Labels.AppointmentRejectedText },
+        { "{{date}}", date },
+        { "{{phoneNumber}}", phoneNumber }
     };
 }

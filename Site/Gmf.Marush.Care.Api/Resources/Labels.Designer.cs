@@ -61,6 +61,78 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vaš termin je potvrđen!.
+        /// </summary>
+        internal static string AppointmentAcceptedSubtitle {
+            get {
+                return ResourceManager.GetString("AppointmentAcceptedSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salon Marush: Space of Care je potvrdio Vaš zahtev. Vidimo se!.
+        /// </summary>
+        internal static string AppointmentAcceptedText {
+            get {
+                return ResourceManager.GetString("AppointmentAcceptedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marush: Space of Care - zahtev za zakazivanje termina je odobren.
+        /// </summary>
+        internal static string AppointmentAcceptedTitle {
+            get {
+                return ResourceManager.GetString("AppointmentAcceptedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zahtev za Vaš termin je odbijen!.
+        /// </summary>
+        internal static string AppointmentRejectedSubtitle {
+            get {
+                return ResourceManager.GetString("AppointmentRejectedSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salon Marush: Space of Care je iz nekog razloga odbio Vaš zahtev za {{date}}. Pokušajte ponovnim zakazivanjem putem sajta (neki drugi termin) ili pozovite.
+        /// </summary>
+        internal static string AppointmentRejectedText {
+            get {
+                return ResourceManager.GetString("AppointmentRejectedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marush: Space of Care - zahtev za zakazivanje termina je odbijen.
+        /// </summary>
+        internal static string AppointmentRejectedTitle {
+            get {
+                return ResourceManager.GetString("AppointmentRejectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marush: Space of Care - zahtev za zakazivanje termina je podnet.
+        /// </summary>
+        internal static string AppointmentSubmitedTitle {
+            get {
+                return ResourceManager.GetString("AppointmentSubmitedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vreme.
+        /// </summary>
+        internal static string AppointmentTime {
+            get {
+                return ResourceManager.GetString("AppointmentTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to U Marush Space Of Care.
         /// </summary>
         internal static string AtMarush {
@@ -93,6 +165,15 @@ namespace Gmf.Marush.Care.Api.Resources {
         internal static string ExpectedBill {
             get {
                 return ResourceManager.GetString("ExpectedBill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lokacija:.
+        /// </summary>
+        internal static string Location {
+            get {
+                return ResourceManager.GetString("Location", resourceCulture);
             }
         }
         

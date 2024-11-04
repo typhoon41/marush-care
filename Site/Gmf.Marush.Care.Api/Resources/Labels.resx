@@ -150,4 +150,31 @@
   <data name="ExpectedBill" xml:space="preserve">
     <value>Očekivana cena usluge:</value>
   </data>
+  <data name="AppointmentSubmitedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - zahtev za zakazivanje termina je podnet</value>
+  </data>
+  <data name="AppointmentAcceptedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - zahtev za zakazivanje termina je odobren</value>
+  </data>
+  <data name="AppointmentRejectedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - zahtev za zakazivanje termina je odbijen</value>
+  </data>
+  <data name="AppointmentRejectedSubtitle" xml:space="preserve">
+    <value>Zahtev za Vaš termin je odbijen!</value>
+  </data>
+  <data name="AppointmentRejectedText" xml:space="preserve">
+    <value>Salon Marush: Space of Care je iz nekog razloga odbio Vaš zahtev za {{date}}. Pokušajte ponovnim zakazivanjem putem sajta (neki drugi termin) ili pozovite</value>
+  </data>
+  <data name="AppointmentAcceptedSubtitle" xml:space="preserve">
+    <value>Vaš termin je potvrđen!</value>
+  </data>
+  <data name="AppointmentAcceptedText" xml:space="preserve">
+    <value>Salon Marush: Space of Care je potvrdio Vaš zahtev. Vidimo se!</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Lokacija:</value>
+  </data>
+  <data name="AppointmentTime" xml:space="preserve">
+    <value>Vreme</value>
+  </data>
 </root>

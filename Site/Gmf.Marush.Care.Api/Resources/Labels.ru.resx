@@ -150,4 +150,31 @@
   <data name="ExpectedBill" xml:space="preserve">
     <value>Ожидаемая общая стоимость всех услуг:</value>
   </data>
+  <data name="AppointmentSubmitedTitle" xml:space="preserve">
+    <value>Marush: Space of Care - заявка на прием отправлена</value>
+  </data>
+  <data name="AppointmentAcceptedTitle" xml:space="preserve">
+    <value>Marush: Space of Care — запрос на прием принят</value>
+  </data>
+  <data name="AppointmentRejectedTitle" xml:space="preserve">
+    <value>Marush: Space of Care — запрос на прием отклонен</value>
+  </data>
+  <data name="AppointmentRejectedSubtitle" xml:space="preserve">
+    <value>Ваша заявка на встречу отклонена!</value>
+  </data>
+  <data name="AppointmentRejectedText" xml:space="preserve">
+    <value>Салон Marush: Space of Care отклонил ваш запрос на {{date}} по какой-то причине. Попробуйте перенести через сайт (другой прием) или позвоните</value>
+  </data>
+  <data name="AppointmentAcceptedSubtitle" xml:space="preserve">
+    <value>Ваша запись подтверждена!</value>
+  </data>
+  <data name="AppointmentAcceptedText" xml:space="preserve">
+    <value>Салон Маруш: Space of Care подтвердил Ваш запрос. Увидимся!</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Расположение:</value>
+  </data>
+  <data name="AppointmentInterval" xml:space="preserve">
+    <value>Время:</value>
+  </data>
 </root>
