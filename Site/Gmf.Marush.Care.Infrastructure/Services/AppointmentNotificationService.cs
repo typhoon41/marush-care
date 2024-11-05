@@ -15,8 +15,16 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
 
     public async Task SendAppointmentNotificationTo(Customer customer, NotificationDetails notificationDetails)
     {
-        await _emailService.Send(customer.Email, notificationDetails.PrimaryTemplate, notificationDetails.PrimaryTitle);
-        await _emailService.Send(_smtpSettings.From, notificationDetails.SecondaryTemplate, "Marush: Space of Care - zahtev za zakazivanje termina");
+        try
+        {
+            await _emailService.Send(_smtpSettings.From, notificationDetails.SecondaryTemplate, "Marush: Space of Care - zahtev za zakazivanje termina");
+            await _emailService.Send(customer.Email, notificationDetails.PrimaryTemplate, notificationDetails.PrimaryTitle);
+        }
+        catch
+        {
+            _appointmentRepository.DetachAll();
+            throw;
+        }
     }
 
     public async Task<bool> SendDecisionNotification(bool decision, Guid appointmentId, NotificationDetails notificationDetails)

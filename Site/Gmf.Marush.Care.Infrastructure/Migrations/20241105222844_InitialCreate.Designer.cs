@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gmf.Marush.Care.Infrastructure.Migrations
 {
     [DbContext(typeof(MarushCareContext))]
-    [Migration("20241101231320_InitialCreate")]
+    [Migration("20241105222844_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,6 +44,11 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("ExpectedEndTime")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.Property<string>("Phone")
                         .IsRequired()

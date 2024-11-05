@@ -82,6 +82,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(16)", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     ScheduledFor = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ExpectedEndTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),

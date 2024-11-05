@@ -5,6 +5,7 @@ using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 public class AppointmentRepository(MarushCareContext context, ICustomerRepository customerRepository) : IAppointmentRepository
@@ -53,6 +54,7 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
 
         var newAppointment = new AppointmentDto
         {
+            Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName,
             ScheduledFor = appointment.StartDate,
             ExpectedEndTime = appointment.EndDate,
             Customer = newCustomer,
@@ -80,6 +82,7 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
         var oldPhone = GetFetchedEntity<CustomerPhoneDto>(x => x.PhoneNumber == existingUser.Phone);
         var appointment = new AppointmentDto
         {
+            Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName,
             CustomerEmail = oldEmail ?? new CustomerEmailDto()
             {
                 Customer = oldCustomer,
@@ -98,6 +101,14 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
 
         _ = await _appointments.AddAsync(appointment);
         return appointment.Id;
+    }
+
+    public void DetachAll()
+    {
+        foreach (var entry in _context.ChangeTracker.Entries())
+        {
+            entry.State = EntityState.Detached;
+        }
     }
 
     private T? GetFetchedEntity<T>(Func<T, bool> expression) =>

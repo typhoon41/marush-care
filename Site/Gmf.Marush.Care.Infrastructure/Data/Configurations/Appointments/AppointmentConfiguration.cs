@@ -23,6 +23,7 @@ public class AppointmentConfiguration : IEntityTypeConfiguration<AppointmentDto>
             .HasForeignKey(s => new { s.CustomerId, s.Phone })
             .OnDelete(DeleteBehavior.NoAction);
         _ = builder.Property(x => x.Description);
+        _ = builder.Property(x => x.Language).HasMaxLength(2);
         _ = builder.Property(x => x.ScheduledFor).IsRequired();
         _ = builder.Navigation(e => e.Customer)
             .UsePropertyAccessMode(PropertyAccessMode.Property);

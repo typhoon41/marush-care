@@ -42,6 +42,11 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("ExpectedEndTime")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(16)");

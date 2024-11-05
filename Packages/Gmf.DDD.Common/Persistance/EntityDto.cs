@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace Gmf.DDD.Common.Persistance;
-public abstract class EntityDto<TDomainEvent>
+public abstract record EntityDto<TDomainEvent>
 {
     [NotMapped]
     public IList<TDomainEvent> DomainEvents { get; } = [];

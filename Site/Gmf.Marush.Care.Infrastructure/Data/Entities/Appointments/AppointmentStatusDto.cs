@@ -2,7 +2,7 @@
 using Gmf.DDD.Common.Persistance;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
-public class AppointmentStatusDto : EntityDto<IDomainEvent>
+public record AppointmentStatusDto : EntityDto<IDomainEvent>
 {
     public string Name { get; set; } = string.Empty;
     public IList<AppointmentDto> Appointments { get; set; } = [];
