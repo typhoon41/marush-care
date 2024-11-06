@@ -11,11 +11,10 @@ import { Subscription, interval } from 'rxjs';
 })
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
+    $localize`:@@discounts.1:<p><strong>6.11. - 13.11.</strong></p><p>Eye contour tretman<br/><s>6500</s> 5000</p>`,
+    $localize`:@@discounts.2:<p><strong>6.11. - 13.11.</strong></p><p>Vitam. tretman lica + očna zona<br/><s>5500</s> 4500</p>`,
     // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.1:<p><strong>Od 26.9.</strong></p><p>Nova adresa salona je Višegradska 25!</p>`,
-    $localize`:@@discounts.2:<p><strong>10.10. - 20.10.</strong></p><p>Hem.piling Purple Peel 4 + Dermapen <br/><s>14000</s> 11000</p>`,
-    $localize`:@@discounts.3:<p><strong>10.10. - 20.10.</strong></p><p>Hem.piling T50T35 + Dermapen <br/><s>13000</s> 10000</p>`,
-    $localize`:@@discounts.4:<p><strong>10.10. - 20.10.</strong></p><p>Hem.piling PRX-T33 + Dermapen <br/><s>14000</s> 11000</p>`
+    $localize`:@@discounts.3:<p><strong>6.11. - 13.11.</strong></p><p>Neinv. mezo terap. + radio talasni lift. (lice + očna zona)<br/><s>10000</s> 7000</p>`
   ];
 
   currentDiscountPosition = 0;
