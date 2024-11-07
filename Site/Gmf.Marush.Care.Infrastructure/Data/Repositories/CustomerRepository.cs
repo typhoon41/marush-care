@@ -11,7 +11,7 @@ public class CustomerRepository(MarushCareContext context) : ICustomerRepository
     public Customer? FindCustomerBy(string email, string phone)
     {
         var customerFound = _customers.Include(s => s.Phones).Include(s => s.Emails)
-            .SingleOrDefault(customerFound => customerFound.Phones.Select(x => x.PhoneNumber).Contains(phone) ||
+            .SingleOrDefault(customerFound => customerFound.Phones.Select(x => x.PhoneNumber).Contains(phone) &&
                                               customerFound.Emails.Select(x => x.Email).Contains(email));
 
         return customerFound == null ? null : new Customer(customerFound.Id, customerFound.Name, customerFound.Surname, email, phone);

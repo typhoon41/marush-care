@@ -36,11 +36,11 @@ public class AppointmentController(IAppointmentRepository appointmentRepository,
         return Ok();
     }
 
-    [HttpPost]
-    [Route("[decision]")]
+    [HttpPost("decision")]
+    [Consumes("application/x-www-form-urlencoded")]
     [ProducesResponseType(StatusCodes.Status302Found)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Decision([FromBody][Required] AppointmentDecision data)
+    public async Task<IActionResult> Decision([FromForm][Required] AppointmentDecision data)
     {
         var notificationDetails = new NotificationDetails
         {
@@ -58,6 +58,6 @@ public class AppointmentController(IAppointmentRepository appointmentRepository,
     private AppointmentConfirmationTemplate ConfirmationTemplate(ContactSettings contactSettings, AppointmentDecision data) =>
         new(_environment.WebRootPath, contactSettings.PhoneNumber, data.Date);
     private AppointmentRequestTemplate OwnerTemplateFrom(AppointmentRequest data, Guid appointmentId) =>
-        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/api/appointment/decision", data.Phone, appointmentId);
+        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/appointment/decision", data.Phone, appointmentId);
     private AppointmentSubmittedTemplate CustomerTemplateFrom(AppointmentRequest data) => new(data, _environment.WebRootPath, contactSettings.PhoneNumber);
 }

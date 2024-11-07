@@ -19,9 +19,9 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
         var newStatus = new AppointmentStatusDto { Id = decision ? AppointmentStatus.Approved.Value : AppointmentStatus.Rejected.Value };
         _ = _context.Set<AppointmentStatusDto>().Attach(newStatus);
 
-        var appointment = _appointments.SingleOrDefault(u => u.Id == appointmentId);
+        var appointment = _appointments.Include(a => a.Status).SingleOrDefault(u => u.Id == appointmentId);
 
-        if (appointment == null)
+        if (appointment == null || appointment.Status.Id != AppointmentStatus.Requested.Value)
         {
             return null;
         }

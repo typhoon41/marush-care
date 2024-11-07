@@ -12,7 +12,11 @@ public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, 
     {
         { "{{services}}", GenerateListFrom(appointment.Treatments) },
         { "{{date}}", appointment.FormattedAppointmentStart },
-        { "{{sum}}", appointment.Sum.ToString("#.##0", CultureInfo.InvariantCulture) },
+        { "{{sum}}", appointment.Sum.ToString("N", new NumberFormatInfo
+        {
+            NumberGroupSeparator = ".",
+            NumberDecimalDigits = 0
+        })},
         { "{{phone-number}}", phoneNumber },
         { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
     };
