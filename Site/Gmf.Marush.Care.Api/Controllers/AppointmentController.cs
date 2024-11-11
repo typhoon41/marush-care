@@ -1,7 +1,7 @@
 ﻿using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Models.Templates;
 using Gmf.Marush.Care.Api.Resources;
-using Gmf.Marush.Care.Domain.Contracts.Repositories;
+using Gmf.Marush.Care.Domain.Contracts.Services;
 using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
 using Gmf.Marush.Care.Services.Application.Contracts;
 using Gmf.Marush.Care.Services.Models;
@@ -13,11 +13,11 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Route("[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
-public class AppointmentController(IAppointmentRepository appointmentRepository, ContactSettings contactSettings,
-    INotifyAboutAppointments appointmentService, IWebHostEnvironment environment) : ControllerBase
+public class AppointmentController(IAppointmentService appointmentService, ContactSettings contactSettings,
+    INotifyAboutAppointments notificationService, IWebHostEnvironment environment) : ControllerBase
 {
-    private readonly IAppointmentRepository _appointmentRepository = appointmentRepository;
-    private readonly INotifyAboutAppointments _appointmentService = appointmentService;
+    private readonly IAppointmentService _appointmentService = appointmentService;
+    private readonly INotifyAboutAppointments _notificationService = notificationService;
     private readonly IWebHostEnvironment _environment = environment;
 
     [HttpPost]
@@ -25,14 +25,14 @@ public class AppointmentController(IAppointmentRepository appointmentRepository,
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody][Required] AppointmentRequest data)
     {
-        var appointmentId = await _appointmentRepository.Schedule(data.Customer, data.Period());
+        var appointmentId = await _appointmentService.Schedule(data.Customer, data.Period());
         var notificationDetails = new NotificationDetails
         {
             PrimaryTemplate = CustomerTemplateFrom(data),
             PrimaryTitle = Labels.AppointmentSubmitedTitle,
             SecondaryTemplate = OwnerTemplateFrom(data, appointmentId)
         };
-        await _appointmentService.SendAppointmentNotificationTo(data.Customer, notificationDetails);
+        await _notificationService.SendAppointmentNotificationTo(data.Customer, notificationDetails);
         return Ok();
     }
 
@@ -49,7 +49,7 @@ public class AppointmentController(IAppointmentRepository appointmentRepository,
             SecondaryTemplate = RejectionTemplate(contactSettings, data),
             SecondaryTitle = Labels.AppointmentRejectedTitle
         };
-        var result = await _appointmentService.SendDecisionNotification(data.Accepted, data.AppointmentId, notificationDetails);
+        var result = await _notificationService.SendDecisionNotification(data.Accepted, data.AppointmentId, notificationDetails);
 
         return result ? Redirect("https://marushcare.com/sr/klijent-obave%C5%A1ten") : Redirect("https://marushcare.com/sr/gre%C5%A1ka/sistemska");
     }

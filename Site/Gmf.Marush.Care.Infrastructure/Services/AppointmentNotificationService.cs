@@ -31,7 +31,7 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
     {
         try
         {
-            var email = _appointmentRepository.MakeDecisionFor(appointmentId, decision);
+            var email = _appointmentRepository.Make(new AppointmentDecision(appointmentId, decision));
 
             if (email == null)
             {

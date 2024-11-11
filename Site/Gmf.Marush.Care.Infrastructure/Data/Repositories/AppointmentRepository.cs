@@ -8,49 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
-public class AppointmentRepository(MarushCareContext context, ICustomerRepository customerRepository) : IAppointmentRepository
+public class AppointmentRepository(MarushCareContext context) : IAppointmentRepository
 {
     private readonly DbSet<AppointmentDto> _appointments = context.Set<AppointmentDto>();
     private readonly MarushCareContext _context = context ?? throw new ArgumentNullException(nameof(context));
-    private readonly ICustomerRepository _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
 
-    public string? MakeDecisionFor(Guid appointmentId, bool decision)
+    public string? Make(AppointmentDecision decision)
     {
-        var newStatus = new AppointmentStatusDto { Id = decision ? AppointmentStatus.Approved.Value : AppointmentStatus.Rejected.Value };
-        _ = _context.Set<AppointmentStatusDto>().Attach(newStatus);
+        var newStatus = GetStatus(decision.NewStatus);
+        var appointment = _appointments.Include(a => a.Status).SingleOrDefault(u => u.Id == decision.AppointmentId);
 
-        var appointment = _appointments.Include(a => a.Status).SingleOrDefault(u => u.Id == appointmentId);
-
-        if (appointment == null || appointment.Status.Id != AppointmentStatus.Requested.Value)
+        if (AppointmentDecision.MadeOnOutdated(appointment?.Status.Id))
         {
             return null;
         }
 
-        appointment.Status = newStatus;
+        appointment!.Status = newStatus;
         return appointment.Email;
     }
 
-    public async Task<Guid> Schedule(Customer customer, Period appointment)
+    public async Task<Guid> ScheduleNew(Customer customer, Period appointment)
     {
-        var existingUser = _customerRepository.FindCustomerBy(customer.Email, customer.Phone);
-        var statusRequested = new AppointmentStatusDto { Id = AppointmentStatus.Requested.Value };
-        _ = _context.Set<AppointmentStatusDto>().Attach(statusRequested);
-
-        if (existingUser != null)
-        {
-            return await ScheduleExisting(customer, appointment, existingUser, statusRequested);
-        }
-
-        return await ScheduleNew(customer, appointment, statusRequested);
-    }
-
-    private async Task<Guid> ScheduleNew(Customer customer, Period appointment, AppointmentStatusDto statusRequested)
-    {
+        var statusRequested = GetStatus();
         var newCustomer = new CustomerDto
         {
             Name = customer.Name,
             Surname = customer.Surname
         };
+
+        return await Create(customer, appointment, statusRequested, newCustomer);
+    }
+
+    public async Task<Guid> ScheduleExisting(ExistingCustomer customer, Period appointment)
+    {
+        var statusRequested = GetStatus();
+        var oldCustomerEntity = GetFetchedEntity<CustomerDto>(x => x.Id == customer.Id)!;
+        var previouslyUsedEmail = GetFetchedEntity<CustomerEmailDto>(x => x.Email == customer.GivenMail);
+        var previouslyUsedPhone = GetFetchedEntity<CustomerPhoneDto>(x => x.PhoneNumber == customer.GivenPhone);
+
+        return await Create(customer, appointment, statusRequested, oldCustomerEntity, previouslyUsedEmail, previouslyUsedPhone);
+    }
+
+    private async Task<Guid> Create(Customer customer, Period appointment, AppointmentStatusDto statusRequested, CustomerDto newCustomer,
+        CustomerEmailDto? previouslyUsedEmail = null, CustomerPhoneDto? previouslyUsedPhone = null)
+    {
+
 
         var newAppointment = new AppointmentDto
         {
@@ -58,12 +60,12 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
             ScheduledFor = appointment.StartDate,
             ExpectedEndTime = appointment.EndDate,
             Customer = newCustomer,
-            CustomerPhone = new CustomerPhoneDto
+            CustomerPhone = previouslyUsedPhone ?? new CustomerPhoneDto
             {
                 Customer = newCustomer,
                 PhoneNumber = customer.Phone
             },
-            CustomerEmail = new CustomerEmailDto()
+            CustomerEmail = previouslyUsedEmail ?? new CustomerEmailDto()
             {
                 Customer = newCustomer,
                 Email = customer.Email
@@ -75,40 +77,19 @@ public class AppointmentRepository(MarushCareContext context, ICustomerRepositor
         return newAppointment.Id;
     }
 
-    private async Task<Guid> ScheduleExisting(Customer customer, Period appointmentPeriod, Customer existingUser, AppointmentStatusDto statusRequested)
-    {
-        var oldCustomer = GetFetchedEntity<CustomerDto>(x => x.Id == existingUser.Id)!;
-        var oldEmail = GetFetchedEntity<CustomerEmailDto>(x => x.Email == customer.Email);
-        var oldPhone = GetFetchedEntity<CustomerPhoneDto>(x => x.PhoneNumber == existingUser.Phone);
-        var appointment = new AppointmentDto
-        {
-            Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName,
-            CustomerEmail = oldEmail ?? new CustomerEmailDto()
-            {
-                Customer = oldCustomer,
-                Email = customer.Email
-            },
-            CustomerPhone = oldPhone ?? new CustomerPhoneDto
-            {
-                Customer = oldCustomer,
-                PhoneNumber = customer.Phone
-            },
-            Customer = oldCustomer,
-            ScheduledFor = appointmentPeriod.StartDate,
-            ExpectedEndTime = appointmentPeriod.EndDate,
-            Status = statusRequested
-        };
-
-        _ = await _appointments.AddAsync(appointment);
-        return appointment.Id;
-    }
-
     public void DetachAll()
     {
         foreach (var entry in _context.ChangeTracker.Entries())
         {
             entry.State = EntityState.Detached;
         }
+    }
+
+    private AppointmentStatusDto GetStatus(Guid? statusId = null)
+    {
+        var statusRequested = new AppointmentStatusDto { Id = statusId ?? AppointmentStatus.Requested.Value };
+        _ = _context.Set<AppointmentStatusDto>().Attach(statusRequested);
+        return statusRequested;
     }
 
     private T? GetFetchedEntity<T>(Func<T, bool> expression) =>
