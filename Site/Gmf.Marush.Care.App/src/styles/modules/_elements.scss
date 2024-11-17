@@ -29,3 +29,9 @@
 		letter-spacing: 1px;
 	}
 }
+
+%error-element {
+	border-color: variables.$error-font-color;
+	background-color: variables.$error;
+	color: variables.$error-font-color;
+}

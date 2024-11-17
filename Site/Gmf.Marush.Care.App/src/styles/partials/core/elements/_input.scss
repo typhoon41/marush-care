@@ -11,9 +11,7 @@ input[type = 'checkbox'] {
 input[type = 'text'] {
 	@extend %element;
 
-	&.ng-invalid {
-		border-color: variables.$error-font-color;
-		background-color: variables.$error;
-		color: variables.$error-font-color;
+	&.ng-dirty.ng-invalid, &.ng-touched.ng-invalid {
+		@extend %error-element;
 	}
 }

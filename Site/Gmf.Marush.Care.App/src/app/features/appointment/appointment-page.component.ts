@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 import { Component, HostBinding } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
@@ -19,6 +19,7 @@ export class AppointmentPageComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
+  defaultFieldLength = 100;
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly formBuilder: NonNullableFormBuilder) {
@@ -26,6 +27,16 @@ export class AppointmentPageComponent {
     this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.appointment.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,anticelulit masaža,zakazivanje,slobodan termin,centar,Beograd,Vlajkovićeva` });
     this.title.setTitle($localize`:@@routes.appointment.title:Marush: Space of Care - zakazivanje`);
     this.form = this.formBuilder.group({
+      name: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),
+      surname: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),
+      email: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength), Validators.email]),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{8})|(\+\d{10,13})/u)]),
+      date: new FormControl('', [Validators.required]),
+      timeGroup: this.formBuilder.group({
+        time: new FormControl('', [Validators.required])
+      }),
+      sum: new FormControl(0, []),
+      duration: new FormControl(0, []),
       checkedServices: this.formBuilder.array<IDefineTreatment>([])
     });
   }
@@ -45,4 +56,14 @@ export class AppointmentPageComponent {
   };
 
   readonly onRemoveSelection = (item: IDefineTreatment) => this.onToggleSelection(item, false);
+
+  readonly onSubmit = () => {
+    this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      return;
+    }
+
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(this.form.value, null, '\t'));
+  };
 }

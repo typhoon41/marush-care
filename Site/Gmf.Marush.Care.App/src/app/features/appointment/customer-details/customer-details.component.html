@@ -1,7 +1,9 @@
-<input class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.name" placeholder="Ime">
-<input class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.surname" placeholder="Prezime">
-<input class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.phone" placeholder="Telefon">
-<input class="column-12 field" type="text" i18n-placeholder="@@email" placeholder="Email">
-<input #appointmentDate readonly class="column-6 column-tablet-8 field" type="text" i18n-placeholder="@@appointment.customer.date"
- placeholder="Datum" (focus)="toggleDatePicker()">
-<marush-combobox [placeholder]="placeholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
+<div [formGroup]="formGroup" class="column-12 row">
+    <input formControlName="name" class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.name" placeholder="Ime">
+    <input formControlName="surname" class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.surname" placeholder="Prezime">
+    <input formControlName="phone" class="column-12 field" type="text" i18n-placeholder="@@appointment.customer.phone" placeholder="Telefon">
+    <input formControlName="email" class="column-12 field" type="text" i18n-placeholder="@@email" placeholder="Email">
+    <input formControlName="date" #appointmentDate readonly class="column-6 column-tablet-8 field" type="text" i18n-placeholder="@@appointment.customer.date"
+     placeholder="Datum" (focus)="toggleDatePicker()">
+    <marush-combobox [formGroup]="timeGroup" [name]="'time'" [placeholder]="placeholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
+</div>

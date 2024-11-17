@@ -4,7 +4,7 @@
 
 $top-gap: 60px;
 
-.summary {
+.summary:not(.hidden) {
 	display: block;
 	margin-top: $top-gap;
 }

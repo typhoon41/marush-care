@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component,
   ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isAction } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from './combobox.model';
 
@@ -8,7 +9,7 @@ import { IComboBoxItem } from './combobox.model';
   selector: 'marush-combobox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './combobox.component.html',
   styleUrl: './combobox.component.scss'
 })
@@ -17,12 +18,13 @@ export class ComboBoxComponent {
   @Input() onValueChanged: (item: IComboBoxItem) => void = () => { };
   @Input() items: IComboBoxItem[] = [];
   @Input() id: string = 'combo-box';
+  @Input() name: string = 'combo-box';
+  @Input() formGroup!: FormGroup;
   @Input() placeholder: string = '';
   @Input() selectedItem: IComboBoxItem | undefined;
-  collapsed = false;
-
   @ViewChild('combo') combo: ElementRef | undefined;
   @ViewChildren('option') options: QueryList<ElementRef<HTMLLIElement>> | undefined;
+  collapsed = false;
 
   constructor(private readonly cdr: ChangeDetectorRef) { }
 
@@ -30,6 +32,7 @@ export class ComboBoxComponent {
   readonly buttonId = () => `${this.id}-button`;
   readonly select = (item: IComboBoxItem) => {
     this.selectedItem = item;
+    this.formGroup.get(this.name)?.setValue(item.value);
     this.hideDropdown();
     this.onValueChanged(item);
   };
@@ -54,7 +57,6 @@ export class ComboBoxComponent {
   readonly onBlur = (event: FocusEvent) => {
     const newTarget = event.relatedTarget as HTMLElement;
     const newTargetParent = newTarget?.parentElement;
-
     if (newTargetParent?.id !== this.containerId() && newTargetParent?.parentElement?.id !== this.containerId()
       && newTarget?.id !== this.id && newTarget?.id !== this.buttonId() && newTarget?.id !== this.containerId()) {
       this.hideDropdown();
@@ -88,12 +90,11 @@ export class ComboBoxComponent {
     }
   };
 
+  private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
   private readonly mainActionTriggeredBy = (event: KeyboardEvent) => isAction(event);
   private readonly cancelActionTriggeredBy = (event: KeyboardEvent) => event.key === 'Escape';
   private readonly previousElementFrom = (index: number) => this.options?.get((index - 1 + this.options.length) % this.options.length);
   private readonly nextElementFrom = (index: number) => this.options?.get((index + 1) % this.options.length);
   private readonly getSelectedOption = () => this.options?.filter(option =>
     (option.nativeElement.lastChild as HTMLElement).getAttribute('value') === this.selectedItem?.value)[0] ?? this.options?.get(0);
-
-  private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
 }

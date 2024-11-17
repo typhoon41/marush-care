@@ -1,5 +1,5 @@
-<div class="combo-box" role="combobox" [attr.aria-controls]="containerId" aria-haspopup="listbox"
-    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id">
+<div class="combo-box" role="combobox" [attr.aria-controls]="containerId()" aria-haspopup="listbox" [formGroup]="formGroup"
+    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}">
     <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
         (click)="toggleDropdown()" (keydown)="onKey($event)">
         @if(selectedItem){
@@ -18,7 +18,7 @@
             [ngClass]="{'selected': selectedItem?.value === item.value}" role="option"
             [tabindex]="collapsed ? 0 : -1" (click)="select(item)"
             (keydown)="onOptionKey(item, $event, $index)" (blur)="onBlur($event)">
-            <label class="control-description clickable" tabindex="-1">{{item.label}}<input [checked]="selectedItem?.value === item.value" class="control" type="radio" [name]="id" tabindex="-1" [value]="item.value" /></label>
+            <label class="control-description clickable" tabindex="-1">{{item.label}}<input [attr.formControlName]="name" [checked]="selectedItem?.value === item.value" class="control" type="radio" tabindex="-1" [value]="item.value" /></label>
         </li>
         }
     </ul>
