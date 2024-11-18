@@ -177,4 +177,7 @@
   <data name="AppointmentTime" xml:space="preserve">
     <value>Время:</value>
   </data>
+  <data name="ValidationPhone" xml:space="preserve">
+    <value>Телефон должен быть в формате 06XXXXXXXXXXXX или +XXXXXXXXXXXXXXXXXX</value>
+  </data>
 </root>

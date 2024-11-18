@@ -3,13 +3,14 @@ import { Component, ElementRef, HostBinding, Inject, Input, OnInit, PLATFORM_ID,
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComboBoxComponent } from '@shared/components/forms/combobox/combobox.component';
 import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
+import { InputComponent } from '@shared/components/forms/input/input.component';
 import Language from '@shared/models/language.model';
 import AirDatepicker from 'air-datepicker';
 
 @Component({
     selector: 'marush-appointment-customer-details',
     standalone: true,
-    imports: [ComboBoxComponent, ReactiveFormsModule],
+    imports: [ComboBoxComponent, InputComponent, ReactiveFormsModule],
     templateUrl: './customer-details.component.html',
     styleUrl: './customer-details.component.scss'
 })
@@ -18,6 +19,11 @@ export class CustomerDetailsComponent implements OnInit {
     @Input() formGroup!: FormGroup;
     @ViewChild('appointmentDate', { static: true }) public appointmentDate!: ElementRef<HTMLInputElement>;
     datePicker: AirDatepicker | undefined;
+    readonly namePlaceholder = $localize`:@@appointment.customer.name:Ime`;
+    readonly surnamePlaceholder = $localize`:@@appointment.customer.surname:Prezime`;
+    readonly phonePlaceholder = $localize`:@@appointment.customer.phone:Telefon`;
+    readonly emailPlaceholder = $localize`:@@email:Email`;
+    readonly phoneValidationMessage = $localize`:@@validation.phone.pattern:Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX`;
 
     constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {
     }
@@ -52,6 +58,12 @@ export class CustomerDetailsComponent implements OnInit {
                 }
             });
         }
+    }
+
+    get nameInvalid() {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const name = this.formGroup.get('name')!;
+        return name.invalid && (name.dirty || name.touched) && !!name.errors?.['required'];
     }
 
     get timeGroup() {

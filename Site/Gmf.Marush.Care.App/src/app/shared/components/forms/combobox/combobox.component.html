@@ -22,4 +22,8 @@
         </li>
         }
     </ul>
+    @if(invalid)
+    {
+        <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>
+    }
 </div>

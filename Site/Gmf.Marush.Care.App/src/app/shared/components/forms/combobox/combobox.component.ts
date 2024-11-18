@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component,
   ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
@@ -30,6 +31,12 @@ export class ComboBoxComponent {
 
   readonly containerId = () => `${this.id}-container`;
   readonly buttonId = () => `${this.id}-button`;
+  get invalid() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const control = this.formGroup.get(this.name)!;
+    return control.invalid && (control.touched || control.dirty);
+  }
+
   readonly select = (item: IComboBoxItem) => {
     this.selectedItem = item;
     this.formGroup.get(this.name)?.setValue(item.value);

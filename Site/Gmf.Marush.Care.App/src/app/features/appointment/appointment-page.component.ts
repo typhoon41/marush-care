@@ -30,7 +30,7 @@ export class AppointmentPageComponent {
       name: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),
       surname: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),
       email: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength), Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{8})|(\+\d{10,13})/u)]),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u)]),
       date: new FormControl('', [Validators.required]),
       timeGroup: this.formBuilder.group({
         time: new FormControl('', [Validators.required])
@@ -38,7 +38,7 @@ export class AppointmentPageComponent {
       sum: new FormControl(0, []),
       duration: new FormControl(0, []),
       checkedServices: this.formBuilder.array<IDefineTreatment>([])
-    });
+    }, { updateOn: 'blur' });
   }
 
   get checkedServices() {
