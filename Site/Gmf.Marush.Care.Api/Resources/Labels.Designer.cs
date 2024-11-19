@@ -223,6 +223,15 @@ namespace Gmf.Marush.Care.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX.
+        /// </summary>
+        internal static string ValidationPhone {
+            get {
+                return ResourceManager.GetString("ValidationPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ovo je obavezno polje.
         /// </summary>
         internal static string ValidationRequired {

@@ -9,12 +9,19 @@ namespace Gmf.Marush.Care.Api.Validation;
 
 public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
 {
+    private const string PhoneRegex = @"^(06\d{7,8})|(\+\d{10,13})$";
+
     public AppointmentRequestValidator()
     {
-        SetupValidationFor(request => request.Name);
-        SetupValidationFor(request => request.Surname);
-        SetupValidationFor(request => request.Email);
-        SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength);
+        _ = SetupValidationFor(request => request.Name);
+        _ = SetupValidationFor(request => request.Surname);
+        _ = SetupValidationFor(request => request.Email)
+            .EmailAddress()
+            .WithMessage(Labels.ValidationEmail);
+        _ = SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength)
+            .Matches(PhoneRegex)
+            .WithMessage(Labels.ValidationPhone);
+
         _ = RuleFor(request => request.Date)
             .NotNull()
             .WithMessage(Labels.ValidationRequired)
@@ -39,10 +46,10 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationDuration);
     }
 
-    private void SetupValidationFor(Expression<Func<AppointmentRequest, string>> property, int? length = null)
+    private IRuleBuilderOptions<AppointmentRequest, string> SetupValidationFor(Expression<Func<AppointmentRequest, string>> property, int? length = null)
     {
-        var lengthToSet = length.HasValue ? length.Value : CustomerConfiguration.DefaultLength;
-        _ = RuleFor(property)
+        var lengthToSet = length ?? CustomerConfiguration.DefaultLength;
+        return RuleFor(property)
         .NotNull()
         .WithMessage(Labels.ValidationRequired)
         .MaximumLength(lengthToSet)

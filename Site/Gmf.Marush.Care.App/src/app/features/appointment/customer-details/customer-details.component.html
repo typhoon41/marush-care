@@ -4,9 +4,6 @@
     <marush-input class="column-12 row" [form]="formGroup" [name]="'phone'" [placeholder]="phonePlaceholder" [validation]="['required', 'pattern']"
     [customValidation]="'pattern'" [customValidationMessage]="phoneValidationMessage"></marush-input>
     <marush-input class="column-12 row" [form]="formGroup" [name]="'email'" [placeholder]="emailPlaceholder" [validation]="['required', 'maxlength', 'email']"></marush-input>
-
-
-    <input formControlName="date" #appointmentDate readonly class="column-6 column-tablet-8 field" type="text" i18n-placeholder="@@appointment.customer.date"
-     placeholder="Datum" (focus)="toggleDatePicker()">
-    <marush-combobox [formGroup]="timeGroup" [name]="'time'" [placeholder]="placeholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
+    <marush-date-picker class="column-6 column-tablet-8" [form]="formGroup" [name]="'date'" [placeholder]="datePlaceholder"></marush-date-picker>
+    <marush-combobox [formGroup]="timeGroup" [name]="'time'" [placeholder]="timePlaceholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
 </div>
