@@ -1,6 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 import { Component, HostBinding } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
@@ -32,17 +32,22 @@ export class AppointmentPageComponent {
       email: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength), Validators.email]),
       phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u)]),
       date: new FormControl('', [Validators.required]),
+      time: new FormControl(''),
       timeGroup: this.formBuilder.group({
         time: new FormControl('', [Validators.required])
       }),
-      sum: new FormControl(0, []),
       duration: new FormControl(0, []),
-      checkedServices: this.formBuilder.array<IDefineTreatment>([])
+      checkedServices: this.formBuilder.array<IDefineTreatment>([]),
+      sum: new FormControl(0)
     }, { updateOn: 'blur' });
   }
 
   get checkedServices() {
-    return this.form.get('checkedServices') as FormArray<FormControl<IDefineTreatment>>;
+    return this.form?.get('checkedServices') as FormArray<FormControl<IDefineTreatment>>;
+  }
+
+  get totalCost() {
+    return this.checkedServices?.value.reduce((sum, { price }) => sum + price, 0) ?? 0;
   }
 
   readonly onToggleSelection = (item: IDefineTreatment, checked: boolean) => {
@@ -62,6 +67,9 @@ export class AppointmentPageComponent {
     if (this.form.invalid) {
       return;
     }
+
+    this.form.get('sum')?.setValue(this.totalCost);
+    this.form.get('time')?.setValue(`${this.form.get('timeGroup.time')?.value}:00`);
 
     // eslint-disable-next-line no-alert
     alert(JSON.stringify(this.form.value, null, '\t'));

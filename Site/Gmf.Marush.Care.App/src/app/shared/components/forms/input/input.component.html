@@ -1,5 +1,5 @@
 <div class="column-12" [formGroup]="form">
-    <input [formControlName]="name" class="column-12 field" type="text" [placeholder]="placeholder">
+    <input [autocomplete]="autoComplete ? 'on' : 'off'" [formControlName]="name" [name]="name" class="column-12 field" type="text" [placeholder]="placeholder">
     @if(required)
     {
         <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>

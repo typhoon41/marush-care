@@ -27,7 +27,15 @@ export class ServicesSelectorComponent {
     readonly onTreatmentChanged = (treatment: IDefineTreatment) => ($event: Event) => this.onCheckboxChange(treatment, $event);
 
     readonly onCheckboxChange = (item: IDefineTreatment, event: Event) => {
-        const checked = (event.target as HTMLInputElement).checked;
+        const checkbox = event.target as HTMLInputElement;
+        const checked = checkbox.checked;
+        const maxAllowed = 4;
+
+        if (this.checkedServices.length >= maxAllowed && checked) {
+            checkbox.checked = false;
+            return;
+        }
+
         this.toggleSelection.emit({ item, checked });
-      };
+    };
 }

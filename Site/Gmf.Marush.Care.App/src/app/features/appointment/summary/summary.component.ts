@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IDefineTreatment } from '@shared/models/services/types.model';
 
 @Component({
@@ -11,14 +11,10 @@ import { IDefineTreatment } from '@shared/models/services/types.model';
 })
 export class AppointmentSummaryComponent {
     @Input() checkedServices: IDefineTreatment[] = [];
-    @Input() formGroup!: FormGroup;
+    @Input() totalCost: number = 0;
     @Output() removeSelection = new EventEmitter<IDefineTreatment>();
 
     readonly onRemove = (item: IDefineTreatment) => {
         this.removeSelection.emit(item);
     };
-
-    get totalCost() {
-        return this.checkedServices.reduce((sum, { price }) => sum + price, 0);
-    }
 }

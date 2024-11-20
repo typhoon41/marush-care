@@ -1,4 +1,4 @@
-<section [formGroup]="formGroup" class="summary service-title">
+<section class="summary service-title">
     <h4 class="appointment-header" i18n="@@routes.services">usluge</h4>
     @for(checkedService of checkedServices; track checkedService.title){
         <div class="row service-container aligned-centrally">
@@ -11,5 +11,4 @@
     }
     <h4 class="appointment-header" i18n="@@appointment.summary.total">Ukupno</h4>
     <strong class="price">{{totalCost}}</strong>
-    <input type="hidden" formControlName="sum" [value]="totalCost"/>
 </section>

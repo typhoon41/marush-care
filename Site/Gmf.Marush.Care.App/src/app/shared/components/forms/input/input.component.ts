@@ -13,6 +13,7 @@ export class InputComponent extends Field {
     @Input() form!: FormGroup;
     @Input() name = '';
     @Input() placeholder = '';
+    @Input() autoComplete = false;
     @Input() customValidation = '';
     @Input() validation: string[] = [];
     @Input() customValidationMessage = '';

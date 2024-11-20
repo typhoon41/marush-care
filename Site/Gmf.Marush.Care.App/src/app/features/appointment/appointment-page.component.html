@@ -1,10 +1,10 @@
-<h2 class="appointment-header header-centered" i18n="@@appointment.title">Izaberite usluge</h2>
+<h2 class="appointment-header header-centered" i18n="@@appointment.title">Izaberite (do 4) usluge</h2>
 <form [formGroup]="form" class="column-12 offset-tablet-1 column-tablet-10" (submit)="onSubmit()">
     <marush-appointment-services-selector [checkedServices]="checkedServices.value"
         (toggleSelection)="onToggleSelection($event.item, $event.checked)"
         class="column-12"></marush-appointment-services-selector>
-    <marush-appointment-summary [class.hidden]="!checkedServices.length" [formGroup]="form"
-        [checkedServices]="checkedServices.value" (removeSelection)="onRemoveSelection($event)"
+    <marush-appointment-summary [class.hidden]="!checkedServices.length"
+        [checkedServices]="checkedServices.value" [totalCost]="totalCost" (removeSelection)="onRemoveSelection($event)"
         class="summary column-12"></marush-appointment-summary>
     <marush-appointment-customer-details [class.hidden]="!checkedServices.length" [formGroup]="form"></marush-appointment-customer-details>
     <div [class.hidden]="!checkedServices.length" class="column-12 vertical-stack center-content">
