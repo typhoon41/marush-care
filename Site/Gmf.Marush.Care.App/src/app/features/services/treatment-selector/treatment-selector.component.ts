@@ -6,6 +6,7 @@ import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expa
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import supportedTreatments from '@shared/models/services/supported-treatments.model';
 import { IDefineTreatment, SelectedService } from '@shared/models/services/types.model';
+import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
   selector: 'marush-services-treatment-selector',
@@ -21,7 +22,8 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
   treatments: IDefineTreatment[] = [];
   selectedServiceChanging = false;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router) {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
+    private readonly moneyPipe: MoneyPipe) {
     super();
   }
 
@@ -65,7 +67,8 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
 
   readonly format = (treatment: IDefineTreatment) =>
     `${treatment.description || ''}${treatment.description ? '<br><br>' : ''}` +
-    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ? treatment.rangedPrice : treatment.price}`}`
+    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ?
+      treatment.rangedPrice : this.moneyPipe.transform(treatment.price)}`}`
     + '<br><br>' +
     `${$localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${treatment.duration}`}` +
     `${$localize`:@@minutes: minuta`}`;

@@ -6,9 +6,9 @@
                 <img class="trash-can-icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
             </button>
             <span class="service grow-nested-block">{{checkedService.title}}</span>
-            <span class="price">{{checkedService.price}}</span>
+            <span class="price">{{checkedService.price | money}}</span>
         </div>
     }
     <h4 class="appointment-header" i18n="@@appointment.summary.total">Ukupno</h4>
-    <strong class="price">{{totalCost}}</strong>
+    <strong class="price">{{totalCost | money}}</strong>
 </section>

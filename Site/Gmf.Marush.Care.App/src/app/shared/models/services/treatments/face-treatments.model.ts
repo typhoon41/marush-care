@@ -20,7 +20,7 @@ const supportedFaceTreatments = [
         name: 'Premium higijenski tretman (osrednje akni)',
         duration: 90,
         price: 5500,
-        rangedPrice: '4500 - 6500',
+        rangedPrice: '4.500 - 6.500',
         description: $localize`:@@treatments.face.premium-hygiene.description:Premium higijenski tretman podrazumeva uklanjanje mitisera, akni i milija komedoekspresijom. Ova procedura se sastoji od pripreme kože, blagog pilinga, komedoekspresije, hemijskog pilinga i završne maske.<br><br>Hemijski piling je nežan; uklanja prvi izumrli sloj ćelija kože rastapajući ih. Ovaj piling čisti pore i sužava ih, smiruje upale i ujednačava ten. Nakon ove procedure nema crvenila i ljuštenja kože!`
     },
     {

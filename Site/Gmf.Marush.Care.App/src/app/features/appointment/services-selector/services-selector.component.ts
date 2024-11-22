@@ -4,11 +4,12 @@ import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expa
 import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox.component';
 import supportedTreatments from '@shared/models/services/supported-treatments.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
+import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
     selector: 'marush-appointment-services-selector',
     standalone: true,
-    imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent],
+    imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent, MoneyPipe],
     templateUrl: './services-selector.component.html',
     styleUrl: './services-selector.component.scss'
 })

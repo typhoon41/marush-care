@@ -33,6 +33,8 @@ export class AppointmentPageComponent {
       phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u)]),
       date: new FormControl('', [Validators.required]),
       time: new FormControl(''),
+      treatments: new FormControl([]),
+      serbianTreatments: new FormControl([]),
       timeGroup: this.formBuilder.group({
         time: new FormControl('', [Validators.required])
       }),
@@ -49,6 +51,8 @@ export class AppointmentPageComponent {
   get totalCost() {
     return this.checkedServices?.value.reduce((sum, { price }) => sum + price, 0) ?? 0;
   }
+
+  private readonly getDuration = () => this.checkedServices?.value.reduce((total, { duration }) => total + duration, 0) ?? 0;
 
   readonly onToggleSelection = (item: IDefineTreatment, checked: boolean) => {
     if (checked) {
@@ -70,6 +74,9 @@ export class AppointmentPageComponent {
 
     this.form.get('sum')?.setValue(this.totalCost);
     this.form.get('time')?.setValue(`${this.form.get('timeGroup.time')?.value}:00`);
+    this.form.get('duration')?.setValue(this.getDuration());
+    this.form.get('treatments')?.setValue(this.checkedServices?.value.map(({ title }) => title));
+    this.form.get('serbianTreatments')?.setValue(this.checkedServices?.value.map(({ name }) => name));
 
     // eslint-disable-next-line no-alert
     alert(JSON.stringify(this.form.value, null, '\t'));

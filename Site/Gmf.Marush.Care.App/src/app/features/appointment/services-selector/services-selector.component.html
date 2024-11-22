@@ -9,7 +9,7 @@
             <marush-checkbox class="service-selection grow-nested-block" [onChange]="onTreatmentChanged(treatment)"
                 [checked]="checkedServices.includes(treatment)"
                 [labelText]="treatment.title"></marush-checkbox>
-            <span class="price">{{treatment.price}}</span>
+            <span class="price">{{treatment.price | money}}</span>
         </div>
         }
     </marush-expansion-panel>

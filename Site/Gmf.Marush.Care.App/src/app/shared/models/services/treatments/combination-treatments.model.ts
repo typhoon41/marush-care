@@ -3,7 +3,7 @@ const supportedCombinationTreatments = [
     {
         title: $localize`:@@treatments.combination.violetta:Violeta tretman: Masaža lica + higijensko čišćenje + biološki tretman`,
         name: 'Violeta tretman: Masaža lica + higijensko čišćenje + biološki tretman',
-        duration: 90,
+        duration: 120,
         price: 6500
     },
     {
