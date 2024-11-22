@@ -65,5 +65,8 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
 
   readonly format = (treatment: IDefineTreatment) =>
     `${treatment.description || ''}${treatment.description ? '<br><br>' : ''}` +
-    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ? treatment.rangedPrice : treatment.price}`}`;
+    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ? treatment.rangedPrice : treatment.price}`}`
+    + '<br><br>' +
+    `${$localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${treatment.duration}`}` +
+    `${$localize`:@@minutes: minuta`}`;
 }

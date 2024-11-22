@@ -10,7 +10,9 @@ export interface IDefineTreatmentGroup {
 
 export interface IDefineTreatment {
     title: string;
+    name: string;
     description?: string;
+    duration: number;
     clone?: boolean;
     rangedPrice?: string;
     price: number;
