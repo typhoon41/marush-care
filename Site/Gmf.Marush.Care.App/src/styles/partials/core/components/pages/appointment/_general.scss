@@ -48,3 +48,12 @@
 .customer-details-container {
 	margin-top: 60px;
 }
+
+.resolution-page {
+	flex-wrap: wrap;
+	min-height: 500px;
+
+	@include breakpoints.apply-from-tablet() {
+		flex-wrap: nowrap;
+	}
+}
