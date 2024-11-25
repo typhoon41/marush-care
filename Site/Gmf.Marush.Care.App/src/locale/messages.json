@@ -22,6 +22,7 @@
     "discounts.3": "<p><strong>6.11. - 13.11.</strong></p><p>Neinv. mezo terap. + radio talasni lift. (lice + očna zona)<br/><s>10000</s> 7000</p>",
     "email": "Email",
     "error.decoration": "Lišće koje opada sa drveta u grafici",
+    "error.local.description": "Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.",
     "error.not-found.description": "Dragi posetioče, tražena stranica ne postoji.",
     "error.system.description": "Dragi posetioče, došlo je do sistemske greške. Administratori sajta su obavešteni o ovom problemu.",
     "gallery.image.description": "Galerija: slike iz salona",

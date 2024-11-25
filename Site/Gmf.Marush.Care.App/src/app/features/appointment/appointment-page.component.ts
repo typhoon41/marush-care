@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveForm
 import { Meta, Title } from '@angular/platform-browser';
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
+import { AppointmentService } from '@shared/services/appointment-service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
 import { AppointmentSummaryComponent } from './summary/summary.component';
@@ -20,9 +21,11 @@ export class AppointmentPageComponent {
   marushDetails = marushDetails;
   form: FormGroup;
   defaultFieldLength = 100;
+  globalError = '';
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
-  constructor(private readonly meta: Meta, private readonly title: Title, private readonly formBuilder: NonNullableFormBuilder) {
+  constructor(private readonly meta: Meta, private readonly title: Title,
+    private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
     this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.appointment.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,anticelulit masaža,zakazivanje,slobodan termin,centar,Beograd,Vlajkovićeva` });
     this.title.setTitle($localize`:@@routes.appointment.title:Marush: Space of Care - zakazivanje`);
@@ -66,7 +69,8 @@ export class AppointmentPageComponent {
 
   readonly onRemoveSelection = (item: IDefineTreatment) => this.onToggleSelection(item, false);
 
-  readonly onSubmit = () => {
+  readonly onSubmit = async() => {
+    this.globalError = '';
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
@@ -78,7 +82,10 @@ export class AppointmentPageComponent {
     this.form.get('treatments')?.setValue(this.checkedServices?.value.map(({ title }) => title));
     this.form.get('serbianTreatments')?.setValue(this.checkedServices?.value.map(({ name }) => name));
 
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(this.form.value, null, '\t'));
+    try {
+      await this.appointmentService.makeRequest(this.form.value);
+    } catch (error) {
+      this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
+    }
   };
 }

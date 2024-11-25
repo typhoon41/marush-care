@@ -3,6 +3,7 @@ using Gmf.Marush.Care.Api.Injection;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Initialization;
+using Gmf.Net.Core.Common.Initialization.Converters;
 using Gmf.Net.Core.Common.Initialization.Documentation;
 using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Initialization.Middlewares;
@@ -29,20 +30,10 @@ new ApiRunner(args)
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)
 {
     _ = application.UseMiddleware<LocalizationMiddleware>(new List<string>() { "sr", "en", "ru" });
-    //app.UseDefaultFiles();
-    //app.UseStaticFiles(new StaticFileOptions
-    //{
-    //    OnPrepareResponse = context =>
-    //    {
-    //        if (context.File.Name != "index.html")
-    //        {
-    //            context.Context.Response.Headers.Append("Cache-Control", "public, max-age: 604800");
-    //        }
-    //    }
-    //});
-
-    //app.MapFallbackToFile("index.html");
-
+    _ = application.UseCors(builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
     application.UseSwaggerIn(builder.Environment, swaggerSettings.ApiDetails);
 }
 
@@ -57,7 +48,7 @@ void ServiceCallback(WebApplicationBuilder builder)
     builder.AddSqlServerDbContext<MarushCareContext>("MarushCare");
     _ = builder.Services.AddCors();
     _ = builder.Services.AddAutoMapper(marushAssembly.Api);
-    _ = builder.Services.AddMvc([], marushAssembly.Api);
+    _ = builder.Services.AddMvc([], [new DateOnlyJsonConverter()], marushAssembly.Api);
 
     builder.Services.AddSwaggerIn(builder.Environment, swaggerSettings);
 }

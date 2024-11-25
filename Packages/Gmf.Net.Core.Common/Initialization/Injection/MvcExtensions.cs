@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Gmf.Net.Core.Common.Initialization.Injection;
 
@@ -17,7 +18,8 @@ public static class MvcExtensions
         new TransactionFilter<IUnitOfWork>(async unitOfWork => await unitOfWork.SaveChangesAsync())
     ];
 
-    public static IMvcBuilder AddMvc(this IServiceCollection services, IEnumerable<IFilterMetadata> filters, params Assembly[] assemblies)
+    public static IMvcBuilder AddMvc(this IServiceCollection services, IEnumerable<IFilterMetadata> filters,
+        IEnumerable<JsonConverter> converters, params Assembly[] assemblies)
     {
         var result = services.AddControllers(options =>
         {
@@ -25,7 +27,15 @@ public static class MvcExtensions
             {
                 options.Filters.Add(filter);
             }
-        }).ConfigureApiBehaviorOptions(options => options.SuppressMapClientErrors = true);
+        })
+        .AddJsonOptions(opt =>
+        {
+            foreach (var converter in converters)
+            {
+                opt.JsonSerializerOptions.Converters.Add(converter);
+            }
+        })
+        .ConfigureApiBehaviorOptions(options => options.SuppressMapClientErrors = true);
         _ = services.AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()
             .AddValidatorsFromAssemblies(assemblies);
