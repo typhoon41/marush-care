@@ -2,6 +2,8 @@
 import { Component, HostBinding } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
 import { AppointmentService } from '@shared/services/appointment-service';
@@ -16,7 +18,7 @@ import { AppointmentSummaryComponent } from './summary/summary.component';
   templateUrl: './appointment-page.component.html',
   styleUrl: './appointment-page.component.scss'
 })
-export class AppointmentPageComponent {
+export class AppointmentPageComponent extends BaseRoutingComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
@@ -24,8 +26,10 @@ export class AppointmentPageComponent {
   globalError = '';
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
-  constructor(private readonly meta: Meta, private readonly title: Title,
+  // eslint-disable-next-line max-params
+  constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
+    super();
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
     this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.appointment.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,anticelulit masaža,zakazivanje,slobodan termin,centar,Beograd,Vlajkovićeva` });
     this.title.setTitle($localize`:@@routes.appointment.title:Marush: Space of Care - zakazivanje`);
@@ -84,6 +88,7 @@ export class AppointmentPageComponent {
 
     try {
       await this.appointmentService.makeRequest(this.form.value);
+      this.router.navigate([this.translateRoute('request-sent')]);
     } catch (error) {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
     }
