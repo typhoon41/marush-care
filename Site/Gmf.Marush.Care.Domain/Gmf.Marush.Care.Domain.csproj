@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\Packages\Gmf.DDD.Common\Gmf.DDD.Common.csproj" />
+  </ItemGroup>
+</Project>

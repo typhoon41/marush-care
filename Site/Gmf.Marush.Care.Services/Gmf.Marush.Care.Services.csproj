@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\Packages\Gmf.Mail.Common\Gmf.Mail.Common.csproj" />
+    <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
+  </ItemGroup>
+</Project>

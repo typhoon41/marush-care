@@ -42,6 +42,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "styles": [
+              "node_modules/air-datepicker/air-datepicker.css",
               "src/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
@@ -145,6 +146,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/air-datepicker/air-datepicker.css",
               "src/styles/main.scss"
             ],
             "scripts": []

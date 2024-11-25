@@ -1,0 +1,17 @@
+/* stylelint-disable selector-max-attribute, selector-no-qualifying-type */
+@use 'variables';
+@use 'elements';
+
+input[type = 'checkbox'] {
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+}
+
+input[type = 'text'] {
+	@extend %element;
+
+	#{variables.$error-selector} {
+		@extend %error-element;
+	}
+}

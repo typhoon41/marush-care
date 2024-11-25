@@ -11,6 +11,7 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 })
 export class ExpansionPanelComponent {
   @HostBinding('class') classAttribute: string = 'row';
+  @Input() panelHeaderClass: string = '';
   @Input() title: string = '';
   @Input() index: number = -1;
   @Output() collapsedEvent = new EventEmitter<number>();

@@ -24,6 +24,14 @@ export class RoutingDefinition {
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
+        this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,
+            () => import('./features/appointment/appointment-page.component').then(mod => mod.AppointmentPageComponent)),
+        this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,
+            () => import('./features/appointment/request-sent/request-sent-page.component')
+                .then(mod => mod.RequestSentPageComponent)),
+        this.lazyRoute('client-notified', 'klijent-obavešten',
+            () => import('./features/appointment/client-notified/client-notified-page.component')
+                .then(mod => mod.ClientNotifiedPageComponent)),
         this.lazyRoute('gallery', $localize`:@@routes.gallery:galerija`,
             () => import('./features/gallery/gallery-page.component').then(mod => mod.GalleryPageComponent)),
         this.lazyRoute('contact', $localize`:@@routes.contact:kontakt`,

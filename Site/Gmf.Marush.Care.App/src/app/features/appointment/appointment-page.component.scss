@@ -1,0 +1,14 @@
+@use 'headers';
+@use 'breakpoints';
+@use 'sass:math';
+
+$top-gap: 60px;
+
+.summary:not(.hidden) {
+	display: block;
+	margin-top: $top-gap;
+}
+
+.main-action, .disclaimer {
+	margin-top: $top-gap;
+}

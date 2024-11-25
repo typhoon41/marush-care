@@ -1,70 +1,9 @@
 @use 'variables';
-@use 'headers';
-@use 'breakpoints';
-@use 'scss-solutions/src/modules/position/absolute';
 
-$height-gap: 10px;
-$side-gap: 15px;
-
-.marush-combo-box {
-	position: relative;
-	z-index: 2;
-	font-family: 'Overpass-Bold', sans-serif;
-	user-select: none;
-
-	.selected-option {
-		padding: $height-gap 25px $height-gap $side-gap;
-
-		&:hover {
-			color: variables.$accent;
-		}
-	}
+.horizontal-action {
+	padding: 10px 15px;
 }
 
-.language-description {
-	@extend %marush-caption;
-
-	@include breakpoints.apply-from-desktop() {
-		@include headers.marush-tablet-caption();
-	}
-}
-
-.language-caret {
-	display: inline-block;
-	@include absolute.unset-position(7px);
-	margin-left: 5px;
-	transform: scale(1.6, 1);
-}
-
-.options-container {
-	position: relative;
-	transition: opacity .2s;
-	opacity: 1;
-	background-color: variables.$primary;
-
-	&.collapsed {
-		opacity: 1;
-	}
-
-	.option {
-		padding: $height-gap $side-gap;
-
-		&:hover {
-			color: variables.$accent;
-		}
-
-		&:focus {
-			color: variables.$accent;
-		}
-
-		&.selected {
-			color: variables.$accent;
-		}
-	}
-
-	@include breakpoints.apply-from-tablet() {
-		display: block;
-		@include absolute.unset-position(100%, 0, unset, 0);
-		opacity: 0;
-	}
+.action.selected {
+	color: variables.$accent;
 }

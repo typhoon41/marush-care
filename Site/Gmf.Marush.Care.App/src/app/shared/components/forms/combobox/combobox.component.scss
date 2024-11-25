@@ -1,0 +1,10 @@
+@use 'elements';
+@use 'variables';
+
+.invalid.ng-touched .preview {
+	@extend %error-element;
+
+	.placeholder {
+		color: variables.$error-font-color;
+	}
+}

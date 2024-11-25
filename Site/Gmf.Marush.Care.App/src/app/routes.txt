@@ -1,3 +1,9 @@
+/početna
+/home
+/начальное
+/zakazivanje
+/appointment
+/назначение
 /usluge
 /services
 /услуги
@@ -13,3 +19,7 @@
 /error/page-not-found
 /ошибка/системная
 /ошибка/страница-не-найдена
+/klijent-obavešten
+/zahtev-poslat
+/request-sent
+/запрос-отправлен

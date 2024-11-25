@@ -1,4 +1,4 @@
-<section class="previews-container">
+<section class="previews-container stretch-equally">
     @for(image of fetchedImages; track image.name; let imageIndex = $index)
     {
     <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"

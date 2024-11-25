@@ -1,0 +1,59 @@
+@use 'breakpoints';
+@use 'headers';
+@use 'variables';
+
+.appointment-container {
+	display: block;
+	padding: 40px 30px;
+}
+
+.service-title {
+	&.emphasized {
+		font-family: 'Overpass-Bold', sans-serif;
+		text-transform: uppercase;
+	}
+
+	@include headers.marush-caption(true);
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+	}
+	text-transform: unset;
+}
+
+.appointment-container .service-selection {
+	padding-left: variables.$expansion-panel-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		padding-left: variables.$expansion-panel-gap-bigger;
+	}
+}
+
+.appointment-header {
+	@extend %marush-header;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-headline();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-desktop-header();
+	}
+}
+
+.customer-details-container {
+	margin-top: 60px;
+}
+
+.resolution-page {
+	flex-wrap: wrap;
+	min-height: 500px;
+
+	@include breakpoints.apply-from-tablet() {
+		flex-wrap: nowrap;
+	}
+}

@@ -1,27 +1,31 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 // eslint-disable-next-line @stylistic/max-len
 import { AfterViewChecked, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
-import marushDetails from '@shared/models/marush-details.model';
-import supportedTreatments from '../models/supported-treatments.model';
-import { IDefineTreatment, SelectedService } from '../models/types.model';
+import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
+import supportedTreatments from '@shared/models/services/supported-treatments.model';
+import { IDefineTreatment, SelectedService } from '@shared/models/services/types.model';
+import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
   selector: 'marush-services-treatment-selector',
   standalone: true,
-  imports: [CommonModule, ExpansionPanelComponent],
+  imports: [CommonModule, RouterModule, ExpansionPanelComponent],
   templateUrl: './treatment-selector.component.html',
   styleUrl: './treatment-selector.component.scss'
 })
-export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
+export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges, AfterViewChecked {
   @Input() selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
-  marushDetails = marushDetails;
   treatments: IDefineTreatment[] = [];
   selectedServiceChanging = false;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
+    private readonly moneyPipe: MoneyPipe) {
+    super();
+  }
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnChanges(changes: SimpleChanges) {
@@ -57,7 +61,15 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
       ?.filter(treatment => !treatment.clone) ?? [];
   };
 
+  readonly redirectToAppointment = () => {
+    this.router.navigate([this.translateRoute('appointment')]);
+  };
+
   readonly format = (treatment: IDefineTreatment) =>
     `${treatment.description || ''}${treatment.description ? '<br><br>' : ''}` +
-    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ? treatment.rangedPrice : treatment.price}`}`;
+    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ?
+      treatment.rangedPrice : this.moneyPipe.transform(treatment.price)}`}`
+    + '<br><br>' +
+    `${$localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${treatment.duration}`}` +
+    `${$localize`:@@minutes: minuta`}`;
 }

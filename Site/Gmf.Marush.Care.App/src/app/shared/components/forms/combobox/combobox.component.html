@@ -1,0 +1,29 @@
+<div class="combo-box" role="combobox" [attr.aria-controls]="containerId()" aria-haspopup="listbox" [formGroup]="formGroup"
+    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}">
+    <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
+        (click)="toggleDropdown()" (keydown)="onKey($event)">
+        @if(selectedItem){
+        <span class="selected-value ellipsis">{{selectedItem.label}}</span>
+        }
+        @else {
+        <span class="selected-value ellipsis placeholder">{{placeholder}}</span>
+        }
+        <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
+    </button>
+    <ul class="dropdown clickable column-12" role="listbox" tabindex="-1"
+        [ngClass]="{'collapsed': collapsed}" role="listbox" aria-hidden="true"
+        [ariaHidden]="!collapsed" [id]="containerId()" (keydown)="onOptionsKey($event)">
+        @for(item of items; track item.value){
+        <li #option aria-selected="false" [ariaSelected]="selectedItem?.value === item.value" class="option-container"
+            [ngClass]="{'selected': selectedItem?.value === item.value}" role="option"
+            [tabindex]="collapsed ? 0 : -1" (click)="select(item)"
+            (keydown)="onOptionKey(item, $event, $index)" (blur)="onBlur($event)">
+            <label class="control-description clickable" tabindex="-1">{{item.label}}<input [attr.formControlName]="name" [checked]="selectedItem?.value === item.value" class="control" type="radio" tabindex="-1" [value]="item.value" /></label>
+        </li>
+        }
+    </ul>
+    @if(invalid)
+    {
+        <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>
+    }
+</div>

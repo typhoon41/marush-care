@@ -2,8 +2,8 @@
 
 $breakpoints: (
 	mobile: (description: 'mobile', size: 360px),
-	tablet: (description: 'tablet', size: 768px),
-	desktop: (description: 'desktop', size: 1200px)
+	tablet: (description: 'tablet', size: 900px),
+	desktop: (description: 'desktop', size: 1300px)
 );
 
 $menu-edge-spacing: 23px;
@@ -12,6 +12,14 @@ $side-gaps: 40px;
 
 $primary: #FDF1ED;
 $accent: #F5B57B;
+$error: #F5DFDB;
+$error-font-color: #CE6D5D;
 $body-color: #FFFBFA;
 $font-color: #583616;
 $backdrop: color.adjust($primary, $alpha: -.1);
+
+$expansion-panel-gap: 20px;
+$expansion-panel-gap-bigger: 40px;
+$control-border: 1px solid $accent;
+
+$error-selector: '&.ng-dirty.ng-invalid, &.ng-touched.ng-invalid';

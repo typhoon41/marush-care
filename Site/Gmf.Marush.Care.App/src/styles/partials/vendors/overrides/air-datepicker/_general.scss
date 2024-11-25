@@ -1,0 +1,83 @@
+/* stylelint-disable csstools/use-nesting */
+@use 'variables';
+@use 'elements';
+
+.air-datepicker {
+	@include elements.marush-control-frame();
+	width: 280px;
+	box-shadow: none;
+	font-family: 'Overpass', sans-serif;
+	font-size: 16px;
+}
+
+.air-datepicker-nav {
+	border-bottom: variables.$control-border;
+}
+
+.air-datepicker-nav, .air-datepicker--content {
+	padding: 8px;
+}
+
+.air-datepicker-body--day-names {
+	margin-bottom: 8px;
+}
+
+.air-datepicker-body--cells.-days- {
+	grid-auto-rows: 39px;
+}
+
+.air-datepicker--pointer::after {
+	border-top: variables.$control-border;
+	border-right: variables.$control-border;
+	background: variables.$body-color;
+}
+
+.air-datepicker-nav--title {
+	padding-top: 5px;
+
+	i {
+		color: variables.$font-color;
+	}
+}
+
+.air-datepicker-nav--action {
+	path {
+		stroke: variables.$font-color;
+	}
+
+	&:hover path {
+		stroke: variables.$body-color;
+	}
+}
+
+.air-datepicker-nav--title, .air-datepicker-nav--action {
+	&:hover, &:hover i {
+		background: variables.$accent;
+		color: variables.$body-color;
+	}
+}
+
+.air-datepicker-cell {
+	&:hover, &.-focus-, &.-selected-.-focus-, &.-selected-.-current- {
+		background: variables.$accent;
+		color: variables.$body-color;
+	}
+
+	&.-current- {
+		color: variables.$accent;
+		font-weight: 700;
+
+		&:hover {
+			color: variables.$body-color;
+		}
+	}
+
+	&.-selected-, &.-selected-:hover {
+		background: variables.$accent;
+		color: variables.$body-color;
+	}
+
+	&.-day-.-other-month-.-selected-.-focus- {
+		background: none;
+	}
+}

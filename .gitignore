@@ -12,9 +12,9 @@ app_offline.htm
 .vs
 bin
 obj
-packages
 *.vspscc
 
 Site/Gmf.Marush.Care.App/dist/*
 Site/Gmf.Marush.Care.App/node_modules/*
 Site/Gmf.Marush.Care.App/coverage/*
+/Site/Gmf.Marush.Care.Api/Gmf.Marush.Care.Api.xml

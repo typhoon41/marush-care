@@ -6,7 +6,7 @@
     <div class="column-12 column-tablet-6 column-desktop-12 metadata">
         <h4 class="title" i18n="@@mobile">MOBILNI</h4>
         <a class="details" [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
-        <h4 class="title" i18n="@@email">MAIL</h4>
+        <h4 class="title" i18n="@@email">Email</h4>
         <a class="details" [href]="marushDetails.emailAction">{{marushDetails.email}}</a>
         <h4 class="title" i18n="@@address">ADRESA</h4>
         <address class="address details">
@@ -14,6 +14,10 @@
             <p class="line" i18n="@@contact.city">Beograd</p>
         </address>
     </div>
-    <p class="column-12 column-tablet-6 column-desktop-12 disclaimer details" i18n="@@contact.disclaimer">Svoj tretman
-        možete zakazati pozivom, porukom (Viber, WhatsApp, SMS) ili mailom.</p>
+    <p class="column-12 column-tablet-6 column-desktop-12 disclaimer details">
+        <span i18n="@@contact.disclaimer">Svoj tretman možete zakazati pozivom, porukom (Viber, WhatsApp, SMS), mailom ili na stranici </span>
+        <a class="appointment-action" routerLink="{{translateRoute('appointment')}}">
+            <span i18n="@@routes.appointment">zakazivanje</span>
+        </a>
+    </p>
 </div>

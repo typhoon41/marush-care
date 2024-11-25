@@ -1,0 +1,7 @@
+@use 'variables';
+
+.invalid-field-message {
+	margin-top: 5px;
+	margin-bottom: 20px;
+	color: variables.$error-font-color;
+}

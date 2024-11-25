@@ -1,0 +1,9 @@
+<div [formGroup]="formGroup" class="column-12 row">
+    <marush-input class="column-12 row" [form]="formGroup" [name]="'name'" [autoComplete]="true" [placeholder]="namePlaceholder" [validation]="['required', 'maxlength']"></marush-input>
+    <marush-input class="column-12 row" [form]="formGroup" [name]="'surname'" [autoComplete]="true" [placeholder]="surnamePlaceholder" [validation]="['required', 'maxlength']"></marush-input>
+    <marush-input class="column-12 row" [form]="formGroup" [name]="'phone'" [autoComplete]="true" [placeholder]="phonePlaceholder" [validation]="['required', 'pattern']"
+    [customValidation]="'pattern'" [customValidationMessage]="phoneValidationMessage"></marush-input>
+    <marush-input class="column-12 row" [form]="formGroup" [name]="'email'" [autoComplete]="true" [placeholder]="emailPlaceholder" [validation]="['required', 'maxlength', 'email']"></marush-input>
+    <marush-date-picker class="column-6 column-tablet-8" [form]="formGroup" [name]="'date'" [placeholder]="datePlaceholder"></marush-date-picker>
+    <marush-combobox [formGroup]="timeGroup" [name]="'time'" [placeholder]="timePlaceholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
+</div>

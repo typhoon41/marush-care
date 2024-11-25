@@ -2,3 +2,7 @@ User-agent: *
 Disallow: /sr/greška/
 Disallow: /en/error/
 Disallow: /ru/ошибка/
+Disallow: /sr/klijent-obavešten/
+Disallow: /sr/zahtev-poslat/
+Disallow: /en/request-sent/
+Disallow: /ru/запрос-отправлен/

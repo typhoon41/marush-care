@@ -1,9 +1,14 @@
 import { environment } from '@env';
+import { AirDatepickerLocale } from 'air-datepicker';
+import localeEn from 'air-datepicker/locale/en';
+import localeRu from 'air-datepicker/locale/ru';
+import localeSr from './air-datepicker.locale.sr';
 import { CookieStorage } from './cookie-storage.model';
 
 export interface ILanguage {
     description: 'SRB' | 'ENG' | 'RUS';
     value: 'sr' | 'en' | 'ru';
+    datePickerLocale: AirDatepickerLocale;
 }
 
 export default class Language {
@@ -11,9 +16,9 @@ export default class Language {
     private readonly languageKey = 'language';
     private readonly storage = new CookieStorage();
 
-    readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr' },
-    { description: 'ENG', value: 'en' },
-    { description: 'RUS', value: 'ru' }];
+    readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr', datePickerLocale: localeSr },
+    { description: 'ENG', value: 'en', datePickerLocale: localeEn },
+    { description: 'RUS', value: 'ru', datePickerLocale: localeRu }];
 
     readonly setup = () => {
         let urlLanguage = this.urlLanguage();
@@ -25,6 +30,9 @@ export default class Language {
             this.save(urlLanguage);
         }
     };
+
+    readonly findByValue = (value: string) => this.supportedLanguages.filter(language =>
+        language.value === value)[0] ?? this.default;
 
     readonly changeTo = (language: ILanguage) => {
         this.save(language.value);

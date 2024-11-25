@@ -1,0 +1,26 @@
+@use 'variables';
+@use 'headers';
+@use 'breakpoints';
+
+.service-container {
+	padding: 15px 0;
+	border-bottom: 1px solid variables.$accent;
+	@include headers.marush-caption();
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: 18px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 20px;
+	}
+
+	.price {
+		align-self: center;
+		margin: 0 10px;
+
+		@include breakpoints.apply-from-tablet() {
+			margin: 0 20px;
+		}
+	}
+}

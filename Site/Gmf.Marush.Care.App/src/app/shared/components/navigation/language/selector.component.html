@@ -1,15 +1,15 @@
-<div class="marush-combo-box clickable" role="combobox" aria-controls="language-container" aria-haspopup="listbox" tabindex="0"
-    #combo aria-expanded="false" [ariaExpanded]="collapsed | async" (click)="toggleDropdown()" (keydown)="onKey($event)"
-    id="language-selector">
-    <div class="selected-option mobile-hidden"><span class="language-description">{{selectedLanguage.description}}</span><span
-            class="language-caret">&#x2304;</span></div>
-    <ul class="options-container aligned-centrally stretch-equally" [ngClass]="{'collapsed': collapsed | async}" role="listbox" aria-hidden="true"
-        [ariaHidden]="(collapsed | async) === false" id="language-container" (keydown)="onOptionsKey($event)">
-        @for (supportedLanguage of language.supportedLanguages; track $index) {
-        <li #option class="option clickable language-description" [attr.data-value]="supportedLanguage.value" role="option"
-            aria-selected="false" [ariaSelected]="selectedLanguage.value === supportedLanguage.value" [tabindex]="(collapsed | async) ? 0 : -1"
-            (click)="select(supportedLanguage)" (keydown)="onOptionKey(supportedLanguage, $event, $index)"
-            (blur)="onBlur($event)">{{supportedLanguage.description}}</li>
+@if(horizontal){
+    <ul class="aligned-centrally stretch-equally" tabindex="-1">
+        @for(supportedLanguage of supportedLanguages; track supportedLanguage.value){
+            <li class="action horizontal-action clickable" [class.selected]="selectedLanguage.value === supportedLanguage.value" tabindex="0"
+                (keydown)="select(supportedLanguage, $event)" (click)="select(supportedLanguage)">
+                {{supportedLanguage.label}}
+            </li>
         }
     </ul>
-</div>
+}
+
+@else {
+    <marush-combobox class="language-combo-box action" [items]="supportedLanguages" [id]="'language-selector'"
+        [selectedItem]="selectedLanguage" [onValueChanged]="select"></marush-combobox>
+}

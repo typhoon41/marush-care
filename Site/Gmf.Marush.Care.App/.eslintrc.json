@@ -47,6 +47,7 @@
               "Input",
               "NgModule",
               "Output",
+              "Pipe",
               "Subjectize",
               "ViewChild",
               "ViewChildren"
