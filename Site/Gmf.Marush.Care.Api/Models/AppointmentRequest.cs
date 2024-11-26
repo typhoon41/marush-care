@@ -1,6 +1,6 @@
-﻿using Gmf.DDD.Common.Abstractions;
+﻿using System.Globalization;
+using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Domain.Models;
-using System.Globalization;
 
 namespace Gmf.Marush.Care.Api.Models;
 

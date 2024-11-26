@@ -2,7 +2,7 @@
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
-public abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, string webRootPath, string phoneNumber) : BaseMarushTemplate(webRootPath)
+internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, string webRootPath, string phoneNumber) : BaseMarushTemplate(webRootPath)
 {
     protected override IDictionary<string, string> Replacements => CommonReplacements.Union(AdditionalReplacements()).ToDictionary(x => x.Key, x => x.Value);
 

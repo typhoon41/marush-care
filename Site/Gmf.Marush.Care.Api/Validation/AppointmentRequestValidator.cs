@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+﻿using System.Linq.Expressions;
+using FluentValidation;
 using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Resources;
 using Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
-using System.Linq.Expressions;
 
 namespace Gmf.Marush.Care.Api.Validation;
 

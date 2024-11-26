@@ -1,4 +1,5 @@
-﻿using Gmf.Marush.Care.Api.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Models.Templates;
 using Gmf.Marush.Care.Api.Resources;
 using Gmf.Marush.Care.Domain.Contracts.Services;
@@ -6,7 +7,6 @@ using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
 using Gmf.Marush.Care.Services.Application.Contracts;
 using Gmf.Marush.Care.Services.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Gmf.Marush.Care.Api.Controllers;
 

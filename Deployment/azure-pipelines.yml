@@ -22,12 +22,19 @@ stages:
       dotNetVersion: $(dotNetVersion)
       applicationVersion: $(applicationVersion)
       angularApplicationPath: $(angularApplicationPath)
+      apiApplicationPath: '$(Build.SourcesDirectory)/Site/Gmf.Marush.Care.Api'
+      migrationsAssemblyPath: '$(Build.SourcesDirectory)/Site/Gmf.Marush.Care.Infrastructure'
 
 - stage: 'DeployToTest'
   displayName: 'Deploy to Test'
   dependsOn: 'Build'
   condition:  succeeded()
   jobs:
+  - template: 'Templates/environment-deploy.yaml'
+    parameters:
+      environment: 'Test'
+      deploymentName: 'DeployToTest'
+      destinationWebsiteName: MarushTest
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'

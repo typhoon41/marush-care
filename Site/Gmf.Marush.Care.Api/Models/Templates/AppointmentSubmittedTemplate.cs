@@ -2,7 +2,7 @@
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
-public class AppointmentSubmittedTemplate(AppointmentRequest appointment, string webRootPath,
+internal class AppointmentSubmittedTemplate(AppointmentRequest appointment, string webRootPath,
     string phoneNumber) : BaseMarushRequestTemplate(appointment, webRootPath, phoneNumber)
 {
     protected override string FileName => "appointment-submitted.html";

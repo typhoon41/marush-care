@@ -1,0 +1,4 @@
+root = false
+
+[*.{cs,csx,vb,vbx}]
+dotnet_diagnostic.CA1515.severity = none # CA1515: Consider making public types internal

@@ -2,10 +2,14 @@ parameters:
 - name: dotNetVersion
 - name: applicationVersion
 - name: angularApplicationPath
+- name: apiApplicationPath
+- name: migrationsAssemblyPath
 - name: buildConfiguration
   default: 'Release'
 - name: environment
   default: 'Production'
+- name: dbContextName
+  default: 'MarushCareContext'
 - name: artifactName
   default: 'Marush'
 
@@ -35,6 +39,18 @@ jobs:
           customCommand: 'run build --configuration=production'
           workingDir: ${{ parameters.angularApplicationPath }}
       - task: DotNetCoreCLI@2
+        displayName: 'Add Manifest for tool installation'
+        inputs:
+          command: 'custom'
+          custom: 'new'
+          arguments: tool-manifest
+      - task: DotNetCoreCLI@2
+        displayName: 'Install EF Tool'
+        inputs:
+          command: 'custom'
+          custom: 'tool '
+          arguments: install dotnet-ef
+      - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
         inputs:
             command: 'custom'
@@ -47,6 +63,19 @@ jobs:
             custom: 'build'
             arguments: '--no-incremental --no-self-contained --configuration ${{ parameters.buildConfiguration }} --no-restore -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64'
       - task: DotNetCoreCLI@2
+        displayName: Create Entity Framework's Bundle for SQL
+        inputs:
+        command: 'custom'
+        workingDirectory: ${{ parameters.apiApplicationPath }}
+        custom: 'ef '
+        arguments: migrations bundle --output Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ${{ parameters.apiApplicationPath }} --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} -r win-x64 --force --verbose     
+      - task: PublishBuildArtifacts@1
+        displayName: Publishing migrations
+        inputs:
+            PathtoPublish: Migrations
+            ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+            publishLocation: 'Container'
+      - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
           command: 'publish'
@@ -58,4 +87,10 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing artifacts'
         inputs:
-          ArtifactName: ${{ parameters.artifactName }}    
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
+            publishLocation: 'Container'
+      - task: CmdLine@2
+        displayName: 'Reset local changes'
+        inputs:
+            script: 'git reset --hard'

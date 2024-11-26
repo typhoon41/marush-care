@@ -2,7 +2,7 @@
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
-public abstract class BaseMarushTemplate(string webRootPath) : BaseEmailTemplate
+internal abstract class BaseMarushTemplate(string webRootPath) : BaseEmailTemplate
 {
     protected string WebRootPath { get; } = webRootPath;
 

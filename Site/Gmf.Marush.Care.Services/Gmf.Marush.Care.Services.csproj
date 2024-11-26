@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Packages\Gmf.Mail.Common\Gmf.Mail.Common.csproj" />
     <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
   </ItemGroup>

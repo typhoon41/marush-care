@@ -1,9 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Autofac" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="MailKit" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
     <PackageReference Include="MimeKit" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />

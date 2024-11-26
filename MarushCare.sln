@@ -6,10 +6,16 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.App", "Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.csproj", "{1A0388E4-6840-40DD-8353-C2CC8846B5A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{463C3FF8-7E7C-40ED-BF51-71D31E2535F8}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\azure-pipelines-analysis.yml = Deployment\azure-pipelines-analysis.yml
+		Deployment\azure-pipelines.yml = Deployment\azure-pipelines.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{541E6457-B117-4E6D-9B27-084FD0549D24}"
 	ProjectSection(SolutionItems) = preProject
+		Deployment\Templates\build.yaml = Deployment\Templates\build.yaml
 		Deployment\Templates\environment-deploy.yaml = Deployment\Templates\environment-deploy.yaml
+		Deployment\Templates\update-database.yaml = Deployment\Templates\update-database.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Api", "Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj", "{C87721F0-594A-496E-B596-54844B8EDA03}"
@@ -24,11 +30,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Mail.Common", "Packages
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.DDD.Common", "Packages\Gmf.DDD.Common\Gmf.DDD.Common.csproj", "{5FE87DE8-5EEE-404E-B19D-D48FC7A2FBFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmf.Marush.Care.Infrastructure", "Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj", "{9DCD7FFA-5F9F-4388-AD18-A32D40867A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Infrastructure", "Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj", "{9DCD7FFA-5F9F-4388-AD18-A32D40867A56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmf.Marush.Care.Domain", "Site\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj", "{C3484E41-AB36-4A47-9917-38F0A498537E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Domain", "Site\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj", "{C3484E41-AB36-4A47-9917-38F0A498537E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gmf.Marush.Care.Services", "Site\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj", "{A07A3D8B-5FBB-446A-8233-BA4CF839E014}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Services", "Site\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj", "{A07A3D8B-5FBB-446A-8233-BA4CF839E014}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Variables", "Variables", "{7811E0E7-BCCF-4DDD-825C-779A2137FB5C}"
+	ProjectSection(SolutionItems) = preProject
+		Deployment\Variables\Production-variables.yaml = Deployment\Variables\Production-variables.yaml
+		Deployment\Variables\Test-variables.yaml = Deployment\Variables\Test-variables.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{7D4D6257-2AE3-4AC6-A1BD-795D79D05745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +91,16 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{1A0388E4-6840-40DD-8353-C2CC8846B5A9} = {7D4D6257-2AE3-4AC6-A1BD-795D79D05745}
 		{541E6457-B117-4E6D-9B27-084FD0549D24} = {463C3FF8-7E7C-40ED-BF51-71D31E2535F8}
+		{C87721F0-594A-496E-B596-54844B8EDA03} = {7D4D6257-2AE3-4AC6-A1BD-795D79D05745}
 		{293DC33B-6BB0-4904-B3E0-4FB02A67B12F} = {250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}
 		{788EEA86-8A61-4EF2-8281-C357471DD9B9} = {250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}
 		{5FE87DE8-5EEE-404E-B19D-D48FC7A2FBFB} = {250E6EA3-F1B1-46EB-BE27-34D6B3198FEE}
+		{9DCD7FFA-5F9F-4388-AD18-A32D40867A56} = {7D4D6257-2AE3-4AC6-A1BD-795D79D05745}
+		{C3484E41-AB36-4A47-9917-38F0A498537E} = {7D4D6257-2AE3-4AC6-A1BD-795D79D05745}
+		{A07A3D8B-5FBB-446A-8233-BA4CF839E014} = {7D4D6257-2AE3-4AC6-A1BD-795D79D05745}
+		{7811E0E7-BCCF-4DDD-825C-779A2137FB5C} = {463C3FF8-7E7C-40ED-BF51-71D31E2535F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9AA636E-58CC-4FF7-99F1-4CE33374A010}

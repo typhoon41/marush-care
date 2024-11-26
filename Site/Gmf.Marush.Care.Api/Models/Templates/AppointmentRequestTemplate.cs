@@ -1,6 +1,6 @@
 ﻿namespace Gmf.Marush.Care.Api.Models.Templates;
 
-public class AppointmentRequestTemplate(AppointmentRequest appointment, string webRootPath,
+internal class AppointmentRequestTemplate(AppointmentRequest appointment, string webRootPath,
     string apiLocation, string phoneNumber, Guid appointmentId) : BaseMarushRequestTemplate(appointment, webRootPath, phoneNumber)
 {
     private readonly AppointmentRequest _appointment = appointment;
