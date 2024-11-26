@@ -1,0 +1,61 @@
+parameters:
+- name: dotNetVersion
+- name: applicationVersion
+- name: angularApplicationPath
+- name: buildConfiguration
+  default: 'Release'
+- name: environment
+  default: 'Production'
+- name: artifactName
+  default: 'Marush'
+
+jobs:
+ - job: 'Build'
+   displayName: 'Build'
+   steps:
+      - task: UseDotNet@2
+        displayName: 'Set .Net version'
+        inputs:
+          version: ${{ parameters.dotNetVersion }}
+      - task: Npm@1
+        displayName: 'Install node modules'
+        inputs:
+          command: 'ci'
+          workingDir: ${{ parameters.angularApplicationPath }}
+      - task: Npm@1
+        displayName: 'Execute Linting'
+        inputs:
+          command: 'custom'
+          customCommand: 'run lint'
+          workingDir: ${{ parameters.angularApplicationPath }}   
+      - task: Npm@1
+        displayName: 'Building Angular Application'
+        inputs:
+          command: 'custom'
+          customCommand: 'run build --configuration=production'
+          workingDir: ${{ parameters.angularApplicationPath }}
+      - task: DotNetCoreCLI@2
+        displayName: 'Restoring NuGet Packages'
+        inputs:
+            command: 'custom'
+            custom: 'restore'
+            arguments: '-r win-x64'
+      - task: DotNetCoreCLI@2
+        displayName: '.Net Core Build'
+        inputs:
+            command: 'custom'
+            custom: 'build'
+            arguments: '--no-incremental --no-self-contained --configuration ${{ parameters.buildConfiguration }} --no-restore -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64'
+      - task: DotNetCoreCLI@2
+        displayName: 'Packing artifacts'
+        inputs:
+          command: 'publish'
+          configuration: ${{ parameters.buildConfiguration }}
+          nobuild: True 
+          publishWebProjects: True
+          arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=${{ parameters.environment }} -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+          zipAfterPublish: True
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publishing artifacts'
+        inputs:
+          ArtifactName: ${{ parameters.artifactName }}    

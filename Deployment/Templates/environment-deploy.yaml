@@ -1,6 +1,6 @@
 
 parameters:
-- name: deploymentName
+- name: dotNetVersion
 - name: destinationWebsiteName
 - name: environment
 - name: projectName
@@ -27,6 +27,18 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - task: DotNetCoreCLI@2
+            displayName: 'Add Manifest for tool installation'
+            inputs:
+              command: 'custom'
+              custom: 'new'
+              arguments: tool-manifest
+          - task: DotNetCoreCLI@2
+            displayName: 'Install EF Tool'
+            inputs:
+              command: 'custom'
+              custom: 'tool '
+              arguments: install dotnet-ef
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
             inputs:
