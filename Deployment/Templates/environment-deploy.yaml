@@ -66,9 +66,9 @@ jobs:
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }}'
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
-          - ${{ if ne(parameters.destinationWebsitePath, '') }}:
+              ${{ if ne(parameters.destinationWebsitePath, '') }}:
               VirtualApplication: ${{ parameters.destinationWebsitePath }}
-          # end if
+              # end if
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
           - script: |
