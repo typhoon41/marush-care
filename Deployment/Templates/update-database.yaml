@@ -2,6 +2,7 @@ parameters:
 - name: dbContextName
 - name: dependsOn
   type: object
+  default: []
 - name: migrationConnectionString
 - name: artifactName
   default: 'Marush'
