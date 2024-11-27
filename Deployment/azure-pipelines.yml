@@ -33,14 +33,20 @@ stages:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
-      deploymentName: 'DeployToTest'
+      deploymentName: 'DeployAppToTest'
       destinationWebsiteName: MarushTest
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
-      deploymentName: 'DeployToTest'
+      deploymentName: 'DeployApiToTest'
       destinationWebsiteName: MarushTest
-
+      destinationWebsitePath: api
+      archiveFile: 'Gmf.Marush.Care.Api.zip'
+  - template: 'Templates/update-database.yaml'
+    parameters:
+      dbContextName: MarushCareContext
+      migrationConnectionString: $(TestDatabaseConnectionString)
+      environment: 'Test'
 - stage: 'DeployToProduction'
   displayName: 'Deploy to Production'
   dependsOn: 'DeployToTest'

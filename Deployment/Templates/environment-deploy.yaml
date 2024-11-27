@@ -2,11 +2,15 @@
 parameters:
 - name: deploymentName
 - name: destinationWebsiteName
+- name: destinationWebsitePath
+  default: ''
 - name: environment
 - name: projectName
   default: 'Marush'
 - name: approvalJobName
   default: ''
+- name: resourceName
+  default: VMI1461179
 - name: archiveFile
   default: 'Gmf.Marush.Care.App.zip'
 
@@ -21,7 +25,7 @@ jobs:
     - template: ../Variables/${{ parameters.environment }}-variables.yaml 
     environment: 
       name: ${{ parameters.environment }}
-      resourceName: VMI1461179
+      resourceName: ${{ parameters.resourceName }}
       resourceType: virtualMachine
     strategy:
       runOnce:
@@ -62,6 +66,9 @@ jobs:
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }}'
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
+          - ${{ if ne(parameters.destinationWebsitePath, '') }}:
+              VirtualApplication: ${{ parameters.destinationWebsitePath }}
+          # end if
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
             retryCountOnTaskFailure: 3
           - script: |

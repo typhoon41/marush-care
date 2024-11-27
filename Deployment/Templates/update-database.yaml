@@ -1,0 +1,32 @@
+parameters:
+- name: dbContextName
+- name: dependsOn
+  type: object
+- name: migrationConnectionString
+- name: artifactName
+  default: 'Marush'
+- name: environment
+- name: resourceName
+  default: VMI1461179
+
+jobs:
+- job: 'update_databases'
+  ${{ if parameters.dependsOn }}:
+    dependsOn: '${{ parameters.dependsOn }}'
+  displayName: 'Update Database'
+  environment: 
+    name: ${{ parameters.environment }}
+    resourceName: ${{ parameters.resourceName }}
+    resourceType: virtualMachine
+  steps:
+    - task: DownloadPipelineArtifact@2
+      displayName: Download migrations artifact
+      inputs:
+        buildType: 'current'
+        artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
+        targetPath: '$(Pipeline.Workspace)'
+
+    - task: CmdLine@2
+      displayName: Execute migrations
+      inputs:
+        script: $(Pipeline.Workspace)\${{ parameters.dbContextName }}-efbundle.exe --connection "${{ parameters.migrationConnectionString }}"
