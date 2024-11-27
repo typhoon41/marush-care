@@ -33,12 +33,12 @@ stages:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
-      deploymentName: 'DeployAppToTest'
+      deploymentName: 'App'
       destinationWebsiteName: MarushTest
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
-      deploymentName: 'DeployApiToTest'
+      deploymentName: 'Api'
       destinationWebsiteName: MarushTest
       destinationWebsitePath: api
       archiveFile: 'Gmf.Marush.Care.Api.zip'
