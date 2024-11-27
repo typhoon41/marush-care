@@ -14,10 +14,7 @@ jobs:
   ${{ if parameters.dependsOn }}:
     dependsOn: '${{ parameters.dependsOn }}'
   displayName: 'Update Database'
-  environment: 
-    name: ${{ parameters.environment }}
-    resourceName: ${{ parameters.resourceName }}
-    resourceType: virtualMachine
+  pool: ${{ parameters.environment }}
   steps:
     - task: DownloadPipelineArtifact@2
       displayName: Download migrations artifact
