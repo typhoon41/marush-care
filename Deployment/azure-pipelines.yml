@@ -15,7 +15,6 @@ name: $(applicationVersion).$(Rev:r)
 stages:
 - stage: 'Build'
   displayName: 'Build'
-  dependsOn: 'Build'
   jobs:
   - template: 'Templates/build.yaml'
     parameters:
