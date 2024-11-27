@@ -16,7 +16,7 @@ parameters:
 jobs:
   - deployment: ${{ parameters.deploymentName }}
     displayName: 'Executing '
-    ${{ if ne(parameters.dependsOn, '') }}:
+    ${{ if ne(parameters.approvalJobName, '') }}:
       dependsOn: ${{ parameters.approvalJobName }}
     condition: or(eq('${{ parameters.approvalJobName }}', ''), succeeded('${{ parameters.approvalJobName }}'))
     variables:
