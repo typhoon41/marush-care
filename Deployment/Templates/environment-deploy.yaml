@@ -67,7 +67,7 @@ jobs:
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
               ${{ if ne(parameters.destinationWebsitePath, '') }}:
-              VirtualApplication: ${{ parameters.destinationWebsitePath }}
+                VirtualApplication: ${{ parameters.destinationWebsitePath }}
               # end if
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
