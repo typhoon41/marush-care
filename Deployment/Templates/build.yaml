@@ -74,7 +74,7 @@ jobs:
           command: 'custom'
           workingDirectory: ${{ parameters.apiApplicationPath }}
           custom: 'ef '
-          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ${{ parameters.apiApplicationPath }} --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} -r win-x64 --force --no-build --verbose     
+          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ${{ parameters.apiApplicationPath }} --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} --runtime win-x64 --force --no-build --verbose     
       - task: PublishBuildArtifacts@1
         displayName: Publishing migrations
         inputs:
