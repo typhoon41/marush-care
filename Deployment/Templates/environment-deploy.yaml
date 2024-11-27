@@ -70,7 +70,7 @@ jobs:
               VirtualApplication: ${{ parameters.destinationWebsitePath }}
           # end if
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
-            retryCountOnTaskFailure: 3
+              retryCountOnTaskFailure: 3
           - script: |
               msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
