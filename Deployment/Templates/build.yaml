@@ -51,6 +51,12 @@ jobs:
           custom: 'tool '
           arguments: install dotnet-ef
       - task: DotNetCoreCLI@2
+        displayName: 'Install workload for Aspire'
+        inputs:
+          command: 'custom'
+          custom: 'workload'
+          arguments: 'install aspire'
+      - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
         inputs:
           command: 'custom'
