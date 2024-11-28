@@ -75,12 +75,6 @@ jobs:
           workingDirectory: Site/${{ parameters.apiApplicationPath }}
           custom: 'ef '
           arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} --runtime win-x64 --force --verbose     
-      - task: PublishBuildArtifacts@1
-        displayName: Publishing migrations
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)/Migrations'
-          ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
-          publishLocation: 'Container'
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
@@ -96,6 +90,12 @@ jobs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish SQL artifacts - appsettings.json'
+        inputs:
+          PathtoPublish: $(Build.SourcesDirectory)/Site/Gmf.BoardHorde.Api/appsettings.json
+          ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
+          publishLocation: $(Build.ArtifactStagingDirectory)\Migrations
       - task: CmdLine@2
         displayName: 'Reset local changes'
         inputs:
