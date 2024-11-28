@@ -34,7 +34,7 @@ jobs:
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
             inputs:
-              archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/${{ parameters.archiveFile }}'
+              archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}-$(Build.BuildNumber)/${{ parameters.archiveFile }}'
               destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
             retryCountOnTaskFailure: 3
           - task: PowerShell@2
