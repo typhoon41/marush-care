@@ -27,6 +27,8 @@ stages:
   displayName: 'Deploy to Test'
   dependsOn: 'Build'
   condition:  succeeded()
+  variables: 
+    - group: Test
   jobs:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
@@ -43,7 +45,7 @@ stages:
   - template: 'Templates/update-database.yaml'
     parameters:
       dbContextName: MarushCareContext
-      migrationConnectionString: $(TestDatabaseConnectionString)
+      migrationConnectionString: $(DatabaseConnectionString)
       environment: 'Test'
 - stage: 'DeployToProduction'
   displayName: 'Deploy to Production'
