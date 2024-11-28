@@ -93,7 +93,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish SQL artifacts - appsettings.json'
         inputs:
-          PathtoPublish: $(Build.SourcesDirectory)/Site/Gmf.BoardHorde.Api/appsettings.json
+          PathtoPublish: $(Build.SourcesDirectory)/Site/${{ parameters.apiApplicationPath }}/appsettings.json
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: $(Build.ArtifactStagingDirectory)\Migrations
       - task: CmdLine@2
