@@ -15,7 +15,7 @@ parameters:
 
 jobs:
   - deployment: ${{ parameters.deploymentName }}
-    displayName: 'Executing '
+    displayName: 'Executing ${{ parameters.deploymentName }} '
     ${{ if ne(parameters.approvalJobName, '') }}:
       dependsOn: ${{ parameters.approvalJobName }}
     condition: or(eq('${{ parameters.approvalJobName }}', ''), succeeded('${{ parameters.approvalJobName }}'))
@@ -52,7 +52,7 @@ jobs:
               tokenPattern: rm
               keepToken: true
           - task: ArchiveFiles@2
-            displayName: 'Pack ${{ parameters.projectName }}'
+            displayName: 'Pack ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
               rootFolderOrFile: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
               includeRootFolder: false
@@ -63,7 +63,7 @@ jobs:
             displayName: 'Put App Offline page'
             retryCountOnTaskFailure: 3
           - task: IISWebAppDeploymentOnMachineGroup@0
-            displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }}'
+            displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
               ${{ if ne(parameters.destinationWebsitePath, '') }}:

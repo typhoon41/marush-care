@@ -9,6 +9,17 @@
     <None Remove="Gmf.Marush.Care.Api.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Properties\app_offline_template.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Properties\robots.Production.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Properties\robots.Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
