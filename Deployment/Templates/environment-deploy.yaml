@@ -59,7 +59,7 @@ jobs:
               archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
           - script: |
-              "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync
+              msdeploy.exe -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync -disablerule:BackupRule
             displayName: 'Put App Offline page'
             retryCountOnTaskFailure: 3
           - task: IISWebAppDeploymentOnMachineGroup@0
@@ -72,7 +72,7 @@ jobs:
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
           - script: |
-              msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete
+              msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete -disablerule:BackupRule
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
             failOnStderr: true
             displayName: 'Remove App Offline pages'

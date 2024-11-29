@@ -17,6 +17,7 @@ jobs:
   displayName: 'Update Database'
   pool: ${{ parameters.environment }}
   steps:
+    - checkout: none
     - task: DownloadPipelineArtifact@2
       displayName: Download migrations artifact
       inputs:
