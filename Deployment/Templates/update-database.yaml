@@ -24,7 +24,6 @@ jobs:
         buildType: 'current'
         artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
         targetPath: '$(Pipeline.Workspace)'
-
     - task: CmdLine@2
       displayName: Execute migrations
       inputs:
