@@ -12,9 +12,9 @@ parameters:
 jobs:
  - job: 'Build'
    variables:
-      - BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
-      - MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
-      - FullAppPath: Site/${{ parameters.apiApplicationPath }}
+      BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
+      MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+      FullAppPath: Site/${{ parameters.apiApplicationPath }}
    displayName: 'Build'
    steps:
       - task: UseDotNet@2
