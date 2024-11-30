@@ -5,10 +5,7 @@ pool:
   vmImage: windows-latest
 
 variables:
-  buildConfiguration: 'Release'
-  applicationVersion: 0.3
-  dotNetVersion: 8.0.100
-  angularApplicationPath: 'Site/Gmf.Marush.Care.App'
+  applicationVersion: 0.4
 
 name: $(applicationVersion).$(Rev:r)
 
@@ -18,9 +15,9 @@ stages:
   jobs:
   - template: 'Templates/build.yaml'
     parameters:
-      dotNetVersion: $(dotNetVersion)
+      dotNetVersion: 8.0.100
       applicationVersion: $(applicationVersion)
-      angularApplicationPath: $(angularApplicationPath)
+      angularApplicationPath: 'Site/Gmf.Marush.Care.App'
       apiApplicationPath: 'Gmf.Marush.Care.Api'
       migrationsAssemblyPath: '../Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj'
 - stage: 'DeployToTest'
@@ -51,14 +48,17 @@ stages:
   displayName: 'Deploy to Production'
   dependsOn: 'DeployToTest'
   condition:  succeeded()
+  variables: 
+    - group: Production
+    - DeployTimeout: 21600 # job times out in 15 days
   jobs:
   - job: WaitForValidation
     displayName: Wait for approval
     pool: server
-    timeoutInMinutes: 21600 # job times out in 15 days
+    timeoutInMinutes: $(DeployTimeout)
     steps:
     - task: ManualValidation@0
-      timeoutInMinutes: 21600 # job times out in 15 days
+      timeoutInMinutes: $(DeployTimeout)
       inputs:
         notifyUsers: |
           nizzotyphoon41@hotmail.com
@@ -67,6 +67,18 @@ stages:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Production'
-      deploymentName: 'DeployToProduction'
-      approvalJobName: 'WaitForValidation'
+      deploymentName: 'ProductionApp'
       destinationWebsiteName: Marush
+      approvalJobName: 'WaitForValidation'
+  - template: 'Templates/environment-deploy.yaml'
+    parameters:
+      environment: 'Production'
+      deploymentName: 'ProductionApi'
+      destinationWebsiteName: Marush
+      destinationWebsitePath: api
+      archiveFile: 'Gmf.Marush.Care.Api.zip'
+  - template: 'Templates/update-database.yaml'
+    parameters:
+      dbContextName: MarushCareContext
+      migrationConnectionString: $(DatabaseConnectionString)
+      environment: 'Production'

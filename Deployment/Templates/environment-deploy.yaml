@@ -31,6 +31,12 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - task: DownloadPipelineArtifact@2
+            displayName: Download artifact
+            inputs:
+              buildType: 'current'
+              artifactName: '${{ parameters.artifactName }}-$(Build.BuildNumber)'
+              targetPath: '$(Pipeline.Workspace)'
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
             inputs:
@@ -50,7 +56,9 @@ jobs:
                 **/dist/**/*.js
                 **/web.config
                 **/appsettings.json
-              tokenPattern: doubleunderscores
+              tokenPattern: custom
+              tokenPrefix: '_-_-'
+              tokenSuffix: '-_-_'
               keepToken: true
               missingVarLog: off
           - task: ArchiveFiles@2

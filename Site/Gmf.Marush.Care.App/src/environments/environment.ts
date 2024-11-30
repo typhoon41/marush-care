@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 export const environment = {
-    name: '__environment__',
-    staticContentUrl: 'https://marushcare.com/',
-    apiUrl: '__apiUrl__',
-    url: '__applicationUrl__'
+  name: '_-_-environment-_-_',
+  staticContentUrl: 'https://marushcare.com/',
+  apiUrl: '_-_-apiUrl-_-_',
+  url: '_-_-applicationUrl-_-_'
 };

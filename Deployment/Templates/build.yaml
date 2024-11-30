@@ -4,8 +4,6 @@ parameters:
 - name: angularApplicationPath
 - name: apiApplicationPath
 - name: migrationsAssemblyPath
-- name: buildConfiguration
-  default: 'Release'
 - name: dbContextName
   default: 'MarushCareContext'
 - name: artifactName
@@ -13,6 +11,10 @@ parameters:
 
 jobs:
  - job: 'Build'
+   variables:
+      - BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
+      - MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+      - FullAppPath: Site/${{ parameters.apiApplicationPath }}
    displayName: 'Build'
    steps:
       - task: UseDotNet@2
@@ -65,15 +67,15 @@ jobs:
         inputs:
           command: 'custom'
           custom: 'build'
-          arguments: '--no-incremental --no-self-contained --configuration ${{ parameters.buildConfiguration }} --no-restore -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64'
+          arguments: --no-incremental --configuration Release --no-restore $(BuildParameters)
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
           command: 'publish'
-          configuration: ${{ parameters.buildConfiguration }}
+          configuration: Release
           nobuild: True 
           publishWebProjects: True
-          arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=__environment__ -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+          arguments: -r win-x64 --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=_-_-environment-_-_ $(BuildParameters)
           zipAfterPublish: True
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing artifacts'
@@ -85,20 +87,20 @@ jobs:
         displayName: Create Entity Framework's Bundle for SQL
         inputs:
           command: 'custom'
-          workingDirectory: Site/${{ parameters.apiApplicationPath }}
+          workingDirectory: $(FullAppPath)
           custom: 'ef '
-          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} --runtime win-x64 --force --verbose     
+          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration Release --runtime win-x64 --force --verbose     
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing migration artifacts'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)\Migrations'
-          ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+          ArtifactName: $(MigrationsArtifact)
           publishLocation: 'Container'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish SQL artifacts - appsettings.json'
         inputs:
-          PathtoPublish: $(Build.SourcesDirectory)/Site/${{ parameters.apiApplicationPath }}/appsettings.json
-          ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+          PathtoPublish: $(Build.SourcesDirectory)/$(FullAppPath)/appsettings.json
+          ArtifactName: $(MigrationsArtifact)
           publishLocation: 'Container'
       - task: CmdLine@2
         displayName: 'Reset local changes'

@@ -33,7 +33,7 @@ export class ComboBoxComponent {
   readonly buttonId = () => `${this.id}-button`;
   get invalid() {
     const control = this.formGroup.get(this.name);
-    return control && control.invalid && (control.touched || control.dirty);
+    return control?.invalid && (control?.touched || control?.dirty);
   }
 
   readonly select = (item: IComboBoxItem) => {
