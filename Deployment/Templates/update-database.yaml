@@ -1,19 +1,19 @@
 parameters:
 - name: dbContextName
-- name: dependsOn
-  type: object
-  default: null
 - name: migrationConnectionString
 - name: artifactName
   default: 'Marush'
 - name: environment
 - name: resourceName
   default: VMI1461179
+- name: approvalJobName
+  default: ''
 
 jobs:
 - job: 'update_databases'
-  ${{ if parameters.dependsOn }}:
-    dependsOn: '${{ parameters.dependsOn }}'
+  ${{ if ne(parameters.approvalJobName, '') }}:
+    dependsOn: ${{ parameters.approvalJobName }}
+    condition: or(eq('${{ parameters.approvalJobName }}', ''), succeeded('${{ parameters.approvalJobName }}'))
   displayName: 'Update Database'
   pool: ${{ parameters.environment }}
   steps:

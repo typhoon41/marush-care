@@ -75,9 +75,11 @@ stages:
       deploymentName: 'ProductionApi'
       destinationWebsiteName: Marush
       destinationWebsitePath: api
+      approvalJobName: 'WaitForValidation'
       archiveFile: 'Gmf.Marush.Care.Api.zip'
   - template: 'Templates/update-database.yaml'
     parameters:
       dbContextName: MarushCareContext
+      approvalJobName: 'WaitForValidation'
       migrationConnectionString: $(DatabaseConnectionString)
       environment: 'Production'
