@@ -6,9 +6,9 @@
     <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Gmf.Marush.Care.Api.xml">
+    <None Update="Gmf.Marush.Care.Api.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Properties\app_offline_template.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -58,5 +58,4 @@
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>
