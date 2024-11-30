@@ -67,13 +67,6 @@ jobs:
           custom: 'build'
           arguments: '--no-incremental --no-self-contained --configuration ${{ parameters.buildConfiguration }} --no-restore -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64'
       - task: DotNetCoreCLI@2
-        displayName: Create Entity Framework's Bundle for SQL
-        inputs:
-          command: 'custom'
-          workingDirectory: Site/${{ parameters.apiApplicationPath }}
-          custom: 'ef '
-          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} --runtime win-x64 --force --verbose     
-      - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
           command: 'publish'
@@ -88,11 +81,24 @@ jobs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: 'Container'
+      - task: DotNetCoreCLI@2
+        displayName: Create Entity Framework's Bundle for SQL
+        inputs:
+          command: 'custom'
+          workingDirectory: Site/${{ parameters.apiApplicationPath }}
+          custom: 'ef '
+          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration ${{ parameters.buildConfiguration }} --runtime win-x64 --force --verbose     
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publishing migration artifacts'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)\Migrations'
+          ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
+          publishLocation: 'Container'
       - task: PublishBuildArtifacts@1
         displayName: 'Publish SQL artifacts - appsettings.json'
         inputs:
           PathtoPublish: $(Build.SourcesDirectory)/Site/${{ parameters.apiApplicationPath }}/appsettings.json
-          ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
+          ArtifactName: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
           publishLocation: 'Container'
       - task: CmdLine@2
         displayName: 'Reset local changes'

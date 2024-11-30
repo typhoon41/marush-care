@@ -42,15 +42,17 @@ jobs:
             inputs:
                 targetType: inline
                 script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/robots.txt"
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@5
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:
-              rootDirectory: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
-              targetFiles: |
+              root: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
+              sources: |
                 **/dist/**/*.js
+                **/web.config
                 **/appsettings.json
-              tokenPattern: rm
+              tokenPattern: doubleunderscores
               keepToken: true
+              missingVarLog: off
           - task: ArchiveFiles@2
             displayName: 'Pack ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:

@@ -32,9 +32,8 @@ export class ComboBoxComponent {
   readonly containerId = () => `${this.id}-container`;
   readonly buttonId = () => `${this.id}-button`;
   get invalid() {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const control = this.formGroup.get(this.name)!;
-    return control.invalid && (control.touched || control.dirty);
+    const control = this.formGroup.get(this.name);
+    return control && control.invalid && (control.touched || control.dirty);
   }
 
   readonly select = (item: IComboBoxItem) => {

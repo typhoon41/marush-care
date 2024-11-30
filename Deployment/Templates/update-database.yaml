@@ -22,7 +22,7 @@ jobs:
       displayName: Download migrations artifact
       inputs:
         buildType: 'current'
-        artifactName: '${{ parameters.artifactName }}-$(Build.BuildNumber)'
+        artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
         targetPath: '$(Pipeline.Workspace)'
 
     - task: CmdLine@2
