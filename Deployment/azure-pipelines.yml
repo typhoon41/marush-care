@@ -49,16 +49,15 @@ stages:
   dependsOn: 'DeployToTest'
   condition:  succeeded()
   variables:
-    DeployTimeout: 21600 # job times out in 15 days, can't be a variable
     - group: Production
   jobs:
   - job: WaitForValidation
     displayName: Wait for approval
     pool: server
-    timeoutInMinutes: $(DeployTimeout)
+    timeoutInMinutes: 21600 # job times out in 15 days, can't be a variable
     steps:
     - task: ManualValidation@0
-      timeoutInMinutes: $(DeployTimeout)
+      timeoutInMinutes: 21600 # job times out in 15 days, can't be a variable
       inputs:
         notifyUsers: |
           nizzotyphoon41@hotmail.com
