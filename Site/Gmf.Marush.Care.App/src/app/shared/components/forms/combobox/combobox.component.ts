@@ -20,7 +20,7 @@ export class ComboBoxComponent {
   @Input() items: IComboBoxItem[] = [];
   @Input() id: string = 'combo-box';
   @Input() name: string = 'combo-box';
-  @Input() formGroup!: FormGroup;
+  @Input() formGroup: FormGroup = new FormGroup({});
   @Input() placeholder: string = '';
   @Input() selectedItem: IComboBoxItem | undefined;
   @ViewChild('combo') combo: ElementRef | undefined;

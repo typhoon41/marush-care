@@ -6,8 +6,6 @@ parameters:
 - name: migrationsAssemblyPath
 - name: buildConfiguration
   default: 'Release'
-- name: environment
-  default: 'Production'
 - name: dbContextName
   default: 'MarushCareContext'
 - name: artifactName
@@ -82,7 +80,7 @@ jobs:
           configuration: ${{ parameters.buildConfiguration }}
           nobuild: True 
           publishWebProjects: True
-          arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=${{ parameters.environment }} -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
+          arguments: -r win-x64 --no-self-contained --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=__environment__ -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64
           zipAfterPublish: True
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing artifacts'
