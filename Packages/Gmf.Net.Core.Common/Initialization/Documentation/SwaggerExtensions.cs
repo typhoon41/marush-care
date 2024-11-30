@@ -1,10 +1,10 @@
-﻿using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+﻿using System.Reflection;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace Gmf.Net.Core.Common.Initialization.Documentation;
 
@@ -51,7 +51,8 @@ public static class SwaggerExtensions
                 c.RoutePrefix = string.Empty;
                 foreach (var apiDetail in apiDetails)
                 {
-                    c.SwaggerEndpoint($"/swagger/{apiDetail.Version}/swagger.json", apiDetail.Description);
+                    var prefix = environment.IsDevelopment() ? "/" : "/api/";
+                    c.SwaggerEndpoint($"{prefix}swagger/{apiDetail.Version}/swagger.json", apiDetail.Description);
                 }
             });
         }
