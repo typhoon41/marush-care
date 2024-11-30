@@ -83,11 +83,6 @@ jobs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: 'Container'
-      - task: DeleteFiles@1
-        displayName: 'Delete redundant files as preparation for EF bundle'
-        inputs:
-          Contents: $(FullAppPath)/${{ parameters.apiApplicationPath }}.xml
-        retryCountOnTaskFailure: 3
       - task: DotNetCoreCLI@2
         displayName: Create Entity Framework's Bundle for SQL
         inputs:
