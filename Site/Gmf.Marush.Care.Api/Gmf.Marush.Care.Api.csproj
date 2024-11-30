@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Gmf.Marush.Care.Api.xml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\app_offline_template.htm">
