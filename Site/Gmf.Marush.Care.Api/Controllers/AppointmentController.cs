@@ -57,7 +57,11 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
     private AppointmentRejectionTemplate RejectionTemplate(ContactSettings contactSettings, AppointmentDecision data) => new(_environment.WebRootPath, contactSettings.PhoneNumber, data.Date);
     private AppointmentConfirmationTemplate ConfirmationTemplate(ContactSettings contactSettings, AppointmentDecision data) =>
         new(_environment.WebRootPath, contactSettings.PhoneNumber, data.Date);
-    private AppointmentRequestTemplate OwnerTemplateFrom(AppointmentRequest data, Guid appointmentId) =>
-        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/appointment/decision", data.Phone, appointmentId);
+    private AppointmentRequestTemplate OwnerTemplateFrom(AppointmentRequest data, Guid appointmentId)
+    {
+        var apiSubdomain = _environment.IsDevelopment() ? string.Empty : "api/";
+        return new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/{apiSubdomain}appointment/decision", data.Phone, appointmentId);
+    }
+
     private AppointmentSubmittedTemplate CustomerTemplateFrom(AppointmentRequest data) => new(data, _environment.WebRootPath, contactSettings.PhoneNumber);
 }
