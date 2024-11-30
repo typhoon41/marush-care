@@ -83,10 +83,11 @@ jobs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: 'Container'
-      - task: CmdLine@2
-        displayName: 'Reset local changes (preparation for EF bundling due to multiple publish output files found)'
+      - task: DeleteFiles@1
+        displayName: 'Delete redundant files as preparation for EF bundle'
         inputs:
-          script: 'git reset --hard'
+          Contents: $(FullAppPath)/${{ parameters.apiApplicationPath }}.xml
+        retryCountOnTaskFailure: 3
       - task: DotNetCoreCLI@2
         displayName: Create Entity Framework's Bundle for SQL
         inputs:
