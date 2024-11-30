@@ -17,7 +17,7 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
     {
         try
         {
-            await _emailService.Send(_smtpSettings.From, notificationDetails.SecondaryTemplate, "Marush: Space of Care - zahtev za zakazivanje termina");
+            await _emailService.Send(_smtpSettings.Username, notificationDetails.SecondaryTemplate, "Marush: Space of Care - zahtev za zakazivanje termina");
             await _emailService.Send(customer.Email, notificationDetails.PrimaryTemplate, notificationDetails.PrimaryTitle);
         }
         catch

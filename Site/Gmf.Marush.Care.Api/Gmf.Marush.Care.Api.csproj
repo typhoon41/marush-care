@@ -6,7 +6,7 @@
     <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Update="Gmf.Marush.Care.Api.xml">
+    <Content Include="Gmf.Marush.Care.Api.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\app_offline_template.htm">

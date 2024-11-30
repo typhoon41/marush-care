@@ -7,6 +7,5 @@ public record SmtpSettings
     public string Password { get; set; } = string.Empty;
     public bool UsePickupDirectory { get; set; }
     public string PickupDirectoryLocation { get; set; } = string.Empty;
-    public string From { get; set; } = string.Empty;
     public string FromDescription { get; set; } = string.Empty;
 }

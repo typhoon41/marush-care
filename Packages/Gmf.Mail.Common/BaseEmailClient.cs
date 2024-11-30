@@ -15,7 +15,7 @@ public abstract class BaseEmailClient(SmtpSettings settings, ILogger<BaseEmailCl
 
         var message = new MimeMessage();
         message.To.AddRange(email.To.Select(address => new MailboxAddress(address, address)));
-        message.From.Add(new MailboxAddress(settings.FromDescription, Settings.From));
+        message.From.Add(new MailboxAddress(settings.FromDescription, Settings.Username));
         message.Subject = email.Subject;
         message.Body = new TextPart(TextFormat.Html)
         {
