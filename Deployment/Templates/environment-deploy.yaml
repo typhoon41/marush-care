@@ -12,6 +12,8 @@ parameters:
   default: VMI1461179
 - name: archiveFile
   default: 'Gmf.Marush.Care.App.zip'
+- name: artifactName
+  default: Marush
 
 jobs:
   - deployment: ${{ parameters.deploymentName }}
