@@ -21,12 +21,12 @@ public record AppointmentRequest
 
     internal string FullName => $"{Name} {Surname}";
 
-    internal string FormattedAppointmentStart => Period().StartDate.ToString("g", CultureInfo.CurrentCulture);
+    internal string FormattedAppointmentStart => Period().StartDate.LocalDateTime.ToString("g", CultureInfo.CurrentCulture);
 
     internal Period Period()
     {
         // A request must always come from Belgrade time zone.
-        var date = new DateTimeOffset(Date, Time, TimeSpan.FromHours(2));
-        return new Period(date, date.AddMinutes(Duration));
+        var dateTime = Date.ToDateTime(Time, DateTimeKind.Local);
+        return new Period(dateTime, dateTime.AddMinutes(Duration));
     }
 }

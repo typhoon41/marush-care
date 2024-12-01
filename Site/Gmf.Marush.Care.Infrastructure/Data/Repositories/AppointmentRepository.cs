@@ -52,13 +52,11 @@ public class AppointmentRepository(MarushCareContext context) : IAppointmentRepo
     private async Task<Guid> Create(Customer customer, Period appointment, AppointmentStatusDto statusRequested, CustomerDto newCustomer,
         CustomerEmailDto? previouslyUsedEmail = null, CustomerPhoneDto? previouslyUsedPhone = null)
     {
-
-
         var newAppointment = new AppointmentDto
         {
             Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName,
-            ScheduledFor = appointment.StartDate,
-            ExpectedEndTime = appointment.EndDate,
+            ScheduledFor = appointment.StartDate.UtcDateTime,
+            ExpectedEndTime = appointment.EndDate.UtcDateTime,
             Customer = newCustomer,
             CustomerPhone = previouslyUsedPhone ?? new CustomerPhoneDto
             {
