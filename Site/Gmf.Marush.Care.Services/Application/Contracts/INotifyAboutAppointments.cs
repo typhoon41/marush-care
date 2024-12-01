@@ -5,5 +5,5 @@ namespace Gmf.Marush.Care.Services.Application.Contracts;
 public interface INotifyAboutAppointments
 {
     Task SendAppointmentNotificationTo(Customer customer, NotificationDetails notificationDetails);
-    Task<bool> SendDecisionNotification(bool decision, Guid appointmentId, NotificationDetails notificationDetails);
+    Task<bool> SendDecisionNotification(bool decision, Guid appointmentId, Func<NotificationDetails> getNotificationDetails);
 }

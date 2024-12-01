@@ -42,13 +42,17 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Decision([FromForm][Required] AppointmentDecision data)
     {
-        var notificationDetails = new NotificationDetails
+        NotificationDetails notificationDetails()
         {
-            PrimaryTemplate = ConfirmationTemplate(contactSettings, data),
-            PrimaryTitle = Labels.AppointmentAcceptedTitle,
-            SecondaryTemplate = RejectionTemplate(contactSettings, data),
-            SecondaryTitle = Labels.AppointmentRejectedTitle
-        };
+            return new()
+            {
+                PrimaryTemplate = ConfirmationTemplate(contactSettings, data),
+                PrimaryTitle = Labels.AppointmentAcceptedTitle,
+                SecondaryTemplate = RejectionTemplate(contactSettings, data),
+                SecondaryTitle = Labels.AppointmentRejectedTitle
+            };
+        }
+
         var result = await _notificationService.SendDecisionNotification(data.Accepted, data.AppointmentId, notificationDetails);
 
         return result ? Redirect("https://marushcare.com/sr/klijent-obave%C5%A1ten") : Redirect("https://marushcare.com/sr/gre%C5%A1ka/sistemska");

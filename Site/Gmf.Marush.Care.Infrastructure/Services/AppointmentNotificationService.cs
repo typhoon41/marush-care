@@ -30,7 +30,7 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
         }
     }
 
-    public async Task<bool> SendDecisionNotification(bool decision, Guid appointmentId, NotificationDetails notificationDetails)
+    public async Task<bool> SendDecisionNotification(bool decision, Guid appointmentId, Func<NotificationDetails> getNotificationDetails)
     {
         try
         {
@@ -42,7 +42,7 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
             }
 
             _cultureResolver.SetCulture(appointment.Value.Language);
-
+            var notificationDetails = getNotificationDetails();
             var template = decision ? notificationDetails.PrimaryTemplate : notificationDetails.SecondaryTemplate;
             var title = decision ? notificationDetails.PrimaryTitle : notificationDetails.SecondaryTitle;
             await _emailService.Send(appointment.Value.Email, template, title);
