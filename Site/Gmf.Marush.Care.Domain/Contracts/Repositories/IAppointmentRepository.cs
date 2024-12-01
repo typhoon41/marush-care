@@ -8,5 +8,5 @@ public interface IAppointmentRepository
     void DetachAll();
     Task<Guid> ScheduleNew(Customer customer, Period appointment);
     Task<Guid> ScheduleExisting(ExistingCustomer customer, Period appointment);
-    string? Make(AppointmentDecision decision);
+    (string Email, string Language)? Make(AppointmentDecision decision);
 }

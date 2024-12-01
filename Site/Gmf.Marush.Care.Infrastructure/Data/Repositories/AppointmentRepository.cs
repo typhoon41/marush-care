@@ -1,11 +1,11 @@
-﻿using Gmf.DDD.Common.Abstractions;
+﻿using System.Globalization;
+using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 public class AppointmentRepository(MarushCareContext context) : IAppointmentRepository
@@ -13,7 +13,7 @@ public class AppointmentRepository(MarushCareContext context) : IAppointmentRepo
     private readonly DbSet<AppointmentDto> _appointments = context.Set<AppointmentDto>();
     private readonly MarushCareContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public string? Make(AppointmentDecision decision)
+    public (string Email, string Language)? Make(AppointmentDecision decision)
     {
         var newStatus = GetStatus(decision.NewStatus);
         var appointment = _appointments.Include(a => a.Status).SingleOrDefault(u => u.Id == decision.AppointmentId);
@@ -24,7 +24,7 @@ public class AppointmentRepository(MarushCareContext context) : IAppointmentRepo
         }
 
         appointment!.Status = newStatus;
-        return appointment.Email;
+        return (appointment.Email, appointment.Language);
     }
 
     public async Task<Guid> ScheduleNew(Customer customer, Period appointment)

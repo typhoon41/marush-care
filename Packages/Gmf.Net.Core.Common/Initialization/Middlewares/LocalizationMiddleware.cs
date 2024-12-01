@@ -1,48 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Globalization;
 
 namespace Gmf.Net.Core.Common.Initialization.Middlewares;
 
-public class LocalizationMiddleware
+public class LocalizationMiddleware(RequestDelegate next, CultureResolver cultureResolver)
 {
-    private readonly string _defaultCulture;
-    private readonly RequestDelegate _next;
-    private readonly IEnumerable<CultureInfo> _supportedCultures;
-
-    public LocalizationMiddleware(RequestDelegate next, IList<string> supportedLanguages)
-    {
-        if (supportedLanguages == null || !supportedLanguages.Any())
-        {
-            throw new ArgumentException("There must be at least one supported language!", nameof(supportedLanguages));
-        }
-
-        _next = next;
-        _defaultCulture = supportedLanguages.First();
-        _supportedCultures = supportedLanguages.Select(language => new CultureInfo(language));
-    }
-
+    private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
+    private readonly CultureResolver _cultureResolver = cultureResolver ?? throw new ArgumentNullException(nameof(cultureResolver));
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var found = GetRequestCultureFrom(context);
-        SetCurrentCulture(found);
+        var culture = GetRequestCultureFrom(context);
+        _cultureResolver.SetCulture(culture);
 
         await _next(context);
     }
 
-    private CultureInfo GetRequestCultureFrom(HttpContext context)
+    private static string GetRequestCultureFrom(HttpContext context)
     {
         const string languageHeaderKey = "Accept-Language";
         var languageHeader = context.Request.Headers[languageHeaderKey];
-        return GetCultureByName(languageHeader.SingleOrDefault() ?? string.Empty);
-    }
-
-    private CultureInfo GetCultureByName(string name) => _supportedCultures.SingleOrDefault(culture => culture.Name == name) ??
-               _supportedCultures.Single(culture => culture.Name == _defaultCulture);
-
-    private static void SetCurrentCulture(CultureInfo given)
-    {
-        CultureInfo.CurrentCulture = given;
-        CultureInfo.CurrentUICulture = given;
+        return languageHeader.SingleOrDefault() ?? string.Empty;
     }
 }

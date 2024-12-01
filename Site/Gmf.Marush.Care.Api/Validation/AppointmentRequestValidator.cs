@@ -41,9 +41,6 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
-        _ = RuleFor(appointment => appointment.Duration)
-            .InclusiveBetween(15, 240)
-            .WithMessage(Labels.ValidationDuration);
     }
 
     private IRuleBuilderOptions<AppointmentRequest, string> SetupValidationFor(Expression<Func<AppointmentRequest, string>> property, int? length = null)

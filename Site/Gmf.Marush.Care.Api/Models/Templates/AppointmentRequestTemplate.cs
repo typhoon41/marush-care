@@ -11,6 +11,7 @@ internal class AppointmentRequestTemplate(AppointmentRequest appointment, string
     {
         { "{{client}}", _appointment.FullName },
         { "{{endpoint}}", apiLocation },
+        { "{{services}}", GenerateListFrom(Appointment.SerbianTreatments) },
         { "{{appointmentId}}", appointmentId.ToString() }
     };
 }

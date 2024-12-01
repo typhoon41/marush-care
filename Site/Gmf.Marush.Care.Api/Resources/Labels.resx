@@ -129,9 +129,6 @@
   <data name="ValidationInterval" xml:space="preserve">
     <value>Neodgovarajući datum i(li) vreme tretmana</value>
   </data>
-  <data name="ValidationDuration" xml:space="preserve">
-    <value>Vreme trajanje tretmana može biti od 15 do 240 minuta</value>
-  </data>
   <data name="Welcome" xml:space="preserve">
     <value>Dobrodošli</value>
   </data>

@@ -129,9 +129,6 @@
   <data name="ValidationInterval" xml:space="preserve">
     <value>Invalid appointment date/time</value>
   </data>
-  <data name="ValidationDuration" xml:space="preserve">
-    <value>Appointment duration must be between 15 and 240 minutes</value>
-  </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>

@@ -4,24 +4,12 @@ namespace Gmf.Marush.Care.Api.Models.Templates;
 
 internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment, string webRootPath, string phoneNumber) : BaseMarushTemplate(webRootPath)
 {
+    protected AppointmentRequest Appointment { get; } = appointment;
     protected override IDictionary<string, string> Replacements => CommonReplacements.Union(AdditionalReplacements()).ToDictionary(x => x.Key, x => x.Value);
 
     protected abstract IEnumerable<KeyValuePair<string, string>> AdditionalReplacements();
 
-    private IDictionary<string, string> CommonReplacements => new Dictionary<string, string>()
-    {
-        { "{{services}}", GenerateListFrom(appointment.Treatments) },
-        { "{{date}}", appointment.FormattedAppointmentStart },
-        { "{{sum}}", appointment.Sum.ToString("N", new NumberFormatInfo
-        {
-            NumberGroupSeparator = ".",
-            NumberDecimalDigits = 0
-        })},
-        { "{{phone-number}}", phoneNumber },
-        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
-    };
-
-    private static string GenerateListFrom(IEnumerable<string> treatments)
+    protected static string GenerateListFrom(IEnumerable<string> treatments)
     {
         var result = string.Empty;
         foreach (var treatment in treatments)
@@ -31,4 +19,16 @@ internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment
 
         return result;
     }
+
+    private IDictionary<string, string> CommonReplacements => new Dictionary<string, string>()
+    {
+        { "{{date}}", Appointment.FormattedAppointmentStart },
+        { "{{sum}}", Appointment.Sum.ToString("N", new NumberFormatInfo
+        {
+            NumberGroupSeparator = ".",
+            NumberDecimalDigits = 0
+        })},
+        { "{{phone-number}}", phoneNumber },
+        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
+    };
 }

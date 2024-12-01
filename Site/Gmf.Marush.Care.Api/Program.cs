@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Resources;
+using Autofac;
 using Gmf.Marush.Care.Api.Injection;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
@@ -8,7 +9,6 @@ using Gmf.Net.Core.Common.Initialization.Documentation;
 using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Initialization.Middlewares;
 using Microsoft.AspNetCore.Mvc;
-using System.Resources;
 
 [assembly: ApiController]
 [assembly: NeutralResourcesLanguage("sr")]
@@ -29,7 +29,7 @@ new ApiRunner(args)
 
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)
 {
-    _ = application.UseMiddleware<LocalizationMiddleware>(new List<string>() { "sr", "en", "ru" });
+    _ = application.UseMiddleware<LocalizationMiddleware>();
     _ = application.UseCors(builder => builder
         .AllowAnyOrigin()
         .AllowAnyMethod()

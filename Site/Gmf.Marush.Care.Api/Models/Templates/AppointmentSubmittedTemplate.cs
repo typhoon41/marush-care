@@ -12,6 +12,7 @@ internal class AppointmentSubmittedTemplate(AppointmentRequest appointment, stri
         { "{{welcome-title}}", Labels.Welcome },
         { "{{title}}", Labels.AtMarush },
         { "{{order}}", Labels.BookedTreatments },
+        { "{{services}}", GenerateListFrom(Appointment.Treatments) },
         { "{{total}}", Labels.ExpectedBill },
         { "{{interval}}", Labels.OnInterval },
         { "{{disclaimer}}", Labels.Disclaimer }

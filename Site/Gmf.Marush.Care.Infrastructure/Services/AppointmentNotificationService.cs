@@ -4,12 +4,15 @@ using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Services.Application.Contracts;
 using Gmf.Marush.Care.Services.Models;
+using Gmf.Net.Core.Common.Initialization;
 
 namespace Gmf.Marush.Care.Infrastructure.Services;
 
-public class AppointmentNotificationService(IAppointmentRepository appointmentRepository, ISendEmailTemplate emailService, SmtpSettings smtpSettings) : INotifyAboutAppointments
+public class AppointmentNotificationService(IAppointmentRepository appointmentRepository, CultureResolver cultureResolver,
+    ISendEmailTemplate emailService, SmtpSettings smtpSettings) : INotifyAboutAppointments
 {
     private readonly IAppointmentRepository _appointmentRepository = appointmentRepository;
+    private readonly CultureResolver _cultureResolver = cultureResolver;
     private readonly ISendEmailTemplate _emailService = emailService;
     private readonly SmtpSettings _smtpSettings = smtpSettings;
 
@@ -31,16 +34,18 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
     {
         try
         {
-            var email = _appointmentRepository.Make(new AppointmentDecision(appointmentId, decision));
+            var appointment = _appointmentRepository.Make(new AppointmentDecision(appointmentId, decision));
 
-            if (email == null)
+            if (!appointment.HasValue)
             {
                 return false;
             }
 
+            _cultureResolver.SetCulture(appointment.Value.Language);
+
             var template = decision ? notificationDetails.PrimaryTemplate : notificationDetails.SecondaryTemplate;
             var title = decision ? notificationDetails.PrimaryTitle : notificationDetails.SecondaryTitle;
-            await _emailService.Send(email, template, title);
+            await _emailService.Send(appointment.Value.Email, template, title);
             return true;
         }
         catch
