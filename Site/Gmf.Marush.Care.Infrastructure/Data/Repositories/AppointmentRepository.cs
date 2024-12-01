@@ -55,8 +55,8 @@ public class AppointmentRepository(MarushCareContext context) : IAppointmentRepo
         var newAppointment = new AppointmentDto
         {
             Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName,
-            ScheduledFor = appointment.StartDate.UtcDateTime,
-            ExpectedEndTime = appointment.EndDate.UtcDateTime,
+            ScheduledFor = appointment.StartDate,
+            ExpectedEndTime = appointment.EndDate,
             Customer = newCustomer,
             CustomerPhone = previouslyUsedPhone ?? new CustomerPhoneDto
             {
