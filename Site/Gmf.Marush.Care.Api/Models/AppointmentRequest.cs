@@ -21,7 +21,7 @@ public record AppointmentRequest
 
     internal string FullName => $"{Name} {Surname}";
 
-    internal string FormattedAppointmentStart => Period().StartDate.LocalDateTime.ToString("g", CultureInfo.CurrentCulture);
+    internal string FormattedAppointmentStart => TimeZoneInfo.ConvertTimeFromUtc(Period().StartDate.DateTime, TimeZoneInfo.Local).ToString("g", CultureInfo.CurrentCulture);
 
     internal Period Period()
     {
