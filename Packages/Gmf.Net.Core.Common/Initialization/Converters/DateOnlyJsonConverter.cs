@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Gmf.Net.Core.Common.Initialization.Converters;
 public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
 {
-    private readonly string[] _supportedFormats = ["dd.MM.yyyy.", "dd/MM/yyyy", "dd.MM.yyyy"];
+    private readonly string[] _supportedFormats = ["dd.MM.yyyy.", "MM/dd/yyyy", "dd.MM.yyyy"];
 
     public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => DateOnly.TryParseExact(reader.GetString(), _supportedFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date)
             ? date
