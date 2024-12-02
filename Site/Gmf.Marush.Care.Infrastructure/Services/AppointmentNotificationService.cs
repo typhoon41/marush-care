@@ -5,16 +5,18 @@ using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Services.Application.Contracts;
 using Gmf.Marush.Care.Services.Models;
 using Gmf.Net.Core.Common.Initialization;
+using Microsoft.Extensions.Logging;
 
 namespace Gmf.Marush.Care.Infrastructure.Services;
 
 public class AppointmentNotificationService(IAppointmentRepository appointmentRepository, CultureResolver cultureResolver,
-    ISendEmailTemplate emailService, SmtpSettings smtpSettings) : INotifyAboutAppointments
+    ISendEmailTemplate emailService, SmtpSettings smtpSettings, ILogger<AppointmentNotificationService> logger) : INotifyAboutAppointments
 {
     private readonly IAppointmentRepository _appointmentRepository = appointmentRepository;
     private readonly CultureResolver _cultureResolver = cultureResolver;
     private readonly ISendEmailTemplate _emailService = emailService;
     private readonly SmtpSettings _smtpSettings = smtpSettings;
+    private readonly ILogger<AppointmentNotificationService> _logger = logger;
 
     public async Task SendAppointmentNotificationTo(Customer customer, NotificationDetails notificationDetails)
     {
@@ -48,8 +50,9 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
             await _emailService.Send(appointment.Value.Email, template, title);
             return true;
         }
-        catch
+        catch (Exception e)
         {
+            _logger.LogError(e, "Failure while trying to send decision notification");
             return false;
         }
     }
