@@ -52,6 +52,7 @@ public class AppointmentNotificationService(IAppointmentRepository appointmentRe
         }
         catch (Exception e)
         {
+            _appointmentRepository.DetachAll();
             _logger.LogError(e, "Failure while trying to send decision notification");
             return false;
         }

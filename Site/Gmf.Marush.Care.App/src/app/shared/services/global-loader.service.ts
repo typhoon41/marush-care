@@ -8,17 +8,20 @@ import { BehaviorSubject } from 'rxjs';
 export class GlobalLoaderService {
     isLoading = new BehaviorSubject<boolean>(true);
 
-    intercept = (eventType: EventType) => {
+    readonly startLoading = () => this.isLoading.next(true);
+    readonly stopLoading = () => this.isLoading.next(false);
+
+    readonly intercept = (eventType: EventType) => {
         switch (eventType) {
             case EventType.NavigationStart: {
-                this.isLoading.next(true);
+                this.startLoading();
                break;
             }
             case EventType.NavigationEnd:
             case EventType.NavigationCancel:
             case EventType.NavigationError:
             {
-                this.isLoading.next(false);
+                this.stopLoading();
                break;
             }
             default: {
