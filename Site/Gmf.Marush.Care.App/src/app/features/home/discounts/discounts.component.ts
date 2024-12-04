@@ -11,10 +11,8 @@ import { Subscription, interval } from 'rxjs';
 })
 export class HomeDiscountsComponent implements OnInit, OnDestroy {
   readonly currentDiscounts = [
-    $localize`:@@discounts.1:<p><strong>6.11. - 13.11.</strong></p><p>Eye contour tretman<br/><s>6500</s> 5000</p>`,
-    $localize`:@@discounts.2:<p><strong>6.11. - 13.11.</strong></p><p>Vitam. tretman lica + očna zona<br/><s>5500</s> 4500</p>`,
-    // eslint-disable-next-line @stylistic/max-len
-    $localize`:@@discounts.3:<p><strong>6.11. - 13.11.</strong></p><p>Neinv. mezo terap. + radio talasni lift. (lice + očna zona)<br/><s>10000</s> 7000</p>`
+    $localize`:@@discounts.1:<p><strong>4.12. - 21.12.</strong></p><p>Give away!<br/>1 + 1 tretman</p>`,
+    $localize`:@@discounts.2:<p><strong>2.12. - 28.12.</strong></p><p>20 + 25% za Vas i dragu osobu</p>`
   ];
 
   currentDiscountPosition = 0;
