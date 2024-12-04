@@ -9,6 +9,7 @@ internal class AppointmentRequestTemplate(AppointmentRequest appointment, string
 
     protected override IEnumerable<KeyValuePair<string, string>> AdditionalReplacements() => new Dictionary<string, string>()
     {
+        { "{{date}}", Appointment.FormattedAppointmentStart },
         { "{{client}}", _appointment.FullName },
         { "{{endpoint}}", apiLocation },
         { "{{services}}", GenerateListFrom(Appointment.SerbianTreatments) },

@@ -22,7 +22,6 @@ internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment
 
     private IDictionary<string, string> CommonReplacements => new Dictionary<string, string>()
     {
-        { "{{date}}", Appointment.FormattedAppointmentStart },
         { "{{sum}}", Appointment.Sum.ToString("N", new NumberFormatInfo
         {
             NumberGroupSeparator = ".",

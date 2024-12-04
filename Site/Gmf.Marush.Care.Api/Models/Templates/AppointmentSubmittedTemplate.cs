@@ -10,6 +10,7 @@ internal class AppointmentSubmittedTemplate(AppointmentRequest appointment, stri
     protected override IEnumerable<KeyValuePair<string, string>> AdditionalReplacements() => new Dictionary<string, string>()
     {
         { "{{welcome-title}}", Labels.Welcome },
+        { "{{date}}", Appointment.FormattedAppointmentStart },
         { "{{title}}", Labels.AtMarush },
         { "{{order}}", Labels.BookedTreatments },
         { "{{services}}", GenerateListFrom(Appointment.Treatments) },

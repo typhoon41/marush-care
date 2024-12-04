@@ -36,11 +36,10 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
         return Ok();
     }
 
-    [HttpPost("decision")]
-    [Consumes("application/x-www-form-urlencoded")]
+    [HttpGet("decision")]
     [ProducesResponseType(StatusCodes.Status302Found)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Decision([FromForm][Required] AppointmentDecision data)
+    public async Task<IActionResult> Decision([FromQuery][Required] AppointmentDecision data)
     {
         NotificationDetails notificationDetails()
         {
