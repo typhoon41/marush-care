@@ -6,6 +6,7 @@ using Gmf.Marush.Care.Domain.Contracts.Services;
 using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
 using Gmf.Marush.Care.Services.Application.Contracts;
 using Gmf.Marush.Care.Services.Models;
+using Gmf.Net.Core.Common.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gmf.Marush.Care.Api.Controllers;
@@ -21,6 +22,7 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
     private readonly IWebHostEnvironment _environment = environment;
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidateCaptchaAttribute))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody][Required] AppointmentRequest data)

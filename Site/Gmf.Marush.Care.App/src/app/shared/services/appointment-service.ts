@@ -11,8 +11,10 @@ export class AppointmentService {
     constructor(private readonly http: HttpClient) { }
 
     // eslint-disable-next-line @typescript-eslint/return-await
-    readonly makeRequest = async(data: AppointmentRequest) => {
+    readonly makeRequest = async(data: AppointmentRequest, captchaToken: string, captchaAction: string) => {
         const appointmentUrl = `${environment.apiUrl}appointment`;
-        await lastValueFrom(this.http.post<AppointmentRequest>(appointmentUrl, data));
+        await lastValueFrom(this.http.post<AppointmentRequest>(appointmentUrl, data, {
+            headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
+        }));
     };
 }

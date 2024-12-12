@@ -1,5 +1,5 @@
-/* eslint-disable @stylistic/max-len */
-import { Component, HostBinding } from '@angular/core';
+/* eslint-disable @stylistic/max-len, max-params */
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { BaseRoutingComponent } from '@shared/components/navigation/base-routing
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
 import { AppointmentService } from '@shared/services/appointment-service';
+import { CaptchaService } from '@shared/services/captcha-service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
 import { AppointmentSummaryComponent } from './summary/summary.component';
@@ -18,7 +19,7 @@ import { AppointmentSummaryComponent } from './summary/summary.component';
   templateUrl: './appointment-page.component.html',
   styleUrl: './appointment-page.component.scss'
 })
-export class AppointmentPageComponent extends BaseRoutingComponent {
+export class AppointmentPageComponent extends BaseRoutingComponent implements OnInit {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
@@ -26,8 +27,8 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
   globalError = '';
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
-  // eslint-disable-next-line max-params
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
+    private readonly captchaService: CaptchaService,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
     super();
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
@@ -51,6 +52,11 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     }, { updateOn: 'blur' });
   }
 
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  ngOnInit(): void {
+    this.captchaService.setup();
+  }
+
   get checkedServices() {
     return this.form?.get('checkedServices') as FormArray<FormControl<IDefineTreatment>>;
   }
@@ -59,8 +65,8 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     return this.checkedServices?.value.reduce((sum, { price }) => sum + price, 0) ?? 0;
   }
 
+  readonly onRemoveSelection = (item: IDefineTreatment) => this.onToggleSelection(item, false);
   private readonly getDuration = () => this.checkedServices?.value.reduce((total, { duration }) => total + duration, 0) ?? 0;
-
   readonly onToggleSelection = (item: IDefineTreatment, checked: boolean) => {
     if (checked) {
       this.checkedServices.push(this.formBuilder.control(item));
@@ -70,8 +76,6 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     const index = this.checkedServices.controls.findIndex(control => control.value.title === item.title);
     this.checkedServices.removeAt(index);
   };
-
-  readonly onRemoveSelection = (item: IDefineTreatment) => this.onToggleSelection(item, false);
 
   readonly onSubmit = async() => {
     this.globalError = '';
@@ -87,7 +91,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     this.form.get('serbianTreatments')?.setValue(this.checkedServices?.value.map(({ name }) => name));
 
     try {
-      await this.appointmentService.makeRequest(this.form.value);
+      await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
       this.router.navigate([this.translateRoute('request-sent')]);
     } catch (error) {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
