@@ -1,5 +1,7 @@
+/* eslint-disable max-lines */
 /* eslint-disable @stylistic/max-len, max-params */
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -28,7 +30,8 @@ export class AppointmentPageComponent extends BaseRoutingComponent implements On
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
-    private readonly captchaService: CaptchaService,
+    private readonly captchaService: CaptchaService, @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly renderer: Renderer2,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
     super();
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
@@ -54,7 +57,10 @@ export class AppointmentPageComponent extends BaseRoutingComponent implements On
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnInit(): void {
-    this.captchaService.setup();
+    if (isPlatformBrowser(this.platformId)) {
+      const script = this.renderer.createElement('script') as HTMLScriptElement;
+        this.renderer.appendChild(document.body, this.captchaService.setup(script));
+    }
   }
 
   get checkedServices() {
@@ -92,7 +98,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent implements On
 
     try {
       await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
-      this.router.navigate([this.translateRoute('request-sent')]);
+      await this.router.navigate([this.translateRoute('request-sent')]);
     } catch (error) {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
     }

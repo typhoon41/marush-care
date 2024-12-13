@@ -15,6 +15,7 @@ public static class ClientExtensions
 
     public static async Task<TOutput> PostWithResponseAsync<TInput, TOutput>(this HttpClient httpClient, string action, TInput data)
     {
+        httpClient.DefaultRequestHeaders.Referrer = new Uri("https://marushcare.com");
         var result = await httpClient.PostAsJsonAsync(new Uri(action), data);
         _ = result.EnsureSuccessStatusCode();
         return await ResponseAsync<TOutput>(result);

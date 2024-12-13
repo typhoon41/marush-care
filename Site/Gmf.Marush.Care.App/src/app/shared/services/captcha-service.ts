@@ -7,25 +7,43 @@ declare const grecaptcha: GoogleRecaptchaV3Enterprise;
     providedIn: 'root'
 })
 export class CaptchaService {
-    readonly setup = () => {
+    readonly setup = (script: HTMLScriptElement) => {
         if (environment.captchaKey === '') {
-            return;
+            return script;
         }
 
-        const script = document.createElement('script');
         script.src = `https://www.google.com/recaptcha/enterprise.js?render=${environment.captchaKey}`;
-        document.head.appendChild(script);
+        script.async = true;
+        script.defer = true;
+        script.type = 'text/javascript';
+        return script;
     };
 
     readonly executeProtectedAction = async(actionName: string, action: (token: string, actionName: string) => Promise<void>) => {
         if (environment.captchaKey === '') {
             await action('', actionName);
-            return;
+            return '';
         }
 
-        grecaptcha.enterprise.ready(async() => {
-            const token = await grecaptcha.enterprise.execute(environment.captchaKey, { action: actionName });
-            await action(token, actionName);
+        // eslint-disable-next-line promise/avoid-new
+        return new Promise((resolve, reject) => {
+            grecaptcha.enterprise.ready(
+                () =>
+                  // eslint-disable-next-line no-void
+                  void (async() => {
+                    try {
+                        const token = await grecaptcha.enterprise.execute(
+                            environment.captchaKey,
+                            { action: actionName }
+                        );
+
+                        await action(token, actionName);
+                        resolve(token);
+                    }
+                    catch (error) {
+                        reject(error);
+                    }
+                  })());
         });
     };
 }

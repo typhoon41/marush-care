@@ -61,9 +61,9 @@ public sealed class ValidateCaptchaAttribute : ActionFilterAttribute
         };
         var result = await httpClient.PostWithResponseAsync<Request, Response>(url, input);
 
-        if (!result.Success || result.Score < Threshold)
+        if (result.Invalid(Threshold))
         {
-            _logger.LogDebug("Captcha validation failed due to low result score of {Score}.", result.Score);
+            _logger.LogWarning("Captcha validation failed due to low result score of {Score}. Reasons: {Reasons}", result.RiskAnalysis.Score, result.InvalidReason);
             context.Result = new BadRequestResult();
             return;
         }
