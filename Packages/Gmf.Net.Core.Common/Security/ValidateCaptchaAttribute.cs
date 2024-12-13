@@ -68,6 +68,7 @@ public sealed class ValidateCaptchaAttribute : ActionFilterAttribute
             return;
         }
 
+        _logger.LogDebug("Captcha validation was successful with score: {Score}", result.RiskAnalysis.Score);
         _ = await next();
     }
 

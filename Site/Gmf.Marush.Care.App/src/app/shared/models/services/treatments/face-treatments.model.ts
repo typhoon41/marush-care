@@ -2,11 +2,26 @@
 /* eslint-disable @stylistic/max-len */
 const supportedFaceTreatments = [
     {
+        title: $localize`:@@treatments.face.hygiene.basic:Klasičan higijenski tretman (malo akni)`,
+        name: 'Klasičan higijenski tretman (malo akni)',
+        duration: 60,
+        clone: true,
+        price: 3500
+    },
+    {
         title: $localize`:@@treatments.face.hygiene:Klasičan higijenski tretman`,
-        price: 3500,
+        price: 4500,
+        rangedPrice: '3.500 - 5.500',
         name: 'Klasičan higijenski tretman',
         duration: 60,
         description: $localize`:@@treatments.face.hygiene.description:Klasičan higijenski tretman podrazumeva uklanjanje mitisera, akni i milija komedoekspresijom. Ova procedura se sastoji od pripreme kože, blagog pilinga, komedoekspresije i završne maske.`
+    },
+    {
+        title: $localize`:@@treatments.face.hygiene.advanced:Klasičan higijenski tretman (puno akni)`,
+        name: 'Klasičan higijenski tretman (puno akni)',
+        duration: 60,
+        clone: true,
+        price: 5500
     },
     {
         title: $localize`:@@treatments.face.premium-hygiene.basic:Premium higijenski tretman (malo akni)`,

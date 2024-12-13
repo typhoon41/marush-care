@@ -126,6 +126,8 @@
     "treatments.face.hyaluron-pen.description": "The Hyaluron pen offers a painless method for filling wrinkles or augmenting lips with hyaluronic acid. This treatment does not involve the use of needles, and there is no required skin recovery period.<br><br>The innovation behind the hyaluronic pen lies in its ability to deliver hyaluronic acid under high pressure, creating microchannels in the skin through which the hyaluronic acid penetrates.",
     "treatments.face.hyaluron.description": "The Hyaluron treatment by Skeyndor is designed for skin exhibiting irregular surface wrinkles, dehydration, and dryness. Formulated with active ingredients including a high concentration of hyaluronic acid at 2%, liposomal polarized water, sunflower extract, xylitol, and its derivatives, this treatment aims to leave your skin soft, nourished, and rejuvenated, utilizing both high and low molecular weight hyaluronic acid.",
     "treatments.face.hygiene": "Classic hygiene treatment",
+    "treatments.face.hygiene.advanced": "Classic hygiene treatment (a lot of acne)",
+    "treatments.face.hygiene.basic": "Classic hygiene treatment (several acne)",
     "treatments.face.hygiene.description": "Classic hygiene treatment involves the removal of blackheads, acne, and milia through comedo-expression. This procedure consists of skin preparation, gentle exfoliation, comedo expression, and a final mask.",
     "treatments.face.massage": "Face and décolleté massage",
     "treatments.face.microdermabrasion": "Microdermabrasion",
