@@ -7,7 +7,6 @@ import { ComboBoxComponent } from '../../forms/combobox/combobox.component';
 
 @Component({
   selector: 'marush-language-selector',
-  standalone: true,
   imports: [CommonModule, ComboBoxComponent],
   templateUrl: './selector.component.html',
   styleUrl: './selector.component.scss'

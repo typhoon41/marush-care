@@ -13,7 +13,7 @@
 		text-transform: uppercase;
 	}
 
-	@include headers.marush-caption(true);
+	@include headers.marush-caption(true, false);
 
 	@include breakpoints.apply-from-tablet() {
 		@include headers.marush-tablet-caption();
@@ -22,7 +22,6 @@
 	@include breakpoints.apply-from-desktop() {
 		@include headers.marush-header();
 	}
-	text-transform: unset;
 }
 
 .appointment-container .service-selection {

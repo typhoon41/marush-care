@@ -4,7 +4,6 @@ import { BaseRoutingComponent } from '@shared/components/navigation/base-routing
 
 @Component({
   selector: 'marush-home-services',
-  standalone: true,
   imports: [RouterModule],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { SizeService } from '@shared/services/size.service';
@@ -11,16 +11,16 @@ import { MenuItemsComponent } from './items/menu-items.component';
 
 @Component({
   selector: 'marush-menu',
-  standalone: true,
   imports: [CommonModule, RouterModule, LanguageSelectorComponent,
     HamburgerButtonComponent, MobileMenuComponent, MenuItemsComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent extends BaseRoutingComponent {
+export class MenuComponent extends BaseRoutingComponent implements AfterViewInit {
   environment = environment;
   showMobileMenu = false;
   logoHovered = false;
+  isMobile = false;
 
   @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
 
@@ -28,8 +28,11 @@ export class MenuComponent extends BaseRoutingComponent {
     super();
    }
 
-  get isMobile() {
-    return this.sizeService.lastKnownSize?.supportsMenu;
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+  ngAfterViewInit(): void {
+    this.sizeService.lastKnownSize.subscribe(size => {
+      this.isMobile = size.supportsMenu;
+    });
   }
 
   readonly logoPath = () => this.rla?.isActive || this.logoHovered ?

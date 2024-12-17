@@ -3,7 +3,6 @@ import { environment } from '@env';
 
 @Component({
     selector: 'marush-home-instagram',
-    standalone: true,
     templateUrl: './instagram.component.html',
     styleUrl: './instagram.component.scss'
   })

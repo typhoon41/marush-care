@@ -4,7 +4,6 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 
 @Component({
     selector: 'marush-hamburger-button',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss'

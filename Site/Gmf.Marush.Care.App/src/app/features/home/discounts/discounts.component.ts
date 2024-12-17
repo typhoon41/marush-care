@@ -1,15 +1,14 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { afterNextRender, Component, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'marush-home-discounts',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './discounts.component.html',
   styleUrl: './discounts.component.scss'
 })
-export class HomeDiscountsComponent implements OnInit, OnDestroy {
+export class HomeDiscountsComponent implements OnDestroy {
   readonly currentDiscounts = [
     $localize`:@@discounts.1:<p><strong>4.12. - 21.12.</strong></p><p>Give away!<br/>1 + 1 tretman</p>`,
     $localize`:@@discounts.2:<p><strong>2.12. - 28.12.</strong></p><p>20 + 25% za Vas i dragu osobu</p>`
@@ -18,13 +17,12 @@ export class HomeDiscountsComponent implements OnInit, OnDestroy {
   currentDiscountPosition = 0;
   private subscription: Subscription | undefined;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
-
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId) && this.showSlider) {
-      this.resetSubscription();
-    }
+  constructor() {
+    afterNextRender(() => {
+      if (this.showSlider) {
+        this.resetSubscription();
+      }
+    });
   }
 
   get showSlider() {

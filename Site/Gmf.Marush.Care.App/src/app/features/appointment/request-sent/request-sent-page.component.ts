@@ -3,7 +3,6 @@ import { SimplePageComponent } from '@shared/components/page/simple-page.compone
 
 @Component({
     selector: 'marush-client-notified-page',
-    standalone: true,
     imports: [SimplePageComponent],
     templateUrl: './request-sent-page.component.html',
     styleUrl: './request-sent-page.component.scss'

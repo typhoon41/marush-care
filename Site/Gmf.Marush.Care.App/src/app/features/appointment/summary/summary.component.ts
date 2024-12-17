@@ -5,7 +5,6 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
     selector: 'marush-appointment-summary',
-    standalone: true,
     imports: [ReactiveFormsModule, MoneyPipe],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss'

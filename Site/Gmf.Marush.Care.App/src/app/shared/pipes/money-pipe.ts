@@ -1,7 +1,7 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'money', standalone: true
+  name: 'money'
 })
 @Injectable({
     providedIn: 'root'

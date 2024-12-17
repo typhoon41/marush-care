@@ -5,7 +5,6 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 
 @Component({
   selector: 'marush-expansion-panel',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './expansion-panel.component.html',
   styleUrl: './expansion-panel.component.scss'

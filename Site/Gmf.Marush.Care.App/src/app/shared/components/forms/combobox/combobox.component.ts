@@ -9,7 +9,6 @@ import { IComboBoxItem } from './combobox.model';
 @Component({
   selector: 'marush-combobox',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './combobox.component.html',
   styleUrl: './combobox.component.scss'

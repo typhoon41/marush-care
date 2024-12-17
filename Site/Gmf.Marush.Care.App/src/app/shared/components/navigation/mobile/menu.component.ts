@@ -7,7 +7,6 @@ import { MenuItemsComponent } from '../menu/items/menu-items.component';
 
 @Component({
   selector: 'marush-mobile-menu',
-  standalone: true,
   imports: [CommonModule, RouterModule, LanguageSelectorComponent, MenuItemsComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'

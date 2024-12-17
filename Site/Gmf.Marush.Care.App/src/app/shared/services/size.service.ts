@@ -8,16 +8,14 @@ import { Size } from '../models/screen-sizes/size';
     providedIn: 'root'
 })
 export class SizeService {
-    lastKnownSize: Size | undefined;
+    lastKnownSize = new Subject<Size>();
     onResize$: Observable<Size>;
 
     private readonly holderPseudoSelector = '::before';
     private readonly holderPropertyName: string = 'content';
 
-    private resizeSubject = new Subject<Size>();
-
     constructor() {
-        this.onResize$ = this.resizeSubject.asObservable()
+        this.onResize$ = this.lastKnownSize.asObservable()
             .pipe(distinctUntilKeyChanged('name'));
     }
 
@@ -33,7 +31,6 @@ export class SizeService {
         const value = placeholderStyle.getPropertyValue(this.holderPropertyName);
         const size = value.replace(/"/gu, '');
 
-        this.lastKnownSize = ScreenSizeFactory.createFrom(size);
-        this.resizeSubject.next(this.lastKnownSize);
+        this.lastKnownSize.next(ScreenSizeFactory.createFrom(size));
     };
 }

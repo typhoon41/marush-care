@@ -9,7 +9,6 @@ import { TypeSelectorComponent } from './type-selector/type-selector.component';
 
 @Component({
   selector: 'marush-services-page',
-  standalone: true,
   imports: [CommonModule, TypeSelectorComponent, TreatmentSelectorComponent],
   templateUrl: './services-page.component.html',
   styleUrl: './services-page.component.scss'

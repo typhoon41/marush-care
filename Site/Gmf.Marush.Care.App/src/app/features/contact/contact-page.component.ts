@@ -7,7 +7,6 @@ import marushDetails from '@shared/models/marush-details.model';
 
 @Component({
   selector: 'marush-contact-page',
-  standalone: true,
   imports: [RouterModule],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'

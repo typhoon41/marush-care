@@ -3,7 +3,6 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'marush-image-loader',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './loader.component.html',
     styleUrl: './loader.component.scss'

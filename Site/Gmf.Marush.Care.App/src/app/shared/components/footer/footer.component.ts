@@ -7,7 +7,6 @@ import { BaseRoutingComponent } from '../navigation/base-routing.component';
 
 @Component({
   selector: 'marush-footer',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'

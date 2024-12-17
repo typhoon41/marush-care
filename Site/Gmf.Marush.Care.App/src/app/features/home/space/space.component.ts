@@ -3,7 +3,6 @@ import { environment } from '@env';
 
 @Component({
   selector: 'marush-home-space',
-  standalone: true,
   templateUrl: './space.component.html',
   styleUrl: './space.component.scss'
 })

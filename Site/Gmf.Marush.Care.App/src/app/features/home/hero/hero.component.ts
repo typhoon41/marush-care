@@ -4,7 +4,6 @@ import { BaseRoutingComponent } from '@shared/components/navigation/base-routing
 
 @Component({
     selector: 'marush-home-hero',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './hero.component.html',
     styleUrl: './hero.component.scss'

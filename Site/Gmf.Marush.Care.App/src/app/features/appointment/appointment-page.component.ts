@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 /* eslint-disable @stylistic/max-len, max-params */
-import { isPlatformBrowser } from '@angular/common';
-import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { afterNextRender, Component, HostBinding, Renderer2 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -16,12 +15,11 @@ import { AppointmentSummaryComponent } from './summary/summary.component';
 
 @Component({
   selector: 'marush-appointment-page',
-  standalone: true,
   imports: [ReactiveFormsModule, CustomerDetailsComponent, AppointmentSummaryComponent, ServicesSelectorComponent],
   templateUrl: './appointment-page.component.html',
   styleUrl: './appointment-page.component.scss'
 })
-export class AppointmentPageComponent extends BaseRoutingComponent implements OnInit {
+export class AppointmentPageComponent extends BaseRoutingComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
@@ -30,7 +28,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent implements On
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
 
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
-    private readonly captchaService: CaptchaService, @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly captchaService: CaptchaService,
     private readonly renderer: Renderer2,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
     super();
@@ -53,14 +51,11 @@ export class AppointmentPageComponent extends BaseRoutingComponent implements On
       checkedServices: this.formBuilder.array<IDefineTreatment>([]),
       sum: new FormControl(0)
     }, { updateOn: 'blur' });
-  }
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    afterNextRender(() => {
       const script = this.renderer.createElement('script') as HTMLScriptElement;
-        this.renderer.appendChild(document.body, this.captchaService.setup(script));
-    }
+      this.renderer.appendChild(document.body, this.captchaService.setup(script));
+    });
   }
 
   get checkedServices() {

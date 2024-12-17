@@ -8,7 +8,6 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
     selector: 'marush-appointment-services-selector',
-    standalone: true,
     imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent, MoneyPipe],
     templateUrl: './services-selector.component.html',
     styleUrl: './services-selector.component.scss'

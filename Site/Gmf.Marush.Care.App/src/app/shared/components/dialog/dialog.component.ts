@@ -4,7 +4,6 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 
 @Component({
     selector: 'marush-dialog',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss'

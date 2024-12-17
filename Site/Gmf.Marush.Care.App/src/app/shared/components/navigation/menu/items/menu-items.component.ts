@@ -6,7 +6,6 @@ import { BaseRoutingComponent } from '../../base-routing.component';
 
 @Component({
   selector: 'marush-menu-items',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './menu-items.component.html',
   styleUrl: './menu-items.component.scss'

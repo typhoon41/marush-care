@@ -5,7 +5,7 @@
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
-    @if(sizeService.lastKnownSize) {
+    @if(sizeService.lastKnownSize | async) {
         @if(isMobile) {
             <marush-hamburger-button [(collapsed)]="showMobileMenu"></marush-hamburger-button>
         }

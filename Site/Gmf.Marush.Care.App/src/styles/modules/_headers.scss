@@ -25,14 +25,17 @@
 	line-height: 34px;
 }
 
-@mixin marush-caption($wide: false) {
+@mixin marush-caption($wide: false, $with-uppercase: true) {
 	font-size: 16px;
 	line-height: 22px;
 
 	@if $wide {
 		letter-spacing: 1px;
-		text-transform: uppercase;
 		word-break: break-word;
+
+		@if $with-uppercase {
+			text-transform: uppercase;
+		}
 	}
 }
 

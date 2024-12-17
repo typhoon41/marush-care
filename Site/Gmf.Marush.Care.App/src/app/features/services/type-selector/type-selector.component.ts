@@ -7,7 +7,6 @@ import { SelectedService } from '@shared/models/services/types.model';
 
 @Component({
   selector: 'marush-services-type-selector',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './type-selector.component.html',
   styleUrl: './type-selector.component.scss'

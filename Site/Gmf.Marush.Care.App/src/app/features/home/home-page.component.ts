@@ -1,7 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
 import { environment } from '@env';
 import { HomeDiscountsComponent } from './discounts/discounts.component';
 import { HomeHeroComponent } from './hero/hero.component';
@@ -11,8 +10,7 @@ import { HomeSpaceComponent } from './space/space.component';
 
 @Component({
   selector: 'marush-home-page',
-  standalone: true,
-  imports: [RouterOutlet, HomeHeroComponent, HomeSpaceComponent,
+  imports: [HomeHeroComponent, HomeSpaceComponent,
     HomeServicesComponent, HomeInstagramComponent, HomeDiscountsComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'

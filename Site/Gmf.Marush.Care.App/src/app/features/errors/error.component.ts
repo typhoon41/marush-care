@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'marush-error-page',
-    standalone: true,
     imports: [],
     templateUrl: './error.component.html',
     styleUrl: './error.component.scss'

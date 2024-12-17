@@ -4,7 +4,6 @@ import { Field } from '../field';
 
 @Component({
     selector: 'marush-input',
-    standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './input.component.html',
     styleUrl: './input.component.scss'

@@ -10,7 +10,6 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
   selector: 'marush-services-treatment-selector',
-  standalone: true,
   imports: [CommonModule, RouterModule, ExpansionPanelComponent],
   templateUrl: './treatment-selector.component.html',
   styleUrl: './treatment-selector.component.scss'

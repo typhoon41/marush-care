@@ -1,7 +1,6 @@
 /* eslint-disable @stylistic/max-len */
-import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, HostBinding, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { afterNextRender, Component, HostBinding, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
@@ -10,12 +9,11 @@ import { GalleryImage, GalleryMetadata } from './models/gallery.model';
 
 @Component({
   selector: 'marush-gallery-page',
-  standalone: true,
   imports: [ImageLoaderComponent, DialogComponent],
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss'
 })
-export class GalleryPageComponent implements OnInit {
+export class GalleryPageComponent {
   @HostBinding('class') classAttribute: string = 'gallery';
   @ViewChild(DialogComponent) detailsDialog!: DialogComponent;
   imageCount = 0;
@@ -27,27 +25,21 @@ export class GalleryPageComponent implements OnInit {
   private readonly pageSize = 9;
   readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
-  constructor(private readonly meta: Meta, private readonly title: Title,
-    @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly http: HttpClient) {
+  constructor(private readonly meta: Meta, private readonly title: Title, private readonly http: HttpClient) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.gallery.description:Prepustite se zadivljujućoj galeriji i sveobuhvatnom pregledu koji prikazuje sve što Salon lepote Marush nudi za Vas.` });
     this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.gallery.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Višegradska` });
     this.title.setTitle($localize`:@@routes.gallery.title:Marush: Space of Care - galerija`);
-  }
-
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    afterNextRender(() => {
       this.loadImages();
-    }
+    });
   }
 
   readonly loadImages = () => {
     this.http.get<{ images: GalleryImage[] }>(GalleryMetadata.filePath).subscribe(data => {
-        this.images = new GalleryMetadata(data.images).allImages;
-        this.imageCount = data.images.length;
-        this.loadMoreImages();
-      });
+      this.images = new GalleryMetadata(data.images).allImages;
+      this.imageCount = data.images.length;
+      this.loadMoreImages();
+    });
   };
 
   readonly loadMoreImages = () => {
