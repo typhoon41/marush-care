@@ -13,7 +13,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
   @HostBinding('class') classAttribute: string = 'row';
   @ViewChild('panel') panel!: ElementRef;
   @Input() panelHeaderClass: string = '';
-  @Input() title: string = '';
+  @Input({ required: true }) title: string = '';
   @Input() index: number = -1;
   @Output() collapsedEvent = new EventEmitter<number>();
   @Input() collapsed = false;

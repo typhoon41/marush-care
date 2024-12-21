@@ -4,10 +4,10 @@ import { afterNextRender, Component, HostBinding, Renderer2 } from '@angular/cor
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AppointmentService } from '@features/appointment/appointment-service';
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import marushDetails from '@shared/models/marush-details.model';
 import { IDefineTreatment } from '@shared/models/services/types.model';
-import { AppointmentService } from '@shared/services/appointment-service';
 import { CaptchaService } from '@shared/services/captcha-service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';

@@ -13,7 +13,7 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
     styleUrl: './services-selector.component.scss'
 })
 export class ServicesSelectorComponent {
-    @Input() checkedServices: IDefineTreatment[] = [];
+    @Input({ required: true }) checkedServices: IDefineTreatment[] = [];
     @Output() toggleSelection = new EventEmitter<{ item: IDefineTreatment; checked: boolean }>();
     @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
     services = supportedTreatments;

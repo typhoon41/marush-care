@@ -16,7 +16,7 @@ import { IComboBoxItem } from './combobox.model';
 export class ComboBoxComponent {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   @Input() onValueChanged: (item: IComboBoxItem) => void = () => { };
-  @Input() items: IComboBoxItem[] = [];
+  @Input({ required: true }) items: IComboBoxItem[] = [];
   @Input() id: string = 'combo-box';
   @Input() name: string = 'combo-box';
   @Input() formGroup: FormGroup = new FormGroup({});

@@ -14,7 +14,7 @@ import { SelectedService } from '@shared/models/services/types.model';
 export class TypeSelectorComponent {
   services = supportedTreatments;
   readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
-  @Input() selectedService: SelectedService = '';
+  @Input({ required: true }) selectedService: SelectedService = '';
   @Output() selectedServiceChange = new EventEmitter<SelectedService>();
 
   readonly selectService = (service: SelectedService, event?: OptionalKeyboardEvent) => {

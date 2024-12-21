@@ -8,5 +8,5 @@ import { Component, HostBinding, Input } from '@angular/core';
   export class SimplePageComponent {
     @HostBinding('class') classAttribute: string = 'resolution-page aligned-centrally stretch-equally';
 
-    @Input() text: string = '';
+    @Input({ required: true }) text: string = '';
   }

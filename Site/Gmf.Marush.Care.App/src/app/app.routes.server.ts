@@ -17,6 +17,10 @@ export const serverRoutes: ServerRoute[] = [
         renderMode: RenderMode.Prerender
     },
     {
+        path: serverSideRoute('gallery'),
+        renderMode: RenderMode.Client
+    },
+    {
         path: serverSideRoute('error'),
         renderMode: RenderMode.Client
     },

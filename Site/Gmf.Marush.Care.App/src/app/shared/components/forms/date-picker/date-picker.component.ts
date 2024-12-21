@@ -11,8 +11,8 @@ import { Field } from '../field';
     styleUrl: './date-picker.component.scss'
 })
 export class DatePickerComponent extends Field {
-    @Input() form!: FormGroup;
-    @Input() name = '';
+    @Input({ required: true }) form!: FormGroup;
+    @Input({ required: true }) name = '';
     @Input() placeholder = '';
     @ViewChild('date', { static: true }) date!: ElementRef<HTMLInputElement>;
     datePicker: AirDatepicker | undefined;

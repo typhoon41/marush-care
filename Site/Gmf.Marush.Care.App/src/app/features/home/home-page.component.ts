@@ -1,4 +1,5 @@
 /* eslint-disable @stylistic/max-len */
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { environment } from '@env';
@@ -10,7 +11,7 @@ import { HomeSpaceComponent } from './space/space.component';
 
 @Component({
   selector: 'marush-home-page',
-  imports: [HomeHeroComponent, HomeSpaceComponent,
+  imports: [HomeHeroComponent, HomeSpaceComponent, NgOptimizedImage,
     HomeServicesComponent, HomeInstagramComponent, HomeDiscountsComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'

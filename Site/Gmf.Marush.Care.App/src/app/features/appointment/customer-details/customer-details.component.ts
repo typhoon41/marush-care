@@ -13,7 +13,7 @@ import { InputComponent } from '@shared/components/forms/input/input.component';
 })
 export class CustomerDetailsComponent {
     @HostBinding('class') classAttribute: string = 'row customer-details-container';
-    @Input() formGroup!: FormGroup;
+    @Input({ required: true }) formGroup!: FormGroup;
     readonly namePlaceholder = $localize`:@@appointment.customer.name:Ime`;
     readonly surnamePlaceholder = $localize`:@@appointment.customer.surname:Prezime`;
     readonly phonePlaceholder = $localize`:@@appointment.customer.phone:Telefon`;

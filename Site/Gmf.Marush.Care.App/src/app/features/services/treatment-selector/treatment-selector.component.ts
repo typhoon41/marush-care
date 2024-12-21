@@ -15,7 +15,7 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
   styleUrl: './treatment-selector.component.scss'
 })
 export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges, AfterViewChecked {
-  @Input() selectedService: SelectedService = '';
+  @Input({ required: true }) selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
   treatments: IDefineTreatment[] = [];

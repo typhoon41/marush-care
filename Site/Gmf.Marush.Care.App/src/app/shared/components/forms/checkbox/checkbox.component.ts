@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
     styleUrl: './checkbox.component.scss'
   })
   export class CheckBoxComponent {
-    @Input() labelText = '';
+    @Input({ required: true }) labelText = '';
     @Input() checked = false;
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     @Input() onChange = (_$event: Event) => {};

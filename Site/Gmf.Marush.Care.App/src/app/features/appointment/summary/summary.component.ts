@@ -10,8 +10,8 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
     styleUrl: './summary.component.scss'
 })
 export class AppointmentSummaryComponent {
-    @Input() checkedServices: IDefineTreatment[] = [];
-    @Input() totalCost: number = 0;
+    @Input({ required: true }) checkedServices: IDefineTreatment[] = [];
+    @Input({ required: true }) totalCost: number = 0;
     @Output() removeSelection = new EventEmitter<IDefineTreatment>();
 
     readonly onRemove = (item: IDefineTreatment) => {
