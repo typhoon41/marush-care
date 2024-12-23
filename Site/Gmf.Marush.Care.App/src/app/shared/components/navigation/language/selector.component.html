@@ -1,15 +1,15 @@
 @if(horizontal){
-    <ul class="aligned-centrally stretch-equally" tabindex="-1">
-        @for(supportedLanguage of supportedLanguages; track supportedLanguage.value){
-            <li class="action horizontal-action clickable" [class.selected]="selectedLanguage.value === supportedLanguage.value" tabindex="0"
-                (keydown)="select(supportedLanguage, $event)" (click)="select(supportedLanguage)">
-                {{supportedLanguage.label}}
-            </li>
-        }
-    </ul>
+<ul class="aligned-centrally stretch-equally" tabindex="-1">
+    @for(supportedLanguage of supportedLanguages; track supportedLanguage.value){
+    <li class="action horizontal-action clickable" [class.selected]="selectedLanguage.value === supportedLanguage.value"
+        [tabindex]="index()" (keydown)="select(supportedLanguage, $event)" (click)="select(supportedLanguage)">
+        {{supportedLanguage.label}}
+    </li>
+    }
+</ul>
 }
 
 @else {
-    <marush-combobox class="language-combo-box action" [items]="supportedLanguages" [id]="'language-selector'"
-        [selectedItem]="selectedLanguage" [onValueChanged]="select"></marush-combobox>
+<marush-combobox class="language-combo-box action" [items]="supportedLanguages" [id]="'language-selector'"
+    [selectedItem]="selectedLanguage" [onValueChanged]="select"></marush-combobox>
 }

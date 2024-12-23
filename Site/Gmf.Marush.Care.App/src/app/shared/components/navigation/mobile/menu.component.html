@@ -3,6 +3,6 @@
     <marush-menu-items [visible]="collapsed" (hideMobileMenu)="hideMenu()" class="actions center-content vertical-stack"></marush-menu-items>
     <img class="decoration lower" src="/assets/images/menu/lower-decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
     @if(environment.name !== 'development'){
-        <marush-language-selector [horizontal]="true"></marush-language-selector>
+        <marush-language-selector [horizontal]="true" [visible]="collapsed"></marush-language-selector>
     }
 </nav>
