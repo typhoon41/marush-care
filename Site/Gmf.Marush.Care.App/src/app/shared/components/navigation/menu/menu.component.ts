@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, computed, OnDestroy, ViewChild } from '@angular/core';
+import { Component, computed, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { SizeService } from '@shared/services/size.service';
-import { Subscription } from 'rxjs';
 import { BaseRoutingComponent } from '../base-routing.component';
 import { HamburgerButtonComponent } from '../hamburger/button.component';
 import { LanguageSelectorComponent } from '../language/selector.component';
