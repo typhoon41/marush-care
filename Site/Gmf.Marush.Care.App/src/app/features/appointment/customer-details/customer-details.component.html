@@ -5,5 +5,5 @@
     [customValidation]="'pattern'" [customValidationMessage]="phoneValidationMessage"></marush-input>
     <marush-input class="column-12 row" [form]="formGroup" [name]="'email'" [autoComplete]="true" [placeholder]="emailPlaceholder" [validation]="['required', 'maxlength', 'email']"></marush-input>
     <marush-date-picker class="column-6 column-tablet-8" [form]="formGroup" [name]="'date'" [placeholder]="datePlaceholder"></marush-date-picker>
-    <marush-combobox [formGroup]="timeGroup" [name]="'time'" [placeholder]="timePlaceholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
+    <marush-combobox [formGroup]="timeGroup()" [name]="'time'" [placeholder]="timePlaceholder" [items]="timeIntervals()" class="time-picker column-6 column-tablet-4"></marush-combobox>
 </div>

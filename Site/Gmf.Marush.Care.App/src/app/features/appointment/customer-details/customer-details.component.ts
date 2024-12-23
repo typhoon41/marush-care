@@ -22,9 +22,7 @@ export class CustomerDetailsComponent {
     readonly datePlaceholder = $localize`:@@appointment.customer.date:Datum`;
     readonly timePlaceholder = $localize`:@@appointment.customer.time:Vreme`;
 
-    get timeGroup() {
-        return this.formGroup.get('timeGroup') as FormGroup;
-    }
+    readonly timeGroup = () => this.formGroup.get('timeGroup') as FormGroup;
 
     readonly timeIntervals = () => {
         const workingHoursAmount = 480;

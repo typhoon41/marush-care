@@ -5,6 +5,7 @@ export abstract class Field {
     abstract name: string;
     abstract validation: string[];
 
+    // TODO: Once Angular supports adding Signals to Reactive Forms, remove getters from here and inherited classes
     get required() {
         return this.getFormState('required');
     }

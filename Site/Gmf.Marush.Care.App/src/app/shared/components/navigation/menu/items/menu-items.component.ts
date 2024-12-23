@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, computed, EventEmitter, input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import marushDetails from '@shared/models/marush-details.model';
 import { BaseRoutingComponent } from '../../base-routing.component';
@@ -12,13 +12,11 @@ import { BaseRoutingComponent } from '../../base-routing.component';
 })
 export class MenuItemsComponent extends BaseRoutingComponent {
   @Output() hideMobileMenu = new EventEmitter<boolean>();
-  @Input() visible = true;
-  marushDetails = marushDetails;
+  visible = input<boolean>(true);
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  tabIndex = computed(() => this.visible() ? 0 : -1);
 
-  get tabIndex() {
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    return this.visible ? 0 : -1;
-  }
+  marushDetails = marushDetails;
 
   readonly hideMenu = () => this.hideMobileMenu.emit();
 }

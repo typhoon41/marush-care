@@ -2,14 +2,14 @@
 <div class="discounts-placeholder aligned-centrally stretch-between">
   <img class="decoration upper" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration" alt="Dekorativni listovi u grafici" />
   <div class="content">
-    @if (showSlider){
+    @if (showSlider()){
     <button type="button" class="slide-action" (click)="previous()"><span class="arrow-icon left"></span></button>
     }
     @for (discount of currentDiscounts; track $index) {
     <div class="description animate-fading header-centered" [innerHTML]="discount"
       [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
     }
-    @if (showSlider){
+    @if (showSlider()){
     <button type="button" class="slide-action" (click)="next()"><span class="arrow-icon right"></span></button>
     }
   </div>
