@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { EventType } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GlobalLoaderService {
-    isLoading = new BehaviorSubject<boolean>(true);
+    isLoading = signal(true);
 
-    readonly startLoading = () => this.isLoading.next(true);
-    readonly stopLoading = () => this.isLoading.next(false);
+    readonly startLoading = () => this.isLoading.update(() => true);
+    readonly stopLoading = () => this.isLoading.update(() => false);
 
     readonly intercept = (eventType: EventType) => {
         switch (eventType) {

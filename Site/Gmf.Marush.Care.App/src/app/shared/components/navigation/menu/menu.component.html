@@ -5,8 +5,8 @@
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
-    @if(sizeService.lastKnownSize | async) {
-        @if(isMobile) {
+    @if(sizeService.lastKnownSize()) {
+        @if(isMobile()) {
             <marush-hamburger-button [(collapsed)]="showMobileMenu"></marush-hamburger-button>
         }
 
@@ -19,6 +19,6 @@
     }
 </nav>
 
-@if(isMobile) {
+@if(isMobile()) {
 <marush-mobile-menu [collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
 }

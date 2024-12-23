@@ -1,6 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
-import { distinctUntilKeyChanged } from 'rxjs/operators';
+import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Subscription, fromEvent } from 'rxjs';
 import { ScreenSizeFactory } from '../models/screen-sizes/factory';
 import { Size } from '../models/screen-sizes/size';
 
@@ -8,17 +7,11 @@ import { Size } from '../models/screen-sizes/size';
     providedIn: 'root'
 })
 export class SizeService implements OnDestroy {
-    lastKnownSize = new Subject<Size>();
-    onResize$: Observable<Size>;
+    lastKnownSize = signal<Size | undefined>(undefined);
 
     private readonly holderPseudoSelector = '::before';
     private readonly holderPropertyName: string = 'content';
     private subscription: Subscription | undefined;
-
-    constructor() {
-        this.onResize$ = this.lastKnownSize.asObservable()
-            .pipe(distinctUntilKeyChanged('name'));
-    }
 
     // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     ngOnDestroy(): void {
@@ -37,6 +30,6 @@ export class SizeService implements OnDestroy {
         const value = placeholderStyle.getPropertyValue(this.holderPropertyName);
         const size = value.replace(/"/gu, '');
 
-        this.lastKnownSize.next(ScreenSizeFactory.createFrom(size));
+        this.lastKnownSize.update(_ => ScreenSizeFactory.createFrom(size));
     };
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, OnDestroy, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { SizeService } from '@shared/services/size.service';
@@ -17,29 +17,16 @@ import { MenuItemsComponent } from './items/menu-items.component';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent extends BaseRoutingComponent implements AfterViewInit, OnDestroy {
+export class MenuComponent extends BaseRoutingComponent {
   environment = environment;
   showMobileMenu = false;
   logoHovered = false;
-  isMobile = false;
-  private subscription: Subscription | undefined;
+  isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
 
   @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
 
   constructor(readonly sizeService: SizeService) {
     super();
-  }
-
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-  ngAfterViewInit(): void {
-    this.subscription = this.sizeService.lastKnownSize.subscribe(size => {
-      this.isMobile = size.supportsMenu;
-    });
-  }
-
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
