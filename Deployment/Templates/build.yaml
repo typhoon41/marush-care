@@ -59,9 +59,8 @@ jobs:
       - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
         inputs:
-          command: 'custom'
-          custom: 'restore'
-          arguments: '-r win-x64'
+          command: 'restore'
+          restoreArguments : '-r win-x64'
       - task: DotNetCoreCLI@2
         displayName: '.Net Core Build'
         inputs:

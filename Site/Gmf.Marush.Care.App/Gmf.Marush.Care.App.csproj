@@ -12,6 +12,7 @@
     <Content Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.lock.json" />
     <Content Include="Properties\app_offline_template.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
