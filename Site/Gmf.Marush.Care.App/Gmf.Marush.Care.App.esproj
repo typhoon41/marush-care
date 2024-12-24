@@ -10,19 +10,4 @@
   <ItemGroup>
     <Content Include="dist\**" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="wwwroot\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.lock.json" />
-    <Content Include="Properties\app_offline_template.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Properties\robots.Production.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Properties\robots.Test.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>
