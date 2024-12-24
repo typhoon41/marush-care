@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj" />
-    <ProjectReference Include="..\Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.csproj" />
     <ProjectReference Include="..\Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 </Project>

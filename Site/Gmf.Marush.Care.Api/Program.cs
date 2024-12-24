@@ -11,6 +11,7 @@ using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Initialization.Middlewares;
 using Gmf.Net.Core.Common.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
 [assembly: ApiController]
 [assembly: NeutralResourcesLanguage("sr")]
@@ -23,11 +24,34 @@ var swaggerSettings = new OpenApiSettings
     Description = "API supports all requests needed for \"Marush - Space of care\" website to work properly."
 };
 
-new ApiRunner(args)
+new ApiRunner()
     .ConfigureServices(ServiceCallback)
     .ConfigureContainer(ContainerCallback)
-    .ConfigureApplication(ApplicationCallback)
-    .Run();
+    .ConfigureApplication(ApplicationCallback, FrontEndSetupCallback)
+    .RunWith(new WebApplicationOptions
+    {
+        ApplicationName = typeof(Program).Assembly.FullName,
+        ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
+        WebRootPath = "dist/browser",
+        Args = args
+    });
+
+void FrontEndSetupCallback(WebApplicationBuilder builder, WebApplication application)
+{
+    _ = application.UseDefaultFiles();
+    _ = application.UseStaticFiles();
+
+    if (builder.Environment.IsDevelopment())
+    {
+        return;
+    }
+
+    _ = application.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "files"))
+    });
+    _ = application.MapFallbackToFile("index.html");
+}
 
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)
 {

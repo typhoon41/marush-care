@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Gmf.Net.Core.Common;
 
-public class ApiRunner(string[] arguments) : ApplicationRunner(arguments)
+public class ApiRunner : ApplicationRunner
 {
     private Action<HostBuilderContext, ContainerBuilder> _withGivenConfiguration = (context, builder) => { };
     private Action<WebApplicationBuilder> _configureServicesWith = builder => { };
@@ -59,10 +59,12 @@ public class ApiRunner(string[] arguments) : ApplicationRunner(arguments)
         return this;
     }
 
-    public ApiRunner ConfigureApplication(Action<WebApplicationBuilder, WebApplication> configureApplication)
+    public ApiRunner ConfigureApplication(Action<WebApplicationBuilder, WebApplication> configureApplication,
+        Action<WebApplicationBuilder, WebApplication>? preconfigureApplication = null)
     {
         _configureApplicationWith = (builder, application) =>
         {
+            preconfigureApplication?.Invoke(builder, application);
             _ = application.UseRouting();
             _ = application.MapControllers();
             configureApplication(builder, application);

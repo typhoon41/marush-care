@@ -4,19 +4,17 @@ using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
 namespace Gmf.Net.Core.Common;
-public abstract class ApplicationRunner(string[] arguments)
+public abstract class ApplicationRunner()
 {
-    private readonly string[] _arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
-
-    public void Run()
+    public void RunWith(WebApplicationOptions options)
     {
         try
         {
-            var builder = WebApplication.CreateBuilder(_arguments);
+            var builder = WebApplication.CreateBuilder(options);
             new SerilogLogger(builder).Configure();
             Log.Information($"Starting API host in {builder.Environment.EnvironmentName} environment.");
 
-            _ = builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+            _ = builder.WebHost.ConfigureKestrel(settings => settings.AddServerHeader = false);
             _ = builder.Host.UseSerilog();
             OnApplicationRun(builder);
         }
@@ -33,5 +31,6 @@ public abstract class ApplicationRunner(string[] arguments)
             Log.CloseAndFlush();
         }
     }
+
     protected abstract void OnApplicationRun(WebApplicationBuilder builder);
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.App", "Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.csproj", "{1A0388E4-6840-40DD-8353-C2CC8846B5A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.App", "Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.esproj", "{1A0388E4-6840-40DD-8353-C2CC8846B5A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{463C3FF8-7E7C-40ED-BF51-71D31E2535F8}"
 	ProjectSection(SolutionItems) = preProject

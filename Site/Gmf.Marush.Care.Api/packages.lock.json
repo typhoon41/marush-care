@@ -46,6 +46,12 @@
           "Swashbuckle.AspNetCore.SwaggerGen": "[6.3.0, 8.0.0)"
         }
       },
+      "Microsoft.AspNetCore.SpaProxy": {
+        "type": "Direct",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "bVz+tU77Gsl7RvQHykG2EoUlReUHS0/jBqAsR1lRgIan7cx3oKSwcZ1K3b7JmKhrKGb1I/JB94irDXNHFYKxKA=="
+      },
       "Microsoft.EntityFrameworkCore.Design": {
         "type": "Direct",
         "requested": "[9.0.0, )",
