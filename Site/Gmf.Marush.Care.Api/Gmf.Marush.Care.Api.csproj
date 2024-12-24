@@ -11,6 +11,9 @@
     <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.lock.json" />
     <Content Include="Properties\app_offline_template.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
