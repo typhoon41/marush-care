@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Gmf.Marush.Care.Api.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
 public class AppointmentController(IAppointmentService appointmentService, ContactSettings contactSettings,

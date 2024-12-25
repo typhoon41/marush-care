@@ -48,11 +48,10 @@ public static class SwaggerExtensions
             _ = app.UseSwagger();
             _ = app.UseSwaggerUI(c =>
             {
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "api";
                 foreach (var apiDetail in apiDetails)
                 {
-                    var prefix = environment.IsDevelopment() ? "/" : "/api/";
-                    c.SwaggerEndpoint($"{prefix}swagger/{apiDetail.Version}/swagger.json", apiDetail.Description);
+                    c.SwaggerEndpoint($"/swagger/{apiDetail.Version}/swagger.json", apiDetail.Description);
                 }
             });
         }
