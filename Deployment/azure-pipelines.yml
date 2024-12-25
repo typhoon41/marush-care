@@ -30,14 +30,8 @@ stages:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Test'
-      deploymentName: 'App'
-      destinationWebsiteName: MarushTest
-  - template: 'Templates/environment-deploy.yaml'
-    parameters:
-      environment: 'Test'
       deploymentName: 'Api'
       destinationWebsiteName: MarushTest
-      destinationWebsitePath: api
       archiveFile: 'Gmf.Marush.Care.Api.zip'
   - template: 'Templates/update-database.yaml'
     parameters:
@@ -66,15 +60,8 @@ stages:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Production'
-      deploymentName: 'ProductionApp'
-      destinationWebsiteName: Marush
-      approvalJobName: 'WaitForValidation'
-  - template: 'Templates/environment-deploy.yaml'
-    parameters:
-      environment: 'Production'
       deploymentName: 'ProductionApi'
       destinationWebsiteName: Marush
-      destinationWebsitePath: api
       approvalJobName: 'WaitForValidation'
       archiveFile: 'Gmf.Marush.Care.Api.zip'
   - template: 'Templates/update-database.yaml'

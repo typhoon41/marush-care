@@ -1,8 +1,6 @@
 parameters:
 - name: deploymentName
 - name: destinationWebsiteName
-- name: destinationWebsitePath
-  default: ''
 - name: environment
 - name: projectName
   default: 'Marush'
@@ -78,9 +76,6 @@ jobs:
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
-              ${{ if ne(parameters.destinationWebsitePath, '') }}:
-                VirtualApplication: ${{ parameters.destinationWebsitePath }}
-              # end if
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
           - script: |
