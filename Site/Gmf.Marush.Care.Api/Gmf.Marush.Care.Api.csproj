@@ -49,14 +49,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\Gmf.Marush.Care.App\dist\**" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Resources\Labels.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Labels.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Update="Resources\Labels.en.resx">
       <Generator></Generator>
     </EmbeddedResource>

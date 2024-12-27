@@ -1,33 +1,27 @@
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
-/* eslint-disable max-lines-per-function */
-/* eslint-disable func-style */
-import { basename, dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { AngularNodeAppEngine, writeResponseToNodeResponse } from '@angular/ssr/node';
+import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
 import express from 'express';
 
-export function app(): express.Express {
-  const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const lang = basename(serverDistFolder);
-  const browserDistFolder = resolve(serverDistFolder, `../browser/${lang}`);
-
-  const angularNodeAppEngine = new AngularNodeAppEngine();
-
-  server.get(
-    '**',
-    express.static(browserDistFolder, {
-      maxAge: '1y',
-      index: 'index.html'
+const app = express();
+const angularApp = new AngularNodeAppEngine();
+app.use('*', (req, res, next) => {
+  angularApp
+    .handle(req)
+    .then(response => {
+      if (response) {
+        writeResponseToNodeResponse(response, res);
+      } else {
+        next();
+      }
     })
-  );
+    .catch(next);
+});
 
-  server.get('*', (req, res, next) => {
-    angularNodeAppEngine
-      .handle(req, { server: 'express' })
-      .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
-      .catch(next);
-  });
+/**
+ * The request handler used by the Angular CLI (dev-server and during build).
+ */
+export const reqHandler = createNodeRequestHandler(app);
 
-  return server;
-}
+// Define a port and start the server
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+const PORT = process.env['PORT'] || 8080;
+app.listen(PORT);

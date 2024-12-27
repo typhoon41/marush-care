@@ -7,7 +7,4 @@
     <ShouldRunNpmInstall>false</ShouldRunNpmInstall>
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="dist\**" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup>
 </Project>
