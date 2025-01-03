@@ -6,11 +6,11 @@
     "start": "ng serve --configuration=development,sr",
     "start-en": "ng serve --configuration=development,en",
     "start-ru": "ng serve --configuration=development,ru",
-    "build": "ng build && copyfiles -E -u 1 src/proxy-server.mjs dist && copyfiles -E -u 2 src/assets/**/* dist/browser/assets && copyfiles -E -u 1 src/web.config dist/server",
+    "build": "ng build && copyfiles -E -u 2 src/assets/**/* dist/browser/assets && copyfiles -E -u 1 src/web.config dist/server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "translate": "ng extract-i18n && sortjson src/locale",
-    "serve:ssr": "node dist/proxy-server.mjs",
+    "serve:ssr": "node dist/server/server.mjs",
     "lint": "ng lint --format stylish --fix && stylelint --fix src/**/*.scss"
   },
   "private": true,

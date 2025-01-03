@@ -23,5 +23,5 @@ export const reqHandler = createNodeRequestHandler(app);
 
 // Define a port and start the server
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const PORT = process.env['PORT'] || 8080;
+const PORT = process.env['PORT'] || 4141;
 app.listen(PORT);

@@ -2,6 +2,7 @@
 using System.Resources;
 using Autofac;
 using Gmf.Marush.Care.Api.Injection;
+using Gmf.Marush.Care.Api.Services;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Initialization;
@@ -77,6 +78,11 @@ void ServiceCallback(WebApplicationBuilder builder)
             provider.GetService<CaptchaSettings>()!, builder.Environment, provider.GetService<ILogger<ValidateCaptchaAttribute>>()!));
     _ = builder.Services.AddAutoMapper(marushAssembly.Api);
     _ = builder.Services.AddMvc([], [new DateOnlyJsonConverter()], marushAssembly.Api);
+
+    if (!builder.Environment.IsDevelopment())
+    {
+        _ = builder.Services.AddHostedService<NodeJsRunnerService>();
+    }
 
     builder.Services.AddSwaggerIn(builder.Environment, swaggerSettings);
 }
