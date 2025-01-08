@@ -1,4 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
+import { environment } from '@env';
 
 @Component({
     selector: 'marush-simple-page',
@@ -9,4 +10,5 @@ import { Component, HostBinding, Input } from '@angular/core';
     @HostBinding('class') classAttribute: string = 'resolution-page aligned-centrally stretch-equally';
 
     @Input({ required: true }) text: string = '';
+    decorationUrl = `${environment.staticContentUrl}images/mail/decoration.png`;
   }

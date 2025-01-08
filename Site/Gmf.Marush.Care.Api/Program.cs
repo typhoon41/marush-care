@@ -12,7 +12,6 @@ using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Initialization.Middlewares;
 using Gmf.Net.Core.Common.Security;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 
 [assembly: ApiController]
 [assembly: NeutralResourcesLanguage("sr")]
@@ -33,7 +32,7 @@ new ApiRunner()
     {
         ApplicationName = typeof(Program).Assembly.FullName,
         ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
-        WebRootPath = "dist",
+        WebRootPath = "dist/browser",
         Args = args
     });
 
@@ -41,17 +40,6 @@ void FrontEndSetupCallback(WebApplicationBuilder builder, WebApplication applica
 {
     _ = application.UseDefaultFiles();
     _ = application.UseStaticFiles();
-
-    if (builder.Environment.IsDevelopment())
-    {
-        return;
-    }
-
-    _ = application.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "files"))
-    });
-    //_ = application.MapFallbackToFile("index.html");
 }
 
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)

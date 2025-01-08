@@ -1,9 +1,11 @@
+import { environment } from '@env';
+
 export class GalleryMetadata {
     readonly allImages: GalleryImage[];
 
     private static readonly previewsSuffix = 'previews/';
     private readonly imageLocation = '/images/gallery/';
-    private static readonly previewsLocation = `/images/gallery/${this.previewsSuffix}`;
+    private static readonly previewsLocation = `${environment.staticContentUrl}/images/gallery/${this.previewsSuffix}`;
     static filePath = `${this.previewsLocation}metadata.json`;
 
     constructor(private readonly galleryImages: GalleryImage[]) {
