@@ -6,7 +6,7 @@
     "start": "ng serve --configuration=development,sr",
     "start-en": "ng serve --configuration=development,en",
     "start-ru": "ng serve --configuration=development,ru",
-    "build": "ng build && copyfiles -E -u 2 src/assets/**/* dist/browser/assets && copyfiles -E -u 1 src/web.config dist/server",
+    "build": "ng build && copyfiles -E -u 2 src/assets/**/* dist/browser/assets",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "translate": "ng extract-i18n && sortjson src/locale",
