@@ -24,6 +24,9 @@
     <Content Include="Properties\robots.Test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
@@ -51,7 +54,6 @@
   <ItemGroup>
     <Content Include="..\Gmf.Marush.Care.App\dist\**" CopyToPublishDirectory="PreserveNewest" TargetPath="dist\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Resources\Labels.Designer.cs">
       <DesignTime>True</DesignTime>

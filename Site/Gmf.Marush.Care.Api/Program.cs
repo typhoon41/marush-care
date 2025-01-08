@@ -33,7 +33,7 @@ new ApiRunner()
     {
         ApplicationName = typeof(Program).Assembly.FullName,
         ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
-        WebRootPath = "dist/browser",
+        WebRootPath = "dist",
         Args = args
     });
 
@@ -51,7 +51,7 @@ void FrontEndSetupCallback(WebApplicationBuilder builder, WebApplication applica
     {
         FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "files"))
     });
-    _ = application.MapFallbackToFile("index.html");
+    //_ = application.MapFallbackToFile("index.html");
 }
 
 void ApplicationCallback(WebApplicationBuilder builder, WebApplication application)
