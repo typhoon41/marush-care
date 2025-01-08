@@ -6,7 +6,7 @@ internal abstract class BaseMarushTemplate(string webRootPath) : BaseEmailTempla
 {
     protected string WebRootPath { get; } = webRootPath;
 
-    protected override string TemplatePath => Path.Combine(WebRootPath, "Email Templates", FileName);
+    protected override string TemplatePath => Path.Combine(AppContext.BaseDirectory, "Resources", "Email Templates", FileName);
 
     protected abstract string FileName { get; }
 }
