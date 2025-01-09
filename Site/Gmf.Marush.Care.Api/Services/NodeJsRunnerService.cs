@@ -68,7 +68,6 @@ public class NodeJsRunnerService(ILogger<NodeJsRunnerService> logger) : Backgrou
             try
             {
                 _nodeProcess.Kill();
-                _ = _nodeProcess.WaitForExit(5000);
             }
             catch (Exception exception)
             {
