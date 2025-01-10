@@ -10,8 +10,9 @@ export class CookieStorage {
         const oneYear = 365 * 24 * 60 * 60 * 1000;
         date.setTime(date.getTime() + oneYear);
         const inOneYear = date.toUTCString();
+        const domain = window.location.hostname;
 
-        document.cookie = `${key}=${value}; expires=${inOneYear}; SameSite=Strict; Secure; path=/`;
+        document.cookie = `${key}=${value}; expires=${inOneYear}; SameSite=Strict; Secure; path=/; Domain=.${domain}`;
     };
 
     readonly load = (key: string) => {
