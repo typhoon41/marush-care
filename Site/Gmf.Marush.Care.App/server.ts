@@ -1,4 +1,5 @@
 import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
+import { environment } from '@env';
 import express from 'express';
 
 const app = express();
@@ -23,5 +24,5 @@ export const reqHandler = createNodeRequestHandler(app);
 
 // Define a port and start the server
 // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-const PORT = process.env['PORT'] || 4141;
+const PORT = process.env['PORT'] || environment.ssrPort;
 app.listen(PORT);

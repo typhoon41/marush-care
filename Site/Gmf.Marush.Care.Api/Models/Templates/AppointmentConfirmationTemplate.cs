@@ -2,7 +2,7 @@
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
-internal class AppointmentConfirmationTemplate(string webRootPath, string phoneNumber, string date) : BaseMarushTemplate(webRootPath)
+internal class AppointmentConfirmationTemplate(string phoneNumber, string date) : BaseMarushTemplate
 {
     protected override string FileName => "appointment-confirmation.html";
     protected override IDictionary<string, string> Replacements { get; } = new Dictionary<string, string>()

@@ -15,11 +15,10 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Produces("application/json")]
 [Consumes("application/json")]
 public class AppointmentController(IAppointmentService appointmentService, ContactSettings contactSettings,
-    INotifyAboutAppointments notificationService, IWebHostEnvironment environment) : ControllerBase
+    INotifyAboutAppointments notificationService) : ControllerBase
 {
     private readonly IAppointmentService _appointmentService = appointmentService;
     private readonly INotifyAboutAppointments _notificationService = notificationService;
-    private readonly IWebHostEnvironment _environment = environment;
 
     [HttpPost]
     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
@@ -59,11 +58,11 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
         return result ? Redirect("https://marushcare.com/sr/klijent-obave%C5%A1ten") : Redirect("https://marushcare.com/sr/gre%C5%A1ka/sistemska");
     }
 
-    private AppointmentRejectionTemplate RejectionTemplate(ContactSettings contactSettings, AppointmentDecision data) => new(_environment.WebRootPath, contactSettings.PhoneNumber, data.Date);
-    private AppointmentConfirmationTemplate ConfirmationTemplate(ContactSettings contactSettings, AppointmentDecision data) =>
-        new(_environment.WebRootPath, contactSettings.PhoneNumber, data.Date);
+    private static AppointmentRejectionTemplate RejectionTemplate(ContactSettings contactSettings, AppointmentDecision data) => new(contactSettings.PhoneNumber, data.Date);
+    private static AppointmentConfirmationTemplate ConfirmationTemplate(ContactSettings contactSettings, AppointmentDecision data) =>
+        new(contactSettings.PhoneNumber, data.Date);
     private AppointmentRequestTemplate OwnerTemplateFrom(AppointmentRequest data, Guid appointmentId) =>
-        new(data, _environment.WebRootPath, $"{Request.Scheme}://{Request.Host}/api/appointment/decision", data.Phone, appointmentId);
+        new(data, $"{Request.Scheme}://{Request.Host}/api/appointment/decision", data.Phone, appointmentId);
 
-    private AppointmentSubmittedTemplate CustomerTemplateFrom(AppointmentRequest data) => new(data, _environment.WebRootPath, contactSettings.PhoneNumber);
+    private AppointmentSubmittedTemplate CustomerTemplateFrom(AppointmentRequest data) => new(data, contactSettings.PhoneNumber);
 }
