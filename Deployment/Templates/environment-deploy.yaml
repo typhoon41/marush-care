@@ -54,6 +54,7 @@ jobs:
               root: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
               sources: |
                 **/dist/**/*.js
+                **/dist/**/*.mjs
                 **/web.config
                 **/appsettings.json
               tokenPattern: custom
