@@ -91,6 +91,7 @@ jobs:
     steps:
     - checkout: self
       displayName: 'Checkout current repo'
+      persistCredentials: true
     - task: Bash@3
       displayName: Create Git tag
       inputs:
