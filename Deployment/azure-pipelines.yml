@@ -5,7 +5,7 @@ pool:
   vmImage: windows-latest
 
 variables:
-  applicationVersion: 0.5
+  applicationVersion: 0.6
 
 name: $(applicationVersion).$(Rev:r)
 

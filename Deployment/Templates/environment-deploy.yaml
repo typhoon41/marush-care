@@ -84,7 +84,20 @@ jobs:
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
             failOnStderr: true
             displayName: 'Remove App Offline pages'
-            retryCountOnTaskFailure: 3 
+            retryCountOnTaskFailure: 3
+  - job: git_tag
+    displayName: Create Git tag
+    dependsOn: ${{ parameters.deploymentName }}
+    steps:
+    - checkout: self
+      displayName: 'Checkout current repo'
+    - task: Bash@3
+      displayName: Create Git tag
+      inputs:
+        targetType: 'inline'
+        script: |
+          git tag ${{ parameters.environment }}-$(Build.BuildNumber)
+          git push origin ${{ parameters.environment }}-$(Build.BuildNumber)
   - job: 'CleanUp${{ parameters.deploymentName }}'
     displayName: 'Clean up ${{ parameters.deploymentName }}'
     dependsOn: ${{ parameters.deploymentName }}
