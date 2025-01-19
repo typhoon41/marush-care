@@ -10,9 +10,10 @@ import { Subscription, interval } from 'rxjs';
 })
 export class HomeDiscountsComponent implements OnDestroy {
   readonly currentDiscounts = [
-    $localize`:@@discounts.1:<p><strong>8.1. - 26.1.</strong></p><p>Mikro dermo abr. + nein. mezo. + algin. maska<br/><s>8000</s> 6000</p>`,
-    $localize`:@@discounts.2:<p><strong>8.1. - 26.1.</strong></p><p>White up pept. piling + bio. tretman<br/><s>7500</s> 5000</p>`,
-    $localize`:@@discounts.3:<p><strong>8.1. - 26.1.</strong></p><p>Masaža lica + hem. piling + bio. tretman<br/><s>8000</s> 6000</p>`
+    $localize`:@@discounts.1:<p><strong>15.1. - 31.1.</strong></p><p>20% popust<br/>na sve masaže</p>`,
+    $localize`:@@discounts.2:<p><strong>8.1. - 26.1.</strong></p><p>Mikro dermo abr. + nein. mezo. + algin. maska<br/><s>8000</s> 6000</p>`,
+    $localize`:@@discounts.3:<p><strong>8.1. - 26.1.</strong></p><p>White up pept. piling + bio. tretman<br/><s>7500</s> 5000</p>`,
+    $localize`:@@discounts.4:<p><strong>8.1. - 26.1.</strong></p><p>Masaža lica + hem. piling + bio. tretman<br/><s>8000</s> 6000</p>`
   ];
 
   currentDiscountPosition = 0;
