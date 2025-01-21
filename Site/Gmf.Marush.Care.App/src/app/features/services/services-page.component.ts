@@ -20,7 +20,7 @@ export class ServicesPageComponent {
 
   constructor(private readonly meta: Meta, private readonly title: Title) {
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.services.description:Kozmetički salon Marush nudi usluge tretmana lica, sređivanja obrva i trepavica, kao i kombinacije tretmana. Pregled kože lica i konsultacije su besplatni.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.services.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,higijensko čišćenje lica,mezoterapija,dermapen,hijaluron pen,radiotalasni piling,Beograd,Višegradska` });
+    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.services.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,masaža,kombinacije tretmana,higijensko čišćenje lica,mezoterapija,dermapen,hijaluron pen,piling,Beograd,Višegradska` });
     this.title.setTitle($localize`:@@routes.services.title:Marush: Space of Care - usluge`);
   }
 }
