@@ -1,9 +1,9 @@
-import supportedBodyTreatments from './treatments/body-treatments.model';
-import supportedBrowsLashesTreatments from './treatments/brows-lashes.model';
-import supportedCombinationTreatments from './treatments/combination-treatments.model';
-import supportedFaceMassages from './treatments/face-massage.model';
-import supportedFaceTreatments from './treatments/face-treatments.model';
-import supportedWaxing from './treatments/waxing.model';
+import supportedBodyTreatments from './definitions/body-treatments.model';
+import supportedBrowsLashesTreatments from './definitions/brows-lashes.model';
+import supportedCombinationTreatments from './definitions/combination-treatments.model';
+import supportedFaceTreatments from './definitions/face-treatments.model';
+import supportedMassages from './definitions/massages.model';
+import supportedWaxing from './definitions/waxing.model';
 import { IDefineTreatmentGroup } from './types.model';
 
 const supportedTreatments = [
@@ -51,10 +51,10 @@ const supportedTreatments = [
     // },
     {
         key: 'massage',
-        title: $localize`:@@services.massage.title:Masaža lica`,
+        title: $localize`:@@services.massage.title:Masaže`,
         image: 'treatments-massage',
         imageDescription: $localize`:@@services.massage.image-description:Žena uživa u masaži lica`,
-        treatments: supportedFaceMassages
+        treatments: supportedMassages
     }
 ] as IDefineTreatmentGroup[];
 

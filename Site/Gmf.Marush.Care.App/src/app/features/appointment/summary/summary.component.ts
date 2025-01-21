@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IDefineTreatment } from '@shared/models/services/types.model';
+import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 @Component({
@@ -10,11 +10,11 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
     styleUrl: './summary.component.scss'
 })
 export class AppointmentSummaryComponent {
-    @Input({ required: true }) checkedServices!: IDefineTreatment[];
+    @Input({ required: true }) checkedServices!: TreatmentDefinition[];
     @Input({ required: true }) totalCost!: number;
-    @Output() removeSelection = new EventEmitter<IDefineTreatment>();
+    @Output() removeSelection = new EventEmitter<TreatmentDefinition>();
 
-    readonly onRemove = (item: IDefineTreatment) => {
+    readonly onRemove = (item: TreatmentDefinition) => {
         this.removeSelection.emit(item);
     };
 }

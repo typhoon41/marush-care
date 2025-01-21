@@ -2,19 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox.component';
-import supportedTreatments from '@shared/models/services/supported-treatments.model';
-import { IDefineTreatment } from '@shared/models/services/types.model';
-import { MoneyPipe } from '@shared/pipes/money-pipe';
+import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
+import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 
 @Component({
     selector: 'marush-appointment-services-selector',
-    imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent, MoneyPipe],
+    imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent],
     templateUrl: './services-selector.component.html',
     styleUrl: './services-selector.component.scss'
 })
 export class ServicesSelectorComponent {
-    @Input({ required: true }) checkedServices: IDefineTreatment[] = [];
-    @Output() toggleSelection = new EventEmitter<{ item: IDefineTreatment; checked: boolean }>();
+    @Input({ required: true }) checkedServices: TreatmentDefinition[] = [];
+    @Output() toggleSelection = new EventEmitter<{ item: TreatmentDefinition; checked: boolean }>();
     @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
     services = supportedTreatments;
 
@@ -24,9 +23,9 @@ export class ServicesSelectorComponent {
         });
     };
 
-    readonly onTreatmentChanged = (treatment: IDefineTreatment) => ($event: Event) => this.onCheckboxChange(treatment, $event);
+    readonly onTreatmentChanged = (treatment: TreatmentDefinition) => ($event: Event) => this.onCheckboxChange(treatment, $event);
 
-    readonly onCheckboxChange = (item: IDefineTreatment, event: Event) => {
+    readonly onCheckboxChange = (item: TreatmentDefinition, event: Event) => {
         const checkbox = event.target as HTMLInputElement;
         const checked = checkbox.checked;
         const maxAllowed = 4;

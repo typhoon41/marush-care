@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { AppointmentService } from '@features/appointment/appointment-service';
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import marushDetails from '@shared/models/marush-details.model';
-import { IDefineTreatment } from '@shared/models/services/types.model';
+import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { CaptchaService } from '@shared/services/captcha-service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
@@ -26,7 +26,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
   defaultFieldLength = 100;
   globalError = '';
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
-  checkedServices: WritableSignal<FormArray<FormControl<IDefineTreatment>>>;
+  checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
   totalCost: Signal<number>;
 
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
@@ -50,11 +50,11 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
         time: new FormControl('', [Validators.required])
       }),
       duration: new FormControl(0, []),
-      checkedServices: this.formBuilder.array<IDefineTreatment>([]),
+      checkedServices: this.formBuilder.array<TreatmentDefinition>([]),
       sum: new FormControl(0)
     }, { updateOn: 'blur' });
 
-    this.checkedServices = signal(this.form.get('checkedServices') as FormArray<FormControl<IDefineTreatment>>);
+    this.checkedServices = signal(this.form.get('checkedServices') as FormArray<FormControl<TreatmentDefinition>>);
     this.totalCost = computed(() => this.checkedServices().value.reduce((sum, { price }) => sum + price, 0));
 
     afterNextRender(() => {
@@ -63,9 +63,9 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     });
   }
 
-  readonly onRemoveSelection = (item: IDefineTreatment) => this.onToggleSelection(item, false);
+  readonly onRemoveSelection = (item: TreatmentDefinition) => this.onToggleSelection(item, false);
   private readonly getDuration = () => this.checkedServices().value.reduce((total, { duration }) => total + duration, 0) ?? 0;
-  readonly onToggleSelection = (item: IDefineTreatment, checked: boolean) => {
+  readonly onToggleSelection = (item: TreatmentDefinition, checked: boolean) => {
     if (checked) {
       this.checkedServices.update(items => {
         items.push(this.formBuilder.control(item));
@@ -74,7 +74,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
       return;
     }
 
-    const index = this.checkedServices().controls.findIndex(control => control.value.title === item.title);
+    const index = this.checkedServices().controls.findIndex(control => control.value.titleWithDuration() === item.titleWithDuration());
     this.checkedServices.update(items => {
       items.removeAt(index);
       return new FormArray(items.controls);
@@ -91,7 +91,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
     this.form.get('sum')?.setValue(this.totalCost());
     this.form.get('time')?.setValue(`${this.form.get('timeGroup.time')?.value}:00`);
     this.form.get('duration')?.setValue(this.getDuration());
-    this.form.get('treatments')?.setValue(this.checkedServices().value.map(({ title }) => title));
+    this.form.get('treatments')?.setValue(this.checkedServices().value.map((service: TreatmentDefinition) => service.titleWithDuration()));
     this.form.get('serbianTreatments')?.setValue(this.checkedServices().value.map(({ name }) => name));
 
     try {

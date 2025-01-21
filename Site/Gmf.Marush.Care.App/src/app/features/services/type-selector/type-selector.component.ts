@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '@env';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
-import supportedTreatments from '@shared/models/services/supported-treatments.model';
-import { SelectedService } from '@shared/models/services/types.model';
+import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
+import { SelectedService } from '@shared/models/services/treatments/types.model';
 
 @Component({
   selector: 'marush-services-type-selector',

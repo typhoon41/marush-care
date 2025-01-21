@@ -4,9 +4,9 @@ import { AfterViewChecked, Component, ElementRef, Inject, Input, OnChanges, PLAT
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
-import supportedTreatments from '@shared/models/services/supported-treatments.model';
-import { IDefineTreatment, SelectedService } from '@shared/models/services/types.model';
-import { MoneyPipe } from '@shared/pipes/money-pipe';
+import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
+import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
+import { SelectedService } from '@shared/models/services/treatments/types.model';
 
 @Component({
   selector: 'marush-services-treatment-selector',
@@ -18,11 +18,10 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
   @Input({ required: true }) selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
-  treatments: IDefineTreatment[] = [];
+  treatments: TreatmentDefinition[] = [];
   selectedServiceChanging = false;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
-    private readonly moneyPipe: MoneyPipe) {
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router) {
     super();
   }
 
@@ -63,12 +62,4 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
   readonly redirectToAppointment = () => {
     this.router.navigate([this.translateRoute('appointment')]);
   };
-
-  readonly format = (treatment: IDefineTreatment) =>
-    `${treatment.description || ''}${treatment.description ? '<br><br>' : ''}` +
-    `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${treatment.rangedPrice ?
-      treatment.rangedPrice : this.moneyPipe.transform(treatment.price)}`}`
-    + '<br><br>' +
-    `${$localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${treatment.duration}`}` +
-    `${$localize`:@@minutes: minuta`}`;
 }
