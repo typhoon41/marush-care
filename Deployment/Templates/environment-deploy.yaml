@@ -47,7 +47,7 @@ jobs:
             displayName: 'Copy Robots.txt'
             inputs:
                 targetType: inline
-                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/robots.txt"
+                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/robots.txt"
           - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:
