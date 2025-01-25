@@ -1,3 +1,4 @@
+import { REQUEST } from '@angular/core';
 import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
 import { environment } from '@env';
 import express from 'express';
@@ -6,7 +7,9 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 app.use('*', (req, res, next) => {
   angularApp
-    .handle(req)
+    .handle(req, {
+      providers: [{ provide: REQUEST, useValue: req }]
+    })
     .then(response => {
       if (response) {
         writeResponseToNodeResponse(response, res);

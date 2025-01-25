@@ -8,6 +8,7 @@ import { CookieStorage } from './cookie-storage.model';
 export interface ILanguage {
     description: 'SRB' | 'ENG' | 'RUS';
     value: 'sr' | 'en' | 'ru';
+    iso: 'sr_Latn_RS' | 'en_GB' | 'ru_RU';
     datePickerLocale: AirDatepickerLocale;
 }
 
@@ -16,9 +17,9 @@ export default class Language {
     private readonly languageKey = 'language';
     private readonly storage = new CookieStorage();
 
-    readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr', datePickerLocale: localeSr },
-    { description: 'ENG', value: 'en', datePickerLocale: localeEn },
-    { description: 'RUS', value: 'ru', datePickerLocale: localeRu }];
+    readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr', datePickerLocale: localeSr, iso: 'sr_Latn_RS' },
+    { description: 'ENG', value: 'en', datePickerLocale: localeEn, iso: 'en_GB' },
+    { description: 'RUS', value: 'ru', datePickerLocale: localeRu, iso: 'ru_RU' }];
 
     readonly setup = () => {
         let urlLanguage = this.urlLanguage();
