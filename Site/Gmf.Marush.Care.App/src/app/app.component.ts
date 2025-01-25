@@ -3,6 +3,7 @@ import { Component, DestroyRef, Renderer2, afterNextRender, inject } from '@angu
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { environment } from '@env';
+import { setupGoogleAnalytics } from '@shared/models/google/tag-manager';
 import { GlobalLoaderService } from '@shared/services/global-loader.service';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { MenuComponent } from './shared/components/navigation/menu/menu.component';
@@ -22,44 +23,19 @@ export class AppComponent {
     readonly loader: GlobalLoaderService,
     private readonly sizeService: SizeService,
     private readonly renderer: Renderer2) {
-      this.router.events
+    this.router.events
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(routingEvent => {
         loader.intercept(routingEvent.type);
       });
 
-      afterNextRender(() => {
-        if (environment.name === 'Production') {
-          this.setupGoogleAnalytics();
-        }
+    afterNextRender(() => {
+      if (environment.name === 'Production') {
+        setupGoogleAnalytics(this.renderer);
+      }
 
-        new Language().setup();
-        this.sizeService.startTrackingResizeOf(document);
-      });
-    }
-
-  private readonly setupGoogleAnalytics = () => {
-    this.renderer.appendChild(document.body, this.setupScriptTag());
-    this.renderer.appendChild(document.body, this.setupInvocationScript());
-  };
-
-  private readonly setupScriptTag = () => {
-    const result = this.renderer.createElement('script') as HTMLScriptElement;
-    result.type = 'text/javascript';
-    // eslint-disable-next-line no-secrets/no-secrets
-    result.src = 'https://www.googletagmanager.com/gtag/js?id=G-J6MR61F0NH';
-    result.async = true;
-    return result;
-  };
-
-  private readonly setupInvocationScript = () => {
-    const result = this.renderer.createElement('script') as HTMLScriptElement;
-    result.innerHTML = `window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-J6MR61F0NH');`;
-    return result;
-  };
+      new Language().setup();
+      this.sizeService.startTrackingResizeOf(document);
+    });
+  }
 }
