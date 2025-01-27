@@ -5,9 +5,11 @@ import localeRu from 'air-datepicker/locale/ru';
 import localeSr from './air-datepicker.locale.sr';
 import { CookieStorage } from './cookie-storage.model';
 
+export type SupportedLanguage = 'sr' | 'en' | 'ru';
+
 export interface ILanguage {
     description: 'SRB' | 'ENG' | 'RUS';
-    value: 'sr' | 'en' | 'ru';
+    value: SupportedLanguage;
     iso: 'sr_Latn_RS' | 'en_GB' | 'ru_RU';
     datePickerLocale: AirDatepickerLocale;
 }
