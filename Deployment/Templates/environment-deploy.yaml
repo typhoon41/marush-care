@@ -48,6 +48,12 @@ jobs:
             inputs:
                 targetType: inline
                 script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/robots.txt"
+          - task: PowerShell@2
+            displayName: 'Copy Sitemaps'
+            condition: eq(variables['environment'], 'Production')
+            inputs:
+                targetType: inline
+                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/sitemap.xml" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/sitemap.xml"
           - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:

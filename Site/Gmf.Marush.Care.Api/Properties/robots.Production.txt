@@ -6,3 +6,5 @@ Disallow: /sr/klijent-obavešten/
 Disallow: /sr/zahtev-poslat/
 Disallow: /en/request-sent/
 Disallow: /ru/запрос-отправлен/
+
+Sitemap: https://marushcare.com/sitemap.xml

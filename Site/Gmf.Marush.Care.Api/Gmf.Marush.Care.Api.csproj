@@ -24,6 +24,9 @@
     <Content Include="Properties\robots.Test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Properties\sitemap.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Email Templates\appointment-confirmation.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -68,6 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Properties\sitemap.xml" />
     <None Remove="Resources\Email Templates\appointment-confirmation.html" />
     <None Remove="Resources\Email Templates\appointment-rejection.html" />
     <None Remove="Resources\Email Templates\appointment-request.html" />
