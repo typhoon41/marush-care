@@ -1,4 +1,4 @@
-import { PageMetadataService } from '@shared/services/page-metadata.service';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
 import { PageMetadata } from './page-metadata.model';
 
 export abstract class BasePageComponent {

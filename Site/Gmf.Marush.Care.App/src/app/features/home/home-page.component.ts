@@ -2,7 +2,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { environment } from '@env';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';
-import { PageMetadataService } from '@shared/services/page-metadata.service';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
 import { HomeDiscountsComponent } from './discounts/discounts.component';
 import { HomeHeroComponent } from './hero/hero.component';
 import { HomeInstagramComponent } from './instagram/instagram.component';
