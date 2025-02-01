@@ -25,7 +25,7 @@ export class PageMetadataService {
 
         new OpenGraph(metadata, predefinedLanguage, otherLanguages, this.meta).attach();
         new CanonicalUrl(metadata, this.document, predefinedLanguage, otherLanguages).attach();
-        new StructuredData(metadata, this.document).attach();
+        new StructuredData(metadata, this.document, predefinedLanguage).attach();
     };
 
     private readonly setBasic = (metadata: PageMetadata) => {
