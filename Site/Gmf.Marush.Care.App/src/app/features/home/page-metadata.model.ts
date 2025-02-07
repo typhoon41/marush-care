@@ -1,8 +1,13 @@
+/* eslint-disable max-lines */
 /* eslint-disable capitalized-comments */
 /* eslint-disable @stylistic/max-len */
 import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata.model';
 
-export const currentDiscounts = [];
+export const currentDiscounts = [
+    $localize`:@@discounts.1:<p><strong>3.2. - 15.2.</strong></p><p>PRX-T33<br/><br/><s>13.500</s> 10.000</p>`,
+    $localize`:@@discounts.2:<p><strong>3.2. - 15.2.</strong></p><p>Premium higij. + dermapen<br/><br/><s>13.500</s> 10.000</p>`,
+    $localize`:@@discounts.3:<p><strong>3.2. - 15.2.</strong></p><p>Mikro dermo abr.<br/><br/><s>7.500</s> 6.000</p>`
+];
 
 export class HomePageMetadata extends PageMetadata {
     override pathTranslations = () => { return { en: 'home', sr: 'početna', ru: 'начальное' }; };
@@ -11,52 +16,112 @@ export class HomePageMetadata extends PageMetadata {
     override getDescription = () => $localize`:@@routes.home.description:Kozmetički salon Marush: prostor za zdravlje i negu tela. U našem prijatnom okruženju u centru Beograda sprovodimo za Vas kozmetičke procedure nege kože i lica.` as string;
 
     // eslint-disable-next-line max-lines-per-function
-    override getSpecificStructuredData = (baseStructuredData: IStructuredData) =>
-        // const specialAnnouncements = {
-        //     '@type': 'SpecialAnnouncement',
-        //     '@id': 'https://marushcare.com/#discounts',
-        //     name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
-        //     url: 'https://marushcare.com',
-        //     datePosted: '2025-01-27',
-        //     expires: '2025-02-28',
-        //     category: 'https://schema.org/DiscountOffer',
-        //     provider: {
-        //         '@type': 'BeautySalon',
-        //         name: 'Marush: Space of Care'
-        //     },
-        //     subjectOf: [{
-        //         '@type': 'Offer',
-        //         name: 'Luxury Facial Treatment',
-        //         availability: 'https://schema.org/InStock',
-        //         priceValidUntil: '2025-03-01',
-        //         priceCurrency: 'RSD',
-        //         price: '4000',
-        //         priceSpecification: [
-        //             {
-        //               '@type': 'UnitPriceSpecification',
-        //               price: '6000',
-        //               priceCurrency: 'RSD',
-        //               valueAddedTaxIncluded: true,
-        //               eligibleTransactionVolume: {
-        //                 '@type': 'PriceSpecification',
-        //                 name: 'Original Price'
-        //               }
-        //             },
-        //             {
-        //               '@type': 'UnitPriceSpecification',
-        //               price: '4000',
-        //               priceCurrency: 'RSD',
-        //               valueAddedTaxIncluded: true,
-        //               eligibleTransactionVolume: {
-        //                 '@type': 'PriceSpecification',
-        //                 name: 'Discounted Price'
-        //               }
-        //             }
-        //           ]
-        //     }]
-        // };
+    override getSpecificStructuredData = (baseStructuredData: IStructuredData) => {
+        const specialAnnouncements = {
+            '@type': 'SpecialAnnouncement',
+            '@id': 'https://marushcare.com/#discounts',
+            name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
+            url: 'https://marushcare.com',
+            datePosted: '2025-02-07',
+            expires: '2025-02-15',
+            category: 'https://schema.org/DiscountOffer',
+            provider: {
+                '@type': 'BeautySalon',
+                name: 'Marush: Space of Care'
+            },
+            subjectOf: [{
+                '@type': 'Offer',
+                name: $localize`:@@treatments.face.prx-t33:PRX T33 piling`,
+                availability: 'https://schema.org/InStock',
+                priceValidUntil: '2025-02-15',
+                priceCurrency: 'RSD',
+                price: '10.000',
+                priceSpecification: [
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '13.500',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Original Price'
+                        }
+                    },
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '10.000',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Discounted Price'
+                        }
+                    }
+                ]
+            },
+            {
+                '@type': 'Offer',
+                name: `${$localize`:@@treatments.face.premium-hygiene.regular:Premium higijenski tretman`} + ${$localize`:@@treatments.face.dermapen:Dermapen`}`,
+                availability: 'https://schema.org/InStock',
+                priceValidUntil: '2025-02-15',
+                priceCurrency: 'RSD',
+                price: '10.000',
+                priceSpecification: [
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '13.500',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Original Price'
+                        }
+                    },
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '10.000',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Discounted Price'
+                        }
+                    }
+                ]
+            },
+            {
+                '@type': 'Offer',
+                name: $localize`:@@treatments.face.microdermabrasion:Mikrodermoabrazija`,
+                availability: 'https://schema.org/InStock',
+                priceValidUntil: '2025-02-15',
+                priceCurrency: 'RSD',
+                price: '6.000',
+                priceSpecification: [
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '7.500',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Original Price'
+                        }
+                    },
+                    {
+                        '@type': 'UnitPriceSpecification',
+                        price: '10.000',
+                        priceCurrency: 'RSD',
+                        valueAddedTaxIncluded: true,
+                        eligibleTransactionVolume: {
+                            '@type': 'PriceSpecification',
+                            name: 'Discounted Price'
+                        }
+                    }
+                ]
+            }]
+        };
 
-        // baseStructuredData['@graph'].push(specialAnnouncements);
-         baseStructuredData
-    ;
+        baseStructuredData['@graph'].push(specialAnnouncements);
+        return baseStructuredData;
+    };
 }
