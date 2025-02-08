@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
+import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 
 @Component({
     selector: 'marush-home-hero',
@@ -8,12 +8,10 @@ import { BaseRoutingComponent } from '@shared/components/navigation/base-routing
     templateUrl: './hero.component.html',
     styleUrl: './hero.component.scss'
   })
-  export class HomeHeroComponent extends BaseRoutingComponent {
-    constructor(private readonly router: Router) {
-      super();
-    }
+  export class HomeHeroComponent {
+    constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) { }
 
     readonly redirectToAppointments = () => {
-      this.router.navigate([this.translateRoute('appointment')]);
+      this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
     };
   }

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import marushDetails from '@shared/models/marush-details.model';
-import { BaseRoutingComponent } from '../navigation/base-routing.component';
+import { RouteTranslatorPipe } from '../../pipes/routing-translator-pipe';
 
 @Component({
   selector: 'marush-footer',
@@ -11,16 +11,14 @@ import { BaseRoutingComponent } from '../navigation/base-routing.component';
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })
-export class FooterComponent extends BaseRoutingComponent {
+export class FooterComponent {
   marushDetails = marushDetails;
 
-  constructor(private readonly router: Router) {
-    super();
-  }
+  constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) {}
 
   readonly redirectToContact = (event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
-      this.router.navigate([this.translateRoute('contact')]);
+      this.router.navigate([this.routeTranslatorPipe.transform('contact')]);
     }
   };
 }

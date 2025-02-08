@@ -1,25 +1,24 @@
 /* eslint-disable @stylistic/max-len */
 import { Component, HostBinding } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
+import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import marushDetails from '@shared/models/marush-details.model';
+import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
+import { ContactPageMetadata } from './page-metadata.model';
 
 @Component({
   selector: 'marush-contact-page',
-  imports: [RouterModule],
+  imports: [RouterModule, RouteTranslatorPipe],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'
 })
-export class ContactPageComponent extends BaseRoutingComponent {
+export class ContactPageComponent extends BasePageComponent {
   @HostBinding('class') classAttribute: string = 'contact-container row';
 
   marushDetails = marushDetails;
 
-  constructor(private readonly meta: Meta, private readonly title: Title) {
-    super();
-    this.meta.updateTag({ name: 'description', content: $localize`:@@routes.contact.description:Otkrijte oličenje lepote i opuštanja u Marush salonu. Smešten u srcu Beograda, naš salon nudi miran beg od užurbanog gradskog života.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.contact.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,kombinacije tretmana,lifting,masaža,kontakt,centar,Beograd,Višegradska` });
-    this.title.setTitle($localize`:@@routes.contact.title:Marush: Space of Care - kontakt`);
+  constructor(protected override readonly metadataService: PageMetadataService) {
+    super(metadataService, new ContactPageMetadata());
   }
 }

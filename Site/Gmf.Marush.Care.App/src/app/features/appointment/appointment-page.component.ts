@@ -5,9 +5,9 @@ import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveForm
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AppointmentService } from '@features/appointment/appointment-service';
-import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import marushDetails from '@shared/models/marush-details.model';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
+import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 import { CaptchaService } from '@shared/services/captcha-service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
@@ -19,7 +19,7 @@ import { AppointmentSummaryComponent } from './summary/summary.component';
   templateUrl: './appointment-page.component.html',
   styleUrl: './appointment-page.component.scss'
 })
-export class AppointmentPageComponent extends BaseRoutingComponent {
+export class AppointmentPageComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
@@ -30,10 +30,10 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
   totalCost: Signal<number>;
 
   constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
+    private readonly routeTranslatorPipe: RouteTranslatorPipe,
     private readonly captchaService: CaptchaService,
     private readonly renderer: Renderer2,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
-    super();
     this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
     this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.appointment.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,masaža,zakazivanje,slobodan termin,centar,Beograd,Višegradska` });
     this.title.setTitle($localize`:@@routes.appointment.title:Marush: Space of Care - zakazivanje`);
@@ -96,7 +96,7 @@ export class AppointmentPageComponent extends BaseRoutingComponent {
 
     try {
       await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
-      await this.router.navigate([this.translateRoute('request-sent')]);
+      await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')]);
     } catch (error) {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
     }

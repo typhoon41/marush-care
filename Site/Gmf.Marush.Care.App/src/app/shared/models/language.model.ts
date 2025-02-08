@@ -39,7 +39,7 @@ export default class Language {
 
     readonly changeTo = (language: ILanguage) => {
         this.save(language.value);
-        location.replace(`${environment.url}${language.value}/`);
+        location.replace(`${environment.url}/${language.value}/`);
     };
 
     readonly default = this.supportedLanguages.filter(language =>

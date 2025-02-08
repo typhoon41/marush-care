@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
+import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 
 @Component({
   selector: 'marush-home-services',
@@ -8,13 +8,11 @@ import { BaseRoutingComponent } from '@shared/components/navigation/base-routing
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'
 })
-export class HomeServicesComponent extends BaseRoutingComponent {
-  constructor(private readonly router: Router) {
-    super();
-  }
+export class HomeServicesComponent {
+  constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) { }
 
   readonly redirectToServices = () => {
-    this.router.navigate([this.translateRoute('services')]);
+    this.router.navigate([this.routeTranslatorPipe.transform('services')]);
   };
 }
 

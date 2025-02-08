@@ -5,6 +5,7 @@ class MarushDetails {
     readonly phoneNumberAction = 'tel:+381605229593';
     readonly email = 'office@marushcare.com';
     readonly emailAction = 'mailto:office@marushcare.com';
+    readonly name = 'Marush: Space of Care';
 
     readonly phoneContact = () => {
         window.open(this.phoneNumberAction, '_self');

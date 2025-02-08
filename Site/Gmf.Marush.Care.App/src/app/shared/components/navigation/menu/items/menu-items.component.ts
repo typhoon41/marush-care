@@ -2,15 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, EventEmitter, input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import marushDetails from '@shared/models/marush-details.model';
-import { BaseRoutingComponent } from '../../base-routing.component';
+import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
 
 @Component({
   selector: 'marush-menu-items',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RouteTranslatorPipe],
   templateUrl: './menu-items.component.html',
   styleUrl: './menu-items.component.scss'
 })
-export class MenuItemsComponent extends BaseRoutingComponent {
+export class MenuItemsComponent {
   @Output() hideMobileMenu = new EventEmitter<boolean>();
   visible = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers

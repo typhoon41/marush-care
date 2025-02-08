@@ -3,10 +3,10 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AfterViewChecked, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
-import { BaseRoutingComponent } from '@shared/components/navigation/base-routing.component';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { SelectedService } from '@shared/models/services/treatments/types.model';
+import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 
 @Component({
   selector: 'marush-services-treatment-selector',
@@ -14,16 +14,15 @@ import { SelectedService } from '@shared/models/services/treatments/types.model'
   templateUrl: './treatment-selector.component.html',
   styleUrl: './treatment-selector.component.scss'
 })
-export class TreatmentSelectorComponent extends BaseRoutingComponent implements OnChanges, AfterViewChecked {
+export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
   @Input({ required: true }) selectedService: SelectedService = '';
   @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
   @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
   treatments: TreatmentDefinition[] = [];
   selectedServiceChanging = false;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router) {
-    super();
-  }
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
+    private readonly routeTranslatorPipe: RouteTranslatorPipe) {}
 
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnChanges(changes: SimpleChanges) {
@@ -60,6 +59,6 @@ export class TreatmentSelectorComponent extends BaseRoutingComponent implements 
   };
 
   readonly redirectToAppointment = () => {
-    this.router.navigate([this.translateRoute('appointment')]);
+    this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
   };
 }

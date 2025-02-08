@@ -16,8 +16,16 @@ export abstract class PageMetadata {
     abstract pathTranslations: () => Record<SupportedLanguage, string>;
     abstract getSpecificStructuredData: (baseStructuredData: IStructuredData) => IStructuredData;
 
+    protected readonly marushId = (id: string) => `${environment.url}/#${id}`;
+    protected readonly marushSalon = () => {
+        return {
+            '@type': 'BeautySalon',
+            name: marushDetails.name
+        };
+    };
+
     readonly localizedUrl = (desiredLanguage: SupportedLanguage) =>
-        `${environment.url + desiredLanguage}/${this.pathTranslations()[desiredLanguage]}`;
+        `${`${environment.url}/${desiredLanguage}`}/${this.pathTranslations()[desiredLanguage]}`;
 
     readonly getStructuredData = (language: ILanguage) =>
         this.getSpecificStructuredData(this.baseStructuredData(language));
@@ -27,45 +35,37 @@ export abstract class PageMetadata {
             '@context': 'https://schema.org',
             '@graph': [
                 {
-                    '@type': 'BeautySalon',
-                    '@id': 'https://marushcare.com/#salon',
-                    name: 'Marush: Space of Care',
+                    ...this.marushSalon(),
+                    '@id': this.marushId('salon'),
                     currenciesAccepted: 'RSD',
                     paymentAccepted: 'Cash, Credit Card',
-                    url: 'https://marushcare.com',
-                    image: 'https://marushcare.com/files/images/home/main.png',
+                    url: environment.url,
+                    image: `${environment.staticContentUrl}/images/home/main.png`,
                     telephone: marushDetails.phoneNumberAction.substring(4),
                     email: marushDetails.email,
-                    logo: 'https://marushcare.com/assets/images/logo.png',
+                    logo: `${environment.url}/assets/images/logo.png`,
                     founder: {
                         '@type': 'Person',
                         givenName: 'Marija',
                         familyName: 'Dragićević'
                     },
-                    address: {
-                        '@type': 'PostalAddress',
-                        streetAddress: $localize`:@@contact.address:Višegradska 25/7`,
-                        addressLocality: `${$localize`:@@contact.city:Beograd`} - Savski Venac`,
-                        addressRegion: $localize`:@@contact.city:Beograd`,
-                        postalCode: '11129',
-                        addressCountry: 'RS'
-                    },
+                    address: this.address(),
                     openingHours: 'Mo-Sa 12:00-20:00',
                     priceRange: '500RSD - 15000RSD'
                 },
                 {
                     '@type': 'WebSite',
-                    '@id': 'https://marushcare.com/#website',
-                    name: 'Marush: Space of Care',
+                    '@id': this.marushId('website'),
+                    name: marushDetails.name,
                     inLanguage: language.iso.replace('_', '-').replace(/(-[^-]+)$/u, ''),
                     maintainer: {
                         '@type': 'Person',
                         givenName: 'Nikola',
                         familyName: 'Dragićević'
                     },
-                    url: 'https://marushcare.com',
+                    url: environment.url,
                     publisher: {
-                        '@id': 'https://marushcare.com/#salon'
+                        '@id': this.marushId('salon')
                     },
                     potentialAction: [
                         this.addLinkWith($localize`:@@routes.home:početna`, language),
@@ -81,21 +81,9 @@ export abstract class PageMetadata {
                         {
                             '@type': 'ChooseAction',
                             actionOption: [
-                                {
-                                    '@type': 'Language',
-                                    name: 'Serbian',
-                                    alternateName: 'sr'
-                                },
-                                {
-                                    '@type': 'Language',
-                                    name: 'English',
-                                    alternateName: 'en'
-                                },
-                                {
-                                    '@type': 'Language',
-                                    name: 'Russian',
-                                    alternateName: 'ru'
-                                }
+                                this.addLanguage('Serbian', 'sr'),
+                                this.addLanguage('English', 'en'),
+                                this.addLanguage('Russian', 'ru')
                             ]
                         },
                         {
@@ -103,7 +91,7 @@ export abstract class PageMetadata {
                             name: $localize`:@@routes.contact.call:Pozovite salon`,
                             recipient: {
                                 '@type': 'BeautySalon',
-                                name: 'Marush: Space of Care',
+                                name: marushDetails.name,
                                 telephone: marushDetails.phoneNumberAction.substring(4)
                             }
                         },
@@ -112,12 +100,33 @@ export abstract class PageMetadata {
                             name: $localize`:@@routes.contact.email:Pošaljite mail salonu`,
                             recipient: {
                                 '@type': 'BeautySalon',
-                                name: 'Marush: Space of Care',
+                                name: marushDetails.name,
                                 email: marushDetails.email
                             }
                         }
                     ]
                 }]
+        };
+    };
+
+    protected readonly address = () => {
+        return {
+            '@type': 'PostalAddress',
+            addressLocality: `${$localize`:@@contact.city:Beograd`} - Savski Venac`,
+            addressRegion: $localize`:@@contact.city:Beograd`,
+            postalCode: '11129',
+            addressCountry: {
+                '@type': 'Country',
+                name: 'Republic of Serbia'
+            }
+        };
+    };
+
+    private readonly addLanguage = (fullName: string, shortName: string) => {
+        return {
+            '@type': 'Language',
+            name: fullName,
+            alternateName: shortName
         };
     };
 
@@ -128,7 +137,7 @@ export abstract class PageMetadata {
         return {
             '@type': 'ViewAction',
             name: this.capitalize(label),
-            target: `https://marushcare.com/${language.value}/${label}`
+            target: `${environment.url}/${language.value}/${label}`
         };
     };
 }
