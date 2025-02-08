@@ -20,11 +20,16 @@ export class HomePageMetadata extends PageMetadata {
         const specialAnnouncements = {
             '@type': 'SpecialAnnouncement',
             '@id': 'https://marushcare.com/#discounts',
+            announcementLocation: {
+                '@type': 'BeautySalon',
+                name: 'Marush: Space of Care'
+            },
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
+            text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: 'https://marushcare.com',
             datePosted: '2025-02-07',
             expires: '2025-02-15',
-            category: 'https://schema.org/DiscountOffer',
+            category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: {
                 '@type': 'BeautySalon',
                 name: 'Marush: Space of Care'
