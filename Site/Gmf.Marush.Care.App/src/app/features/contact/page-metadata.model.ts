@@ -8,7 +8,7 @@ export class ContactPageMetadata extends PageMetadata {
     override getDescription = () => $localize`:@@routes.contact.description:Otkrijte oličenje lepote i opuštanja u Marush salonu. Smešten u srcu Beograda, naš salon nudi miran beg od užurbanog gradskog života.` as string;
 
     override getSpecificStructuredData = (baseStructuredData: IStructuredData) => {
-        const salonEntity = baseStructuredData['@graph'][0] as Record<string, unknown>;
+        const salonEntity = this.getGraphFrom(baseStructuredData)[0] as Record<string, unknown>;
         salonEntity['geo'] = {
             '@type': 'GeoCoordinates',
             latitude: '44.8007025',

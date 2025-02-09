@@ -24,7 +24,7 @@ export class GalleryPageMetadata extends PageMetadata {
             ]
         };
 
-        baseStructuredData['@graph'].push(imageGallery);
+        this.getGraphFrom(baseStructuredData).push(imageGallery);
         return baseStructuredData;
     };
 

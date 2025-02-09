@@ -34,7 +34,7 @@ export class HomePageMetadata extends PageMetadata {
             ]
         };
 
-        baseStructuredData['@graph'].push(specialAnnouncements);
+        this.getGraphFrom(baseStructuredData).push(specialAnnouncements);
         return baseStructuredData;
     };
 

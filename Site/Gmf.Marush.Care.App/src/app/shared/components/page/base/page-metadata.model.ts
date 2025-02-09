@@ -109,6 +109,8 @@ export abstract class PageMetadata {
         };
     };
 
+    protected readonly getGraphFrom = (baseStructuredData: IStructuredData) => baseStructuredData['@graph'];
+
     protected readonly address = () => {
         return {
             '@type': 'PostalAddress',
@@ -122,6 +124,9 @@ export abstract class PageMetadata {
         };
     };
 
+    protected readonly capitalize = (value: string) => String(value).charAt(0)
+        .toUpperCase() + String(value).slice(1);
+
     private readonly addLanguage = (fullName: string, shortName: string) => {
         return {
             '@type': 'Language',
@@ -129,9 +134,6 @@ export abstract class PageMetadata {
             alternateName: shortName
         };
     };
-
-    private readonly capitalize = (value: string) => String(value).charAt(0)
-        .toUpperCase() + String(value).slice(1);
 
     private readonly addLinkWith = (label: string, language: ILanguage) => {
         return {

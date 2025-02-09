@@ -1,9 +1,11 @@
 /* eslint-disable @stylistic/max-len */
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import marushDetails from '@shared/models/marush-details.model';
 import { SelectedService } from '@shared/models/services/treatments/types.model';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
+import { ServicesPageMetadata } from './page-metadata.model';
 import { TreatmentSelectorComponent } from './treatment-selector/treatment-selector.component';
 import { TypeSelectorComponent } from './type-selector/type-selector.component';
 
@@ -13,14 +15,12 @@ import { TypeSelectorComponent } from './type-selector/type-selector.component';
   templateUrl: './services-page.component.html',
   styleUrl: './services-page.component.scss'
 })
-export class ServicesPageComponent {
+export class ServicesPageComponent extends BasePageComponent {
   @HostBinding('class') classAttribute: string = 'row center-content vertical-stack';
   selectedService: SelectedService = '';
   marushDetails = marushDetails;
 
-  constructor(private readonly meta: Meta, private readonly title: Title) {
-    this.meta.updateTag({ name: 'description', content: $localize`:@@routes.services.description:Kozmetički salon Marush nudi usluge tretmana lica, sređivanja obrva i trepavica, kao i kombinacije tretmana. Pregled kože lica i konsultacije su besplatni.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.services.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,masaža,kombinacije tretmana,higijensko čišćenje lica,mezoterapija,dermapen,hijaluron pen,piling,Beograd,Višegradska` });
-    this.title.setTitle($localize`:@@routes.services.title:Marush: Space of Care - usluge`);
+  constructor(protected override readonly metadataService: PageMetadataService) {
+    super(metadataService, new ServicesPageMetadata());
   }
 }
