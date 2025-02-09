@@ -6,9 +6,9 @@ export class GalleryMetadata {
     private static readonly previewsSuffix = 'previews/';
     static readonly imageLocation = (imageName: string) => `${environment.staticContentUrl}images/gallery/${imageName}`;
     static readonly previewsLocation = (imageName: string) =>
-        `${environment.staticContentUrl}images/gallery/${this.previewsSuffix}/${imageName}`;
+        `${environment.staticContentUrl}images/gallery/${this.previewsSuffix}${imageName}`;
 
-    static filePath = `${this.previewsLocation}metadata.json`;
+    static filePath = `${this.previewsLocation('')}metadata.json`;
 
     constructor(private readonly galleryImages: GalleryImage[]) {
         this.allImages = this.galleryImages.map(image => {
