@@ -1,12 +1,13 @@
-/* eslint-disable @stylistic/max-len */
 import { HttpClient } from '@angular/common/http';
 import { afterNextRender, Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
+import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
 import { Subscription } from 'rxjs';
 import { GalleryImage, GalleryMetadata } from './models/gallery.model';
+import { GalleryPageMetadata } from './page-metadata.model';
 
 @Component({
   selector: 'marush-gallery-page',
@@ -14,7 +15,7 @@ import { GalleryImage, GalleryMetadata } from './models/gallery.model';
   templateUrl: './gallery-page.component.html',
   styleUrl: './gallery-page.component.scss'
 })
-export class GalleryPageComponent implements OnDestroy {
+export class GalleryPageComponent extends BasePageComponent implements OnDestroy {
   @HostBinding('class') classAttribute: string = 'gallery';
   @ViewChild(DialogComponent) detailsDialog!: DialogComponent;
   imageCount = 0;
@@ -27,10 +28,8 @@ export class GalleryPageComponent implements OnDestroy {
   private readonly pageSize = 9;
   readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
-  constructor(private readonly meta: Meta, private readonly title: Title, private readonly http: HttpClient) {
-    this.meta.updateTag({ name: 'description', content: $localize`:@@routes.gallery.description:Prepustite se zadivljujućoj galeriji i sveobuhvatnom pregledu koji prikazuje sve što Salon lepote Marush nudi za Vas.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.gallery.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Višegradska` });
-    this.title.setTitle($localize`:@@routes.gallery.title:Marush: Space of Care - galerija`);
+  constructor(private readonly http: HttpClient, protected override readonly metadataService: PageMetadataService) {
+    super(metadataService, new GalleryPageMetadata());
     afterNextRender(() => {
       this.loadImages();
     });
