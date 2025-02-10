@@ -9,7 +9,7 @@ export class CanonicalUrl {
         const canonicalUrl = this.document.querySelectorAll('link[rel="canonical"]').item(0) as HTMLLinkElement;
 
         if (canonicalUrl) {
-            canonicalUrl.href = this.metadata.localizedUrl(this.predefinedLanguage.value);
+            canonicalUrl.href = this.metadata.localizedPageUrl(this.predefinedLanguage.value);
         }
 
         const alternateUrls = this.document.querySelectorAll('link[rel="alternate"]:not([hreflang="x-default"])');
@@ -17,7 +17,7 @@ export class CanonicalUrl {
         alternateUrls.forEach((alternateUrl, currentIndex) => {
             const alternateLink = alternateUrl as HTMLLinkElement;
             const currentLanguage = this.otherLanguages[currentIndex].value;
-            alternateLink.href = this.metadata.localizedUrl(currentLanguage);
+            alternateLink.href = this.metadata.localizedPageUrl(currentLanguage);
             alternateLink.hreflang = currentLanguage;
         });
     };

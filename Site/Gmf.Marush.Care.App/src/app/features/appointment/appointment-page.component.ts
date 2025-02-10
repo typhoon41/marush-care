@@ -2,14 +2,16 @@
 /* eslint-disable @stylistic/max-len, max-params */
 import { afterNextRender, Component, computed, HostBinding, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AppointmentService } from '@features/appointment/appointment-service';
+import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import marushDetails from '@shared/models/marush-details.model';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 import { CaptchaService } from '@shared/services/captcha-service';
+import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+import { AppointmentPageMetadata } from './page-metadata.model';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
 import { AppointmentSummaryComponent } from './summary/summary.component';
 
@@ -19,7 +21,7 @@ import { AppointmentSummaryComponent } from './summary/summary.component';
   templateUrl: './appointment-page.component.html',
   styleUrl: './appointment-page.component.scss'
 })
-export class AppointmentPageComponent {
+export class AppointmentPageComponent extends BasePageComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
@@ -29,14 +31,12 @@ export class AppointmentPageComponent {
   checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
   totalCost: Signal<number>;
 
-  constructor(private readonly meta: Meta, private readonly title: Title, private readonly router: Router,
+  constructor(protected override readonly metadataService: PageMetadataService, private readonly router: Router,
     private readonly routeTranslatorPipe: RouteTranslatorPipe,
     private readonly captchaService: CaptchaService,
     private readonly renderer: Renderer2,
     private readonly appointmentService: AppointmentService, private readonly formBuilder: NonNullableFormBuilder) {
-    this.meta.updateTag({ name: 'description', content: $localize`:@@routes.appointment.description:Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.` });
-    this.meta.updateTag({ name: 'keywords', content: $localize`:@@routes.appointment.keywords:kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,masaža,zakazivanje,slobodan termin,centar,Beograd,Višegradska` });
-    this.title.setTitle($localize`:@@routes.appointment.title:Marush: Space of Care - zakazivanje`);
+    super(metadataService, new AppointmentPageMetadata());
     this.form = this.formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),
       surname: new FormControl('', [Validators.required, Validators.maxLength(this.defaultFieldLength)]),

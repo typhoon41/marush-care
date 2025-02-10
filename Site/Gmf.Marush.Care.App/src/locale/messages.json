@@ -71,6 +71,8 @@
     "routes.appointment": "zakazivanje",
     "routes.appointment.description": "Zakazivanje vašeg termina u Marush salonu je brzo i lako. Izaberite željenu uslugu, odgovarajuće vreme i prepustite našem stručnom timu sve preostalo.",
     "routes.appointment.keywords": "kozmetički salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,lifting,masaža,zakazivanje,slobodan termin,centar,Beograd,Višegradska",
+    "routes.appointment.metadata.request": "Pošaljite zahtev za rezervaciju termina",
+    "routes.appointment.metadata.response": "Vaš zahtev za rezervaciju termina je poslat",
     "routes.appointment.requested": "zahtev-poslat",
     "routes.appointment.title": "Marush: Space of Care - zakazivanje",
     "routes.contact": "kontakt",

@@ -1,6 +1,7 @@
 /* eslint-disable @stylistic/max-len */
 import { environment } from '@env';
 import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata.model';
+import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
@@ -15,7 +16,7 @@ export class HomePageMetadata extends PageMetadata {
     override getKeywords = () => $localize`:@@routes.home.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,nega kože,otklanjanje akni,otklanjanje ožiljaka,tretmani hiperpigmentacije,tretmani lica popust,konsultacije,pregled kože,kućna nega lica,Beograd,Višegradska` as string;
     override getDescription = () => $localize`:@@routes.home.description:Kozmetički salon Marush: prostor za zdravlje i negu tela. U našem prijatnom okruženju u centru Beograda sprovodimo za Vas kozmetičke procedure nege kože i lica.` as string;
 
-    override getSpecificStructuredData = (baseStructuredData: IStructuredData) => {
+    override getSpecificStructuredData = (baseStructuredData: IStructuredData, _language: ILanguage) => {
         const specialAnnouncements = {
             '@type': 'SpecialAnnouncement',
             '@id': this.marushId('discounts'),

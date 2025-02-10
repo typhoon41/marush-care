@@ -1,5 +1,6 @@
 /* eslint-disable @stylistic/max-len */
 import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata.model';
+import { ILanguage } from '@shared/models/language.model';
 import { GalleryMetadata } from './models/gallery.model';
 
 export class GalleryPageMetadata extends PageMetadata {
@@ -8,7 +9,7 @@ export class GalleryPageMetadata extends PageMetadata {
     override getKeywords = () => $localize`:@@routes.gallery.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Višegradska` as string;
     override getDescription = () => $localize`:@@routes.gallery.description:Prepustite se zadivljujućoj galeriji i sveobuhvatnom pregledu koji prikazuje sve što Salon lepote Marush nudi za Vas.` as string;
 
-    override getSpecificStructuredData = (baseStructuredData: IStructuredData) => {
+    override getSpecificStructuredData = (baseStructuredData: IStructuredData, _language: ILanguage) => {
         const imageGallery = {
             '@type': 'ImageGallery',
             name: $localize`:@@gallery.metadata.title:Foto galerija salona`,
@@ -20,7 +21,7 @@ export class GalleryPageMetadata extends PageMetadata {
                 this.imageFrom('27.jpg', $localize`:@@gallery.metadata.image5:Nanošenje maske`),
                 this.imageFrom('4.jpg', $localize`:@@gallery.metadata.image6:Pre i posle lečenja ožiljaka od akni (period od 6 meseci)`),
                 this.imageFrom('10.jpg', $localize`:@@gallery.metadata.image7:Pre i posle higijenskog tretmana`),
-                this.imageFrom('image1.jpg', $localize`:@@gallery.metadata.image8:Pre i posle Purple Peel 4 tretmana`)
+                this.imageFrom('11.jpg', $localize`:@@gallery.metadata.image8:Pre i posle Purple Peel 4 tretmana`)
             ]
         };
 

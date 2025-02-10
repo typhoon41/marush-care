@@ -1,10 +1,10 @@
 import { IStructuredData, PageMetadata } from './page-metadata.model';
 
 export abstract class ServicesMetadata extends PageMetadata {
-    protected readonly addDefaultServices = (baseStructuredData: IStructuredData) => {
+    protected readonly addDefaultServices = (baseStructuredData: IStructuredData, name: string) => {
         const itemList = {
             '@type': 'ItemList',
-            name: this.capitalize($localize`:@@routes.services:usluge`),
+            name: this.capitalize(name),
             itemListElement: [
                 this.serviceFrom('facial', $localize`:@@services.treatments.title:Tretmani Lica`),
                 this.serviceFrom('combination', $localize`:@@services.treatments-combination.title:Kombinacije Tretmana`),

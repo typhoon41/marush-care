@@ -9,7 +9,7 @@ export class OpenGraph {
     readonly attach = () => {
         this.meta.updateTag({ property: 'og:title', content: this.metadata.getTitle() });
         this.meta.updateTag({ property: 'og:description', content: this.metadata.getDescription() });
-        this.meta.updateTag({ property: 'og:url', content: this.metadata.localizedUrl(this.predefinedLanguage.value) });
+        this.meta.updateTag({ property: 'og:url', content: this.metadata.localizedPageUrl(this.predefinedLanguage.value) });
         this.updateOpenGraphLocale(this.predefinedLanguage, this.otherLanguages);
     };
 

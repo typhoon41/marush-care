@@ -14,7 +14,7 @@ export abstract class PageMetadata {
     abstract getDescription: () => string;
     abstract getKeywords: () => string;
     abstract pathTranslations: () => Record<SupportedLanguage, string>;
-    abstract getSpecificStructuredData: (baseStructuredData: IStructuredData) => IStructuredData;
+    abstract getSpecificStructuredData: (baseStructuredData: IStructuredData, language: ILanguage) => IStructuredData;
 
     protected readonly marushId = (id: string) => `${environment.url}/#${id}`;
     protected readonly marushSalon = () => {
@@ -24,11 +24,11 @@ export abstract class PageMetadata {
         };
     };
 
-    readonly localizedUrl = (desiredLanguage: SupportedLanguage) =>
-        `${`${environment.url}/${desiredLanguage}`}/${this.pathTranslations()[desiredLanguage]}`;
+    readonly localizedPageUrl = (desiredLanguage: SupportedLanguage) =>
+        this.localizedUrl(desiredLanguage, this.pathTranslations()[desiredLanguage]);
 
     readonly getStructuredData = (language: ILanguage) =>
-        this.getSpecificStructuredData(this.baseStructuredData(language));
+        this.getSpecificStructuredData(this.baseStructuredData(language), language);
 
     private readonly baseStructuredData = (language: ILanguage) => {
         return {
@@ -127,6 +127,9 @@ export abstract class PageMetadata {
     protected readonly capitalize = (value: string) => String(value).charAt(0)
         .toUpperCase() + String(value).slice(1);
 
+    protected readonly localizedUrl = (desiredLanguage: SupportedLanguage, path: string) =>
+        `${environment.url}/${desiredLanguage}/${path}`;
+
     private readonly addLanguage = (fullName: string, shortName: string) => {
         return {
             '@type': 'Language',
@@ -139,7 +142,7 @@ export abstract class PageMetadata {
         return {
             '@type': 'ViewAction',
             name: this.capitalize(label),
-            target: `${environment.url}/${language.value}/${label}`
+            target: this.localizedUrl(language.value, label)
         };
     };
 }

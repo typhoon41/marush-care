@@ -71,6 +71,8 @@
     "routes.appointment": "назначение",
     "routes.appointment.description": "Запланировать встречу в Marush можно быстро и легко. Просто выберите желаемую услугу, выберите удобное время, а обо всем остальном позаботится наша команда экспертов.",
     "routes.appointment.keywords": "салон красоты,уход за лицом,брови,ресницы,комбинированное лечение,лифтинг,процедуры против целлюлита,назначение,планирование процедуры,центр,Белград,Вышеградская",
+    "routes.appointment.metadata.request": "Отправьте запрос на запись на прием",
+    "routes.appointment.metadata.response": "Ваш запрос на запись на прием отправлен",
     "routes.appointment.requested": "запрос-отправлен",
     "routes.appointment.title": "Marush: Space of Care - назначение",
     "routes.contact": "контакт",
