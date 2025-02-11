@@ -91,7 +91,7 @@ const supportedMassages = [
     }),
     new TreatmentDefinition({
         title: $localize`:@@treatments.massages.tissue:Masaža dubokih tkiva`,
-        name: 'Aromaterapija (90 minuta)',
+        name: 'Masaža dubokih tkiva (90 minuta)',
         description: $localize`:@@treatments.massages.tissue.description:Dubinska masaža cilja na duboke slojeve mišića i vezivnog tkiva kako bi ti obezbedila olakšanje od hroničnog bola i mišićne napetosti.`,
         duration: 90,
         rangedDuration: '45 - 90',

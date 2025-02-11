@@ -20,7 +20,8 @@ export abstract class PageMetadata {
     protected readonly marushSalon = () => {
         return {
             '@type': 'BeautySalon',
-            name: marushDetails.name
+            name: marushDetails.name,
+            url: environment.url
         };
     };
 
@@ -39,7 +40,6 @@ export abstract class PageMetadata {
                     '@id': this.marushId('salon'),
                     currenciesAccepted: 'RSD',
                     paymentAccepted: 'Cash, Credit Card',
-                    url: environment.url,
                     image: `${environment.staticContentUrl}/images/home/main.png`,
                     telephone: marushDetails.phoneNumberAction.substring(4),
                     email: marushDetails.email,

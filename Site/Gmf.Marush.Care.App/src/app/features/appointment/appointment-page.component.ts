@@ -12,6 +12,7 @@ import { CaptchaService } from '@shared/services/captcha-service';
 import { PageMetadataService } from '@shared/services/metadata/page-metadata.service';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import { AppointmentPageMetadata } from './page-metadata.model';
+import { RequestUser } from './request-sent/request-user.model';
 import { ServicesSelectorComponent } from './services-selector/services-selector.component';
 import { AppointmentSummaryComponent } from './summary/summary.component';
 
@@ -96,7 +97,7 @@ export class AppointmentPageComponent extends BasePageComponent {
 
     try {
       await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
-      await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')]);
+      await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')], { state: RequestUser.from(this.form) });
     } catch (error) {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
     }
