@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
+import marushDetails from '@shared/models/marush-details.model';
 import { SizeService } from '@shared/services/size.service';
 import { RouteTranslatorPipe } from '../../../pipes/routing-translator-pipe';
 import { HamburgerButtonComponent } from '../hamburger/button.component';
@@ -18,6 +19,7 @@ import { MenuItemsComponent } from './items/menu-items.component';
 })
 export class MenuComponent {
   environment = environment;
+  marushDetails = marushDetails;
   showMobileMenu = false;
   logoHovered = false;
   isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);

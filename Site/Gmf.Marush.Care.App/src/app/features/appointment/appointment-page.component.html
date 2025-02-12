@@ -4,14 +4,16 @@
         (toggleSelection)="onToggleSelection($event.item, $event.checked)"
         class="column-12"></marush-appointment-services-selector>
     <marush-appointment-summary [class.hidden]="!checkedServices().value.length"
-        [checkedServices]="checkedServices().value" [totalCost]="totalCost()" (removeSelection)="onRemoveSelection($event)"
-        class="summary column-12"></marush-appointment-summary>
-    <marush-appointment-customer-details [class.hidden]="!checkedServices().value.length" [formGroup]="form"></marush-appointment-customer-details>
+        [checkedServices]="checkedServices().value" [totalCost]="totalCost()"
+        (removeSelection)="onRemoveSelection($event)" class="summary column-12"></marush-appointment-summary>
+    <marush-appointment-customer-details [class.hidden]="!checkedServices().value.length"
+        [formGroup]="form"></marush-appointment-customer-details>
     <div [class.hidden]="!checkedServices().value.length" class="column-12 vertical-stack center-content">
         <p [class.hidden]="!globalError" class="invalid-field-message">{{globalError}}</p>
         <button type="submit" class="main-action"><span i18n="@@schedule">Zakaži</span></button>
     </div>
-    <p class="disclaimer column-12 offset-tablet-3 column-tablet-6">{{disclaimer}}
-        <a [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
+    <p class="disclaimer column-12 offset-tablet-3 column-tablet-6" id="appointment-disclaimer">{{disclaimer}}
+        <a aria-labelledby="appointment-disclaimer"
+            [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
     </p>
 </form>
