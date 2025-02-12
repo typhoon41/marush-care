@@ -25,7 +25,7 @@ export class RequestUser {
         phone: form.get('phone')?.value ?? '',
         sum: new MoneyPipe().transform(form.get('sum')?.value ?? 0),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        time: `${toIsoFormat(form.get('date')?.value!)}T${form.get('time')?.value}+01:00`,
+        time: `${toIsoFormat(form.get('date')?.value!)}T${form.get('time')?.value}`,
         services: (form.get('treatments')?.value as unknown as string[]).join(' & ')
     } as IRepresentUserRequest);
 }
