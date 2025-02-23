@@ -1,4 +1,5 @@
-<div class="panel-header clickable column-12 {{panelHeaderClass}}" (click)="toggle()" (keydown)="toggle($event)" tabindex="0" #panel>
+<div class="panel-header clickable column-12 {{panelHeaderClass}}" (click)="toggle()" (keydown)="toggle($event)"
+    tabindex="0" #panel [ariaLabel]="title">
     <span class="description">{{title}}</span>
     <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
 </div>
