@@ -1,13 +1,15 @@
 <nav class="main-menu aligned-centrally stretch-between">
-    <a class="logo-container" routerLink="{{'home' | translateRoute}}" routerLinkActive="active" #rla="routerLinkActive" [ariaLabel]="marushDetails.name"
-        ariaCurrentWhenActive="page" tabindex="0" (click)="hideMobileMenu()" [title]="marushDetails.name">
+    <a class="logo-container" routerLink="{{'home' | translateRoute}}" routerLinkActive="active" #rla="routerLinkActive"
+        [ariaLabel]="marushDetails.name" ariaCurrentWhenActive="page" tabindex="0" (click)="hideMobileMenu()"
+        [title]="marushDetails.name">
         <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Logo" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
     @if(sizeService.lastKnownSize()) {
         @if(isMobile()) {
-            <marush-hamburger-button [(collapsed)]="showMobileMenu"></marush-hamburger-button>
+            <marush-hamburger-button [(collapsed)]="showMobileMenu" [ariaExpanded]="showMobileMenu" role="button"
+                aria-controls="mobile-menu"></marush-hamburger-button>
         }
 
         @else {
@@ -24,5 +26,6 @@
 </nav>
 
 @if(isMobile()) {
-<marush-mobile-menu [collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
+    <marush-mobile-menu id="mobile-menu" [collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()"
+        class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
 }
