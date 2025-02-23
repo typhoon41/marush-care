@@ -1,24 +1,25 @@
 <section class="previews-container stretch-equally">
     @for(image of fetchedImages; track image.name; let imageIndex = $index)
     {
-    <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
-        [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
-        (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
+        <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
+            [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
+            (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
     }
 </section>
 
 @if(fetchedCount !== imageCount)
 {
-<button type="button" class="main-action" (click)="loadMoreImages()">
-    <span i18n="@@gallery.load-more">Učitaj još slika</span>
-</button>
+    <button type="button" class="main-action" (click)="loadMoreImages()">
+        <span i18n="@@gallery.load-more">Učitaj još slika</span>
+    </button>
 }
 
 <marush-dialog [bodyClass]="'stretch gallery-dialog-body'" [footerClass]="'gallery-dialog-footer'">
     <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
-    <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"><span
+    <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"
+        i18n-aria-label="@@content.previous" aria-label="Prethodni sadržaj"><span
             class="arrow-icon left"></span></button>
-    <button type="button" slot="actions" class="slide-action main-action" (click)="next()"><span
-            class="arrow-icon right"></span></button>
+    <button type="button" slot="actions" class="slide-action main-action" (click)="next()"
+        i18n-aria-label="@@content.next" aria-label="Sledeći sadržaj"><span class="arrow-icon right"></span></button>
 </marush-dialog>

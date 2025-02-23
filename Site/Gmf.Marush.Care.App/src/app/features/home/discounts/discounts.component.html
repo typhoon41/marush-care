@@ -1,18 +1,22 @@
 @if (currentDiscounts.length){
-<div class="discounts-placeholder aligned-centrally stretch-between">
-  <img class="decoration upper" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration" alt="Dekorativni listovi u grafici" />
-  <div class="content">
-    @if (showSlider()){
-    <button type="button" class="slide-action" (click)="previous()"><span class="arrow-icon left"></span></button>
-    }
-    @for (discount of currentDiscounts; track $index) {
-    <div class="description animate-fading header-centered" [innerHTML]="discount"
-      [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
-    }
-    @if (showSlider()){
-    <button type="button" class="slide-action" (click)="next()"><span class="arrow-icon right"></span></button>
-    }
+  <div class="discounts-placeholder aligned-centrally stretch-between">
+    <img class="decoration upper" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration"
+      alt="Dekorativni listovi u grafici" />
+    <div class="content">
+      @if (showSlider()){
+        <button type="button" class="slide-action" (click)="previous()" i18n-aria-label="@@content.previous"
+          aria-label="Prethodni sadržaj"><span class="arrow-icon left"></span></button>
+        }
+      @for (discount of currentDiscounts; track $index) {
+        <div class="description animate-fading header-centered" [innerHTML]="discount"
+          [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
+        }
+      @if (showSlider()){
+        <button type="button" class="slide-action" (click)="next()" i18n-aria-label="@@content.next"
+          aria-label="Sledeći sadržaj"><span class="arrow-icon right"></span></button>
+        }
+    </div>
+    <img class="decoration" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration"
+      alt="Dekorativni listovi u grafici" />
   </div>
-  <img class="decoration" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration" alt="Dekorativni listovi u grafici" />
-</div>
 }
