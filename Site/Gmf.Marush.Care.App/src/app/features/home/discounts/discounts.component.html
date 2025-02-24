@@ -1,5 +1,5 @@
 @if (currentDiscounts.length){
-  <div class="discounts-placeholder aligned-centrally stretch-between">
+  <div class="discounts-placeholder aligned-centrally stretch-between" role="complementary">
     <img class="decoration upper" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration"
       alt="Dekorativni listovi u grafici" />
     <div class="content">
@@ -8,7 +8,7 @@
           aria-label="Prethodni sadržaj"><span role="img" class="arrow-icon left"></span></button>
         }
       @for (discount of currentDiscounts; track $index) {
-        <div class="description animate-fading header-centered" [innerHTML]="discount"
+        <div class="description animate-fading header-centered" [innerHTML]="discount" role="alert"
           [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
         }
       @if (showSlider()){

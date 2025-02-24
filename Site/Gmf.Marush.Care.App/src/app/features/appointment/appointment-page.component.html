@@ -12,7 +12,7 @@
         <p [class.hidden]="!globalError" class="invalid-field-message">{{globalError}}</p>
         <button type="submit" class="main-action"><span i18n="@@schedule">Zakaži</span></button>
     </div>
-    <p class="disclaimer column-12 offset-tablet-3 column-tablet-6" id="appointment-disclaimer">{{disclaimer}}
+    <p class="disclaimer column-12 offset-tablet-3 column-tablet-6" id="appointment-disclaimer" role="alert">{{disclaimer}}
         <a aria-labelledby="appointment-disclaimer"
             [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
     </p>

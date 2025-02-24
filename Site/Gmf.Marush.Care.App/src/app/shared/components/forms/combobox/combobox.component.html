@@ -8,7 +8,7 @@
         @else {
         <span class="selected-value ellipsis placeholder">{{placeholder}}</span>
         }
-        <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
+        <span role="img" class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
     </button>
     <ul class="dropdown clickable column-12" role="listbox" tabindex="-1"
         [ngClass]="{'collapsed': collapsed}" role="listbox" aria-hidden="true"
@@ -24,6 +24,6 @@
     </ul>
     @if(invalid)
     {
-        <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>
+        <p class="invalid-field-message" i18n="@@validation.required" aria-live="polite">Ovo je obavezno polje</p>
     }
 </div>
