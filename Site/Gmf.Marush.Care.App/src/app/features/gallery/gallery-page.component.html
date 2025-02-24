@@ -18,8 +18,9 @@
     <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
     <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"
-        i18n-aria-label="@@content.previous" aria-label="Prethodni sadržaj"><span
+        i18n-aria-label="@@content.previous" aria-label="Prethodni sadržaj"><span role="img"
             class="arrow-icon left"></span></button>
     <button type="button" slot="actions" class="slide-action main-action" (click)="next()"
-        i18n-aria-label="@@content.next" aria-label="Sledeći sadržaj"><span class="arrow-icon right"></span></button>
+        i18n-aria-label="@@content.next" aria-label="Sledeći sadržaj"><span role="img"
+            class="arrow-icon right"></span></button>
 </marush-dialog>

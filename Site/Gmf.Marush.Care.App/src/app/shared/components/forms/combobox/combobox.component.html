@@ -1,5 +1,5 @@
 <div class="combo-box" role="combobox" [attr.aria-controls]="containerId()" aria-haspopup="listbox" [formGroup]="formGroup"
-    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}">
+    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}" aria-required="true">
     <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
         (click)="toggleDropdown()" (keydown)="onKey($event)">
         @if(selectedItem){
