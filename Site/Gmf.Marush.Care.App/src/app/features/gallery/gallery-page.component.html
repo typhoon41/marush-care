@@ -3,7 +3,7 @@
     {
         <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
             [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
-            (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
+            (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" role="button" />
     }
 </section>
 
