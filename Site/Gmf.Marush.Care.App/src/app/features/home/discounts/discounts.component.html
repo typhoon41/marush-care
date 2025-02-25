@@ -1,7 +1,6 @@
 @if (currentDiscounts.length){
   <div class="discounts-placeholder aligned-centrally stretch-between" role="complementary">
-    <img class="decoration upper" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration"
-      alt="Dekorativni listovi u grafici" />
+    <img class="decoration upper" src="/assets/images/home/discount.svg" alt="" />
     <div class="content">
       @if (showSlider()){
         <button type="button" class="slide-action" (click)="previous()" i18n-aria-label="@@content.previous"
@@ -16,7 +15,6 @@
           aria-label="Sledeći sadržaj"><span role="img" class="arrow-icon right"></span></button>
         }
     </div>
-    <img class="decoration" src="/assets/images/home/discount.svg" i18n-alt="@@home.discounts.decoration"
-      alt="Dekorativni listovi u grafici" />
+    <img class="decoration" src="/assets/images/home/discount.svg" alt="" />
   </div>
 }
