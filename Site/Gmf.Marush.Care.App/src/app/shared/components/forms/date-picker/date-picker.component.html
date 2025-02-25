@@ -1,9 +1,9 @@
 <div class="column-12" [formGroup]="form">
     <input [formControlName]="name" #date readonly class="field" type="text" class="column-12"
-    [placeholder]="placeholder" (focus)="toggleDatePicker()">
+    [placeholder]="placeholder" [ariaLabel]="placeholder" (focus)="toggleDatePicker()" [attr.aria-required]="required ? 'true' : null">
 
     @if(required)
     {
-        <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>
+        <p class="invalid-field-message" i18n="@@validation.required" aria-live="polite">Ovo je obavezno polje</p>
     }
 </div>

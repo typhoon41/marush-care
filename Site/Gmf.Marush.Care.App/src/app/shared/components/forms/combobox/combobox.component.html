@@ -1,5 +1,5 @@
 <div class="combo-box" role="combobox" [attr.aria-controls]="containerId()" aria-haspopup="listbox" [formGroup]="formGroup"
-    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}">
+    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}" aria-required="true">
     <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
         (click)="toggleDropdown()" (keydown)="onKey($event)">
         @if(selectedItem){
@@ -8,7 +8,7 @@
         @else {
         <span class="selected-value ellipsis placeholder">{{placeholder}}</span>
         }
-        <span class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
+        <span role="img" class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
     </button>
     <ul class="dropdown clickable column-12" role="listbox" tabindex="-1"
         [ngClass]="{'collapsed': collapsed}" role="listbox" aria-hidden="true"
@@ -24,6 +24,6 @@
     </ul>
     @if(invalid)
     {
-        <p class="invalid-field-message" i18n="@@validation.required">Ovo je obavezno polje</p>
+        <p class="invalid-field-message" i18n="@@validation.required" aria-live="polite">Ovo je obavezno polje</p>
     }
 </div>

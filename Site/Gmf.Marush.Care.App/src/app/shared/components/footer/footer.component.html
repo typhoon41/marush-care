@@ -1,6 +1,6 @@
 <footer class="main-footer row center-content">
     <div class="group-container column-12 column-tablet-6 column-desktop-3 tablet-right-aligned">
-        <img class="decoration" src="/assets/images/footer/decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
+        <img class="decoration" src="/assets/images/footer/decoration.svg" alt="" />
     </div>
     <section class="group-container row column-12 column-tablet-6 column-desktop-3 vertical-stack tablet-left-aligned">
         <div class="working-hours-group">
@@ -25,18 +25,18 @@
     </section>
     <section class="group-container contact-group-container row column-12 column-tablet-6 column-desktop-3 vertical-stack tablet-right-aligned">
         <div class="contact-group">
-            <h4 class="title" i18n="@@address">ADRESA</h4>
-            <address class="contact clickable" (click)="redirectToContact()" tabindex="0"
-                (keydown)="redirectToContact($event)">
+            <h4 id="footer-address" class="title" i18n="@@address">ADRESA</h4>
+            <address class="contact clickable" (click)="redirectToContact()" tabindex="0" aria-labelledby="footer-address"
+            (keydown)="redirectToContact($event)" role="button">
                 <span i18n="@@contact.address">Višegradska 25/7</span>, <span i18n="@@contact.city">Beograd</span>
             </address>
-            <h4 class="title" i18n="@@mobile">MOBILNI</h4>
-            <a class="contact" [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
-            <h4 class="title" i18n="@@email">Email</h4>
-            <a class="contact" [href]="marushDetails.emailAction">{{marushDetails.email}}</a>
+            <h4 class="title" i18n="@@mobile" id="footer-mobile">MOBILNI</h4>
+            <a class="contact" [href]="marushDetails.phoneNumberAction" aria-labelledby="footer-mobile">{{marushDetails.phoneNumber}}</a>
+            <h4 class="title" i18n="@@email" id="footer-email">Email</h4>
+            <a class="contact" [href]="marushDetails.emailAction" aria-labelledby="footer-email">{{marushDetails.email}}</a>
         </div>
     </section>
     <div class="group-container last-group-container column-12 column-tablet-6 column-desktop-3 tablet-left-aligned">
-        <img class="decoration" src="/assets/images/footer/decoration.svg" i18n-alt="@@plants.decoration" alt="Biljne dekoracije u grafici" />
+        <img class="decoration" src="/assets/images/footer/decoration.svg" alt="" />
     </div>
 </footer>
