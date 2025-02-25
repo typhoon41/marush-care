@@ -5,10 +5,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<p><strong>12.2. - 14.2.</strong></p><p>20% popusta na sve usluge za sve koji su single!</p>`,
-    $localize`:@@discounts.2:<p><strong>3.2. - 15.2.</strong></p><p>PRX-T33<br/><br/><s>13.500</s> 10.000</p>`,
-    $localize`:@@discounts.3:<p><strong>3.2. - 15.2.</strong></p><p>Premium higij. + dermapen<br/><br/><s>13.500</s> 10.000</p>`,
-    $localize`:@@discounts.4:<p><strong>3.2. - 15.2.</strong></p><p>Mikro dermo abr.<br/><br/><s>7.500</s> 6.000</p>`
+    $localize`:@@discounts.1:<p><strong>17.2. - 28.2.</strong></p><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -23,17 +20,14 @@ export class HomePageMetadata extends PageMetadata {
             '@id': this.marushId('discounts'),
             announcementLocation: this.marushSalon(),
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
-            text: $localize`:@@discounts.1:<p><strong>12.2. - 14.2.</strong></p><p>20% popusta na sve usluge za sve koji su single!</p>`,
-            // $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
+            text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-02-07',
-            expires: '2025-02-15',
+            datePosted: '2025-02-17',
+            expires: '2025-02-28',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer($localize`:@@treatments.face.prx-t33:PRX T33 piling`, '2025-02-15', '13500', '10000'),
-                this.offer(`${$localize`:@@treatments.face.premium-hygiene.regular:Premium higijenski tretman`} + ${$localize`:@@treatments.face.dermapen:Dermapen`}`, '2025-02-15', '13500', '10000'),
-                this.offer($localize`:@@treatments.face.microdermabrasion:Mikrodermoabrazija`, '2025-02-15', '7500', '6000')
+                this.offer($localize`:@@discounts.1:<p><strong>17.2. - 28.2.</strong></p><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`, '2025-02-28', '6500', '5500')
             ]
         };
 
