@@ -20,7 +20,7 @@ $radius: 24px;
 	@include breakpoints.apply-from-desktop() {
 		$placeholder-desktop-gap: 30px;
 		width: 282px;
-		margin: 0 $placeholder-desktop-gap $placeholder-desktop-gap $placeholder-desktop-gap;
+		margin: 0 $placeholder-desktop-gap $placeholder-desktop-gap;
 	}
 
 	.image {
