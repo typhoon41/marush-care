@@ -26,6 +26,10 @@ export const serverRoutes: ServerRoute[] = [
         renderMode: RenderMode.Client
     },
     {
+        path: serverSideRoute('home'),
+        renderMode: RenderMode.Server
+    },
+    {
         path: '**',
         renderMode: RenderMode.Server
     }

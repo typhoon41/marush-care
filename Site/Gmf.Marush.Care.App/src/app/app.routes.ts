@@ -7,7 +7,7 @@ export class RoutingDefinition {
     readonly translateRoute = (key: string) => `/${this.routes.filter(route => route.key === key)[0].path}`;
     readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>) => ({
         key,
-        path,
+        path: encodeURIComponent(path),
         loadComponent: loadCallback
     } as TranslatedRoute);
 
@@ -19,7 +19,7 @@ export class RoutingDefinition {
             key: 'default',
             path: '',
             pathMatch: 'full',
-            redirectTo: this.home()
+            redirectTo: encodeURIComponent(this.home())
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
