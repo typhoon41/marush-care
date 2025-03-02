@@ -21,6 +21,11 @@ jobs:
         displayName: 'Set .Net version'
         inputs:
           version: ${{ parameters.dotNetVersion }}
+          
+      - task: UseNode@1
+        inputs:
+          version: '22.x'
+          
       - task: Npm@1
         displayName: 'Install node modules'
         inputs:
