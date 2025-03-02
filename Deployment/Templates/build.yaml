@@ -23,6 +23,7 @@ jobs:
           version: ${{ parameters.dotNetVersion }}
           
       - task: UseNode@1
+        displayName: 'Set Node version'
         inputs:
           version: '22.x'
           
