@@ -9,7 +9,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 })
 export class ImageLoaderComponent implements OnChanges {
     @Input({ required: true }) url: string = '';
-    @Input({ required: true }) description: string = '';
+    @Input() description: string = '';
     @Input() givenClass: string = '';
     @Input() selectable: boolean = false;
 

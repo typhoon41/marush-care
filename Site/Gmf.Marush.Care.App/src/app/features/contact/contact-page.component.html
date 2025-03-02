@@ -1,13 +1,18 @@
-<iframe class="map column-12 column-desktop-7" role="complementary"
-    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2749.7614612598522!2d20.465543783798303!3d44.81472959318799!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fa594a8c62eba5%3A0xfbd21ceb45f17c8d!2sMarush%20-%20Space%20of%20care!5e0!3m2!1ssr!2srs!4v1715439194315!5m2!1ssr!2srs"
-    loading="lazy" referrerpolicy="no-referrer"></iframe>
+<h1 class="screen-readers-only" i18n="@@contact.title">Kontakt podaci</h1>
+<div class="column-12 column-desktop-7" role="complementary">
+    <iframe class="map column-12"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2749.7614612598522!2d20.465543783798303!3d44.81472959318799!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3fa594a8c62eba5%3A0xfbd21ceb45f17c8d!2sMarush%20-%20Space%20of%20care!5e0!3m2!1ssr!2srs!4v1715439194315!5m2!1ssr!2srs"
+        loading="lazy" referrerpolicy="no-referrer"></iframe>
+</div>
 
 <div class="contact row column-12 offset-desktop-1 column-desktop-4">
     <div class="column-12 column-tablet-6 column-desktop-12 metadata">
         <h4 class="title" i18n="@@mobile" id="contact-mobile">MOBILNI</h4>
-        <a class="details" [href]="marushDetails.phoneNumberAction" aria-labelledby="contact-mobile">{{marushDetails.phoneNumber}}</a>
+        <a class="details" [href]="marushDetails.phoneNumberAction"
+            aria-labelledby="contact-mobile">{{marushDetails.phoneNumber}}</a>
         <h4 class="title" i18n="@@email" id="contact-email">Email</h4>
-        <a class="details" [href]="marushDetails.emailAction" aria-labelledby="contact-email">{{marushDetails.email}}</a>
+        <a class="details" [href]="marushDetails.emailAction"
+            aria-labelledby="contact-email">{{marushDetails.email}}</a>
         <h4 class="title" i18n="@@address">ADRESA</h4>
         <address class="address details">
             <p class="line" i18n="@@contact.address">Višegradska 25/7</p>
@@ -15,8 +20,10 @@
         </address>
     </div>
     <p class="column-12 column-tablet-6 column-desktop-12 disclaimer details">
-        <span i18n="@@contact.disclaimer" id="appointment-explanation">Svoj tretman možete zakazati pozivom, porukom (Viber, WhatsApp, SMS), mailom ili na stranici </span>
-        <a class="appointment-action" routerLink="{{'appointment' | translateRoute }}" aria-labelledby="appointment-explanation">
+        <span i18n="@@contact.disclaimer" id="appointment-explanation">Svoj tretman možete zakazati pozivom, porukom
+            (Viber, WhatsApp, SMS), mailom ili na stranici </span>
+        <a class="appointment-action" routerLink="{{'appointment' | translateRoute }}"
+            aria-labelledby="appointment-explanation">
             <span i18n="@@routes.appointment">zakazivanje</span>
         </a>
     </p>

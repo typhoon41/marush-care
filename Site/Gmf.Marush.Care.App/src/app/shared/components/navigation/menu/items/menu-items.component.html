@@ -10,10 +10,10 @@
     [tabIndex]="tabIndex()">
     <span i18n="@@routes.appointment">zakazivanje</span>
 </a>
-<a class="action" [href]="marushDetails.priceListUrl()" target="_blank" [tabIndex]="tabIndex()">
-    <span i18n="@@pricelist">cenovnik</span>
-</a>
 <a class="action last" routerLink="{{'contact' | translateRoute}}" routerLinkActive="active" (click)="hideMenu()"
     [tabIndex]="tabIndex()">
     <span i18n="@@routes.contact">kontakt</span>
+</a>
+<a class="action" [href]="marushDetails.priceListUrl()" target="_blank" [tabIndex]="tabIndex()">
+    <span i18n="@@pricelist">cenovnik | PDF</span>
 </a>

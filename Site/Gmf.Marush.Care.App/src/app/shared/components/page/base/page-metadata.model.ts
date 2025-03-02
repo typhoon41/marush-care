@@ -75,7 +75,7 @@ export abstract class PageMetadata {
                         this.addLinkWith($localize`:@@routes.contact:kontakt`, language),
                         {
                             '@type': 'DownloadAction',
-                            name: this.capitalize($localize`:@@pricelist:cenovnik`),
+                            name: this.capitalize($localize`:@@pricelist:cenovnik | PDF`),
                             target: marushDetails.priceListUrl()
                         },
                         {

@@ -2,7 +2,7 @@
     <a class="logo-container" routerLink="{{'home' | translateRoute}}" routerLinkActive="active" #rla="routerLinkActive"
         [ariaLabel]="marushDetails.name" ariaCurrentWhenActive="page" tabindex="0" (click)="hideMobileMenu()"
         [title]="marushDetails.name">
-        <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Logo" (mouseover)="logoHovered = true"
+        <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Marush: Space of Care - idi na početnu" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 

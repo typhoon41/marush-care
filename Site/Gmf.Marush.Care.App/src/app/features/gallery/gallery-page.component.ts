@@ -26,7 +26,6 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
   selectedImageIndex: number | undefined;
   private subscription: Subscription | undefined;
   private readonly pageSize = 9;
-  readonly imageDescriptions = $localize`:@@gallery.image.description:Galerija: slike iz salona`;
 
   constructor(private readonly http: HttpClient, protected override readonly metadataService: PageMetadataService) {
     super(metadataService, new GalleryPageMetadata());

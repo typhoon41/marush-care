@@ -1,7 +1,7 @@
 <section class="previews-container stretch-equally">
     @for(image of fetchedImages; track image.name; let imageIndex = $index)
     {
-        <marush-image-loader class="preview-image-placeholder center-content" [description]="imageDescriptions"
+        <marush-image-loader class="preview-image-placeholder center-content"
             [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
             (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" role="button" />
     }
@@ -15,7 +15,7 @@
 }
 
 <marush-dialog [bodyClass]="'stretch gallery-dialog-body'" [footerClass]="'gallery-dialog-footer'">
-    <marush-image-loader class="stretch center-content" [description]="imageDescriptions" slot="body"
+    <marush-image-loader class="stretch center-content" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
     <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"
         i18n-aria-label="@@content.previous" aria-label="Prethodni sadržaj"><span role="img"

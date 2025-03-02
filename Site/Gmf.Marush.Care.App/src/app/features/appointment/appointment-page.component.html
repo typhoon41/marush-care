@@ -1,5 +1,5 @@
-<h2 id="appointment-form-title" class="appointment-header header-centered" i18n="@@appointment.title">Izaberite (do 4) usluge</h2>
-<form [formGroup]="form" class="column-12 offset-tablet-1 column-tablet-10" (submit)="onSubmit()" role="region" aria-labelledby="appointment-form-title">
+<h1 id="appointment-form-title" class="appointment-header header-centered" i18n="@@appointment.title">Izaberite (do 4) usluge</h1>
+<form [formGroup]="form" class="column-12 offset-tablet-1 column-tablet-10" (submit)="onSubmit()" aria-labelledby="appointment-form-title">
     <marush-appointment-services-selector [checkedServices]="checkedServices().value"
         (toggleSelection)="onToggleSelection($event.item, $event.checked)"
         class="column-12" role="group" aria-labelledby="appointment-form-title"></marush-appointment-services-selector>

@@ -5,7 +5,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<p><strong>17.2. - 28.2.</strong></p><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`
+    $localize`:@@discounts.1:<h3><strong>17.2. - 28.2.</strong></h3><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -27,7 +27,7 @@ export class HomePageMetadata extends PageMetadata {
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer($localize`:@@discounts.1:<p><strong>17.2. - 28.2.</strong></p><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`, '2025-02-28', '6500', '5500')
+                this.offer($localize`:@@discounts.1:<h3><strong>17.2. - 28.2.</strong></h3><p>Skeyndor Aquatherm tretman<br/><br/><s>6.500</s> 5.500</p>`, '2025-02-28', '6500', '5500')
             ]
         };
 

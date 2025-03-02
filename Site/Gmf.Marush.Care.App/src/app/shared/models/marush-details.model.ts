@@ -16,8 +16,9 @@ class MarushDetails {
     };
 
     readonly priceListUrl = () => {
-        const fileName = $localize`:@@pricelist:cenovnik`;
-        return `${environment.staticContentUrl}${fileName}.pdf`;
+        const fileName = $localize`:@@pricelist:cenovnik | PDF`;
+        const suffixLength = 6;
+        return `${environment.staticContentUrl}${fileName.slice(0, -suffixLength)}.pdf`;
     };
 }
 
