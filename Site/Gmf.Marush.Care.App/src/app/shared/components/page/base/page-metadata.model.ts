@@ -17,13 +17,11 @@ export abstract class PageMetadata {
     abstract getSpecificStructuredData: (baseStructuredData: IStructuredData, language: ILanguage) => IStructuredData;
 
     protected readonly marushId = (id: string) => `${environment.url}/#${id}`;
-    protected readonly marushSalon = () => {
-        return {
+    protected readonly marushSalon = () => ({
             '@type': 'BeautySalon',
             name: marushDetails.name,
             url: environment.url
-        };
-    };
+        });
 
     readonly localizedPageUrl = (desiredLanguage: SupportedLanguage) =>
         this.localizedUrl(desiredLanguage, this.pathTranslations()[desiredLanguage]);
@@ -31,8 +29,7 @@ export abstract class PageMetadata {
     readonly getStructuredData = (language: ILanguage) =>
         this.getSpecificStructuredData(this.baseStructuredData(language), language);
 
-    private readonly baseStructuredData = (language: ILanguage) => {
-        return {
+    private readonly baseStructuredData = (language: ILanguage) => ({
             '@context': 'https://schema.org',
             '@graph': [
                 {
@@ -106,13 +103,11 @@ export abstract class PageMetadata {
                         }
                     ]
                 }]
-        };
-    };
+        });
 
     protected readonly getGraphFrom = (baseStructuredData: IStructuredData) => baseStructuredData['@graph'];
 
-    protected readonly address = () => {
-        return {
+    protected readonly address = () => ({
             '@type': 'PostalAddress',
             addressLocality: `${$localize`:@@contact.city:Beograd`} - Savski Venac`,
             addressRegion: $localize`:@@contact.city:Beograd`,
@@ -121,8 +116,7 @@ export abstract class PageMetadata {
                 '@type': 'Country',
                 name: 'Republic of Serbia'
             }
-        };
-    };
+        });
 
     protected readonly capitalize = (value: string) => String(value).charAt(0)
         .toUpperCase() + String(value).slice(1);
@@ -130,19 +124,15 @@ export abstract class PageMetadata {
     protected readonly localizedUrl = (desiredLanguage: SupportedLanguage, path: string) =>
         `${environment.url}/${desiredLanguage}/${path}`;
 
-    private readonly addLanguage = (fullName: string, shortName: string) => {
-        return {
+    private readonly addLanguage = (fullName: string, shortName: string) => ({
             '@type': 'Language',
             name: fullName,
             alternateName: shortName
-        };
-    };
+        });
 
-    private readonly addLinkWith = (label: string, language: ILanguage) => {
-        return {
+    private readonly addLinkWith = (label: string, language: ILanguage) => ({
             '@type': 'ViewAction',
             name: this.capitalize(label),
             target: this.localizedUrl(language.value, label)
-        };
-    };
+        });
 }

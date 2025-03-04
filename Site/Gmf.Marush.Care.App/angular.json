@@ -14,12 +14,10 @@
         "sourceLocale": "sr",
         "locales": {
           "en": {
-            "translation": "src/locale/messages.en.json",
-            "baseHref": "/en/"
+            "translation": "src/locale/messages.en.json"
           },
           "ru": {
-            "translation": "src/locale/messages.ru.json",
-            "baseHref": "/ru/"
+            "translation": "src/locale/messages.ru.json"
           }
         }
       },

@@ -25,7 +25,6 @@ export class HomeDiscountsComponent implements OnDestroy {
 
   readonly showSlider = () => currentDiscounts.length > 1;
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

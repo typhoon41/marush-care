@@ -13,7 +13,6 @@ export class SizeService implements OnDestroy {
     private readonly holderPropertyName: string = 'content';
     private subscription: Subscription | undefined;
 
-    // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();
     }

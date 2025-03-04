@@ -15,7 +15,6 @@ export class ImageLoaderComponent implements OnChanges {
 
     isLoading: boolean = true;
 
-    // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     ngOnChanges(changes: SimpleChanges) {
       const urlChanged = changes['url'];
 

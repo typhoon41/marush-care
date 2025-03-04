@@ -3,7 +3,7 @@ import { IStructuredData, PageMetadata } from '@shared/components/page/base/page
 import { ILanguage } from '@shared/models/language.model';
 
 export class ContactPageMetadata extends PageMetadata {
-    override pathTranslations = () => { return { en: 'contact', sr: 'kontakt', ru: 'контакт' }; };
+    override pathTranslations = () => ({ en: 'contact', sr: 'kontakt', ru: 'контакт' });
     override getTitle = () => $localize`:@@routes.contact.title:Marush: Space of Care - kontakt` as string;
     override getKeywords = () => $localize`:@@routes.contact.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,kombinacije tretmana,lifting,masaža,kontakt,centar,Beograd,Višegradska` as string;
     override getDescription = () => $localize`:@@routes.contact.description:Otkrijte oličenje lepote i opuštanja u Marush salonu. Smešten u srcu Beograda, naš salon nudi miran beg od užurbanog gradskog života.` as string;

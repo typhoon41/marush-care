@@ -11,8 +11,8 @@ import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 export class HomeServicesComponent {
   constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) { }
 
-  readonly redirectToServices = () => {
-    this.router.navigate([this.routeTranslatorPipe.transform('services')]);
+  readonly redirectToServices = async() => {
+    await this.router.navigate([this.routeTranslatorPipe.transform('services')]);
   };
 }
 

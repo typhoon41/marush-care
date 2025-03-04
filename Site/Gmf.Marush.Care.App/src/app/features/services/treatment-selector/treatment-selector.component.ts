@@ -24,7 +24,6 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
     private readonly routeTranslatorPipe: RouteTranslatorPipe) {}
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnChanges(changes: SimpleChanges) {
     const selectedServiceChanges = changes['selectedService'];
 
@@ -34,7 +33,6 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
     }
   }
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngAfterViewChecked(): void {
     if (isPlatformBrowser(this.platformId) && this.selectedServiceChanging) {
       this.treatmentsContainer?.nativeElement.scrollIntoView({ block: 'start' });
@@ -58,7 +56,7 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
       ?.filter(treatment => !treatment.clone) ?? [];
   };
 
-  readonly redirectToAppointment = () => {
-    this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
+  readonly redirectToAppointment = async() => {
+    await this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
   };
 }

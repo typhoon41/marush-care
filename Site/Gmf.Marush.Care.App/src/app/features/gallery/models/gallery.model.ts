@@ -11,14 +11,12 @@ export class GalleryMetadata {
     static filePath = `${this.previewsLocation('')}metadata.json`;
 
     constructor(private readonly galleryImages: GalleryImage[]) {
-        this.allImages = this.galleryImages.map(image => {
-            return {
+        this.allImages = this.galleryImages.map(image => ({
                 name: image.name,
                 orientation: image.orientation,
                 previewPath: GalleryMetadata.previewsLocation(image.name),
                 path: GalleryMetadata.imageLocation(image.name)
-            };
-        });
+            }));
     }
 }
 

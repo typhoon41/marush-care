@@ -11,7 +11,7 @@ import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
   export class HomeHeroComponent {
     constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) { }
 
-    readonly redirectToAppointments = () => {
-      this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
+    readonly redirectToAppointments = async() => {
+      await this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
     };
   }

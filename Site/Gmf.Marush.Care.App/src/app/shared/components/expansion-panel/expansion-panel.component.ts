@@ -21,7 +21,6 @@ export class ExpansionPanelComponent implements AfterViewChecked {
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngAfterViewChecked(): void {
     if (isPlatformBrowser(this.platformId) && this.collapsed && this.toggled) {
       this.panel?.nativeElement.scrollIntoView({ block: 'center' });

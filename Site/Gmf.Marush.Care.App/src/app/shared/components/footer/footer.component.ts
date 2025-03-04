@@ -16,9 +16,9 @@ export class FooterComponent {
 
   constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslatorPipe) {}
 
-  readonly redirectToContact = (event?: OptionalKeyboardEvent) => {
+  readonly redirectToContact = async(event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
-      this.router.navigate([this.routeTranslatorPipe.transform('contact')]);
+      await this.router.navigate([this.routeTranslatorPipe.transform('contact')]);
     }
   };
 }

@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { mergeApplicationConfig, ApplicationConfig, InjectionToken,
    inject, RESPONSE_INIT, LOCALE_ID, REQUEST } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
-import { provideServerRoutesConfig } from '@angular/ssr';
+import { provideServerRouting } from '@angular/ssr';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 
@@ -19,7 +19,7 @@ const serverConfig: ApplicationConfig = {
         return match ? match[1] : 'sr';
       }
     },
-    provideServerRoutesConfig(serverRoutes),
+    provideServerRouting(serverRoutes),
     {
       provide: SERVER_RESPONSE,
       useFactory: () => inject(RESPONSE_INIT, { optional: true })

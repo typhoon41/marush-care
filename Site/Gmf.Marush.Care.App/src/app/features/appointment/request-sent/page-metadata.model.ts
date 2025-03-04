@@ -4,7 +4,7 @@ import marushDetails from '@shared/models/marush-details.model';
 import { IRepresentUserRequest } from './request-user.model';
 
 export class RequestSentPageMetadata extends PageMetadata {
-  override pathTranslations = () => { return { en: 'request-sent', sr: 'zahtev-poslat', ru: 'запрос-отправлен' }; };
+  override pathTranslations = () => ({ en: 'request-sent', sr: 'zahtev-poslat', ru: 'запрос-отправлен' });
   override getTitle = () => '';
   override getKeywords = () => '';
   override getDescription = () => '';
@@ -23,8 +23,7 @@ export class RequestSentPageMetadata extends PageMetadata {
     return baseStructuredData;
   };
 
-  private readonly getScheduleAction = () => {
-    return {
+  private readonly getScheduleAction = () => ({
       '@context': 'https://schema.org',
       '@type': 'ScheduleAction',
       agent: {
@@ -51,6 +50,5 @@ export class RequestSentPageMetadata extends PageMetadata {
           streetAddress: $localize`:@@contact.address:Višegradska 25/7`
         }
       }
-    };
-  };
+    });
 }

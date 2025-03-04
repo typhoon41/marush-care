@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/max-len */
+
 import { CommonModule } from '@angular/common';
 import { Component, HostBinding } from '@angular/core';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';

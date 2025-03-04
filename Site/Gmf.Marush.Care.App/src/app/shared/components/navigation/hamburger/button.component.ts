@@ -16,7 +16,6 @@ export class HamburgerButtonComponent implements OnInit {
     private readonly buttonCollapsed = $localize`:@@content.menu.close:Zatvori meni`;
     buttonDescription: string = '';
 
-    // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
     ngOnInit(): void {
         this.emitEvent();
         this.setButtonDescription();

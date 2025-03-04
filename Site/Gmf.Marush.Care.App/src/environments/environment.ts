@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 export const environment = {
   name: '_-_-environment-_-_',
   staticContentUrl: 'https://marushcare.com/files/',

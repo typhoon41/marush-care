@@ -19,11 +19,9 @@ export abstract class ServicesMetadata extends PageMetadata {
         return baseStructuredData;
     };
 
-    private readonly serviceFrom = (serviceName: string, description: string) => {
-        return {
+    private readonly serviceFrom = (serviceName: string, description: string) => ({
             '@type': 'Service',
             '@id': this.marushId(`services-${serviceName}`),
             name: description
-        };
-    };
+        });
 }

@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/max-len */
+
 import { Component, HostBinding } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';

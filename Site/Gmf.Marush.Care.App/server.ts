@@ -1,4 +1,4 @@
-import { AngularNodeAppEngine, createNodeRequestHandler, writeResponseToNodeResponse } from '@angular/ssr/node';
+import { AngularNodeAppEngine, createNodeRequestHandler, isMainModule, writeResponseToNodeResponse } from '@angular/ssr/node';
 import { environment } from '@env';
 import express from 'express';
 
@@ -18,11 +18,12 @@ app.use('*', (req, res, next) => {
     .catch(next);
 });
 
+if (isMainModule(import.meta.url)) {
+  const PORT = process.env['PORT'] || environment.ssrPort;
+  app.listen(PORT);
+}
+
 /**
  * The request handler used by the Angular CLI (dev-server and during build).
  */
 export const reqHandler = createNodeRequestHandler(app);
-
-// Define a port and start the server
-const PORT = process.env['PORT'] || environment.ssrPort;
-app.listen(PORT);

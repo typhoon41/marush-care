@@ -34,7 +34,6 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
     });
   }
 
-  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

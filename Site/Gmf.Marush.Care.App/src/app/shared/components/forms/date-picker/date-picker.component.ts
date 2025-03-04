@@ -33,7 +33,7 @@ export class DatePickerComponent extends Field {
                 minDate: today,
                 maxDate: nextMonth,
                 onBeforeSelect: ({ date }) => date.getDay() !== 0,
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
                 onSelect: ({ date, formattedDate, datepicker }) => {
                     this.form.get(this.name)?.setValue(formattedDate);
                 },

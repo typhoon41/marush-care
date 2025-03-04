@@ -98,7 +98,7 @@ export class AppointmentPageComponent extends BasePageComponent {
     try {
       await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
       await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')], { state: RequestUser.from(this.form) });
-    } catch (error) {
+    } catch {
       this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
     }
   };

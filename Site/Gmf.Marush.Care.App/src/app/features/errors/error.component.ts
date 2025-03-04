@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/max-len */
+
 import { Component, HostBinding } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';

@@ -23,13 +23,13 @@ export class TreatmentDefinition {
     readonly titleWithDuration = () => this.title + (this.showDuration ? ` (${this.duration + TreatmentDefinition.minutesLabel})` : '');
 
     readonly descriptionWithPricedDuration = () =>
-        `${this.description || ''}${this.description ? '<br><br>' : ''}` +
-        `${$localize`:@@services.treatments.price:Cena osnovne usluge: ${this.rangedPrice ?
-          this.rangedPrice : new MoneyPipe().transform(this.price)}`}`
-        + '<br><br>' +
-        `${$localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${this.rangedDuration ?
-          this.rangedDuration : this.duration}`}` +
-        `${$localize`:@@minutes: minuta`}`;
+        `${this.description || ''}${this.description ? '<br><br>' : ''}${
+        $localize`:@@services.treatments.price:Cena osnovne usluge: ${this.rangedPrice ?
+          this.rangedPrice : new MoneyPipe().transform(this.price)}`
+         }<br><br>${
+        $localize`:@@services.treatments.duration:Okvirno vreme trajanja usluge: ${this.rangedDuration ?
+          this.rangedDuration : this.duration}`
+        }${$localize`:@@minutes: minuta`}`;
 
     readonly formattedPrice = () => new MoneyPipe().transform(this.price);
   }

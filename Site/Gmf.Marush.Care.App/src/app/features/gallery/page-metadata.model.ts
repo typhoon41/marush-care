@@ -4,7 +4,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { GalleryMetadata } from './models/gallery.model';
 
 export class GalleryPageMetadata extends PageMetadata {
-    override pathTranslations = () => { return { en: 'gallery', sr: 'galerija', ru: 'галерея' }; };
+    override pathTranslations = () => ({ en: 'gallery', sr: 'galerija', ru: 'галерея' });
     override getTitle = () => $localize`:@@routes.gallery.title:Marush: Space of Care - galerija` as string;
     override getKeywords = () => $localize`:@@routes.gallery.keywords:kozmetički salon,kozmeticki salon,salon lepote,nega lica,obrve,trepavice,kombinacije tretmana,galerija,slike,pre i posle tretmana,Beograd,Višegradska` as string;
     override getDescription = () => $localize`:@@routes.gallery.description:Prepustite se zadivljujućoj galeriji i sveobuhvatnom pregledu koji prikazuje sve što Salon lepote Marush nudi za Vas.` as string;
@@ -29,12 +29,10 @@ export class GalleryPageMetadata extends PageMetadata {
         return baseStructuredData;
     };
 
-    private readonly imageFrom = (imageName: string, description: string) => {
-        return {
+    private readonly imageFrom = (imageName: string, description: string) => ({
             '@type': 'ImageObject',
             contentUrl: GalleryMetadata.imageLocation(imageName),
             thumbnailUrl: GalleryMetadata.previewsLocation(imageName),
             name: description
-        };
-    };
+        });
 }
