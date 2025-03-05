@@ -8,14 +8,14 @@ const serverSideRoute = (key: string) => {
 };
 
 export const serverRoutes: ServerRoute[] = [
-    // Following two should be Pre-Rendered but it's not working with UTF-8 characters
+    // Following two should be Pre-Rendered but their urls are not working with UTF-8 characters. Even if we encode them, files are made without encoding.
     {
         path: serverSideRoute('client-notified'),
-        renderMode: RenderMode.Prerender
+        renderMode: RenderMode.Server
     },
     {
         path: serverSideRoute('request-sent'),
-        renderMode: RenderMode.Prerender
+        renderMode: RenderMode.Server
     },
     {
         path: serverSideRoute('home'),
