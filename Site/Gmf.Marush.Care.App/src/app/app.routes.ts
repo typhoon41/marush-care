@@ -29,7 +29,7 @@ export class RoutingDefinition {
         this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,
             () => import('./features/appointment/request-sent/request-sent-page.component')
                 .then(mod => mod.RequestSentPageComponent)),
-        this.lazyRoute('client-notified', 'klijent-obavešten',
+        this.lazyRoute('client-notified', encodeURI('klijent-obavešten'),
             () => import('./features/appointment/client-notified/client-notified-page.component')
                 .then(mod => mod.ClientNotifiedPageComponent)),
         this.lazyRoute('gallery', $localize`:@@routes.gallery:galerija`,
