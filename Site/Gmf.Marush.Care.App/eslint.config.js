@@ -32,14 +32,6 @@ export default [
                     "type": "attribute"
                 }
             ],
-            "@stylistic/max-len": [
-                "error",
-                {
-                    "code": 140,
-                    "ignoreComments": true
-                }
-            ],
-            "@stylistic/no-confusing-arrow": ["error", { "onlyOneSimpleParam": true }],
             "new-cap": [
                 "error",
                 {
@@ -58,9 +50,7 @@ export default [
                         "ViewChildren"
                     ]
                 }
-            ],
-            "@typescript-eslint/prefer-readonly-parameter-types": "off",
-            "@typescript-eslint/no-unsafe-enum-comparison": "off",
+            ]
         }
     },
     {

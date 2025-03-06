@@ -5,17 +5,20 @@ import express from 'express';
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-app.use('*', (req, res, next) => {
-  angularApp
-    .handle(req)
-    .then(response => {
-      if (response) {
-        writeResponseToNodeResponse(response, res);
-      } else {
-        next();
-      }
-    })
-    .catch(next);
+// Serve static files from /assets for SSR (will not be shown otherwise).
+app.use('/assets', express.static('dist/browser/assets'));
+app.use('*', async(req, res, next) => {
+  try {
+    const response = await angularApp.handle(req);
+    if (response) {
+      await writeResponseToNodeResponse(response, res);
+    } else {
+      next();
+    }
+  }
+  catch {
+    next();
+  }
 });
 
 if (isMainModule(import.meta.url)) {

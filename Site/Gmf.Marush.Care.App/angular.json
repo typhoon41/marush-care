@@ -28,16 +28,22 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "assets": [],
+            "assets": [
+              "src/assets"
+            ],
             "localize": true,
             "i18nMissingTranslation": "error",
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js", "@angular/localize/init"
+              "zone.js",
+              "@angular/localize/init"
             ],
-            "allowedCommonJsDependencies": ["air-datepicker/locale/en", "air-datepicker/locale/ru"],
+            "allowedCommonJsDependencies": [
+              "air-datepicker/locale/en",
+              "air-datepicker/locale/ru"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "styles": [
@@ -55,7 +61,7 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "ssr": {
-              "entry": "server.ts"
+              "entry": "src/server.ts"
             }
           },
           "configurations": {
@@ -75,9 +81,6 @@
               "outputHashing": "all"
             },
             "development": {
-              "assets": [
-                "src/assets"
-              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
@@ -89,13 +92,19 @@
               ]
             },
             "sr": {
-              "localize": ["sr"]
+              "localize": [
+                "sr"
+              ]
             },
             "en": {
-              "localize": ["en"]
+              "localize": [
+                "en"
+              ]
             },
             "ru": {
-              "localize": ["ru"]
+              "localize": [
+                "ru"
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -148,23 +157,11 @@
             ],
             "scripts": []
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
-          }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
     "analytics": false
   }
 }

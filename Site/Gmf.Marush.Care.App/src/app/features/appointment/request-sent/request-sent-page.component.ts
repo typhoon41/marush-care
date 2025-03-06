@@ -13,7 +13,6 @@ import { IRepresentUserRequest } from './request-user.model';
     styleUrl: './request-sent-page.component.scss'
 })
 export class RequestSentPageComponent extends BasePageComponent {
-    // eslint-disable-next-line @stylistic/max-len
     readonly text = $localize`:@@appointment.request.sent:Vaš zahtev za zakazivanje termina je poslat. Očekujte uskoro potvrdu putem email-a.`;
 
     constructor(protected override readonly metadataService: PageMetadataService, protected readonly router: Router) {
