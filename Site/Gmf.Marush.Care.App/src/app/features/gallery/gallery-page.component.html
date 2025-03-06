@@ -2,8 +2,8 @@
     @for(image of fetchedImages; track image.name; let imageIndex = $index)
     {
         <marush-image-loader class="preview-image-placeholder center-content"
-            [selectable]="true" [url]="image.previewPath" [givenClass]="'preview-image stretch clickable'"
-            (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" role="button" />
+            role="button" givenClass="preview-image stretch clickable" [selectable]="true"
+            [url]="image.previewPath" (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
     }
 </section>
 
@@ -14,13 +14,13 @@
     </button>
 }
 
-<marush-dialog [bodyClass]="'stretch gallery-dialog-body'" [footerClass]="'gallery-dialog-footer'">
+<marush-dialog bodyClass="stretch gallery-dialog-body" footerClass="gallery-dialog-footer">
     <marush-image-loader class="stretch center-content" slot="body"
         [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
-    <button type="button" slot="actions" class="slide-action main-action" (click)="previous()"
-        i18n-aria-label="@@content.previous" aria-label="Prethodni sadržaj"><span role="img"
+    <button type="button" slot="actions" class="slide-action main-action" aria-label="Prethodni sadržaj"
+        i18n-aria-label="@@content.previous" (click)="previous()"><span role="img"
             class="arrow-icon left"></span></button>
-    <button type="button" slot="actions" class="slide-action main-action" (click)="next()"
-        i18n-aria-label="@@content.next" aria-label="Sledeći sadržaj"><span role="img"
+    <button type="button" slot="actions" class="slide-action main-action" aria-label="Sledeći sadržaj"
+        i18n-aria-label="@@content.next" (click)="next()"><span role="img"
             class="arrow-icon right"></span></button>
 </marush-dialog>

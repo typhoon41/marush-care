@@ -8,11 +8,11 @@
 <div class="contact row column-12 offset-desktop-1 column-desktop-4">
     <div class="column-12 column-tablet-6 column-desktop-12 metadata">
         <h4 class="title" i18n="@@mobile" id="contact-mobile">MOBILNI</h4>
-        <a class="details" [href]="marushDetails.phoneNumberAction"
-            aria-labelledby="contact-mobile">{{marushDetails.phoneNumber}}</a>
+        <a class="details" aria-labelledby="contact-mobile"
+            [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
         <h4 class="title" i18n="@@email" id="contact-email">Email</h4>
-        <a class="details" [href]="marushDetails.emailAction"
-            aria-labelledby="contact-email">{{marushDetails.email}}</a>
+        <a class="details" aria-labelledby="contact-email"
+            [href]="marushDetails.emailAction">{{marushDetails.email}}</a>
         <h4 class="title" i18n="@@address">ADRESA</h4>
         <address class="address details">
             <p class="line" i18n="@@contact.address">Višegradska 25/7</p>
@@ -22,8 +22,8 @@
     <p class="column-12 column-tablet-6 column-desktop-12 disclaimer details">
         <span i18n="@@contact.disclaimer" id="appointment-explanation">Svoj tretman možete zakazati pozivom, porukom
             (Viber, WhatsApp, SMS), mailom ili na stranici </span>
-        <a class="appointment-action" routerLink="{{'appointment' | translateRoute }}"
-            aria-labelledby="appointment-explanation">
+        <a class="appointment-action" aria-labelledby="appointment-explanation"
+            routerLink="{{'appointment' | translateRoute }}">
             <span i18n="@@routes.appointment">zakazivanje</span>
         </a>
     </p>

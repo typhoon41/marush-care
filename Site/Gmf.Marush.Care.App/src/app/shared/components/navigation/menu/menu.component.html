@@ -1,31 +1,31 @@
 <nav class="main-menu aligned-centrally stretch-between">
-    <a class="logo-container" routerLink="{{'home' | translateRoute}}" routerLinkActive="active" #rla="routerLinkActive"
-        [ariaLabel]="marushDetails.name" ariaCurrentWhenActive="page" tabindex="0" (click)="hideMobileMenu()"
-        [title]="marushDetails.name">
-        <img class="logo" src="{{logoPath()}}" i18n-alt="@@logo" alt="Marush: Space of Care - idi na početnu" (mouseover)="logoHovered = true"
+    <a #rla="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
+        tabindex="0" routerLink="{{'home' | translateRoute}}" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
+        (click)="hideMobileMenu()">
+        <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" src="{{logoPath()}}" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 
     @if(sizeService.lastKnownSize()) {
         @if(isMobile()) {
-            <marush-hamburger-button [(collapsed)]="showMobileMenu" [ariaExpanded]="showMobileMenu" role="button"
-                aria-controls="mobile-menu"></marush-hamburger-button>
+            <marush-hamburger-button role="button" aria-controls="mobile-menu" [ariaExpanded]="showMobileMenu"
+                [(collapsed)]="showMobileMenu" />
         }
 
         @else {
-            <marush-menu-items></marush-menu-items>
+            <marush-menu-items />
             @if(environment.name !== 'development'){
-                <marush-language-selector></marush-language-selector>
+                <marush-language-selector />
             }
         }
     }
     @else {
-        <marush-menu-items class="mobile-hidden"></marush-menu-items>
-        <marush-language-selector class="mobile-hidden"></marush-language-selector>
+        <marush-menu-items class="mobile-hidden" />
+        <marush-language-selector class="mobile-hidden" />
     }
 </nav>
 
 @if(isMobile()) {
-    <marush-mobile-menu id="mobile-menu" [collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" role="navigation"
-        class="mobile-menu" [ngClass]="{'collapsed': showMobileMenu }"></marush-mobile-menu>
+    <marush-mobile-menu id="mobile-menu" role="navigation" class="mobile-menu" [collapsed]="showMobileMenu"
+        [ngClass]="{'collapsed': showMobileMenu }" (hideMobileMenu)="hideMobileMenu()" />
 }
