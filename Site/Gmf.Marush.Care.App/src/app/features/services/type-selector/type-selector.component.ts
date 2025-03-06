@@ -15,7 +15,7 @@ export class TypeSelectorComponent {
   services = supportedTreatments;
   readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
   @Input({ required: true }) selectedService: SelectedService = '';
-  @Output() selectedServiceChange = new EventEmitter<SelectedService>();
+  @Output() readonly selectedServiceChange = new EventEmitter<SelectedService>();
 
   readonly selectService = (service: SelectedService, event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {

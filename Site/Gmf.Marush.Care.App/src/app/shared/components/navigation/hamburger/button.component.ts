@@ -10,7 +10,7 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 })
 export class HamburgerButtonComponent implements OnInit {
     @Input() collapsed: boolean = false;
-    @Output() collapsedChange = new EventEmitter<boolean>();
+    @Output() readonly collapsedChange = new EventEmitter<boolean>();
 
     private readonly buttonShrinked = $localize`:@@content.menu.open:Otvori meni`;
     private readonly buttonCollapsed = $localize`:@@content.menu.close:Zatvori meni`;

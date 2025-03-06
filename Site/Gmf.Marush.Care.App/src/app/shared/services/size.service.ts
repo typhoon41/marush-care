@@ -7,7 +7,7 @@ import { Size } from '../models/screen-sizes/size';
     providedIn: 'root'
 })
 export class SizeService implements OnDestroy {
-    lastKnownSize = signal<Size | undefined>(undefined);
+    readonly lastKnownSize = signal<Size | undefined>(undefined);
 
     private readonly holderPseudoSelector = '::before';
     private readonly holderPropertyName: string = 'content';

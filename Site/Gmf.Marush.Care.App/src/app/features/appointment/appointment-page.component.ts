@@ -29,8 +29,8 @@ export class AppointmentPageComponent extends BasePageComponent {
   defaultFieldLength = 100;
   globalError = '';
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
-  checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
-  totalCost: Signal<number>;
+  readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
+  readonly totalCost: Signal<number>;
 
   constructor(protected override readonly metadataService: PageMetadataService, private readonly router: Router,
     private readonly routeTranslatorPipe: RouteTranslatorPipe,

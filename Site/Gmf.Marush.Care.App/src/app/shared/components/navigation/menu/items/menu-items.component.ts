@@ -11,10 +11,10 @@ import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
   styleUrl: './menu-items.component.scss'
 })
 export class MenuItemsComponent {
-  @Output() hideMobileMenu = new EventEmitter<boolean>();
-  visible = input<boolean>(true);
+  @Output() readonly hideMobileMenu = new EventEmitter<boolean>();
+  readonly visible = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  tabIndex = computed(() => this.visible() ? 0 : -1);
+  readonly tabIndex = computed(() => this.visible() ? 0 : -1);
 
   marushDetails = marushDetails;
 

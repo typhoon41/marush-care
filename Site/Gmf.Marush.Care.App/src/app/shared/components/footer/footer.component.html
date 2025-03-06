@@ -26,14 +26,14 @@
     <section class="group-container contact-group-container row column-12 column-tablet-6 column-desktop-3 vertical-stack tablet-right-aligned">
         <div class="contact-group">
             <h4 id="footer-address" class="title" i18n="@@address">ADRESA</h4>
-            <address class="contact clickable" (click)="redirectToContact()" tabindex="0" aria-labelledby="footer-address"
-            (keydown)="redirectToContact($event)" role="button">
+            <address class="contact clickable" tabindex="0" aria-labelledby="footer-address" role="button"
+            (click)="redirectToContact()" (keydown)="redirectToContact($event)">
                 <span i18n="@@contact.address">Višegradska 25/7</span>, <span i18n="@@contact.city">Beograd</span>
             </address>
             <h4 class="title" i18n="@@mobile" id="footer-mobile">MOBILNI</h4>
-            <a class="contact" [href]="marushDetails.phoneNumberAction" aria-labelledby="footer-mobile">{{marushDetails.phoneNumber}}</a>
+            <a class="contact" aria-labelledby="footer-mobile" i18n-aria-labelledby [href]="marushDetails.phoneNumberAction">{{marushDetails.phoneNumber}}</a>
             <h4 class="title" i18n="@@email" id="footer-email">Email</h4>
-            <a class="contact" [href]="marushDetails.emailAction" aria-labelledby="footer-email">{{marushDetails.email}}</a>
+            <a class="contact" aria-labelledby="footer-email" i18n-aria-labelledby [href]="marushDetails.emailAction">{{marushDetails.email}}</a>
         </div>
     </section>
     <div class="group-container last-group-container column-12 column-tablet-6 column-desktop-3 tablet-left-aligned">

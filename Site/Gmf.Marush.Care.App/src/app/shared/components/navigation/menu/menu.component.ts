@@ -22,7 +22,7 @@ export class MenuComponent {
   marushDetails = marushDetails;
   showMobileMenu = false;
   logoHovered = false;
-  isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
+  readonly isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
 
   @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
 

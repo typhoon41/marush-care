@@ -1,5 +1,5 @@
-<div class="combo-box" role="combobox" [attr.aria-controls]="containerId()" aria-haspopup="listbox" [formGroup]="formGroup"
-    aria-expanded="false" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}" aria-required="true">
+<div class="combo-box" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-required="true"
+    [attr.aria-controls]="containerId()" [formGroup]="formGroup" [ariaExpanded]="collapsed" [id]="id" [ngClass]="{'invalid': formGroup.get(name)?.invalid}">
     <button #combo class="preview aligned-centrally stretch-between column-12" type="button" [id]="buttonId()"
         (click)="toggleDropdown()" (keydown)="onKey($event)">
         @if(selectedItem){
@@ -11,14 +11,14 @@
         <span role="img" class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
     </button>
     <ul class="dropdown clickable column-12" role="listbox" tabindex="-1"
-        [ngClass]="{'collapsed': collapsed}" role="listbox" aria-hidden="true"
+        aria-hidden="true" [ngClass]="{'collapsed': collapsed}"
         [ariaHidden]="!collapsed" [id]="containerId()" (keydown)="onOptionsKey($event)">
         @for(item of items; track item.value){
-        <li #option aria-selected="false" [ariaSelected]="selectedItem?.value === item.value" class="option-container"
-            [ngClass]="{'selected': selectedItem?.value === item.value}" role="option"
+        <li #option aria-selected="false" class="option-container" role="option"
+            [ariaSelected]="selectedItem?.value === item.value" [ngClass]="{'selected': selectedItem?.value === item.value}"
             [tabindex]="collapsed ? 0 : -1" (click)="select(item)"
             (keydown)="onOptionKey(item, $event, $index)" (blur)="onBlur($event)">
-            <label class="control-description clickable" tabindex="-1">{{item.label}}<input [attr.formControlName]="name" [checked]="selectedItem?.value === item.value" class="control" type="radio" tabindex="-1" [value]="item.value" /></label>
+            <label class="control-description clickable" tabindex="-1">{{item.label}}<input class="control" type="radio" tabindex="-1" [attr.formControlName]="name" [checked]="selectedItem?.value === item.value" [value]="item.value" /></label>
         </li>
         }
     </ul>

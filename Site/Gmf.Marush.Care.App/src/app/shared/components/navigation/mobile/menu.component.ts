@@ -12,7 +12,7 @@ import { MenuItemsComponent } from '../menu/items/menu-items.component';
   styleUrl: './menu.component.scss'
 })
 export class MobileMenuComponent {
-  @Output() hideMobileMenu = new EventEmitter<boolean>();
+  @Output() readonly hideMobileMenu = new EventEmitter<boolean>();
   @Input() collapsed = true;
   environment = environment;
 

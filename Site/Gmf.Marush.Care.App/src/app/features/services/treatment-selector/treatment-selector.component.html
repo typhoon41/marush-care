@@ -1,7 +1,7 @@
-<section class="aligned-centrally vertical-stack column-12 hidden" [ngClass]="{'animate-fading-in': treatments.length }" #treatmentsContainer>
+<section #treatmentsContainer class="aligned-centrally vertical-stack column-12 hidden" [ngClass]="{'animate-fading-in': treatments.length }">
     @for(treatment of treatments; track treatment.name)
     {
-    <marush-expansion-panel #panels (collapsedEvent)="collapseOpenedPanel($event)" [title]="treatment.title" [index]="$index" class="column-12">
+    <marush-expansion-panel #panels class="column-12" [title]="treatment.title" [index]="$index" (collapsedEvent)="collapseOpenedPanel($event)">
         <article class="treatment-description column-12" [innerHTML]="treatment.descriptionWithPricedDuration()"></article>
     </marush-expansion-panel>
     }

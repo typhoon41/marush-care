@@ -13,7 +13,7 @@ import { TreatmentDefinition } from '@shared/models/services/treatments/treatmen
 })
 export class ServicesSelectorComponent {
     @Input({ required: true }) checkedServices: TreatmentDefinition[] = [];
-    @Output() toggleSelection = new EventEmitter<{ item: TreatmentDefinition; checked: boolean }>();
+    @Output() readonly toggleSelection = new EventEmitter<{ item: TreatmentDefinition; checked: boolean }>();
     @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
     services = supportedTreatments;
 

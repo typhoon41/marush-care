@@ -13,9 +13,9 @@ import { ComboBoxComponent } from '../../forms/combobox/combobox.component';
 })
 export class LanguageSelectorComponent {
   @Input() horizontal = false;
-  visible = input<boolean>(true);
+  readonly visible = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  index = computed(() => this.visible() ? 0 : -1);
+  readonly index = computed(() => this.visible() ? 0 : -1);
   readonly language = new Language();
   readonly supportedLanguages: IComboBoxItem[];
   selectedLanguage: IComboBoxItem;

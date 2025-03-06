@@ -4,4 +4,4 @@
 }
 
 <img class="image" [class]="givenClass" [ngClass]="{'visible': !isLoading}" [alt]="description" [src]="url"
-    (load)="hideLoader()" (error)="hideLoader()" [tabIndex]="selectable ? 0 : -1" />
+    [tabIndex]="selectable ? 0 : -1" (load)="hideLoader()" (error)="hideLoader()" />

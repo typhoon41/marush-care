@@ -5,7 +5,7 @@ import { EventType } from '@angular/router';
     providedIn: 'root'
 })
 export class GlobalLoaderService {
-    isLoading = signal(true);
+    readonly isLoading = signal(true);
 
     readonly startLoading = () => this.isLoading.update(() => true);
     readonly stopLoading = () => this.isLoading.update(() => false);

@@ -15,7 +15,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
   @Input() panelHeaderClass: string = '';
   @Input({ required: true }) title: string = '';
   @Input() index: number = -1;
-  @Output() collapsedEvent = new EventEmitter<number>();
+  @Output() readonly collapsedEvent = new EventEmitter<number>();
   @Input() collapsed = false;
   private toggled = false;
 

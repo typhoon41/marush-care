@@ -1,19 +1,19 @@
-<a class="action" routerLink="{{'services' | translateRoute}}" routerLinkActive="active" (click)="hideMenu()"
-    [tabIndex]="tabIndex()">
+<a class="action" routerLinkActive="active" routerLink="{{'services' | translateRoute}}" [tabIndex]="tabIndex()"
+    (click)="hideMenu()">
     <span i18n="@@routes.services">usluge</span>
 </a>
-<a class="action" routerLink="{{'gallery' | translateRoute}}" routerLinkActive="active" (click)="hideMenu()"
-    [tabIndex]="tabIndex()">
+<a class="action" routerLinkActive="active" routerLink="{{'gallery' | translateRoute}}" [tabIndex]="tabIndex()"
+    (click)="hideMenu()">
     <span i18n="@@routes.gallery">galerija</span>
 </a>
-<a class="action" routerLink="{{'appointment'| translateRoute}}" routerLinkActive="active" (click)="hideMenu()"
-    [tabIndex]="tabIndex()">
+<a class="action" routerLinkActive="active" routerLink="{{'appointment'| translateRoute}}" [tabIndex]="tabIndex()"
+    (click)="hideMenu()">
     <span i18n="@@routes.appointment">zakazivanje</span>
 </a>
-<a class="action last" routerLink="{{'contact' | translateRoute}}" routerLinkActive="active" (click)="hideMenu()"
-    [tabIndex]="tabIndex()">
+<a class="action last" routerLinkActive="active" routerLink="{{'contact' | translateRoute}}" [tabIndex]="tabIndex()"
+    (click)="hideMenu()">
     <span i18n="@@routes.contact">kontakt</span>
 </a>
-<a class="action" [href]="marushDetails.priceListUrl()" target="_blank" [tabIndex]="tabIndex()">
+<a class="action" target="_blank" [href]="marushDetails.priceListUrl()" [tabIndex]="tabIndex()">
     <span i18n="@@pricelist">cenovnik | PDF</span>
 </a>

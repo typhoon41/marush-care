@@ -12,7 +12,7 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
 export class AppointmentSummaryComponent {
     @Input({ required: true }) checkedServices!: TreatmentDefinition[];
     @Input({ required: true }) totalCost!: number;
-    @Output() removeSelection = new EventEmitter<TreatmentDefinition>();
+    @Output() readonly removeSelection = new EventEmitter<TreatmentDefinition>();
 
     readonly onRemove = (item: TreatmentDefinition) => {
         this.removeSelection.emit(item);
