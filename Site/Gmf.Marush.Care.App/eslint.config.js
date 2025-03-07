@@ -33,12 +33,5 @@ export default [
             "@angular-eslint/prefer-signals": "off",
             "@angular-eslint/prefer-on-push-component-change-detection": "off",
         }
-    },
-    {
-        "files": ["src/**/*.html"],
-        "rules": {
-            "@angular-eslint/template/no-interpolation-in-attributes": "off",
-            "@angular-eslint/template/no-duplicate-attributes": "off"
-        }
     }
 ];

@@ -1,8 +1,8 @@
 <nav class="main-menu aligned-centrally stretch-between">
     <a #rla="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
-        tabindex="0" routerLink="{{'home' | translateRoute}}" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
+        tabindex="0" [routerLink]="'home' | translateRoute" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
         (click)="hideMobileMenu()">
-        <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" src="{{logoPath()}}" (mouseover)="logoHovered = true"
+        <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>
 

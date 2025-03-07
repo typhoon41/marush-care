@@ -1,5 +1,5 @@
 <div class="column-12" [formGroup]="form">
-    <input #date readonly class="field" type="text" class="column-12" [formControlName]="name"
+    <input #date readonly type="text" class="field column-12" [formControlName]="name"
     [placeholder]="placeholder" [ariaLabel]="placeholder" [attr.aria-required]="required ? 'true' : null" (focus)="toggleDatePicker()">
 
     @if(required)

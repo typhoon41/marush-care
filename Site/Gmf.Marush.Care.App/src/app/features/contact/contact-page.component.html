@@ -23,7 +23,7 @@
         <span i18n="@@contact.disclaimer" id="appointment-explanation">Svoj tretman možete zakazati pozivom, porukom
             (Viber, WhatsApp, SMS), mailom ili na stranici </span>
         <a class="appointment-action" aria-labelledby="appointment-explanation"
-            routerLink="{{'appointment' | translateRoute }}">
+            [routerLink]="'appointment' | translateRoute">
             <span i18n="@@routes.appointment">zakazivanje</span>
         </a>
     </p>
