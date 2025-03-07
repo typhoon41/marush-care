@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-home-services',
   imports: [RouterModule],
   templateUrl: './services.component.html',

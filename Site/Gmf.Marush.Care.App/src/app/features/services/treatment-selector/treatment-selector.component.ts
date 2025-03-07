@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 // eslint-disable-next-line @stylistic/max-len
-import { AfterViewChecked, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
@@ -9,6 +9,7 @@ import { SelectedService } from '@shared/models/services/treatments/types.model'
 import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-services-treatment-selector',
   imports: [CommonModule, RouterModule, ExpansionPanelComponent],
   templateUrl: './treatment-selector.component.html',
@@ -22,7 +23,7 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
   selectedServiceChanging = false;
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object, private readonly router: Router,
-    private readonly routeTranslatorPipe: RouteTranslatorPipe) {}
+    private readonly routeTranslatorPipe: RouteTranslatorPipe) { }
 
   ngOnChanges(changes: SimpleChanges) {
     const selectedServiceChanges = changes['selectedService'];
@@ -42,7 +43,7 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
 
   readonly collapseOpenedPanel = (indexToSkip: number) => {
     this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
-      panel.collapsed = false;
+      panel.collapsed.set(false);
     });
   };
 

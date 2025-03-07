@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-dialog',
     imports: [CommonModule],
     templateUrl: './dialog.component.html',

@@ -1,11 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, Inject, input, Input, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Inject, input, Input, PLATFORM_ID } from '@angular/core';
 import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import Language, { ILanguage } from '@shared/models/language.model';
 import { ComboBoxComponent } from '../../forms/combobox/combobox.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-language-selector',
   imports: [CommonModule, ComboBoxComponent],
   templateUrl: './selector.component.html',

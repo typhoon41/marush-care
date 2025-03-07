@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { afterNextRender, Component, HostBinding, OnDestroy, ViewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, OnDestroy, signal, ViewChild } from '@angular/core';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';
@@ -10,6 +10,7 @@ import { GalleryImage, GalleryMetadata } from './models/gallery.model';
 import { GalleryPageMetadata } from './page-metadata.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-gallery-page',
   imports: [ImageLoaderComponent, DialogComponent],
   templateUrl: './gallery-page.component.html',
@@ -21,7 +22,7 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
   imageCount = 0;
   fetchedCount = 0;
   images: GalleryImage[] = [];
-  fetchedImages: GalleryImage[] = [];
+  fetchedImages = signal<GalleryImage[]>([]);
   selectedImage: GalleryImage | undefined;
   selectedImageIndex: number | undefined;
   private subscription: Subscription | undefined;
@@ -56,8 +57,10 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
 
     [...Array(this.imageCount + 1).keys()]
       .filter(counter => counter <= this.fetchedCount && counter >= lastFetchCount + 1)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .forEach(imageCounter => this.fetchedImages.push(this.images.find(image => image.name === `${imageCounter}.jpg`)!));
+
+      .forEach(imageCounter => this.fetchedImages.update(values =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        [...values, this.images.find(image => image.name === `${imageCounter}.jpg`)!]));
   };
 
   readonly openFullImage = (image: GalleryImage, imageIndex: number, event?: OptionalKeyboardEvent) => {
@@ -76,7 +79,7 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
     }
 
     this.selectedImageIndex = newIndex;
-    this.selectedImage = this.fetchedImages[this.selectedImageIndex];
+    this.selectedImage = this.fetchedImages()[this.selectedImageIndex];
   };
 
   readonly previous = () => {
@@ -86,6 +89,6 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
     }
 
     this.selectedImageIndex = newIndex;
-    this.selectedImage = this.fetchedImages[this.selectedImageIndex];
+    this.selectedImage = this.fetchedImages()[this.selectedImageIndex];
   };
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, Component, OnDestroy } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { currentDiscounts } from '../page-metadata.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-home-discounts',
   imports: [CommonModule],
   templateUrl: './discounts.component.html',

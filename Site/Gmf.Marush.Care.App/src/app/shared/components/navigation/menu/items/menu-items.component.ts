@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, EventEmitter, input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import marushDetails from '@shared/models/marush-details.model';
 import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-menu-items',
   imports: [CommonModule, RouterModule, RouteTranslatorPipe],
   templateUrl: './menu-items.component.html',

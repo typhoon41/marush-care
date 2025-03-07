@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 /* eslint-disable @stylistic/max-len, max-params */
-import { afterNextRender, Component, computed, HostBinding, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, HostBinding, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppointmentService } from '@features/appointment/appointment-service';
@@ -17,6 +17,7 @@ import { ServicesSelectorComponent } from './services-selector/services-selector
 import { AppointmentSummaryComponent } from './summary/summary.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-appointment-page',
   imports: [ReactiveFormsModule, CustomerDetailsComponent, AppointmentSummaryComponent, ServicesSelectorComponent],
   templateUrl: './appointment-page.component.html',

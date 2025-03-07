@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Field } from '../field';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-input',
     imports: [ReactiveFormsModule],
     templateUrl: './input.component.html',

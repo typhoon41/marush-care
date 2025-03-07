@@ -1,5 +1,5 @@
 
-import { Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import marushDetails from '@shared/models/marush-details.model';
@@ -8,6 +8,7 @@ import { PageMetadataService } from '@shared/services/metadata/page-metadata.ser
 import { ContactPageMetadata } from './page-metadata.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-contact-page',
   imports: [RouterModule, RouteTranslatorPipe],
   templateUrl: './contact-page.component.html',

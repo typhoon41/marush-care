@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, Renderer2, afterNextRender, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Renderer2, afterNextRender, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { environment } from '@env';
@@ -11,6 +11,7 @@ import Language from './shared/models/language.model';
 import { SizeService } from './shared/services/size.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-root',
   imports: [CommonModule, RouterOutlet, MenuComponent, FooterComponent],
   templateUrl: './app.component.html',

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox.component';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-appointment-services-selector',
     imports: [CommonModule, ExpansionPanelComponent, CheckBoxComponent],
     templateUrl: './services-selector.component.html',
@@ -19,7 +20,7 @@ export class ServicesSelectorComponent {
 
     readonly collapseOpenedPanel = (indexToSkip: number) => {
         this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
-            panel.collapsed = false;
+            panel.collapsed.set(false);
         });
     };
 

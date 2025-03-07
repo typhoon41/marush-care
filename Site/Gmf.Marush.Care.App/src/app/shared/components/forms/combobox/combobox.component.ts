@@ -1,7 +1,9 @@
 /* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component,
+  ElementRef, Input, QueryList, ViewChild, ViewChildren
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isAction } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from './combobox.model';

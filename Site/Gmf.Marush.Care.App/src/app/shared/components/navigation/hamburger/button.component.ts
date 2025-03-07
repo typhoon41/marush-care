@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-hamburger-button',
     imports: [CommonModule],
     templateUrl: './button.component.html',

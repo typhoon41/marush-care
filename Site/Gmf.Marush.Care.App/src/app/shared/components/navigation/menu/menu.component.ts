@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ViewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import marushDetails from '@shared/models/marush-details.model';
@@ -11,6 +11,7 @@ import { MobileMenuComponent } from '../mobile/menu.component';
 import { MenuItemsComponent } from './items/menu-items.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-menu',
   imports: [CommonModule, RouterModule, LanguageSelectorComponent,
     HamburgerButtonComponent, MobileMenuComponent, MenuItemsComponent, RouteTranslatorPipe],

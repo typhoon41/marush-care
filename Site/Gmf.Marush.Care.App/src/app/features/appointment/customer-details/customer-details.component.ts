@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComboBoxComponent } from '@shared/components/forms/combobox/combobox.component';
 import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
@@ -6,6 +6,7 @@ import { DatePickerComponent } from '@shared/components/forms/date-picker/date-p
 import { InputComponent } from '@shared/components/forms/input/input.component';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-appointment-customer-details',
     imports: [ComboBoxComponent, InputComponent, DatePickerComponent, ReactiveFormsModule],
     templateUrl: './customer-details.component.html',

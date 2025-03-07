@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { environment } from '@env';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
 import { SelectedService } from '@shared/models/services/treatments/types.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-services-type-selector',
   imports: [CommonModule],
   templateUrl: './type-selector.component.html',

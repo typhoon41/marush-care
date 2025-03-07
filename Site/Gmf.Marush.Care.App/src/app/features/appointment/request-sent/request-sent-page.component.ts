@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';
 import { SimplePageComponent } from '@shared/components/page/simple-page.component';
@@ -7,6 +7,7 @@ import { RequestSentPageMetadata } from './page-metadata.model';
 import { IRepresentUserRequest } from './request-user.model';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-client-notified-page',
     imports: [RouterModule, SimplePageComponent],
     templateUrl: './request-sent-page.component.html',

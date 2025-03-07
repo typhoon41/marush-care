@@ -1,9 +1,9 @@
 <div #panel tabindex="0" role="button"
-    [class]="'panel-header clickable column-12 ' + panelHeaderClass" [ariaLabel]="title" [ariaExpanded]="collapsed" (click)="toggle()" (keydown)="toggle($event)">
+    [class]="'panel-header clickable column-12 ' + panelHeaderClass" [ariaLabel]="title" [ariaExpanded]="collapsed()" (click)="toggle()" (keydown)="toggle($event)">
     <span class="description">{{title}}</span>
-    <span role="img" class="caret">{{collapsed ? '&and;' : '&or;'}}</span>
+    <span role="img" class="caret">{{collapsed() ? '&and;' : '&or;'}}</span>
 </div>
 
-<div class="hidden column-12" aria-live="polite" [ngClass]="{'animate-fading-in': collapsed}">
+<div class="hidden column-12" aria-live="polite" [ngClass]="{'animate-fading-in': collapsed()}">
     <ng-content />
 </div>

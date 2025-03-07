@@ -1,10 +1,11 @@
-import { afterNextRender, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Language from '@shared/models/language.model';
 import AirDatepicker from 'air-datepicker';
 import { Field } from '../field';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-date-picker',
     imports: [ReactiveFormsModule],
     templateUrl: './date-picker.component.html',

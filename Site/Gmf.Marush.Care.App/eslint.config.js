@@ -30,8 +30,7 @@ export default [
                     "type": "attribute"
                 }
             ],
-            "@angular-eslint/prefer-signals": "off",
-            "@angular-eslint/prefer-on-push-component-change-detection": "off",
+            "@angular-eslint/prefer-signals": "off"
         }
     }
 ];

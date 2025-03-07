@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { LanguageSelectorComponent } from '../language/selector.component';
 import { MenuItemsComponent } from '../menu/items/menu-items.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-mobile-menu',
   imports: [CommonModule, RouterModule, LanguageSelectorComponent, MenuItemsComponent],
   templateUrl: './menu.component.html',

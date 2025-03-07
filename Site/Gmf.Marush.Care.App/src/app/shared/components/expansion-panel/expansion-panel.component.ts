@@ -1,9 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterViewChecked, Component, ElementRef, EventEmitter,
-  HostBinding, Inject, Input, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
+  HostBinding, Inject, Input, model, Output, PLATFORM_ID, ViewChild
+} from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-expansion-panel',
   imports: [CommonModule],
   templateUrl: './expansion-panel.component.html',
@@ -16,13 +19,13 @@ export class ExpansionPanelComponent implements AfterViewChecked {
   @Input({ required: true }) title: string = '';
   @Input() index: number = -1;
   @Output() readonly collapsedEvent = new EventEmitter<number>();
-  @Input() collapsed = false;
+  readonly collapsed = model<boolean>(false);
   private toggled = false;
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
   ngAfterViewChecked(): void {
-    if (isPlatformBrowser(this.platformId) && this.collapsed && this.toggled) {
+    if (isPlatformBrowser(this.platformId) && this.collapsed() && this.toggled) {
       this.panel?.nativeElement.scrollIntoView({ block: 'center' });
       this.toggled = false;
     }
@@ -30,7 +33,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
 
   readonly toggle = (event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
-      this.collapsed = !this.collapsed;
+      this.collapsed.set(!this.collapsed());
       this.collapsedEvent.emit(this.index);
       this.toggled = true;
     }
