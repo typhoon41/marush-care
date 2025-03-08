@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, Inject, input, Input, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, Inject, input, PLATFORM_ID } from '@angular/core';
 import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import Language, { ILanguage } from '@shared/models/language.model';
@@ -13,7 +13,7 @@ import { ComboBoxComponent } from '../../forms/combobox/combobox.component';
   styleUrl: './selector.component.scss'
 })
 export class LanguageSelectorComponent {
-  @Input() horizontal = false;
+  readonly horizontal = input<boolean>(false);
   readonly visible = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   readonly index = computed(() => this.visible() ? 0 : -1);

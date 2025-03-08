@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostBinding, ChangeDetectionStrategy, input } from '@angular/core';
 import { environment } from '@env';
 
 @Component({
@@ -9,7 +9,7 @@ import { environment } from '@env';
 })
 export class SimplePageComponent {
   @HostBinding('class') classAttribute: string = 'resolution-page aligned-centrally stretch-equally';
+  readonly text = input.required<string>();
 
-  @Input({ required: true }) text: string = '';
   decorationUrl = `${environment.staticContentUrl}images/mail/decoration.png`;
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, viewChild } from '@angular/core';
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import marushDetails from '@shared/models/marush-details.model';
@@ -24,12 +24,11 @@ export class MenuComponent {
   showMobileMenu = false;
   logoHovered = false;
   readonly isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
-
-  @ViewChild(RouterLinkActive) rla: RouterLinkActive | undefined;
+  readonly rla = viewChild<RouterLinkActive>(RouterLinkActive);
 
   constructor(readonly sizeService: SizeService) { }
 
-  readonly logoPath = () => this.rla?.isActive || this.logoHovered ?
+  readonly logoPath = () => this.rla()?.isActive || this.logoHovered ?
     '/assets/images/logo-active.png' : '/assets/images/logo.png';
 
   readonly hideMobileMenu = () => {

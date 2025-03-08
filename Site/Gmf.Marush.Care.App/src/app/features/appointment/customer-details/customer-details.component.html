@@ -1,9 +1,9 @@
-<div class="column-12 row" [formGroup]="formGroup">
-    <marush-input class="column-12 row" name="name" [form]="formGroup" [autoComplete]="true" [placeholder]="namePlaceholder" [validation]="['required', 'maxlength']" />
-    <marush-input class="column-12 row" name="surname" [form]="formGroup" [autoComplete]="true" [placeholder]="surnamePlaceholder" [validation]="['required', 'maxlength']" />
-    <marush-input class="column-12 row" name="phone" customValidation="pattern" [form]="formGroup" [autoComplete]="true" [placeholder]="phonePlaceholder"
+<div class="column-12 row" [formGroup]="formGroup()">
+    <marush-input class="column-12 row" name="name" [form]="formGroup()" [autoComplete]="true" [placeholder]="namePlaceholder" [validation]="['required', 'maxlength']" />
+    <marush-input class="column-12 row" name="surname" [form]="formGroup()" [autoComplete]="true" [placeholder]="surnamePlaceholder" [validation]="['required', 'maxlength']" />
+    <marush-input class="column-12 row" name="phone" customValidation="pattern" [form]="formGroup()" [autoComplete]="true" [placeholder]="phonePlaceholder"
     [validation]="['required', 'pattern']" [customValidationMessage]="phoneValidationMessage" />
-    <marush-input class="column-12 row" name="email" [form]="formGroup" [autoComplete]="true" [placeholder]="emailPlaceholder" [validation]="['required', 'maxlength', 'email']" />
-    <marush-date-picker class="column-6 column-tablet-8" name="date" [form]="formGroup" [placeholder]="datePlaceholder" />
+    <marush-input class="column-12 row" name="email" [form]="formGroup()" [autoComplete]="true" [placeholder]="emailPlaceholder" [validation]="['required', 'maxlength', 'email']" />
+    <marush-date-picker class="column-6 column-tablet-8" name="date" [form]="formGroup()" [placeholder]="datePlaceholder" />
     <marush-combobox class="time-picker column-6 column-tablet-4" name="time" [formGroup]="timeGroup()" [placeholder]="timePlaceholder" [items]="timeIntervals()" />
 </div>

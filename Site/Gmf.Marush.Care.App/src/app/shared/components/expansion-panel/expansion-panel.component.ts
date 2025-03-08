@@ -1,8 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-  HostBinding, Inject, Input, model, Output, PLATFORM_ID, ViewChild
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
+  HostBinding, Inject, input, model, Output, PLATFORM_ID, viewChild } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -14,11 +12,14 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 })
 export class ExpansionPanelComponent implements AfterViewChecked {
   @HostBinding('class') classAttribute: string = 'row';
-  @ViewChild('panel') panel!: ElementRef;
-  @Input() panelHeaderClass: string = '';
-  @Input({ required: true }) title: string = '';
-  @Input() index: number = -1;
+  readonly panel = viewChild<ElementRef>('panel');
+  readonly panelHeaderClass = input<string>('');
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  readonly index = input<number>(-1);
+  readonly title = input.required<string>();
+
   @Output() readonly collapsedEvent = new EventEmitter<number>();
+
   readonly collapsed = model<boolean>(false);
   private toggled = false;
 
@@ -26,7 +27,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (isPlatformBrowser(this.platformId) && this.collapsed() && this.toggled) {
-      this.panel?.nativeElement.scrollIntoView({ block: 'center' });
+      this.panel()?.nativeElement.scrollIntoView({ block: 'center' });
       this.toggled = false;
     }
   }
@@ -34,7 +35,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
   readonly toggle = (event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
       this.collapsed.set(!this.collapsed());
-      this.collapsedEvent.emit(this.index);
+      this.collapsedEvent.emit(this.index());
       this.toggled = true;
     }
   };

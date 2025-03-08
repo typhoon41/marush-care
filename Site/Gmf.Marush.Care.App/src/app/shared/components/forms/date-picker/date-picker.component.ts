@@ -1,4 +1,4 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Language from '@shared/models/language.model';
 import AirDatepicker from 'air-datepicker';
@@ -12,12 +12,12 @@ import { Field } from '../field';
     styleUrl: './date-picker.component.scss'
 })
 export class DatePickerComponent extends Field {
-    @Input({ required: true }) form!: FormGroup;
-    @Input({ required: true }) name = '';
-    @Input() placeholder = '';
-    @ViewChild('date', { static: true }) date!: ElementRef<HTMLInputElement>;
+    readonly form = input.required<FormGroup>();
+    readonly name = input.required<string>();
+    readonly placeholder = input<string>('');
+    readonly validation = input<string[]>(['required']);
+    readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
     datePicker: AirDatepicker | undefined;
-    validation = ['required'];
 
     constructor() {
         super();
@@ -25,7 +25,8 @@ export class DatePickerComponent extends Field {
             const today = new Date();
             const nextMonth = new Date(new Date().setMonth(today.getMonth() + 1));
 
-            new AirDatepicker(this.date.nativeElement, {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            new AirDatepicker(this.date()!.nativeElement, {
                 locale: new Language().predefined().datePickerLocale,
                 autoClose: true,
                 showOtherMonths: false,
@@ -36,7 +37,8 @@ export class DatePickerComponent extends Field {
                 onBeforeSelect: ({ date }) => date.getDay() !== 0,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
                 onSelect: ({ date, formattedDate, datepicker }) => {
-                    this.form.get(this.name)?.setValue(formattedDate);
+                    this.form().get(this.name())
+                        ?.setValue(formattedDate);
                 },
                 onRenderCell: ({ date, cellType }) => {
                     if (cellType === 'day' && date.getDay() === 0) {

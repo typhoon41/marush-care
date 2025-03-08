@@ -7,7 +7,7 @@
         {
         <div class="row service-container aligned-centrally">
             <marush-checkbox class="service-selection grow-nested-block" [onChange]="onTreatmentChanged(treatment)"
-                [checked]="checkedServices.includes(treatment)"
+                [checked]="checkedServices().includes(treatment)"
                 [labelText]="treatment.titleWithDuration()" />
             <span class="price">{{treatment.formattedPrice()}}</span>
         </div>

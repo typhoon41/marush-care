@@ -1,6 +1,6 @@
-<div class="column-12" [formGroup]="form">
-    <input class="column-12 field" type="text" [autocomplete]="autoComplete ? 'on' : 'off'" [formControlName]="name"
-        [name]="name" [placeholder]="placeholder" [ariaLabel]="placeholder" [attr.aria-required]="required ? 'true' : null">
+<div class="column-12" [formGroup]="form()">
+    <input class="column-12 field" type="text" [autocomplete]="autoComplete() ? 'on' : 'off'" [formControlName]="name()"
+        [name]="name()" [placeholder]="placeholder()" [ariaLabel]="placeholder()" [attr.aria-required]="required ? 'true' : null">
     @if(required)
     {
         <p class="invalid-field-message" i18n="@@validation.required" aria-live="polite">Ovo je obavezno polje</p>
@@ -18,6 +18,6 @@
 
     @else if(custom)
     {
-        <p class="invalid-field-message" aria-live="polite">{{customValidationMessage}}</p>
+        <p class="invalid-field-message" aria-live="polite">{{customValidationMessage()}}</p>
     }
 </div>

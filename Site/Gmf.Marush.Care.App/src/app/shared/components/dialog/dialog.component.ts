@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, input, viewChild } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -11,18 +11,18 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 })
 export class DialogComponent {
     @HostBinding('class') classAttribute: string = 'marush-dialog stretch';
-    @ViewChild('dialog') dialog: ElementRef | undefined;
-    @Input() title: string | undefined;
-    @Input() bodyClass: string | undefined;
-    @Input() footerClass: string | undefined;
+    readonly dialog = viewChild<ElementRef>('dialog');
+    readonly title = input<string>();
+    readonly bodyClass = input<string>();
+    readonly footerClass = input<string>();
 
     readonly open = () => {
-        this.dialog?.nativeElement.showModal();
+        this.dialog()?.nativeElement.showModal();
     };
 
     readonly close = (event?: OptionalKeyboardEvent) => {
         if (isAction(event)) {
-            this.dialog?.nativeElement.close();
+            this.dialog()?.nativeElement.close();
         }
     };
 

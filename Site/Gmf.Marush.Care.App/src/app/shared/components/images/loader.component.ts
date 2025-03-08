@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -9,10 +9,10 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
   styleUrl: './loader.component.scss'
 })
 export class ImageLoaderComponent implements OnChanges {
-  @Input({ required: true }) url: string = '';
-  @Input() description: string = '';
-  @Input() givenClass: string = '';
-  @Input() selectable: boolean = false;
+  readonly url = input.required<string>();
+  readonly description = input<string>('');
+  readonly givenClass = input<string>('');
+  readonly selectable = input<boolean>(false);
 
   isLoading: boolean = true;
 

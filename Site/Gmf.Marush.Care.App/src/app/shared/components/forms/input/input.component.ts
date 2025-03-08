@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Field } from '../field';
 
@@ -10,13 +10,13 @@ import { Field } from '../field';
     styleUrl: './input.component.scss'
 })
 export class InputComponent extends Field {
-    @Input() form!: FormGroup;
-    @Input() name = '';
-    @Input() placeholder = '';
-    @Input() autoComplete = false;
-    @Input() customValidation = '';
-    @Input() validation: string[] = [];
-    @Input() customValidationMessage = '';
+    readonly form = input.required<FormGroup>();
+    readonly name = input<string>('');
+    readonly placeholder = input<string>('');
+    readonly autoComplete = input<boolean>(false);
+    readonly customValidation = input<string>('');
+    readonly customValidationMessage = input<string>('');
+    readonly validation = input<string[]>([]);
 
     get maxLength() {
         return this.getFormState('maxlength');
@@ -27,6 +27,6 @@ export class InputComponent extends Field {
     }
 
     get custom() {
-        return this.getFormState(this.customValidation);
+        return this.getFormState(this.customValidation());
     }
 }

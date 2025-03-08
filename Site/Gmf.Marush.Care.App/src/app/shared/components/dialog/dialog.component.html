@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events -->
 <dialog #dialog class="dialog-container" tabindex="-1" (click)="close()">
     <header class="dialog-header" aria-labelledby="dialog-header" (click)="onDialogClick($event)">
-        <h2 id="dialog-header" class="title header-centered">{{title}}</h2>
+        <h2 id="dialog-header" class="title header-centered">{{title()}}</h2>
         <button class="line-button crossed close-button" title="Zatvori" aria-label="Zatvori" type="button"
             i18n-title="@@close" (click)="close()" i18n-aria-label="@@close" (keydown)="close($event)">
             <div class="line-placeholder stretch">
@@ -10,10 +10,10 @@
             </div>
         </button>
     </header>
-    <div [class]="'dialog-body ' + bodyClass" (click)="onDialogClick($event)">
+    <div [class]="'dialog-body ' + bodyClass()" (click)="onDialogClick($event)">
         <ng-content select="[slot=body]" />
     </div>
-    <footer [class]="'dialog-footer aligned-centrally stretch-between ' + footerClass" (click)="onDialogClick($event)">
+    <footer [class]="'dialog-footer aligned-centrally stretch-between ' + footerClass()" (click)="onDialogClick($event)">
         <ng-content select="[slot=actions]" />
     </footer>
 </dialog>

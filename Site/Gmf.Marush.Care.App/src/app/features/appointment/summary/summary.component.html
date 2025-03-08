@@ -1,6 +1,6 @@
 <section class="summary service-title">
     <h4 class="appointment-header" i18n="@@routes.services">usluge</h4>
-    @for(checkedService of checkedServices; track checkedService.name){
+    @for(checkedService of checkedServices(); track checkedService.name){
         <div class="row service-container aligned-centrally">
             <button type="button" class="service-removal" aria-label="Ukloni izabranu uslugu" i18n-aria-label="@@appointment.summary.remove-item" (click)="onRemove(checkedService)">
                 <img class="trash-can-icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
@@ -10,6 +10,6 @@
         </div>
     }
     <h4 class="appointment-header" i18n="@@appointment.summary.total">Ukupno</h4>
-    <strong class="price">{{totalCost | money}}</strong>
+    <strong class="price">{{totalCost() | money}}</strong>
     <p class="disclaimer column-12 offset-tablet-1 column-tablet-10" i18n="@@appointment.summary.disclaimer" role="alert">* Navedeni iznos nije račun i niste dužni da ga platite pre, već nakon tretmana. Razlog je takođe i u tome što Vaš zahtev može biti odbijen u slučaju da neko drugi u međuvremenu zakaže tretman preko naših partnerskih oglašivača.</p>
 </section>

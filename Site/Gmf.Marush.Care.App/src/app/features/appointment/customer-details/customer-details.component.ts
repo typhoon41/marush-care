@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComboBoxComponent } from '@shared/components/forms/combobox/combobox.component';
 import { IComboBoxItem } from '@shared/components/forms/combobox/combobox.model';
@@ -14,7 +14,7 @@ import { InputComponent } from '@shared/components/forms/input/input.component';
 })
 export class CustomerDetailsComponent {
     @HostBinding('class') classAttribute: string = 'row customer-details-container';
-    @Input({ required: true }) formGroup!: FormGroup;
+    readonly formGroup = input.required<FormGroup>();
     readonly namePlaceholder = $localize`:@@appointment.customer.name:Ime`;
     readonly surnamePlaceholder = $localize`:@@appointment.customer.surname:Prezime`;
     readonly phonePlaceholder = $localize`:@@appointment.customer.phone:Telefon`;
@@ -23,7 +23,7 @@ export class CustomerDetailsComponent {
     readonly datePlaceholder = $localize`:@@appointment.customer.date:Datum`;
     readonly timePlaceholder = $localize`:@@appointment.customer.time:Vreme`;
 
-    readonly timeGroup = () => this.formGroup.get('timeGroup') as FormGroup;
+    readonly timeGroup = () => this.formGroup().get('timeGroup') as FormGroup;
 
     readonly timeIntervals = () => {
         const workingHoursAmount = 480;

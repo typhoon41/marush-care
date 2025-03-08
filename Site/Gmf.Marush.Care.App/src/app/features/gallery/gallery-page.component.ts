@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, OnDestroy, signal, ViewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, OnDestroy, signal, viewChild } from '@angular/core';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ImageLoaderComponent } from '@shared/components/images/loader.component';
 import { BasePageComponent } from '@shared/components/page/base/base-page.component';
@@ -18,11 +18,11 @@ import { GalleryPageMetadata } from './page-metadata.model';
 })
 export class GalleryPageComponent extends BasePageComponent implements OnDestroy {
   @HostBinding('class') classAttribute: string = 'gallery';
-  @ViewChild(DialogComponent) detailsDialog!: DialogComponent;
+  readonly detailsDialog = viewChild<DialogComponent>(DialogComponent);
   imageCount = 0;
   fetchedCount = 0;
   images: GalleryImage[] = [];
-  fetchedImages = signal<GalleryImage[]>([]);
+  readonly fetchedImages = signal<GalleryImage[]>([]);
   selectedImage: GalleryImage | undefined;
   selectedImageIndex: number | undefined;
   private subscription: Subscription | undefined;
@@ -68,7 +68,7 @@ export class GalleryPageComponent extends BasePageComponent implements OnDestroy
       event?.preventDefault();
       this.selectedImage = image;
       this.selectedImageIndex = imageIndex;
-      this.detailsDialog.open();
+      this.detailsDialog()?.open();
     }
   };
 

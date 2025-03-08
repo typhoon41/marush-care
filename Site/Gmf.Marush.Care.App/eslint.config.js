@@ -29,8 +29,7 @@ export default [
                     "style": "camelCase",
                     "type": "attribute"
                 }
-            ],
-            "@angular-eslint/prefer-signals": "off"
+            ]
         }
     }
 ];

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, model, OnInit, Output } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -10,7 +10,7 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
     styleUrl: './button.component.scss'
 })
 export class HamburgerButtonComponent implements OnInit {
-    @Input() collapsed: boolean = false;
+    readonly collapsed = model<boolean>(false);
     @Output() readonly collapsedChange = new EventEmitter<boolean>();
 
     private readonly buttonShrinked = $localize`:@@content.menu.open:Otvori meni`;
@@ -25,14 +25,14 @@ export class HamburgerButtonComponent implements OnInit {
     readonly toggle = (event?: OptionalKeyboardEvent) => {
         if (isAction(event)) {
             event?.preventDefault();
-            this.collapsed = !this.collapsed;
+            this.collapsed.set(!this.collapsed);
             this.setButtonDescription();
             this.emitEvent();
         }
     };
 
-    private readonly emitEvent = () => this.collapsedChange.emit(this.collapsed);
+    private readonly emitEvent = () => this.collapsedChange.emit(this.collapsed());
     private readonly setButtonDescription = () => {
-        this.buttonDescription = this.collapsed ? this.buttonCollapsed : this.buttonShrinked;
+        this.buttonDescription = this.collapsed() ? this.buttonCollapsed : this.buttonShrinked;
     };
 }

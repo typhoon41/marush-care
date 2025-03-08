@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-// eslint-disable-next-line @stylistic/max-len
-import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, OnChanges, PLATFORM_ID, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, Inject, input, OnChanges,
+  PLATFORM_ID, SimpleChanges, viewChild, viewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
@@ -16,9 +16,10 @@ import { RouteTranslatorPipe } from '@shared/pipes/routing-translator-pipe';
   styleUrl: './treatment-selector.component.scss'
 })
 export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
-  @Input({ required: true }) selectedService: SelectedService = '';
-  @ViewChildren('panels') panels: QueryList<ExpansionPanelComponent> | undefined;
-  @ViewChild('treatmentsContainer') treatmentsContainer: ElementRef | undefined;
+  readonly selectedService = input.required<SelectedService>();
+  readonly panels = viewChildren<ExpansionPanelComponent>('panels');
+  readonly treatmentsContainer = viewChild<ElementRef>('treatmentsContainer');
+
   treatments: TreatmentDefinition[] = [];
   selectedServiceChanging = false;
 
@@ -36,13 +37,14 @@ export class TreatmentSelectorComponent implements OnChanges, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (isPlatformBrowser(this.platformId) && this.selectedServiceChanging) {
-      this.treatmentsContainer?.nativeElement.scrollIntoView({ block: 'start' });
+      this.treatmentsContainer()?.nativeElement.scrollIntoView({ block: 'start' });
       this.selectedServiceChanging = false;
     }
   }
 
   readonly collapseOpenedPanel = (indexToSkip: number) => {
-    this.panels?.filter(panel => panel.index !== indexToSkip && panel.collapsed).forEach(panel => {
+    this.panels().filter(panel => panel.index() !== indexToSkip && panel.collapsed)
+    .forEach(panel => {
       panel.collapsed.set(false);
     });
   };
