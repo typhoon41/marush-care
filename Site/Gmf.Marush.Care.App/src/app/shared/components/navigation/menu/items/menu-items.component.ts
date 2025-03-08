@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, EventEmitter, input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import marushDetails from '@shared/models/marush-details.model';
 import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
@@ -12,7 +12,7 @@ import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
   styleUrl: './menu-items.component.scss'
 })
 export class MenuItemsComponent {
-  @Output() readonly hideMobileMenu = new EventEmitter<boolean>();
+  readonly hideMobileMenu = output();
   readonly visible = input<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   readonly tabIndex = computed(() => this.visible() ? 0 : -1);

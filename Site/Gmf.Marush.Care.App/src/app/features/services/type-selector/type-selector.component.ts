@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, model, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model, output } from '@angular/core';
 import { environment } from '@env';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
@@ -16,7 +16,7 @@ export class TypeSelectorComponent {
   services = supportedTreatments;
   readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
   readonly selectedService = model.required<SelectedService>();
-  @Output() readonly selectedServiceChange = new EventEmitter<SelectedService>();
+  readonly selectedServiceChange = output<SelectedService>();
 
   readonly selectService = (service: SelectedService, event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {

@@ -1,6 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-  HostBinding, Inject, input, model, Output, PLATFORM_ID, viewChild } from '@angular/core';
+import {
+  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef,
+  HostBinding, Inject, input, model, output, PLATFORM_ID, viewChild
+} from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -18,7 +20,7 @@ export class ExpansionPanelComponent implements AfterViewChecked {
   readonly index = input<number>(-1);
   readonly title = input.required<string>();
 
-  @Output() readonly collapsedEvent = new EventEmitter<number>();
+  readonly collapsedEvent = output<number>();
 
   readonly collapsed = model<boolean>(false);
   private toggled = false;

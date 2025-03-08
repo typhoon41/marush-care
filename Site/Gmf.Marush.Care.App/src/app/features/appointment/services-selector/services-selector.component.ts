@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, viewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, viewChildren } from '@angular/core';
 import { ExpansionPanelComponent } from '@shared/components/expansion-panel/expansion-panel.component';
 import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox.component';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments.model';
@@ -14,7 +14,7 @@ import { TreatmentDefinition } from '@shared/models/services/treatments/treatmen
 })
 export class ServicesSelectorComponent {
     readonly checkedServices = input.required<TreatmentDefinition[]>();
-    @Output() readonly toggleSelection = new EventEmitter<{ item: TreatmentDefinition; checked: boolean }>();
+    readonly toggleSelection = output<{ item: TreatmentDefinition; checked: boolean }>();
     readonly panels = viewChildren<ExpansionPanelComponent>('panels');
     services = supportedTreatments;
 

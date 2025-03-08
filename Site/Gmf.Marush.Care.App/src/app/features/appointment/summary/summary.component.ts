@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
@@ -13,8 +13,7 @@ import { MoneyPipe } from '@shared/pipes/money-pipe';
 export class AppointmentSummaryComponent {
     readonly checkedServices = input.required<TreatmentDefinition[]>();
     readonly totalCost = input.required<number>();
-
-    @Output() readonly removeSelection = new EventEmitter<TreatmentDefinition>();
+    readonly removeSelection = output<TreatmentDefinition>();
 
     readonly onRemove = (item: TreatmentDefinition) => {
         this.removeSelection.emit(item);
