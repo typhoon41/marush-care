@@ -124,6 +124,13 @@ const supportedFaceTreatments = [
         description: $localize`:@@treatments.face.hyaluron.description:Hijaluron tretman Skeyndor namenjen je koži koja ima nepravilne površinske bore, kao i dehidriranoj, suvoj koži.<br><br>Zahvaljujući svojim aktivnim sastojcima (visok udeo hijaluronske kiseline od 2%, liposomalna polarizovana voda, ekstrakt suncokreta, ksilitol i njegovi derivati), Vaša koža biće meka, nahranjena i oporavljena sa visokomolekularnom i niskomolekularnom hijaluronskom kiselinom.`
     }),
     new TreatmentDefinition({
+        title: $localize`:@@treatments.face.aquatherm:Aquatherm tretman Skeyndor`,
+        name: 'Aquatherm tretman Skeyndor',
+        duration: 60,
+        price: 6500,
+        description: $localize`:@@treatments.face.aquatherm.description:Skeyndor Aquatherm je tretman oporavka kože, smiruje nadraženu kožu, hidrira je i hrani je. Pogodan je za sve tipove kože, a posebno za kožu sklonu crvenilu, iritacijama, ekcemima, dehidriranu kožu.<br>Sam tretman je opuštajući jer je prilikom celog tretmana prisutna masaža lica.<br><br>Glavni sastojci ovog tretmana su:<br>- Termalna morska voda<br>- Hijaluron<br>- Ceramidi<br>- Prebiotici<br>- Vitamin B12<br>- Prirodno vlažeći faktor<br>- Beta glukan<br>- Pantenol<br><br>Koža nakon tretmana je hidrirana, revitalizovana, smirena, meka i oporavljena.`
+    }),
+    new TreatmentDefinition({
         title: $localize`:@@treatments.face.vitamin-c:Vitamin C tretman Skeyndor`,
         name: 'Vitamin C tretman Skeyndor',
         duration: 60,
