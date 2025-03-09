@@ -1,5 +1,8 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentValidation;
+using Gmf.Net.Core.Common.Configuration;
 using Gmf.Net.Core.Common.Initialization.Http;
+using Gmf.Net.Core.Common.Logging.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -7,12 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Gmf.Net.Core.Common.Initialization.Exceptions;
 internal static class HandlingExtensions
 {
-    internal static void UseExceptionsHandler(this IApplicationBuilder builder) => builder.UseExceptionHandler(new ExceptionHandlerOptions
+    internal static void UseExceptionsHandler(this IApplicationBuilder builder) => _ = builder.UseExceptionHandler(new ExceptionHandlerOptions
     {
         AllowStatusCode404Response = true,
         ExceptionHandler = HandleExceptionFrom
@@ -63,7 +65,16 @@ internal static class HandlingExtensions
             ContentType = "application/problem+json",
             StatusCode = 500
         };
+
+        await NotifyDeveloperAbout(context, exception);
         await ExecuteResult(context, jsonResult);
+    }
+
+    private static async Task NotifyDeveloperAbout(HttpContext context, Exception exception)
+    {
+        var emailService = context.Resolve<ISendEmail>();
+        var developer = context.Resolve<DeveloperContact>();
+        await emailService.Send(developer.Email, "Unhandled exception occurred!", $"{exception.Message}: {exception.StackTrace}");
     }
 
     private static async Task ExecuteResult(HttpContext context, IActionResult actionResult)

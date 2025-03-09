@@ -28,7 +28,7 @@ public class EmailModule(bool withTemplateSender) : Module
 
         if (_withTemplateSender)
         {
-            builder.DefaultInterfaceRegistration<EmailTemplateSender>();
+            builder.DefaultInterfaceRegistration<EmailSender>();
         }
     }
 }

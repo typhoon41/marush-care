@@ -13,6 +13,7 @@ public class ConfigurationModule : Module
     {
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<SmtpSettings>("Smtp"));
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<ContactSettings>("ContactInformation"));
+        builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<DeveloperContact>("Developer"));
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<CaptchaSettings>("Captcha"));
     }
 }

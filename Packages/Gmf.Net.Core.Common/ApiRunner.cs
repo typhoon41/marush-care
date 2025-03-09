@@ -65,12 +65,12 @@ public class ApiRunner : ApplicationRunner
         _configureApplicationWith = (builder, application) =>
         {
             preconfigureApplication?.Invoke(builder, application);
+            application.UseExceptionsHandler();
             _ = application.UseRouting();
             _ = application.MapControllers();
             configureApplication(builder, application);
             _ = application.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
             _ = application.UseHttpsRedirection();
-            application.UseExceptionsHandler();
             application.ConfigureFluentValidation();
         };
 
