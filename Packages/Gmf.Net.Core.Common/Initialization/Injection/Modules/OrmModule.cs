@@ -1,7 +1,7 @@
-﻿using Autofac;
+﻿using System.Diagnostics.CodeAnalysis;
+using Autofac;
 using Gmf.Net.Core.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Gmf.Net.Core.Common.Initialization.Injection.Modules;
 
@@ -12,7 +12,7 @@ public class OrmModule<T> : Module where T : DbContext
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.AncestorRegistration<T, DbContext>();
+        //builder.AncestorRegistration<T, DbContext>();
         builder.DefaultInterfaceRegistration<EntityFrameworkUnitOfWork<T>>();
     }
 }

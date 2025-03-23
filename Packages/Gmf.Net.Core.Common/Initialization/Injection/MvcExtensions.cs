@@ -1,31 +1,30 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Text.Json.Serialization;
+using FluentValidation;
 using FluentValidation.AspNetCore;
-using Gmf.DDD.Common.Contracts;
 using Gmf.Net.Core.Common.Initialization.Filters;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using System.Text.Json.Serialization;
 
 namespace Gmf.Net.Core.Common.Initialization.Injection;
 
 [ExcludeFromCodeCoverage]
 public static class MvcExtensions
 {
-    private static readonly IEnumerable<IFilterMetadata> DefaultFilters = [
-        new RollbackTransactionFilter<IUnitOfWork>(unitOfWork => unitOfWork.CancelSaving()),
-        new TransactionFilter<IUnitOfWork>(async unitOfWork => await unitOfWork.SaveChangesAsync())
+    private static readonly IEnumerable<Func<FilterCollection, IFilterMetadata>> DefaultFilters = [
+        filters => filters.Add<RollbackTransactionFilter>(),
+        filters => filters.Add<TransactionFilter>()
     ];
 
-    public static IMvcBuilder AddMvc(this IServiceCollection services, IEnumerable<IFilterMetadata> filters,
+    public static IMvcBuilder AddMvc(this IServiceCollection services, IEnumerable<Func<FilterCollection, IFilterMetadata>> filters,
         IEnumerable<JsonConverter> converters, params Assembly[] assemblies)
     {
         var result = services.AddControllers(options =>
         {
             foreach (var filter in filters.Union(DefaultFilters))
             {
-                options.Filters.Add(filter);
+                _ = filter(options.Filters);
             }
         })
         .AddJsonOptions(opt =>

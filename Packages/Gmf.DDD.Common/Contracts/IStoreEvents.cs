@@ -1,6 +1,6 @@
 ﻿namespace Gmf.DDD.Common.Contracts;
-public interface IStoreEvents<in TDomainEvent>
+public interface IStoreEvents
 {
-    void Add(TDomainEvent domainEvent);
+    void Add(IDomainEvent domainEvent);
     Task Publish();
 }

@@ -6,17 +6,19 @@ using Serilog;
 namespace Gmf.Net.Core.Common;
 public abstract class ApplicationRunner()
 {
+    protected WebApplicationBuilder? Builder { get; private set; }
+
     public void RunWith(WebApplicationOptions options)
     {
         try
         {
-            var builder = WebApplication.CreateBuilder(options);
-            new SerilogLogger(builder).Configure();
-            Log.Information($"Starting API host in {builder.Environment.EnvironmentName} environment.");
+            Builder = WebApplication.CreateBuilder(options);
+            new SerilogLogger(Builder).ConfigureBootstrap();
+            Log.Information($"Starting API host in {Builder.Environment.EnvironmentName} environment.");
 
-            _ = builder.WebHost.ConfigureKestrel(settings => settings.AddServerHeader = false);
-            _ = builder.Host.UseSerilog();
-            OnApplicationRun(builder);
+            _ = Builder.WebHost.ConfigureKestrel(settings => settings.AddServerHeader = false);
+            _ = Builder.Host.UseSerilog(new SerilogLogger(Builder).Configure());
+            OnApplicationRun();
         }
 
         catch (Exception exception)
@@ -32,5 +34,5 @@ public abstract class ApplicationRunner()
         }
     }
 
-    protected abstract void OnApplicationRun(WebApplicationBuilder builder);
+    protected abstract void OnApplicationRun();
 }

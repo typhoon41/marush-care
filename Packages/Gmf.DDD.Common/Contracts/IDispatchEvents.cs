@@ -1,5 +1,5 @@
 ﻿namespace Gmf.DDD.Common.Contracts;
-public interface IDispatchEvents<in TDomainEvent>
+public interface IDispatchEvents
 {
-    Task Dispatch(TDomainEvent domainEvent);
+    Task Dispatch(IDomainEvent domainEvent);
 }

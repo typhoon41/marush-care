@@ -1,9 +1,8 @@
-﻿using Gmf.DDD.Common.Contracts;
-using Gmf.DDD.Common.Persistance;
+﻿using Gmf.DDD.Common.Persistance;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
-public record AppointmentDto : EntityDto<IDomainEvent>
+public record AppointmentDto : EntityDto
 {
     public Guid CustomerId { get; set; }
     public string Email { get; set; } = string.Empty;

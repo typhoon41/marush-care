@@ -1,4 +1,6 @@
-﻿namespace Gmf.Net.Core.Common.Initialization.Documentation;
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
+
+namespace Gmf.Net.Core.Common.Initialization.Documentation;
 
 public record OpenApiSettings
 {
@@ -7,5 +9,5 @@ public record OpenApiSettings
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public ApiDetails ApiDetails { get; set; } = new ApiDetails();
-    public Action OnSwaggerConfigured { get; set; } = () => { };
+    public Action<SwaggerGenOptions> OnConfiguringSwagger { get; set; } = (options) => { };
 }

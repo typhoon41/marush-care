@@ -1,18 +1,18 @@
-﻿using Gmf.DDD.Common.Contracts;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Gmf.DDD.Common.Contracts;
 using Gmf.DDD.Common.Persistance;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Gmf.Net.Core.Common.Persistence;
 
-public abstract class BaseDbContext<TDomainEvent> : DbContext
+public abstract class BaseDbContext : DbContext
 {
-    private readonly IDispatchEvents<TDomainEvent> _eventsDispatcher;
-    private readonly IStoreEvents<TDomainEvent> _eventsStore;
+    private readonly IDispatchEvents _eventsDispatcher;
+    private readonly IStoreEvents _eventsStore;
 
-    protected BaseDbContext([NotNull] IDispatchEvents<TDomainEvent> eventsDispatcher,
-        [NotNull] IStoreEvents<TDomainEvent> eventsStore, DbContextOptions options) : base(options)
+    protected BaseDbContext([NotNull] IDispatchEvents eventsDispatcher,
+        [NotNull] IStoreEvents eventsStore, DbContextOptions options) : base(options)
     {
         _eventsDispatcher = eventsDispatcher ?? throw new ArgumentNullException(nameof(eventsDispatcher));
         _eventsStore = eventsStore ?? throw new ArgumentNullException(nameof(eventsStore));
@@ -33,13 +33,13 @@ public abstract class BaseDbContext<TDomainEvent> : DbContext
         return result;
     }
 
-    private async Task Dispatch(TDomainEvent @event) => await _eventsDispatcher.Dispatch(@event);
+    private async Task Dispatch(IDomainEvent @event) => await _eventsDispatcher.Dispatch(@event);
 
     private async Task Publish() => await _eventsStore.Publish();
 
-    private IEnumerable<TDomainEvent> GatherDomainEvents()
+    private IEnumerable<IDomainEvent> GatherDomainEvents()
     {
-        var entries = ChangeTracker.Entries<EntityDto<TDomainEvent>>()
+        var entries = ChangeTracker.Entries<EntityDto>()
             .Where(x => x.Entity.DomainEvents.Any())
             .ToList();
         var domainEvents = entries.SelectMany(x => x.Entity.DomainEvents)
@@ -65,7 +65,7 @@ public abstract class BaseDbContext<TDomainEvent> : DbContext
     {
         var entityMethod = modelBuilder.GetEntityMethod();
         var entityTypes = CurrentAssembly.GetTypes()
-            .Where(x => x.IsSubclassOf(typeof(EntityDto<TDomainEvent>)) && !x.IsAbstract);
+            .Where(x => x.IsSubclassOf(typeof(EntityDto)) && !x.IsAbstract);
         foreach (var type in entityTypes)
         {
             _ = entityMethod.MakeGenericMethod(type).Invoke(modelBuilder, []);

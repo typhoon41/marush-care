@@ -5,7 +5,7 @@ pool:
   vmImage: windows-latest
 
 variables:
-  applicationVersion: 0.6
+  applicationVersion: 0.7
 
 name: $(applicationVersion).$(Rev:r)
 
@@ -15,7 +15,7 @@ stages:
   jobs:
   - template: 'Templates/build.yaml'
     parameters:
-      dotNetVersion: 9.0.101
+      dotNetVersion: 9.0.201
       applicationVersion: $(applicationVersion)
       angularApplicationPath: 'Site/Gmf.Marush.Care.App'
       apiApplicationPath: 'Gmf.Marush.Care.Api'

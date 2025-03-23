@@ -11,5 +11,6 @@ public class RepositoryModule : Module
 
         builder.DefaultInterfaceRegistration<CustomerRepository>();
         builder.DefaultInterfaceRegistration<AppointmentRepository>();
+        builder.DefaultInterfaceRegistration<UserRepository>();
     }
 }

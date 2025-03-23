@@ -1,10 +1,10 @@
-﻿using Autofac;
-using Autofac.Builder;
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
+using Autofac;
+using Autofac.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Gmf.Net.Core.Common.Initialization.Injection;
 
@@ -31,6 +31,11 @@ public static class AutofacBuilderExtensions
         builder.RegisterType<T>()
             .AsSelf()
             .InstancePerLifetimeScope();
+
+    public static void SingleInterfaceRegistration<T>(this ContainerBuilder builder) where T : class =>
+        builder.RegisterType<T>()
+           .AsImplementedInterfaces()
+           .SingleInstance();
 
     public static void SingleSelfRegistration<T>(this ContainerBuilder builder,
         Func<IComponentContext, T> definition) where T : class =>

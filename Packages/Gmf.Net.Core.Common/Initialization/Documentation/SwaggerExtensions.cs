@@ -17,6 +17,8 @@ public static class SwaggerExtensions
             _ = services.AddEndpointsApiExplorer();
             _ = services.AddSwaggerGen(options =>
             {
+                settings.OnConfiguringSwagger(options);
+
                 var apiDetails = settings.ApiDetails;
                 options.SwaggerDoc(apiDetails.Version, new OpenApiInfo
                 {
@@ -34,8 +36,6 @@ public static class SwaggerExtensions
                 var xmlFile = $"{Assembly.GetEntryAssembly()?.GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
-
-                settings.OnSwaggerConfigured();
             });
             _ = services.AddFluentValidationRulesToSwagger();
         }

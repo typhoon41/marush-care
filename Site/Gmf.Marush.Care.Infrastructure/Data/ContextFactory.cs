@@ -1,5 +1,4 @@
-﻿using Gmf.DDD.Common.Contracts;
-using Gmf.Net.Core.Common.Persistence;
+﻿using Gmf.Net.Core.Common.Persistence.Dispatchers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +20,6 @@ public class ContextFactory : IDesignTimeDbContextFactory<MarushCareContext>
         var optionsBuilder = new DbContextOptionsBuilder<MarushCareContext>();
         _ = optionsBuilder.UseSqlServer(configuration.GetConnectionString("Database")!);
 
-        return new MarushCareContext(new NoEventsDispatcher(), new EventsStore<IDomainEvent>(new NoEventsDispatcher()), optionsBuilder.Options);
+        return new MarushCareContext(new NoEventsDispatcher(), new EventsStore(new NoEventsDispatcher()), optionsBuilder.Options);
     }
 }

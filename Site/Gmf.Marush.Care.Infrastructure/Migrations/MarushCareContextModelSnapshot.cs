@@ -17,7 +17,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -148,6 +148,30 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.HasKey("CustomerId", "PhoneNumber");
 
                     b.ToTable("CustomerPhones", (string)null);
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.UserDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", b =>

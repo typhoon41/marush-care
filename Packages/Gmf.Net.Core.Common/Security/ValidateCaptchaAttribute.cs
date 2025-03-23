@@ -31,7 +31,7 @@ public sealed class ValidateCaptchaAttribute : ActionFilterAttribute
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(next);
 
-        if (_environment.IsDevelopment())
+        if (!_environment.IsProduction())
         {
             _ = await next();
             return;

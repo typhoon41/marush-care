@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Gmf.Mail.Common.Models;
 using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
+using Gmf.Marush.Care.Services;
 using Gmf.Net.Core.Common.Configuration;
 using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Security;
@@ -15,5 +16,8 @@ public class ConfigurationModule : Module
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<ContactSettings>("ContactInformation"));
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<DeveloperContact>("Developer"));
         builder.SingleSelfRegistration(c => c.Resolve<IConfiguration>().ResolveFrom<CaptchaSettings>("Captcha"));
+        builder.SingleSelfRegistration(c => GetJwtSettings(c.Resolve<IConfiguration>()));
     }
+
+    public static JwtSettings GetJwtSettings(IConfiguration configuration) => configuration.ResolveFrom<JwtSettings>("Jwt");
 }

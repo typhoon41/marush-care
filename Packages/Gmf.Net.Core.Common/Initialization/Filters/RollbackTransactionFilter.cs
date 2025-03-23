@@ -1,11 +1,9 @@
-﻿using Gmf.Net.Core.Common.Initialization.Http;
+﻿using Gmf.DDD.Common.Contracts;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Gmf.Net.Core.Common.Initialization.Filters;
-internal class RollbackTransactionFilter<T>(Action<T> onTransactionRollback) : IActionFilter where T : class
+public class RollbackTransactionFilter(Func<IUnitOfWork> unitOfWork) : IActionFilter
 {
-    private readonly Action<T> _onTransactionRollback = onTransactionRollback ?? throw new ArgumentNullException(nameof(onTransactionRollback));
-
     public void OnActionExecuting(ActionExecutingContext context)
     {
         ArgumentNullException.ThrowIfNull(context);
@@ -25,7 +23,6 @@ internal class RollbackTransactionFilter<T>(Action<T> onTransactionRollback) : I
             return;
         }
 
-        var unitOfWork = context.HttpContext.Resolve<T>();
-        _onTransactionRollback(unitOfWork);
+        unitOfWork().CancelSaving();
     }
 }
