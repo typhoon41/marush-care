@@ -8,10 +8,10 @@ using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
-public class AppointmentRepository(MarushCareContext context) : IAppointmentRepository
+public class AppointmentRepository(DbContext context) : IAppointmentRepository
 {
     private readonly DbSet<AppointmentDto> _appointments = context.Set<AppointmentDto>();
-    private readonly MarushCareContext _context = context ?? throw new ArgumentNullException(nameof(context));
+    private readonly DbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
     public (string Email, string Language)? Make(AppointmentDecision decision)
     {

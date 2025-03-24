@@ -5,6 +5,7 @@ using Gmf.Marush.Care.Api.Initialization;
 using Gmf.Marush.Care.Api.Services;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Net.Core.Common;
+using Gmf.Net.Core.Common.Configuration;
 using Gmf.Net.Core.Common.Initialization;
 using Gmf.Net.Core.Common.Initialization.Converters;
 using Gmf.Net.Core.Common.Initialization.Documentation;
@@ -12,6 +13,7 @@ using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Initialization.Middlewares;
 using Gmf.Net.Core.Common.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 [assembly: ApiController]
@@ -65,7 +67,14 @@ static void ContainerCallback(WebApplicationBuilder appBuilder, ContainerBuilder
 void ServiceCallback(WebApplicationBuilder builder)
 {
     var marushAssembly = new AssemblyFinder("Gmf.Marush.Care");
-    builder.AddSqlServerDbContext<MarushCareContext>("MarushCare");
+
+    // Had to use this method over Aspire's AddSqlServerDbContext because it adds Context with pools. This results with different instances of DbContext in filters...
+    _ = builder.Services.AddDbContext<MarushCareContext>((sp, options) =>
+    {
+        var connectionString = builder.Configuration.ResolveFrom<string>("ConnectionStrings:MarushCare");
+        _ = options.UseSqlServer(connectionString);
+    });
+
     _ = builder.Services.AddCors();
     _ = builder.Services.AddScoped(provider => new ValidateCaptchaAttribute(provider.GetService<IHttpClientFactory>()!,
             provider.GetService<CaptchaSettings>()!, builder.Environment, provider.GetService<ILogger<ValidateCaptchaAttribute>>()!));

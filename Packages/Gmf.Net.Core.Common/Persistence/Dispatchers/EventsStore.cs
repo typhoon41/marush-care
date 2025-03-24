@@ -6,7 +6,6 @@ public class EventsStore([NotNull] IDispatchEvents eventsDispatcher) : IStoreEve
 {
     private readonly IDispatchEvents _eventsDispatcher = eventsDispatcher ?? throw new ArgumentNullException(nameof(eventsDispatcher));
     private readonly Queue<IDomainEvent> _events = new();
-    public Guid Fix { get; } = Guid.NewGuid();
 
     public void Add(IDomainEvent domainEvent) => _events.Enqueue(domainEvent);
 

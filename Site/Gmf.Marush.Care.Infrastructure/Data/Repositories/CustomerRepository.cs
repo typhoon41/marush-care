@@ -4,7 +4,7 @@ using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
-public class CustomerRepository(MarushCareContext context) : ICustomerRepository
+public class CustomerRepository(DbContext context) : ICustomerRepository
 {
     private readonly DbSet<CustomerDto> _customers = context.Set<CustomerDto>();
 

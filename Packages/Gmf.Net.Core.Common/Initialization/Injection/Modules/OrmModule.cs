@@ -2,6 +2,7 @@
 using Autofac;
 using Gmf.Net.Core.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gmf.Net.Core.Common.Initialization.Injection.Modules;
 
@@ -12,7 +13,8 @@ public class OrmModule<T> : Module where T : DbContext
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        //builder.AncestorRegistration<T, DbContext>();
+        _ = builder.Register(c =>
+            c.Resolve<IServiceProvider>().GetRequiredService<T>()).As<DbContext>().InstancePerLifetimeScope();
         builder.DefaultInterfaceRegistration<EntityFrameworkUnitOfWork<T>>();
     }
 }

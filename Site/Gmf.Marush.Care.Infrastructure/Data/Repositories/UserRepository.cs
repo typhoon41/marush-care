@@ -6,14 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 
-public class UserRepository(MarushCareContext context) : IUserRepository
+public class UserRepository(DbContext context) : IUserRepository
 {
     public async Task Create(User user)
     {
         var newUser = new UserDto { Username = user.Username, Password = user.Password };
         newUser.AddDomainEvent(new UserCreated(user));
-        _ = context.Set<UserDto>().Add(newUser);
-        _ = await context.SaveChangesAsync();
+        _ = await context.Set<UserDto>().AddAsync(newUser);
     }
 
     public async Task<ExistingUser?> FindUserBy(string username)
@@ -22,12 +21,9 @@ public class UserRepository(MarushCareContext context) : IUserRepository
         return userFound != null ? new ExistingUser(userFound.Id, userFound.Username, userFound.Password) : null;
     }
 
-    public async Task<ExistingUser?> Audit(string username, UserRequestDetails userDetails)
+    public async Task AuditAuthenticationOf(ExistingUser user, UserRequestDetails userDetails)
     {
-        var existingUser = await FindUserBy(username) ?? throw new InvalidOperationException("Authenticated user was deleted during execution of this request");
-
-        var dbUser = new UserDto { Id = existingUser.Id, Username = existingUser.Username, Password = existingUser.Password };
-        dbUser.AddDomainEvent(new UserAuthenticated(existingUser, userDetails));
-        return existingUser;
+        var dbUser = await context.Set<UserDto>().FindAsync(user.Id) ?? throw new InvalidOperationException("User was deleted while trying to authenticate");
+        dbUser.AddDomainEvent(new UserAuthenticated(user, userDetails));
     }
 }

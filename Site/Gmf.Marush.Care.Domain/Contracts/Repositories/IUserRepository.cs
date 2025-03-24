@@ -5,5 +5,5 @@ public interface IUserRepository
 {
     Task Create(User user);
     Task<ExistingUser?> FindUserBy(string username);
-    Task<ExistingUser?> Audit(string username, UserRequestDetails userDetails);
+    Task AuditAuthenticationOf(ExistingUser user, UserRequestDetails userDetails);
 }

@@ -38,7 +38,7 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
 
         if (validCredentials)
         {
-            _ = await userRepository.Audit(given.Username, given.RequestDetails);
+            await userRepository.AuditAuthenticationOf(existingUser!, given.RequestDetails);
             return true;
         }
 
