@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.784122">
   <PropertyGroup>
-    <StartupCommand>npm start</StartupCommand>
+    <StartupCommand>npm run serve:ssr</StartupCommand>
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\</BuildOutputFolder>
     <BuildCommand>npm run build -- --configuration production</BuildCommand>

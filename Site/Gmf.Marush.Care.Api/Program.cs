@@ -83,7 +83,7 @@ void ServiceCallback(WebApplicationBuilder builder)
     _ = builder.Services.AddAuthorization();
     _ = builder.Services.AddMvc([], [new DateOnlyJsonConverter()], marushAssembly.Api);
 
-    if (!builder.Environment.IsDevelopment())
+    if (builder.Environment.IsProduction())
     {
         _ = builder.Services.AddHostedService<NodeJsRunnerService>();
     }
