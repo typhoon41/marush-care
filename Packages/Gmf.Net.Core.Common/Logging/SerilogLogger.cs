@@ -14,7 +14,6 @@ internal class SerilogLogger
 {
     private readonly string _logFilePath;
     private readonly LogEventLevel _defaultLogLevel;
-    private const string LogExtension = ".log";
     private const string AuditSuffix = "audit-";
 
     internal SerilogLogger(WebApplicationBuilder? builder)
@@ -51,7 +50,7 @@ internal class SerilogLogger
             .Enrich.FromLogContext()
             .CreateBootstrapLogger();
 
-    private string FilePath(bool isAudit) => $"{_logFilePath}{(isAudit ? AuditSuffix : string.Empty)}{LogExtension}";
+    private string FilePath(bool isAudit) => $"{_logFilePath}{(isAudit ? AuditSuffix : string.Empty)}";
 
     private LoggerConfiguration DefaultFileConfiguration(LoggerConfiguration configuration, bool forAudit = false) => configuration
          .WriteTo.File(FilePath(forAudit), rollingInterval: RollingInterval.Day, shared: true, formatProvider: CultureInfo.InvariantCulture,
