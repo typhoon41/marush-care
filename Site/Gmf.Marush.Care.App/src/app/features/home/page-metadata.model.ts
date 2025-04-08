@@ -5,10 +5,9 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>3.3. - 8.3.</strong></h3><p>Vacuslim 48 (10 tretmana)<br/><br/><s>40.000</s> 28.000</p>`,
-    $localize`:@@discounts.2:<h3><strong>3.3. - 8.3.</strong></h3><p>Vacuslim<br/><br/><s>4.000</s> 3.000</p>`,
-    $localize`:@@discounts.3:<h3><strong>3.3. - 8.3.</strong></h3><p>Hijal. pen<br/><br/><s>5.000</s> 3.500</p>`,
-    $localize`:@@discounts.4:<h3><strong>3.3. - 8.3.</strong></h3><p>Masaža lica + radio lifting + bio. tretman<br/><br/><s>6.000</s> 5.000</p>`
+    $localize`:@@discounts.1:<h3><strong>7.4. - 17.4.</strong></h3><p>Hem.piling + bio. tretman + lifting masaža<br/><br/><s>8.000</s> 6.500</p>`,
+    $localize`:@@discounts.2:<h3><strong>7.4. - 17.4.</strong></h3><p>Neinv. mezoter. + radio talasi<br/><br/><s>8.000</s> 6.000</p>`,
+    $localize`:@@discounts.3:<h3><strong>7.4. - 17.4.</strong></h3><p>Radio talasi + nano dermapen (bez perioda oporavka)<br/><br/><s>10.500</s> 8.000</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -25,15 +24,14 @@ export class HomePageMetadata extends PageMetadata {
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-03-02',
-            expires: '2025-03-08',
+            datePosted: '2025-04-07',
+            expires: '2025-04-17',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer($localize`:@@discounts.1:<h3><strong>3.3. - 8.3.</strong></h3><p>Vacuslim 48 (10 tretmana)<br/><br/><s>40.000</s> 28.000</p>`, '2025-03-08', '40000', '28000'),
-                this.offer($localize`:@@discounts.2:<h3><strong>3.3. - 8.3.</strong></h3><p>Vacuslim<br/><br/><s>4.000</s> 3.000</p>`, '2025-03-08', '4000', '3000'),
-                this.offer($localize`:@@discounts.3:<h3><strong>3.3. - 8.3.</strong></h3><p>Hijal. pen<br/><br/><s>5.000</s> 3.500</p>`, '2025-03-08', '5000', '3500'),
-                this.offer($localize`:@@discounts.4:<h3><strong>3.3. - 8.3.</strong></h3><p>Masaža lica + radio lifting + bio. tretman<br/><br/><s>6.000</s> 5.000</p>`, '2025-03-08', '6000', '5000')
+                this.offer($localize`:@@discounts.1:<h3><strong>7.4. - 17.4.</strong></h3><p>Hem.piling + bio. tretman + lifting masaža<br/><br/><s>8.000/s> 6.500</p>`, '2025-04-17', '8000', '6500'),
+                this.offer($localize`:@@discounts.2:<h3><strong>7.4. - 17.4.</strong></h3><p>Neinv. mezoter. + radio talasi<br/><br/><s>8.000</s> 6.000</p>`, '2025-04-17', '8000', '6000'),
+                this.offer($localize`:@@discounts.3:<h3><strong>7.4. - 17.4.</strong></h3><p>Radio talasi + nano dermapen (bez perioda oporavka)<br/><br/><s>10.500</s> 8.000</p>`, '2025-04-17', '10500', '8000')
             ]
         };
 
