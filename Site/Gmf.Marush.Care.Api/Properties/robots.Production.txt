@@ -1,4 +1,5 @@
 ﻿User-agent: *
+Disallow: /sr/uloguj-se/
 Disallow: /sr/greška/
 Disallow: /en/error/
 Disallow: /ru/ошибка/

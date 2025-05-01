@@ -24,6 +24,8 @@ export class RoutingDefinition {
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
+       this.lazyRoute('login', 'uloguj-se',
+            () => import('./features/admin/authentication/login-page.component').then(mod => mod.LoginPageComponent)),
         this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,
             () => import('./features/appointment/appointment-page.component').then(mod => mod.AppointmentPageComponent)),
         this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,
