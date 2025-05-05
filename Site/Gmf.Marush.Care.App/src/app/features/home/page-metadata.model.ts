@@ -5,9 +5,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>7.4. - 17.4.</strong></h3><p>Hem.piling + bio. tretman + lifting masaža<br/><br/><s>8.000</s> 6.500</p>`,
-    $localize`:@@discounts.2:<h3><strong>7.4. - 17.4.</strong></h3><p>Neinv. mezoter. + radio talasi<br/><br/><s>8.000</s> 6.000</p>`,
-    $localize`:@@discounts.3:<h3><strong>7.4. - 17.4.</strong></h3><p>Radio talasi + nano dermapen (bez perioda oporavka)<br/><br/><s>10.500</s> 8.000</p>`
+    $localize`:@@discounts.1:<h3><strong>5.5. - 10.5.</strong></h3><p>PRX - T33<br/><br/><s>7.000</s> 5.500</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -24,14 +22,12 @@ export class HomePageMetadata extends PageMetadata {
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-04-07',
-            expires: '2025-04-17',
+            datePosted: '2025-05-05',
+            expires: '2025-05-10',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer($localize`:@@discounts.1:<h3><strong>7.4. - 17.4.</strong></h3><p>Hem.piling + bio. tretman + lifting masaža<br/><br/><s>8.000/s> 6.500</p>`, '2025-04-17', '8000', '6500'),
-                this.offer($localize`:@@discounts.2:<h3><strong>7.4. - 17.4.</strong></h3><p>Neinv. mezoter. + radio talasi<br/><br/><s>8.000</s> 6.000</p>`, '2025-04-17', '8000', '6000'),
-                this.offer($localize`:@@discounts.3:<h3><strong>7.4. - 17.4.</strong></h3><p>Radio talasi + nano dermapen (bez perioda oporavka)<br/><br/><s>10.500</s> 8.000</p>`, '2025-04-17', '10500', '8000')
+                this.offer($localize`:@@discounts.1:<h3><strong>5.5. - 10.5.</strong></h3><p>PRX - T33<br/><br/><s>7.000</s> 5.500</p>`, '2025-05-10', '7000', '5500')
             ]
         };
 
