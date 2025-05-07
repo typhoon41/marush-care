@@ -12,6 +12,7 @@ import { Field } from '../field';
 export class InputComponent extends Field {
     readonly form = input.required<FormGroup>();
     readonly name = input<string>('');
+    readonly type = input<string>('text');
     readonly placeholder = input<string>('');
     readonly autoComplete = input<boolean>(false);
     readonly customValidation = input<string>('');

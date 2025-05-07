@@ -32,7 +32,7 @@
 	}
 }
 
-.appointment-header {
+.medium-title {
 	@extend %marush-header;
 
 	@include breakpoints.apply-from-tablet() {

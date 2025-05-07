@@ -17,7 +17,7 @@ $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 	}
 }
 
-.appointment-header {
+.medium-title {
 	padding-left: $panel-gap-half;
 	border-bottom: 1px solid variables.$body-color;
 	font-family: 'Overpass-Bold', sans-serif;

@@ -1,0 +1,11 @@
+@use 'variables';
+
+$default-gap: 1.5 * variables.$side-gaps;
+
+.header-centered {
+	margin: $default-gap variables.$side-gaps;
+}
+
+.main-action {
+	margin: variables.$side-gaps 0 $default-gap;
+}
