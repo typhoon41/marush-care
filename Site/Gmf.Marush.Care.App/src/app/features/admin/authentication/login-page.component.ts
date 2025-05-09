@@ -1,7 +1,9 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, Renderer2 } from '@angular/core';
+/* eslint-disable max-params */
+import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, Renderer2, signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InputComponent } from '@shared/components/forms/input/input.component';
+import { AuthenticationService } from '@shared/services/authentication-service';
 import { CaptchaService } from '@shared/services/captcha-service';
 
 @Component({
@@ -14,17 +16,18 @@ import { CaptchaService } from '@shared/services/captcha-service';
 export class LoginPageComponent {
   @HostBinding('class') classAttribute: string = 'row center-content vertical-stack';
   form: FormGroup;
-  globalError = '';
+  readonly globalError = signal('');
   constructor(private readonly captchaService: CaptchaService,
+    private readonly authenticationService: AuthenticationService,
     private readonly router: Router,
     private readonly renderer: Renderer2,
     private readonly formBuilder: NonNullableFormBuilder) {
     const userFieldLength = 64;
     const passwordFieldLength = 512;
     this.form = this.formBuilder.group({
-      username: new FormControl('', [Validators.required, Validators.maxLength(userFieldLength)]),
+      email: new FormControl('', [Validators.required, Validators.maxLength(userFieldLength)]),
       password: new FormControl('', [Validators.required, Validators.maxLength(passwordFieldLength)])
-    }, { updateOn: 'blur' });
+    }, { updateOn: 'change' });
 
     afterNextRender(() => {
       const script = this.renderer.createElement('script') as HTMLScriptElement;
@@ -33,7 +36,7 @@ export class LoginPageComponent {
   }
 
   readonly onSubmit = async() => {
-    this.globalError = '';
+    this.globalError.set('');
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
@@ -41,11 +44,10 @@ export class LoginPageComponent {
 
     try {
       await this.captchaService.executeProtectedAction('LOGIN', (token, action) =>
-        // eslint-disable-next-line no-console
-        Promise.resolve(console.log(`Captcha token: ${token}, action: ${action}`)));
-      await this.router.navigate(['admin']);
+        this.authenticationService.login(this.form.value, token, action));
+        await this.router.navigate(['admin']);
     } catch {
-      this.globalError = 'Korisničko ime ili lozinka nisu ispravni!';
+      this.globalError.set('Korisničko ime ili lozinka nisu ispravni!');
     }
   };
 }
