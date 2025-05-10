@@ -1,14 +1,13 @@
-import { Route } from '@angular/router';
+import { Location } from '@angular/common';
+import { TranslatedRoute } from '@shared/models/translated-route.model';
 
-interface TranslatedRoute extends Route {
-    key: string;
-}
 export class RoutingDefinition {
     readonly translateRoute = (key: string) => `/${this.routes.filter(route => route.key === key)[0].path}`;
-    readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>) => ({
+    readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>, isProtected = false) => ({
         key,
         path,
-        loadComponent: loadCallback
+        loadComponent: loadCallback,
+        isProtected
     } as TranslatedRoute);
 
     readonly home = () => $localize`:@@routes.home:početna` as string;
@@ -24,8 +23,8 @@ export class RoutingDefinition {
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
-       this.lazyRoute('login', 'uloguj-se',
-            () => import('./features/admin/authentication/login-page.component').then(mod => mod.LoginPageComponent)),
+        this.lazyRoute('login', 'uloguj-se',
+            () => import('./features/admin/authentication/login-page.component').then(mod => mod.LoginPageComponent), true),
         this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,
             () => import('./features/appointment/appointment-page.component').then(mod => mod.AppointmentPageComponent)),
         this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,
@@ -48,4 +47,9 @@ export class RoutingDefinition {
             redirectTo: encodeURI(this.error($localize`:@@routes.error.not-found:stranica-nije-pronađena`))
         }
     ];
+
+    readonly isCurrentProtected = (location: Location) =>
+        this.protectedRoutes.includes(location.path().substring(1));
+
+    private readonly protectedRoutes: string[] = this.routes.filter(route => route.isProtected).map(route => route.path ?? '');
 }

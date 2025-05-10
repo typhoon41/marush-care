@@ -22,4 +22,12 @@
 			@include headers.marush-tablet-caption();
 		}
 	}
+
+	.protected-menu-items {
+		width: 100%;
+
+		.action:not(.last) {
+			margin-bottom: 0;
+		}
+	}
 }

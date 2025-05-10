@@ -24,14 +24,19 @@ export class MenuComponent {
   marushDetails = marushDetails;
   showMobileMenu = false;
   logoHovered = false;
+  adminLogoHovered = false;
   readonly isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
-  readonly rla = viewChild<RouterLinkActive>(RouterLinkActive);
+  readonly logo = viewChild<RouterLinkActive>('logo');
+  readonly adminLogo = viewChild<RouterLinkActive>('adminLogo');
 
   constructor(readonly sizeService: SizeService,
     readonly authenticationService: AuthenticationService
   ) { }
 
-  readonly logoPath = () => this.rla()?.isActive || this.logoHovered ?
+  readonly adminLogoPath = () => this.adminLogo()?.isActive || this.adminLogoHovered ?
+    '/assets/images/menu/admin-active.svg' : '/assets/images/menu/admin.svg';
+
+  readonly logoPath = () => this.logo()?.isActive || this.logoHovered ?
     '/assets/images/logo-active.png' : '/assets/images/logo.png';
 
   readonly hideMobileMenu = () => {

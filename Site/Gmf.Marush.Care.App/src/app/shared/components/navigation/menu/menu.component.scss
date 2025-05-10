@@ -19,8 +19,12 @@
 		padding: 0 1.5 * variables.$menu-gaps;
 	}
 
-	.logo-container {
+	.logo-container, .admin-logo-container {
 		padding: 5px;
+	}
+
+	.admin-logo-container {
+		margin-right: 15px;
 	}
 
 	.logo {
@@ -35,6 +39,16 @@
 		@include breakpoints.apply-from-desktop() {
 			width: 152px;
 			height: 32px;
+		}
+	}
+
+	.admin-logo {
+		width: 44px;
+		height: 44px;
+
+		@include breakpoints.apply-from-tablet() {
+			width: 55px;
+			height: 55px;
 		}
 	}
 }
