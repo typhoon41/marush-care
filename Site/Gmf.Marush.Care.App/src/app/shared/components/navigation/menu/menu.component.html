@@ -2,6 +2,11 @@
     <a #rla="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
         tabindex="0" [routerLink]="'home' | translateRoute" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
         (click)="hideMobileMenu()">
+        @if(authenticationService.isAuthenticated())
+        {
+            <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
+            (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
+        }
         <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
             (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
     </a>

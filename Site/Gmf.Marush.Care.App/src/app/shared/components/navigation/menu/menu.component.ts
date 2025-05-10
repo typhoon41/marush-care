@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, viewChild } from '@angula
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import marushDetails from '@shared/models/marush-details.model';
+import { AuthenticationService } from '@shared/services/authentication-service';
 import { SizeService } from '@shared/services/size.service';
 import { RouteTranslatorPipe } from '../../../pipes/routing-translator-pipe';
 import { HamburgerButtonComponent } from '../hamburger/button.component';
@@ -26,7 +27,9 @@ export class MenuComponent {
   readonly isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
   readonly rla = viewChild<RouterLinkActive>(RouterLinkActive);
 
-  constructor(readonly sizeService: SizeService) { }
+  constructor(readonly sizeService: SizeService,
+    readonly authenticationService: AuthenticationService
+  ) { }
 
   readonly logoPath = () => this.rla()?.isActive || this.logoHovered ?
     '/assets/images/logo-active.png' : '/assets/images/logo.png';
