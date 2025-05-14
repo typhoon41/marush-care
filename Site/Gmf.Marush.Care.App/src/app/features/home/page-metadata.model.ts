@@ -5,7 +5,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>5.5. - 10.5.</strong></h3><p>PRX - T33<br/><br/><s>7.000</s> 5.500</p>`
+    $localize`:@@discounts.1:<p><strong>14.5. - 23.5.</strong></p><p>20% popusta na sve tretmane lica za penzionere!</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -20,14 +20,16 @@ export class HomePageMetadata extends PageMetadata {
             '@id': this.marushId('discounts'),
             announcementLocation: this.marushSalon(),
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
-            text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
+            text: $localize`:@@discounts.1:<p><strong>14.5. - 23.5.</strong></p><p>20% popusta na sve tretmane lica za penzionere!</p>`,
+            // Text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-05-05',
-            expires: '2025-05-10',
+            datePosted: '2025-05-14',
+            expires: '2025-05-23',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer($localize`:@@discounts.1:<h3><strong>5.5. - 10.5.</strong></h3><p>PRX - T33<br/><br/><s>7.000</s> 5.500</p>`, '2025-05-10', '7000', '5500')
+                // eslint-disable-next-line no-secrets/no-secrets
+                // This.offer($localize`:@@discounts.1:<h3><strong>5.5. - 10.5.</strong></h3><p>PRX - T33<br/><br/><s>7.000</s> 5.500</p>`, '2025-05-23', '7000', '5500')
             ]
         };
 
