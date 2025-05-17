@@ -2,7 +2,7 @@
     <div class="aligned-centrally stretch-between">
         @if(authenticationService.isAuthenticated())
         {
-            <a #adminLogo="routerLinkActive" class="admin-logo-container" routerLinkActive="active" ariaCurrentWhenActive="page" routerLink="klijenti" tabindex="0" (click)="hideMobileMenu()">
+            <a #adminLogo="routerLinkActive" class="admin-logo-container" routerLinkActive="active" ariaCurrentWhenActive="page" routerLink="admin/klijenti" tabindex="0" (click)="hideMobileMenu()">
                 <img class="admin-logo" alt="Marush: Space of Care - idi na zaštićeni deo" [src]="adminLogoPath()" (mouseover)="adminLogoHovered = true"
                     (mouseleave)="adminLogoHovered = false" (focus)="adminLogo.isActive" />
             </a>

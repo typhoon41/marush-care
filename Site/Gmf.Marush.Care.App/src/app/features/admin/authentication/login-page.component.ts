@@ -45,7 +45,7 @@ export class LoginPageComponent {
     try {
       await this.captchaService.executeProtectedAction('LOGIN', (token, action) =>
         this.authenticationService.login(this.form.value, token, action));
-        await this.router.navigate(['admin']);
+        await this.router.navigate(['admin/klijenti']);
     } catch {
       this.globalError.set('Korisničko ime ili lozinka nisu ispravni!');
     }

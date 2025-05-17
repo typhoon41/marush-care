@@ -1,5 +1,6 @@
 ﻿User-agent: *
-Disallow: /sr/uloguj-se/
+Disallow: /sr/admin/uloguj-se/
+Disallow: /sr/admin/klijenti/
 Disallow: /sr/greška/
 Disallow: /en/error/
 Disallow: /ru/ошибка/
