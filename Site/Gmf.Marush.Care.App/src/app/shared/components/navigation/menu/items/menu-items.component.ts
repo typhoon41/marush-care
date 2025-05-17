@@ -1,7 +1,9 @@
 import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import marushDetails from '@shared/models/marush-details.model';
+import { AuthenticationService } from '@shared/services/authentication-service';
 import { RoutingDefinition } from 'src/app/app.routes';
 import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
 
@@ -16,11 +18,12 @@ import { RouteTranslatorPipe } from '../../../../pipes/routing-translator-pipe';
   }
 })
 export class MenuItemsComponent {
-  constructor(private readonly location: Location) {
+  constructor(private readonly location: Location, private readonly authenticationService: AuthenticationService,
+    private readonly router: Router) {
     this.location.onUrlChange(() => {
       this.isCurrentRouteProtected.set(this.checkProtectedLocation());
     });
-   }
+  }
 
   readonly checkProtectedLocation = () => new RoutingDefinition().isCurrentProtected(this.location);
   readonly isCurrentRouteProtected = signal(this.checkProtectedLocation());
@@ -34,4 +37,11 @@ export class MenuItemsComponent {
   marushDetails = marushDetails;
 
   readonly hideMenu = () => this.hideMobileMenu.emit();
+
+  readonly logOut = async(event?: OptionalKeyboardEvent) => {
+    if (isAction(event)) {
+      this.authenticationService.logout();
+      await this.router.navigate(['']);
+    }
+  };
 }

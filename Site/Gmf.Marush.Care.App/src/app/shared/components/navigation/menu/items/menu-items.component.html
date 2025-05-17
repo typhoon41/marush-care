@@ -3,6 +3,9 @@
     <a class="action" routerLinkActive="active" routerLink="admin/klijenti" [tabIndex]="tabIndex()" (click)="hideMenu()">
         <span>Klijenti</span>
     </a>
+    <a class="action last clickable" [tabindex]="tabIndex()" (click)="logOut()" (keydown)="logOut($event)">
+        <span>Odjavi se</span>
+    </a>
 }
 
 @else

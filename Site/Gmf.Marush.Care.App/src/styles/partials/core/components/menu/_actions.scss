@@ -1,6 +1,7 @@
 @use 'variables';
 @use 'breakpoints';
 @use 'headers';
+@use 'sass:math';
 
 .marush-menu {
 	display: block;
@@ -23,11 +24,15 @@
 		}
 	}
 
+	.action:not(.last) {
+		margin-bottom: variables.$menu-gaps * .75;
+	}
+
 	.protected-menu-items {
 		width: 100%;
-
-		.action:not(.last) {
-			margin-bottom: 0;
-		}
 	}
+}
+
+.main-menu .protected-menu-items .action {
+	margin-bottom: 0;
 }
