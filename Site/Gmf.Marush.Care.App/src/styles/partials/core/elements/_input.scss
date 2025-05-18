@@ -8,7 +8,7 @@ input[type = 'checkbox'] {
 	border-radius: 6px;
 }
 
-input[type = 'text'] {
+input[type = 'text'], input[type = 'password'] {
 	@extend %element;
 
 	#{variables.$error-selector} {

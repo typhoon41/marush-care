@@ -28,7 +28,7 @@ export class AppointmentPageComponent extends BasePageComponent {
   marushDetails = marushDetails;
   form: FormGroup;
   defaultFieldLength = 100;
-  globalError = '';
+  readonly globalError = signal('');
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
   readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
   readonly totalCost: Signal<number>;
@@ -84,7 +84,7 @@ export class AppointmentPageComponent extends BasePageComponent {
   };
 
   readonly onSubmit = async() => {
-    this.globalError = '';
+    this.globalError.set('');
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
@@ -100,7 +100,7 @@ export class AppointmentPageComponent extends BasePageComponent {
       await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointmentService.makeRequest(this.form.value, token, action));
       await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')], { state: RequestUser.from(this.form) });
     } catch {
-      this.globalError = $localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`;
+      this.globalError.set($localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`);
     }
   };
 }

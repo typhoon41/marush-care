@@ -1,4 +1,4 @@
-<h1 id="appointment-form-title" class="appointment-header header-centered" i18n="@@appointment.title">Izaberite (do 4) usluge</h1>
+<h1 id="appointment-form-title" class="medium-title header-centered" i18n="@@appointment.title">Izaberite (do 4) usluge</h1>
 <form class="column-12 offset-tablet-1 column-tablet-10" aria-labelledby="appointment-form-title" [formGroup]="form" (submit)="onSubmit()">
     <marush-appointment-services-selector class="column-12"
         role="group"
@@ -9,7 +9,7 @@
     <marush-appointment-customer-details [class.hidden]="!checkedServices().value.length"
         [formGroup]="form" />
     <div class="column-12 vertical-stack center-content" [class.hidden]="!checkedServices().value.length">
-        <p class="invalid-field-message" [class.hidden]="!globalError">{{globalError}}</p>
+        <p class="invalid-field-message" [class.hidden]="!globalError()">{{globalError()}}</p>
         <button type="submit" class="main-action"><span i18n="@@schedule">Zakaži</span></button>
     </div>
     <p class="disclaimer column-12 offset-tablet-3 column-tablet-6" id="appointment-disclaimer" role="alert">{{disclaimer}}

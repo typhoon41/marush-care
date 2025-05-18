@@ -1,8 +1,2 @@
-<img class="error-decoration" src="/assets/images/errors/decoration.svg" alt="" />
-@if(systemError) {
-    <p class="error-text" i18n="@@error.system.description" role="alert">Dragi posetioče, došlo je do sistemske greške. Administratori sajta su obavešteni o ovom problemu.</p>
-}
-
-@else {
-    <p class="error-text" i18n="@@error.not-found.description" role="alert">Dragi posetioče, tražena stranica ne postoji.</p>
-}
+<img class="error-decoration" alt="" [src]="currentError.image" />
+<p class="error-text" role="alert">{{currentError.message}}</p>

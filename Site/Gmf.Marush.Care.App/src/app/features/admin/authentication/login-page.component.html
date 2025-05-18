@@ -1,0 +1,9 @@
+<h1 id="login-form-title" class="header-centered medium-title">Ulogujte se kako biste pristupili administrativnom delu</h1>
+<form aria-labelledby="login-form-title" class="center-content vertical-stack" [formGroup]="form" (submit)="onSubmit()">
+    <marush-input name="email" placeholder="Korisničko ime" [form]="form"
+        [autoComplete]="true" [validation]="['required', 'maxlength']" />
+    <marush-input name="password" placeholder="Lozinka" type="password" [form]="form"
+        [validation]="['required', 'maxlength']" />
+    <p class="invalid-field-message" [class.hidden]="!globalError()">{{globalError()}}</p>
+    <button type="submit" class="main-action"><span>Uloguj se</span></button>
+</form>

@@ -10,7 +10,6 @@ import { lastValueFrom } from 'rxjs';
 export class AppointmentService {
     constructor(private readonly http: HttpClient) { }
 
-
     readonly makeRequest = async(data: AppointmentRequest, captchaToken: string, captchaAction: string) => {
         const appointmentUrl = `${environment.apiUrl}appointment`;
         await lastValueFrom(this.http.post<AppointmentRequest>(appointmentUrl, data, {

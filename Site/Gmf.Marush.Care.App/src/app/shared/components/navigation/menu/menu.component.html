@@ -1,10 +1,19 @@
 <nav class="main-menu aligned-centrally stretch-between">
-    <a #rla="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
-        tabindex="0" [routerLink]="'home' | translateRoute" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
-        (click)="hideMobileMenu()">
-        <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
-            (mouseleave)="logoHovered = false" (focus)="rla.isActive" />
-    </a>
+    <div class="aligned-centrally stretch-between">
+        @if(authenticationService.isAuthenticated())
+        {
+            <a #adminLogo="routerLinkActive" class="admin-logo-container" routerLinkActive="active" ariaCurrentWhenActive="page" routerLink="admin/klijenti" tabindex="0" (click)="hideMobileMenu()">
+                <img class="admin-logo" alt="Marush: Space of Care - idi na zaštićeni deo" [src]="adminLogoPath()" (mouseover)="adminLogoHovered = true"
+                    (mouseleave)="adminLogoHovered = false" (focus)="adminLogo.isActive" />
+            </a>
+        }
+        <a #logo="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
+            tabindex="0" [routerLink]="'home' | translateRoute" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
+            (click)="hideMobileMenu()">
+            <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
+                (mouseleave)="logoHovered = false" (focus)="logo.isActive" />
+        </a>
+    </div>
 
     @if(sizeService.lastKnownSize()) {
         @if(isMobile()) {
