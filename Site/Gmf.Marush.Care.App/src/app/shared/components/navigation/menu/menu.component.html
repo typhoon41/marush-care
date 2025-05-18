@@ -23,7 +23,7 @@
 
         @else {
             <marush-menu-items />
-            @if(environment.name !== 'development'){
+            @if(environment.name !== 'development' && !authenticationService.isCurrentRouteProtected()){
                 <marush-language-selector />
             }
         }

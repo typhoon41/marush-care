@@ -1,4 +1,4 @@
-@if(isCurrentRouteProtected())
+@if(authenticationService.isCurrentRouteProtected())
 {
     <a class="action" routerLinkActive="active" routerLink="admin/klijenti" [tabIndex]="tabIndex()" (click)="hideMenu()">
         <span>Klijenti</span>
