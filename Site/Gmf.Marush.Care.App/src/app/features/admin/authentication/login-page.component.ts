@@ -1,6 +1,7 @@
 /* eslint-disable max-params */
 import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, Renderer2, signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { InputComponent } from '@shared/components/forms/input/input.component';
 import { AuthenticationService } from '@shared/services/authentication-service';
@@ -21,9 +22,11 @@ export class LoginPageComponent {
     private readonly authenticationService: AuthenticationService,
     private readonly router: Router,
     private readonly renderer: Renderer2,
+    private readonly title: Title,
     private readonly formBuilder: NonNullableFormBuilder) {
     const userFieldLength = 64;
     const passwordFieldLength = 512;
+    this.title.setTitle('Marush: Space of Care - prijava');
     this.form = this.formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.maxLength(userFieldLength)]),
       password: new FormControl('', [Validators.required, Validators.maxLength(passwordFieldLength)])
