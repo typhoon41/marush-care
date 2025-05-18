@@ -1,13 +1,18 @@
 import { Location } from '@angular/common';
+import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, RouterStateSnapshot } from '@angular/router';
+import { isUserAuthenticated } from '@shared/guards/authorized.guard';
+import { adminGuard } from '@shared/guards/login.guard';
 import { TranslatedRoute } from '@shared/models/translated-route.model';
 
 export class RoutingDefinition {
     readonly translateRoute = (key: string) => `/${this.routes.filter(route => route.key === key)[0].path}`;
-    readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>, isProtected = false) => ({
+    readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>,
+    guards: ((_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => MaybeAsync<GuardResult>)[] = []) => ({
         key,
         path,
         loadComponent: loadCallback,
-        isProtected
+        isProtected: path.startsWith('admin'),
+        canActivate: guards.length > 0 ? guards : undefined
     } as TranslatedRoute);
 
     readonly home = () => $localize`:@@routes.home:početna` as string;
@@ -23,10 +28,10 @@ export class RoutingDefinition {
         },
         this.lazyRoute('home', this.home(),
             () => import('./features/home/home-page.component').then(mod => mod.HomePageComponent)),
-        this.lazyRoute('login', 'admin/uloguj-se',
-            () => import('./features/admin/authentication/login-page.component').then(mod => mod.LoginPageComponent), true),
+        this.lazyRoute('login', 'uloguj-se',
+            () => import('./features/admin/authentication/login-page.component').then(mod => mod.LoginPageComponent), [adminGuard]),
         this.lazyRoute('clients', 'admin/klijenti',
-            () => import('./features/admin/clients/clients-page.component').then(mod => mod.ClientsPageComponent), true),
+            () => import('./features/admin/clients/clients-page.component').then(mod => mod.ClientsPageComponent), [isUserAuthenticated]),
         this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,
             () => import('./features/appointment/appointment-page.component').then(mod => mod.AppointmentPageComponent)),
         this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,

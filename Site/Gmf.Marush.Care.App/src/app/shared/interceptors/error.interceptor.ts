@@ -15,6 +15,7 @@ export const errorInterceptor = (request: HttpRequest<unknown>, next: HttpHandle
         catchError(async(error: HttpErrorResponse) => {
             if (error.status === HttpStatusCode.Unauthorized) {
                 authenticationService.logout();
+                await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.unauthorized:nemate-pristup`)]);
             }
 
             else if (error.status === HttpStatusCode.InternalServerError) {
