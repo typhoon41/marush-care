@@ -1,8 +1,11 @@
-﻿using Gmf.DDD.Common.Concepts;
+﻿using System.Diagnostics.CodeAnalysis;
+using Gmf.DDD.Common.Concepts;
 
 namespace Gmf.Marush.Care.Domain.Models;
 public class Customer : Entity<Guid>
 {
+    [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
+        Justification = "In email case, it doesn't matter but uppercase email is barely readable.")]
     public Customer(Guid id, string name, string surname, string email, string phone) : base(id)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -24,7 +27,7 @@ public class Customer : Entity<Guid>
 
         Name = name;
         Surname = surname;
-        Email = email;
+        Email = email.ToLowerInvariant();
         Phone = phone;
     }
 
