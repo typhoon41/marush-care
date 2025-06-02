@@ -24,7 +24,7 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
         }
 
         appointment!.Status = newStatus;
-        return (appointment.Email, appointment.Language);
+        return (appointment.Email ?? string.Empty, appointment.Language ?? string.Empty);
     }
 
     public async Task<Guid> ScheduleNew(Customer customer, Period appointment)

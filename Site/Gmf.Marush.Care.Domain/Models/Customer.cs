@@ -6,7 +6,7 @@ public class Customer : Entity<Guid>
 {
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
         Justification = "In email case, it doesn't matter but uppercase email is barely readable.")]
-    public Customer(Guid id, string name, string surname, string email, string phone) : base(id)
+    public Customer(Guid id, string name, string surname, string email, string phone, CustomerProperties? properties = null) : base(id)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -29,10 +29,19 @@ public class Customer : Entity<Guid>
         Surname = surname;
         Email = email.ToLowerInvariant();
         Phone = phone;
+        Properties = properties;
     }
 
     public string Name { get; } = string.Empty;
     public string Surname { get; } = string.Empty;
     public string Email { get; } = string.Empty;
     public string Phone { get; } = string.Empty;
+    public CustomerProperties? Properties { get; }
+}
+
+public class CustomerProperties
+{
+    public string? Notes { get; set; }
+    public DateTime? DateOfBirth { get; set; }
+    // Add more optional properties as needed
 }

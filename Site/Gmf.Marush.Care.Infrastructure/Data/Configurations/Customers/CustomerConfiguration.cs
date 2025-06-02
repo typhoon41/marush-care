@@ -1,7 +1,7 @@
-﻿using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
+﻿using System.Diagnostics.CodeAnalysis;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
 
@@ -20,6 +20,8 @@ public class CustomerConfiguration : IEntityTypeConfiguration<CustomerDto>
         _ = builder.Navigation(e => e.Phones)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
         _ = builder.Navigation(e => e.Emails)
+            .UsePropertyAccessMode(PropertyAccessMode.Property);
+        _ = builder.Navigation(e => e.Properties)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
         _ = builder.Property(x => x.Name).HasMaxLength(DefaultLength).IsRequired();
         _ = builder.Property(x => x.Surname).HasMaxLength(DefaultLength).IsRequired();
