@@ -27,18 +27,21 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
 
         if (!string.IsNullOrWhiteSpace(byFullName))
         {
-            entities = _customers.Include(c => c.Phones).Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
+            entities = _customers.Include(c => c.Phones)
+                .Include(c => c.Properties)
+                .Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
         }
 
         else
         {
-            entities = _customers.Include(c => c.Phones);
+            entities = _customers.Include(c => c.Phones).Include(c => c.Properties);
         }
 
-        var result = entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
+        var orderedResult = request is { SortBy: "Name", DescendingSort: true }
+            ? entities.OrderByDescending(c => c.Name).ThenByDescending(c => c.Surname)
+            : entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
 
-
-        return entities.Select(MapToDomain);
+        return (await orderedResult.ToListAsync()).Select(MapToDomain);
     }
 
     public async Task<Customer?> GetByIdAsync(Guid id)
@@ -46,6 +49,8 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
         var entity = await _customers
             .Include(c => c.Emails)
             .Include(c => c.Phones)
+            .Include(c => c.Properties)
+            .Include(c => c.Appointments)
             .FirstOrDefaultAsync(c => c.Id == id);
         return entity is null ? null : MapToDomain(entity);
     }
@@ -94,10 +99,8 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
     {
         var email = dto.Emails.FirstOrDefault()?.Email ?? string.Empty;
         var phone = dto.Phones.FirstOrDefault()?.PhoneNumber ?? string.Empty;
-        return new Customer(dto.Id, dto.Name, dto.Surname, email, phone, MapToDto(dto.Properties));
+        return new Customer(dto.Id, dto.Name, dto.Surname, email, phone);
     }
-
-    private static CustomerProperties MapToDto(CustomerPropertiesDto? customerProps) => new();
 
     private static CustomerDto MapToDto(Customer customer) => new()
     {
