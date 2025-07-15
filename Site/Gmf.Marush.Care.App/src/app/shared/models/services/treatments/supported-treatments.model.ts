@@ -2,7 +2,6 @@ import supportedBodyTreatments from './definitions/body-treatments.model';
 import supportedBrowsLashesTreatments from './definitions/brows-lashes.model';
 import supportedCombinationTreatments from './definitions/combination-treatments.model';
 import supportedFaceTreatments from './definitions/face-treatments.model';
-import supportedMassages from './definitions/massages.model';
 import supportedWaxing from './definitions/waxing.model';
 import { IDefineTreatmentGroup } from './types.model';
 
@@ -41,20 +40,6 @@ const supportedTreatments = [
         image: 'treatments-body',
         imageDescription: $localize`:@@services.body.image-description:Tretman tela`,
         treatments: supportedBodyTreatments
-    },
-    // {
-    //     Key: 'manicurePedicure',
-    //     Title: $localize`:@@services.manicure-pedicure.title:Manikir i Pedikir`,
-    //     Image: 'manicure-pedicure',
-    //     ImageDescription: $localize`:@@services.manicure-pedicure.image-description:Pedikirana ženska stopala`,
-    //     Treatments: supportedManicurePedicure
-    // },
-    {
-        key: 'massage',
-        title: $localize`:@@services.massage.title:Masaže`,
-        image: 'treatments-massage',
-        imageDescription: $localize`:@@services.massage.image-description:Žena uživa u masaži lica`,
-        treatments: supportedMassages
     }
 ] as IDefineTreatmentGroup[];
 

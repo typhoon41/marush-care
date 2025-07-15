@@ -82,7 +82,7 @@ $radius: 24px;
 			object-position: 0 50%;
 		}
 
-		&.brows-lashes, &.treatments-massage {
+		&.brows-lashes {
 			object-position: 0 55%;
 		}
 
@@ -92,10 +92,6 @@ $radius: 24px;
 
 		&.treatments-body {
 			object-position: 0 60%;
-		}
-
-		&.manicure-pedicure {
-			object-position: 0 100%;
 		}
 
 		@include breakpoints.apply-from-tablet() {
