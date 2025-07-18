@@ -46,36 +46,78 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
             .Include(c => c.Phones)
             .Include(c => c.Properties)
             .Include(c => c.Appointments)
+            .AsSplitQuery()
             .SingleOrDefaultAsync(c => c.Id == id);
         return customerFound is null ? null : MapTo(customerFound);
     }
 
-    public async Task<Customer> CreateAsync(Customer customer)
+    public async Task StoreAsync(CustomerDetails customer)
     {
-        var entity = MapToDto(customer);
-        _ = await _customers.AddAsync(entity);
-        _ = await context.SaveChangesAsync();
-        return MapToDomain(entity);
-    }
-
-    public async Task<bool> UpdateAsync(Customer customer)
-    {
-        var entity = await _customers
-            .Include(c => c.Emails)
-            .Include(c => c.Phones)
-            .FirstOrDefaultAsync(c => c.Id == customer.Id);
-        if (entity is null)
+        if (customer.Id is null)
         {
-            return false;
+            await Create(customer);
         }
 
-        entity.Name = customer.Name;
-        entity.Surname = customer.Surname;
-        // Update emails/phones/properties as needed
-
-        _ = await context.SaveChangesAsync();
-        return true;
+        else
+        {
+            Update(customer, customer.Id.Value);
+        }
     }
+
+    private async Task Create(CustomerDetails customer)
+    {
+        var entity = EntityFrom(customer);
+
+        foreach (var phone in customer.Phones)
+        {
+            entity.Phones.Add(new CustomerPhoneDto { PhoneNumber = phone });
+        }
+
+        foreach (var email in customer.Emails)
+        {
+            entity.Emails.Add(new CustomerEmailDto { Email = email });
+        }
+
+        _ = await _customers.AddAsync(entity);
+    }
+
+    private static CustomerDto EntityFrom(CustomerDetails customer) => new()
+    {
+        Name = customer.Name,
+        Surname = customer.Surname,
+        Properties = new CustomerPropertiesDto
+        {
+            DateOfBirth = customer.DateOfBirth ?? throw ValidationError(nameof(customer.DateOfBirth)),
+            PlaceOfResidence = customer.PlaceOfResidence ?? throw ValidationError(nameof(customer.PlaceOfResidence)),
+            Diagnosis = customer.Diagnosis ?? throw ValidationError(nameof(customer.Diagnosis)),
+            Allergies = customer.Allergies ?? throw ValidationError(nameof(customer.Allergies)),
+            Comments = customer.Comments ?? throw ValidationError(nameof(customer.Comments)),
+            Notes = customer.Notes ?? throw ValidationError(nameof(customer.Notes)),
+        }
+    };
+
+    private void Update(CustomerDetails customer, Guid id)
+    {
+        var entity = EntityFrom(customer);
+        entity.Id = id;
+
+        _ = _customers.Attach(entity);
+
+        entity.Phones.Clear();
+        entity.Emails.Clear();
+
+        foreach (var phone in customer.Phones)
+        {
+            entity.Phones.Add(new CustomerPhoneDto { PhoneNumber = phone });
+        }
+
+        foreach (var email in customer.Emails)
+        {
+            entity.Emails.Add(new CustomerEmailDto { Email = email });
+        }
+    }
+
+    private static InvalidOperationException ValidationError(string propertyName) => new($"Validation of upper layer failed for {propertyName}");
 
     public async Task<bool> DeleteAsync(Guid id)
     {
@@ -86,7 +128,6 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
         }
 
         _ = _customers.Remove(entity);
-        _ = await context.SaveChangesAsync();
         return true;
     }
 
@@ -104,20 +145,4 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
         var phone = dto.Phones.FirstOrDefault()?.PhoneNumber ?? string.Empty;
         return new Customer(dto.Id, dto.Name, dto.Surname, email, phone);
     }
-
-    private static CustomerDto MapToDto(Customer customer) => new()
-    {
-        Id = customer.Id,
-        Name = customer.Name,
-        Surname = customer.Surname,
-        //Emails =
-        //    [
-        //        new CustomerEmailDto { Email = customer.Email }
-        //    ],
-        //Phones =
-        //    [
-        //        new CustomerPhoneDto { PhoneNumber = customer.Phone }
-        //    ],
-        //Properties = customer.Properties?.ToDto()
-    };
 }
