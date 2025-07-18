@@ -9,7 +9,8 @@ public class RepositoryModule : Module
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.DefaultInterfaceRegistration<CustomerRepository>();
+        builder.DefaultInterfaceRegistration<CustomerModificationRepository>();
+        builder.DefaultInterfaceRegistration<CustomerRetrievalRepository>();
         builder.DefaultInterfaceRegistration<AppointmentRepository>();
         builder.DefaultInterfaceRegistration<UserRepository>();
     }

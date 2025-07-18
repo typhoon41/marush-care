@@ -4,10 +4,10 @@ using Gmf.Marush.Care.Domain.Contracts.Services;
 using Gmf.Marush.Care.Domain.Models;
 
 namespace Gmf.Marush.Care.Services.Domain.Appointment;
-public class Service(IAppointmentRepository appointmentRepository, ICustomerRepository customerRepository) : IAppointmentService
+public class Service(IAppointmentRepository appointmentRepository, ICustomerRetrievalRepository customerRepository) : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository = appointmentRepository;
-    private readonly ICustomerRepository _customerRepository = customerRepository;
+    private readonly ICustomerRetrievalRepository _customerRepository = customerRepository;
 
     public async Task<Guid> Schedule(Customer customer, Period appointment)
     {
