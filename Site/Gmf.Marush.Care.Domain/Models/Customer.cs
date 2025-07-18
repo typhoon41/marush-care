@@ -33,6 +33,7 @@ public class Customer : Entity<Guid>
 
     public string Name { get; } = string.Empty;
     public string Surname { get; } = string.Empty;
+    public string FullName => $"{Name} {Surname}".Trim();
     public string Email { get; } = string.Empty;
     public string Phone { get; } = string.Empty;
 }

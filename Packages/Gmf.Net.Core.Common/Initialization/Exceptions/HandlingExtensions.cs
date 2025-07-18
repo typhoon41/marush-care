@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Gmf.Net.Core.Common.Initialization.Exceptions;
@@ -66,7 +68,12 @@ internal static class HandlingExtensions
             StatusCode = 500
         };
 
-        await NotifyDeveloperAbout(context, exception);
+        var environment = context.RequestServices.GetService<IHostEnvironment>();
+        if (environment?.IsDevelopment() == false)
+        {
+            await NotifyDeveloperAbout(context, exception);
+        }
+
         await ExecuteResult(context, jsonResult);
     }
 

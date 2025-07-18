@@ -1,5 +1,6 @@
 ﻿using Gmf.Marush.Care.Api.Models.Customers;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
+using Gmf.Marush.Care.Domain.Models;
 using Gmf.Net.Core.Common.Requests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +11,31 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Consumes("application/json")]
 public class CustomerController(ICustomerRepository repository) : ControllerBase
 {
-    [HttpGet]
-    public async Task<PaginatedResponse<CustomerListItemDto>> GetAll(CustomerFilteredPagination data)
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(CustomerDetails), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var customers = await repository.GetAllAsync();
-        return Ok(customers.Select(MapToDto));
+        var customer = await repository.GetByIdAsync(id);
+        return customer is null ? NotFound() : Ok(customer);
     }
-    // Filter-Sort-Paginate, Get, Create, Update, Delete
+
+    [HttpPost("get-all")]
+    [ProducesResponseType(typeof(PaginatedResponse<CustomerListItemDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<PaginatedResponse<CustomerListItemDto>>> GetAll(CustomerFilteredPagination data)
+    {
+        var customers = await repository.GetAllAsync(data.Filter, data);
+        var items = customers.Results.Select(customer => new CustomerListItemDto { Id = customer.Id, ContactNumber = customer.Phone, FullName = customer.FullName });
+        return Ok(new PaginatedResponse<CustomerListItemDto>
+        {
+            Items = items,
+            PageSize = data.PageSize,
+            PageNumber = data.PageNumber,
+            TotalCount = customers.TotalCount
+        });
+    }
+
+    // Get, Create, Update, Delete
 
     //[HttpGet("{id:guid}")]
     //public async Task<IActionResult> GetById(Guid id)

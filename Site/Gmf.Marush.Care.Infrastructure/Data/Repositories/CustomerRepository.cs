@@ -21,38 +21,33 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
         return entity is null ? null : MapToDomain(entity);
     }
 
-    public async Task<IEnumerable<Customer>> GetAllAsync(string? byFullName, IPaginateRequest request)
+    public async Task<(IEnumerable<Customer> Results, int TotalCount)> GetAllAsync(string? byFullName, IPaginateRequest request)
     {
-        IQueryable<CustomerDto> entities;
+        IQueryable<CustomerDto> entities = _customers.Include(c => c.Phones).Include(c => c.Emails)
+                .Include(c => c.Properties);
 
         if (!string.IsNullOrWhiteSpace(byFullName))
         {
-            entities = _customers.Include(c => c.Phones)
-                .Include(c => c.Properties)
-                .Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
-        }
-
-        else
-        {
-            entities = _customers.Include(c => c.Phones).Include(c => c.Properties);
+            entities = entities.Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
         }
 
         var orderedResult = request is { SortBy: "Name", DescendingSort: true }
             ? entities.OrderByDescending(c => c.Name).ThenByDescending(c => c.Surname)
             : entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
 
-        return (await orderedResult.ToListAsync()).Select(MapToDomain);
+        return ((await orderedResult.ToListAsync()).Select(MapToDomain),
+            _customers.Count());
     }
 
-    public async Task<Customer?> GetByIdAsync(Guid id)
+    public async Task<CustomerDetails?> GetByIdAsync(Guid id)
     {
-        var entity = await _customers
+        var customerFound = await _customers
             .Include(c => c.Emails)
             .Include(c => c.Phones)
             .Include(c => c.Properties)
             .Include(c => c.Appointments)
-            .FirstOrDefaultAsync(c => c.Id == id);
-        return entity is null ? null : MapToDomain(entity);
+            .SingleOrDefaultAsync(c => c.Id == id);
+        return customerFound is null ? null : MapTo(customerFound);
     }
 
     public async Task<Customer> CreateAsync(Customer customer)
@@ -93,6 +88,14 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
         _ = _customers.Remove(entity);
         _ = await context.SaveChangesAsync();
         return true;
+    }
+
+    private static CustomerDetails MapTo(CustomerDto dto)
+    {
+        var properties = dto.Properties;
+        return new CustomerDetails(dto.Id, dto.Name, dto.Surname, dto.Phones.Select(phone => phone.PhoneNumber),
+            dto.Emails.Select(phone => phone.Email), properties?.DateOfBirth,
+            properties?.PlaceOfResidence, properties?.Diagnosis, properties?.Allergies, properties?.Comments, properties?.Notes);
     }
 
     private static Customer MapToDomain(CustomerDto dto)
