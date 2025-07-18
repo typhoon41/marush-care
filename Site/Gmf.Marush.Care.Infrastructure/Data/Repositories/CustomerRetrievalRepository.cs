@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 
-public class CustomerRepository(DbContext context) : ICustomerRepository
+public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrievalRepository
 {
     private readonly DbSet<CustomerDto> _customers = context.Set<CustomerDto>();
 
@@ -49,86 +49,6 @@ public class CustomerRepository(DbContext context) : ICustomerRepository
             .AsSplitQuery()
             .SingleOrDefaultAsync(c => c.Id == id);
         return customerFound is null ? null : MapTo(customerFound);
-    }
-
-    public async Task StoreAsync(CustomerDetails customer)
-    {
-        if (customer.Id is null)
-        {
-            await Create(customer);
-        }
-
-        else
-        {
-            Update(customer, customer.Id.Value);
-        }
-    }
-
-    private async Task Create(CustomerDetails customer)
-    {
-        var entity = EntityFrom(customer);
-
-        foreach (var phone in customer.Phones)
-        {
-            entity.Phones.Add(new CustomerPhoneDto { PhoneNumber = phone });
-        }
-
-        foreach (var email in customer.Emails)
-        {
-            entity.Emails.Add(new CustomerEmailDto { Email = email });
-        }
-
-        _ = await _customers.AddAsync(entity);
-    }
-
-    private static CustomerDto EntityFrom(CustomerDetails customer) => new()
-    {
-        Name = customer.Name,
-        Surname = customer.Surname,
-        Properties = new CustomerPropertiesDto
-        {
-            DateOfBirth = customer.DateOfBirth ?? throw ValidationError(nameof(customer.DateOfBirth)),
-            PlaceOfResidence = customer.PlaceOfResidence ?? throw ValidationError(nameof(customer.PlaceOfResidence)),
-            Diagnosis = customer.Diagnosis ?? throw ValidationError(nameof(customer.Diagnosis)),
-            Allergies = customer.Allergies ?? throw ValidationError(nameof(customer.Allergies)),
-            Comments = customer.Comments ?? throw ValidationError(nameof(customer.Comments)),
-            Notes = customer.Notes ?? throw ValidationError(nameof(customer.Notes)),
-        }
-    };
-
-    private void Update(CustomerDetails customer, Guid id)
-    {
-        var entity = EntityFrom(customer);
-        entity.Id = id;
-
-        _ = _customers.Attach(entity);
-
-        entity.Phones.Clear();
-        entity.Emails.Clear();
-
-        foreach (var phone in customer.Phones)
-        {
-            entity.Phones.Add(new CustomerPhoneDto { PhoneNumber = phone });
-        }
-
-        foreach (var email in customer.Emails)
-        {
-            entity.Emails.Add(new CustomerEmailDto { Email = email });
-        }
-    }
-
-    private static InvalidOperationException ValidationError(string propertyName) => new($"Validation of upper layer failed for {propertyName}");
-
-    public async Task<bool> DeleteAsync(Guid id)
-    {
-        var entity = await _customers.FindAsync(id);
-        if (entity is null)
-        {
-            return false;
-        }
-
-        _ = _customers.Remove(entity);
-        return true;
     }
 
     private static CustomerDetails MapTo(CustomerDto dto)
