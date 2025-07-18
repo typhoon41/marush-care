@@ -35,8 +35,12 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
             ? entities.OrderByDescending(c => c.Name).ThenByDescending(c => c.Surname)
             : entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
 
-        return ((await orderedResult.ToListAsync()).Select(MapToDomain),
-            _customers.Count());
+        var paginatedResult = await orderedResult
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync();
+
+        return (paginatedResult.Select(MapToDomain), _customers.Count());
     }
 
     public async Task<CustomerDetails?> GetByIdAsync(Guid id)
