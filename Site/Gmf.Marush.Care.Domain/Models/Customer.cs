@@ -4,6 +4,8 @@ using Gmf.DDD.Common.Concepts;
 namespace Gmf.Marush.Care.Domain.Models;
 public class Customer : Entity<Guid>
 {
+    public const string PhoneRegex = @"^(06\d{7,8})|(\+\d{10,13})$";
+
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase",
         Justification = "In email case, it doesn't matter but uppercase email is barely readable.")]
     public Customer(Guid id, string name, string surname, string email, string phone) : base(id)

@@ -2,6 +2,7 @@
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Net.Core.Common.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gmf.Marush.Care.Api.Controllers;
@@ -9,11 +10,13 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Route("api/[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
+[Authorize]
 public class CustomerController(ICustomerModificationRepository customerModificationRepository,
     ICustomerRetrievalRepository customerRetievalRepository) : ControllerBase
 {
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(CustomerDetails), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -23,6 +26,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
 
     [HttpPost("get-all")]
     [ProducesResponseType(typeof(PaginatedResponse<CustomerListItemDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PaginatedResponse<CustomerListItemDto>>> GetAll(CustomerFilteredPagination data)
     {
         var customers = await customerRetievalRepository.GetAllAsync(data.Filter, data);
@@ -39,6 +43,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [HttpPost]
     [ProducesResponseType(typeof(CustomerDetails), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create(NewCustomerDto dto)
     {
         var customer = MapToDomain(dto);
@@ -50,6 +55,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(CustomerDto dto)
     {
@@ -60,6 +66,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
 
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {

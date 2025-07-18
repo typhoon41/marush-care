@@ -1,25 +1,23 @@
-﻿using System.Linq.Expressions;
-using FluentValidation;
+﻿using FluentValidation;
 using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Resources;
+using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
 
 namespace Gmf.Marush.Care.Api.Validation;
 
 public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
 {
-    private const string PhoneRegex = @"^(06\d{7,8})|(\+\d{10,13})$";
-
     public AppointmentRequestValidator()
     {
-        _ = SetupValidationFor(request => request.Name);
-        _ = SetupValidationFor(request => request.Surname);
-        _ = SetupValidationFor(request => request.Email)
+        _ = this.SetupValidationFor(request => request.Name);
+        _ = this.SetupValidationFor(request => request.Surname);
+        _ = this.SetupValidationFor(request => request.Email)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
-        _ = SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength)
-            .Matches(PhoneRegex)
+        _ = this.SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength)
+            .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
 
         _ = RuleFor(request => request.Date)
@@ -41,15 +39,5 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
-    }
-
-    private IRuleBuilderOptions<AppointmentRequest, string> SetupValidationFor(Expression<Func<AppointmentRequest, string>> property, int? length = null)
-    {
-        var lengthToSet = length ?? CustomerConfiguration.DefaultLength;
-        return RuleFor(property)
-        .NotNull()
-        .WithMessage(Labels.ValidationRequired)
-        .MaximumLength(lengthToSet)
-        .WithMessage(Labels.ValidationLength);
     }
 }
