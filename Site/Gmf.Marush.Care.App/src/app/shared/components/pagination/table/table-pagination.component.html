@@ -1,0 +1,44 @@
+<table>
+  <tbody>
+    @for(t of tableContent() | slice : (currentPage() - 1) * pageSize() : currentPage() * pageSize(); track t.name)
+    {
+    <tr>
+      <td>
+        {{ t.name }}
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+<ul>
+  <!-- first button -->
+  <li>
+    <button type="button" (click)="setCurrentPage(1)">««</button>
+  </li>
+
+  <!-- previous button -->
+  <li [class]="currentPage() === 1 ? 'page-item disabled' : 'page-item'">
+    <button type="button" (click)="previousPage()">«</button>
+  </li>
+
+  @for(page of allPages(); track page)
+  {
+  <li>
+    <button type="button" (click)="setCurrentPage(page)">
+      {{ page }}
+    </button>
+  </li>
+  }
+
+  <!-- next button -->
+  <li [class]="currentPage() === pageCount() ? 'page-item disabled' : 'page-item'">
+    <button type="button" (click)="nextPage()">»</button>
+  </li>
+
+  <!-- last button -->
+  <li>
+    <button type="button" (click)="setCurrentPage(pageCount())">
+      »»
+    </button>
+  </li>
+</ul>
