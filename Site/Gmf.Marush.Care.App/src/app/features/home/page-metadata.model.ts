@@ -5,7 +5,7 @@ import { ILanguage } from '@shared/models/language.model';
 import { MoneyPipe } from '@shared/pipes/money-pipe';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>21.7. - 26.7.</strong></h3><p>Neinv. mezoter. + radio talasi + lifting masaža<br/><br/><s>10.500</s> 7.500</p>`
+    $localize`:@@discounts.1:<h3><strong>25.8. - 30.8.</strong></h3><p>Ferul. piling. + vitamin C (neinv. mezot.)<br/><br/><s>9.500</s> 7.000</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -22,12 +22,12 @@ export class HomePageMetadata extends PageMetadata {
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-07-19',
-            expires: '2025-07-26',
+            datePosted: '2025-08-25',
+            expires: '2025-08-30',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer(currentDiscounts[0], '2025-07-26', '10500', '7500')
+                this.offer(currentDiscounts[0], '2025-08-30', '9500', '7000')
             ]
         };
 
