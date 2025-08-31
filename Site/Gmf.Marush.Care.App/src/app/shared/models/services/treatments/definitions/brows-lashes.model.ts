@@ -17,13 +17,13 @@ const supportedBrowsLashesTreatments = [
         title: $localize`:@@treatments.brows-lashes.eyebrow-tinting:Farbanje obrva`,
         name: 'Farbanje obrva',
         duration: 20,
-        price: 500
+        price: 1000
     }),
     new TreatmentDefinition({
         title: $localize`:@@treatments.brows-lashes.eyebrow-shaping:Oblikovanje obrva (pincetom ili depilacija voskom)`,
         name: 'Oblikovanje obrva (pincetom ili depilacija voskom)',
         duration: 20,
-        price: 500
+        price: 800
     })
 ];
 

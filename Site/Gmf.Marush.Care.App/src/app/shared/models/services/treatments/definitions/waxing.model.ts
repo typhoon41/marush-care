@@ -5,19 +5,19 @@ const supportedWaxing = [
         title: $localize`:@@treatments.waxing.upper-lips:Depilacija nausnica`,
         name: 'Depilacija nausnica',
         duration: 15,
-        price: 500
+        price: 800
     }),
     new TreatmentDefinition({
         title: $localize`:@@treatments.waxing.chin:Depilacija brade`,
         name: 'Depilacija brade',
         duration: 15,
-        price: 500
+        price: 800
     }),
     new TreatmentDefinition({
         title: $localize`:@@treatments.waxing.sideburns:Depilacija zulufa`,
         name: 'Depilacija zulufa',
         duration: 15,
-        price: 500
+        price: 800
     }),
     new TreatmentDefinition({
         title: $localize`:@@treatments.waxing.half-arms:Depilacija pola ruku`,
