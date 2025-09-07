@@ -14,7 +14,7 @@ export class AuthenticationService {
     private readonly storage!: Signal<Event | undefined>;
     readonly isAuthenticated: WritableSignal<boolean> = signal(false);
     readonly isCurrentRouteProtected: WritableSignal<boolean> = signal(false);
-    private readonly getToken = () => localStorage.getItem('token');
+    readonly getToken = () => localStorage.getItem('token');
     private readonly store = (token: string) => localStorage.setItem('token', token);
     private readonly removeToken = () => localStorage.removeItem('token');
 

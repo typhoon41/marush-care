@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, input, computed, signal } from '@angular/core';
+import { PaginatedRequest } from '../request.model';
 import { TableMetadata } from './table-metadata.model';
 
 @Component({
@@ -10,13 +11,14 @@ import { TableMetadata } from './table-metadata.model';
     styleUrl: './table-pagination.component.scss'
 })
 export class MarushTablePaginationComponent {
-    private readonly defaultPageSize = 20;
     private readonly visiblePagesCount = 3;
-    readonly pageSize = input<number>(this.defaultPageSize);
+    readonly pageSize = input<number>(PaginatedRequest.defaultPageSize);
     readonly tableMetadata = input.required<TableMetadata>();
     readonly onSort = input<(column: string, direction: 'asc' | 'desc') => void>();
     readonly tableContent = input.required<Record<string, string>[]>();
     readonly currentPage = signal<number>(1);
+    readonly cantGoBack = computed(() => this.currentPage() <= 1);
+    readonly cantGoForward = computed(() => this.currentPage() >= this.pageCount());
     readonly collectionSize = computed(() => this.tableContent()?.length || 0);
     readonly pageCount = computed(() => Math.ceil(this.collectionSize() / this.pageSize()));
     readonly allPages = computed(() => {
@@ -24,7 +26,7 @@ export class MarushTablePaginationComponent {
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         const start = Math.max(1, Math.min(this.currentPage() - Math.floor(this.visiblePagesCount / 2), total - this.visiblePagesCount + 1));
 
-        return Array.from({ length: this.visiblePagesCount }, (_, index) => start + index);
+        return Array.from({ length: total < this.visiblePagesCount ? total : this.visiblePagesCount }, (_, index) => start + index);
     });
 
     readonly isSorted = (column: string, direction: 'asc' | 'desc') =>

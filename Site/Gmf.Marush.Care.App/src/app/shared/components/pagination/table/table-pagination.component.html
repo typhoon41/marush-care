@@ -29,11 +29,10 @@
   </tbody>
 </table>
 <div class="button-container aligned-centrally">
-  <!-- first button -->
-  <button class="pagination-button main-action jump-left" type="button" (click)="setCurrentPage(1)">
+  <button class="pagination-button main-action jump-left" type="button" [disabled]="cantGoBack()" (click)="setCurrentPage(1)">
     <span role="img" class="arrow-icon left"></span><span role="img" class="arrow-icon left"></span>
   </button>
-  <button class="pagination-button main-action jump-left" type="button" (click)="previousPage()">
+  <button class="pagination-button main-action jump-left" type="button" [disabled]="cantGoBack()" (click)="previousPage()">
     <span role="img" class="arrow-icon left"></span>
   </button>
 
@@ -44,10 +43,10 @@
     <span>{{ page }}</span>
   </button>
   }
-  <button class="pagination-button main-action jump-right" type="button" (click)="nextPage()"><span role="img"
+  <button class="pagination-button main-action jump-right" type="button" [disabled]="cantGoForward()" (click)="nextPage()"><span role="img"
       class="arrow-icon right"></span>
   </button>
-  <button class="pagination-button main-action jump-right" type="button" (click)="setCurrentPage(pageCount())">
+  <button class="pagination-button main-action jump-right" type="button" [disabled]="cantGoForward()" (click)="setCurrentPage(pageCount())">
     <span role="img" class="arrow-icon right"></span><span role="img" class="arrow-icon right"></span>
   </button>
 </div>

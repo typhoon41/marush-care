@@ -3,7 +3,7 @@
     [formGroup]="form" (submit)="onSubmit()">
     <marush-input class="search-input" name="name" [form]="form" [autoComplete]="true" [placeholder]="'Ime i(li) Prezime'"
         [validation]="['maxlength']" />
-    <button type="submit" class="main-action"><span i18n="@@search">Pretraži</span></button>
+    <button type="submit" class="main-action"><span>Pretraži</span></button>
 </form>
 
-<marush-table-pagination [tableMetadata]="tableMetadata" [tableContent]="tableContent" />
+<marush-table-pagination [tableMetadata]="tableMetadata" [tableContent]="tableContent()" />

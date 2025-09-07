@@ -9,6 +9,12 @@
 	&:active {
 		color: variables.$accent;
 	}
+
+	&:disabled {
+		opacity: .5;
+		background-color: variables.$accent;
+		cursor: not-allowed;
+	}
 }
 
 .caret {
