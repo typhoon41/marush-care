@@ -9,18 +9,18 @@
 	&:active {
 		background-color: transparent;
 	}
+}
 
-	.arrow-icon {
-		display: block;
-		width: 12px;
-		height: 21px;
+.arrow-icon {
+	display: block;
+	width: 12px;
+	height: 21px;
 
-		&.left {
-			background-image: url('/assets/images/home/arrow-left.svg');
-		}
+	&.left {
+		background-image: url('/assets/images/home/arrow-left.svg');
+	}
 
-		&.right {
-			background-image: url('/assets/images/home/arrow-right.svg');
-		}
+	&.right {
+		background-image: url('/assets/images/home/arrow-right.svg');
 	}
 }

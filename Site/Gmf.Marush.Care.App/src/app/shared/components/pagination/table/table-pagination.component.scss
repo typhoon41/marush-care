@@ -1,0 +1,110 @@
+/* stylelint-disable selector-max-pseudo-class */
+@use 'breakpoints';
+@use 'headers';
+@use 'variables';
+
+$jump-gap: 10px;
+$jump-gap-wide: 50px;
+$side-gap: 10px;
+
+.pagination-table {
+	margin-top: 5px;
+	padding: 0 20px;
+	border-spacing: 0;
+	user-select: none;
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 0 60px;
+	}
+
+	.table-cell {
+		padding: 5px $side-gap;
+
+		@include breakpoints.apply-from-desktop() {
+			@include headers.marush-tablet-caption();
+			padding: $side-gap;
+		}
+	}
+}
+
+.pagination-row:hover .table-cell {
+	background-color: variables.$accent;
+	color: variables.$body-color;
+
+	&:first-child {
+		border-radius: 12px 0 0 12px;
+	}
+
+	&:last-child {
+		border-radius: 0 12px 12px 0;
+	}
+}
+
+.button-container {
+	justify-content: center;
+	margin: 20px 0;
+
+	.pagination-button {
+		margin: 0 3px;
+		padding: 8px;
+
+		&.jump-left {
+			margin-right: $jump-gap;
+		}
+
+		&.jump-right {
+			margin-left: $jump-gap;
+		}
+	}
+	@include breakpoints.apply-from-tablet() {
+		.pagination-button {
+			margin: 0 10px;
+			padding: 10px 30px;
+
+			&.jump-left {
+				margin-right: $jump-gap-wide;
+			}
+
+			&.jump-right {
+				margin-left: $jump-gap-wide;
+			}
+		}
+	}
+	@include breakpoints.apply-from-desktop() {
+		margin: 40px 0;
+	}
+}
+
+.table-header {
+	padding: 0 $side-gap 10px;
+	text-align: left;
+	text-transform: uppercase;
+	vertical-align: bottom;
+
+	.caret {
+		position: relative;
+		right: 0;
+		bottom: 1px;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+
+		.caret {
+			margin-left: 10px;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+
+		.caret {
+			margin-left: 15px;
+		}
+	}
+}
+
+.arrow-icon {
+	display: inline-block;
+	vertical-align: middle;
+}

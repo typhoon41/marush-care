@@ -1,44 +1,53 @@
-<table>
-  <tbody>
-    @for(t of tableContent() | slice : (currentPage() - 1) * pageSize() : currentPage() * pageSize(); track t.name)
-    {
+<table class="pagination-table column-12">
+  <thead>
     <tr>
-      <td>
-        {{ t.name }}
-      </td>
+      @for(column of tableMetadata().columns; track column.name)
+      {
+      @if(!column.hidden) {
+      <th [class]="`${column.className} table-header clickable`" (click)="sortBy(column.name)">
+        <span>{{ column.displayName }}</span>
+
+        @if(tableMetadata().sortedBy === column.name) {
+        <span role="img" class="sort-icon caret">{{isSorted(column.name, 'asc') ? '&and;' :
+          '&or;'}}</span>
+        }
+      </th>
+      }
+      }
+    </tr>
+  <tbody>
+
+    @for(row of tableContent() | slice : (currentPage() - 1) * pageSize() : currentPage() * pageSize(); track row['id'])
+    {
+    <tr class="pagination-row clickable">
+      @for(cellName of tableMetadata().columns; track cellName.name)
+      {
+      @if(!cellName.hidden) {<td [class]="`${cellName.className} table-cell`">{{ row[cellName.name] }}</td>}
+      }
     </tr>
     }
   </tbody>
 </table>
-<ul>
+<div class="button-container aligned-centrally">
   <!-- first button -->
-  <li>
-    <button type="button" (click)="setCurrentPage(1)">««</button>
-  </li>
-
-  <!-- previous button -->
-  <li [class]="currentPage() === 1 ? 'page-item disabled' : 'page-item'">
-    <button type="button" (click)="previousPage()">«</button>
-  </li>
+  <button class="pagination-button main-action jump-left" type="button" (click)="setCurrentPage(1)">
+    <span role="img" class="arrow-icon left"></span><span role="img" class="arrow-icon left"></span>
+  </button>
+  <button class="pagination-button main-action jump-left" type="button" (click)="previousPage()">
+    <span role="img" class="arrow-icon left"></span>
+  </button>
 
   @for(page of allPages(); track page)
   {
-  <li>
-    <button type="button" (click)="setCurrentPage(page)">
-      {{ page }}
-    </button>
-  </li>
+  <button class="pagination-button" type="button" [class.main-action]="currentPage() === page"
+    (click)="setCurrentPage(page)">
+    <span>{{ page }}</span>
+  </button>
   }
-
-  <!-- next button -->
-  <li [class]="currentPage() === pageCount() ? 'page-item disabled' : 'page-item'">
-    <button type="button" (click)="nextPage()">»</button>
-  </li>
-
-  <!-- last button -->
-  <li>
-    <button type="button" (click)="setCurrentPage(pageCount())">
-      »»
-    </button>
-  </li>
-</ul>
+  <button class="pagination-button main-action jump-right" type="button" (click)="nextPage()"><span role="img"
+      class="arrow-icon right"></span>
+  </button>
+  <button class="pagination-button main-action jump-right" type="button" (click)="setCurrentPage(pageCount())">
+    <span role="img" class="arrow-icon right"></span><span role="img" class="arrow-icon right"></span>
+  </button>
+</div>

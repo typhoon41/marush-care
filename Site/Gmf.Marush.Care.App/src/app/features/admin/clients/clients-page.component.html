@@ -1,1 +1,9 @@
-<marush-table-pagination [tableContent]="tableContent" />
+<!-- eslint-disable @angular-eslint/template/prefer-static-string-properties -->
+<form class="search-form row column-12" aria-labelledby="appointment-form-title"
+    [formGroup]="form" (submit)="onSubmit()">
+    <marush-input class="search-input" name="name" [form]="form" [autoComplete]="true" [placeholder]="'Ime i(li) Prezime'"
+        [validation]="['maxlength']" />
+    <button type="submit" class="main-action"><span i18n="@@search">Pretraži</span></button>
+</form>
+
+<marush-table-pagination [tableMetadata]="tableMetadata" [tableContent]="tableContent" />
