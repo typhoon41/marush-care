@@ -4,11 +4,11 @@
       @for(column of tableMetadata().columns; track column.name)
       {
       @if(!column.hidden) {
-      <th [class]="`${column.className} table-header clickable`" (click)="sortBy(column.name)">
+      <th [class]="`${column.className} table-header`" [class.clickable]="column.sortable" (click)="sortBy(column.name)">
         <span>{{ column.displayName }}</span>
 
-        @if(tableMetadata().sortedBy === column.name) {
-        <span role="img" class="sort-icon caret">{{isSorted(column.name, 'asc') ? '&and;' :
+        @if(column.sortable && this.tableMetadata().state().sortBy() === column.name) {
+        <span role="img" class="sort-icon caret">{{isSorted(column.name, false) ? '&and;' :
           '&or;'}}</span>
         }
       </th>
@@ -17,7 +17,7 @@
     </tr>
   <tbody>
 
-    @for(row of tableContent() | slice : (currentPage() - 1) * pageSize() : currentPage() * pageSize(); track row['id'])
+    @for(row of tableContent().items; track row['id'])
     {
     <tr class="pagination-row clickable">
       @for(cellName of tableMetadata().columns; track cellName.name)

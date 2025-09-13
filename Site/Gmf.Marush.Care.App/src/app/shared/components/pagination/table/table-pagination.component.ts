@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, input, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
 import { PaginatedRequest } from '../request.model';
-import { TableMetadata } from './table-metadata.model';
+import { PaginatedResponse, TableMetadata } from './table-metadata.model';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,12 +14,12 @@ export class MarushTablePaginationComponent {
     private readonly visiblePagesCount = 3;
     readonly pageSize = input<number>(PaginatedRequest.defaultPageSize);
     readonly tableMetadata = input.required<TableMetadata>();
-    readonly onSort = input<(column: string, direction: 'asc' | 'desc') => void>();
-    readonly tableContent = input.required<Record<string, string>[]>();
-    readonly currentPage = signal<number>(1);
+    readonly tableContent = input.required<PaginatedResponse>();
+    // eslint-disable-next-line @stylistic/newline-per-chained-call
+    readonly currentPage = computed(() => this.tableMetadata().state().pageNumber());
     readonly cantGoBack = computed(() => this.currentPage() <= 1);
     readonly cantGoForward = computed(() => this.currentPage() >= this.pageCount());
-    readonly collectionSize = computed(() => this.tableContent()?.length || 0);
+    readonly collectionSize = computed(() => this.tableContent()?.totalCount || 0);
     readonly pageCount = computed(() => Math.ceil(this.collectionSize() / this.pageSize()));
     readonly allPages = computed(() => {
         const total = this.pageCount();
@@ -29,18 +29,24 @@ export class MarushTablePaginationComponent {
         return Array.from({ length: total < this.visiblePagesCount ? total : this.visiblePagesCount }, (_, index) => start + index);
     });
 
-    readonly isSorted = (column: string, direction: 'asc' | 'desc') =>
-        this.tableMetadata().sortedBy === column && this.tableMetadata().sortedDirection === direction;
+    readonly isSorted = (column: string, descendingSort: boolean) => {
+        const state = this.tableMetadata().state();
+        return state.sortBy() === column && state.descendingSort() === descendingSort;
+    };
 
     readonly sortBy = (column: string) => {
-        this.tableMetadata().sortedBy = column;
-        this.tableMetadata().sortedDirection =
-            this.tableMetadata().sortedDirection === 'asc' ? 'desc' : 'asc';
-        this.onSort()?.(column, this.tableMetadata().sortedDirection);
+        if (!this.tableMetadata().columns.find(columnDefinition => columnDefinition.name === column)?.sortable) {
+            return;
+        }
+
+        const state = this.tableMetadata().state();
+        state.sortBy.set(column);
+        state.descendingSort.set(!state.descendingSort());
+        state.pageNumber.set(1);
     };
 
     readonly setCurrentPage = (pageNumber: number) => {
-        this.currentPage.set(pageNumber);
+        this.tableMetadata().state().pageNumber.set(pageNumber);
     };
 
     readonly nextPage = () => {

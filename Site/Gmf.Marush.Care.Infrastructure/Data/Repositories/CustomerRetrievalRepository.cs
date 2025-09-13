@@ -31,7 +31,7 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
             entities = entities.Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
         }
 
-        var orderedResult = request is { SortBy: "Name", DescendingSort: true }
+        var orderedResult = request is { SortBy: "FullName", DescendingSort: true }
             ? entities.OrderByDescending(c => c.Name).ThenByDescending(c => c.Surname)
             : entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
 

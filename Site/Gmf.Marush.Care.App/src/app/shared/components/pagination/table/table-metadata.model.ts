@@ -1,7 +1,9 @@
+import { WritableSignal } from '@angular/core';
+import { PaginatedRequest } from '../request.model';
+
 export interface TableMetadata {
     columns: Column[];
-    sortedBy: string;
-    sortedDirection: 'asc' | 'desc';
+    state: WritableSignal<PaginatedRequest>;
 }
 
 export interface Column {
@@ -12,12 +14,7 @@ export interface Column {
     sortable: boolean;
 }
 
-export interface PaginatedResponse<T> {
-    items: T[];
+export interface PaginatedResponse {
+    items: Record<string, string>[];
     totalCount: number;
-    pageNumber: number;
-    pageSize: number;
-    totalPages: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
 }
