@@ -44,6 +44,10 @@ export class ClientsPageComponent implements OnInit {
     }
 
     readonly onSubmit = () => {
-        // Handle form submission
+        if (this.form.invalid) {
+            return;
+        }
+
+        this.clientService.data().filter.set(this.form.get('name')?.value ?? '');
     };
 }

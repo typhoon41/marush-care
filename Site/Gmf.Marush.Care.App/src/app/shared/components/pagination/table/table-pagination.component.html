@@ -1,14 +1,15 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events -->
 <table class="pagination-table column-12">
   <thead>
     <tr>
       @for(column of tableMetadata().columns; track column.name)
       {
       @if(!column.hidden) {
-      <th [class]="`${column.className} table-header`" [class.clickable]="column.sortable" (click)="sortBy(column.name)">
-        <span>{{ column.displayName }}</span>
+      <th [class]="`${column.className} table-header`">
+        <span [class.clickable]="column.sortable" (click)="sortBy(column.name)">{{ column.displayName }}</span>
 
         @if(column.sortable && this.tableMetadata().state().sortBy() === column.name) {
-        <span role="img" class="sort-icon caret">{{isSorted(column.name, false) ? '&and;' :
+        <span role="img" class="sort-icon caret" [class.clickable]="column.sortable" (click)="sortBy(column.name)">{{isSorted(column.name, false) ? '&and;' :
           '&or;'}}</span>
         }
       </th>
