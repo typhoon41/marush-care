@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { InputComponent } from '@shared/components/forms/input/input.component';
@@ -9,7 +9,7 @@ import { ClientService } from './clients-service';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'marush-login-page',
+    selector: 'marush-clients-page',
     imports: [MarushTablePaginationComponent, InputComponent, ReactiveFormsModule, CommonModule],
     templateUrl: './clients-page.component.html',
     styleUrl: './clients-page.component.scss'
@@ -19,6 +19,7 @@ export class ClientsPageComponent implements OnInit {
     defaultFieldLength = 100;
     private readonly clientService = inject(ClientService);
     customersList = this.clientService.getCustomers();
+    @HostBinding('class') classAttribute: string = 'clients-page';
 
     constructor(private readonly title: Title, private readonly formBuilder: FormBuilder
     ) {

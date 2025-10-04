@@ -3,8 +3,6 @@
 @use 'headers';
 @use 'variables';
 
-$jump-gap: 10px;
-$jump-gap-wide: 50px;
 $side-gap: 10px;
 
 .pagination-table {
@@ -40,41 +38,6 @@ $side-gap: 10px;
 	}
 }
 
-.button-container {
-	justify-content: center;
-	margin: 20px 0;
-
-	.pagination-button {
-		margin: 0 3px;
-		padding: 8px;
-
-		&.jump-left {
-			margin-right: $jump-gap;
-		}
-
-		&.jump-right {
-			margin-left: $jump-gap;
-		}
-	}
-	@include breakpoints.apply-from-tablet() {
-		.pagination-button {
-			margin: 0 10px;
-			padding: 10px 30px;
-
-			&.jump-left {
-				margin-right: $jump-gap-wide;
-			}
-
-			&.jump-right {
-				margin-left: $jump-gap-wide;
-			}
-		}
-	}
-	@include breakpoints.apply-from-desktop() {
-		margin: 40px 0;
-	}
-}
-
 .table-header {
 	padding: 0 $side-gap 10px;
 	text-align: left;
@@ -107,4 +70,16 @@ $side-gap: 10px;
 .arrow-icon {
 	display: inline-block;
 	vertical-align: middle;
+}
+
+.no-results {
+	margin: 35px 0;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+	}
 }

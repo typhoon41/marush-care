@@ -8,7 +8,7 @@ import { PaginatedResponse, TableMetadata } from './table-metadata.model';
     selector: 'marush-table-pagination',
     imports: [CommonModule],
     templateUrl: './table-pagination.component.html',
-    styleUrl: './table-pagination.component.scss'
+    styleUrls: ['./table-pagination.component.scss', './table-pagination.buttons.scss']
 })
 export class MarushTablePaginationComponent {
     private readonly visiblePagesCount = 3;
