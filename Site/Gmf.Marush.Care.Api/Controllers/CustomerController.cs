@@ -31,11 +31,9 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     {
         var customers = await customerRetievalRepository.GetAllAsync(data.Filter, data);
         var items = customers.Results.Select(customer => new CustomerListItemDto { Id = customer.Id, ContactNumber = customer.Phone, FullName = customer.FullName });
-        return Ok(new PaginatedResponse<CustomerListItemDto>
+        return Ok(new PaginatedResponse<CustomerListItemDto>(data.PageSize)
         {
             Items = items,
-            PageSize = data.PageSize,
-            PageNumber = data.PageNumber,
             TotalCount = customers.TotalCount
         });
     }

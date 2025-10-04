@@ -1,0 +1,29 @@
+@use 'breakpoints';
+
+.search-form {
+	box-sizing: border-box;
+	padding: 30px 30px 0;
+
+	.main-action {
+		box-sizing: content-box;
+		height: 38px;
+		margin-bottom: 10px;
+		padding: 0 30px;
+
+		@include breakpoints.apply-from-tablet() {
+			height: 41px;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			height: 47px;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 50px 70px 0;
+	}
+}
+
+.search-input {
+	margin-right: 20px;
+}

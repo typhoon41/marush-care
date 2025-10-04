@@ -27,7 +27,7 @@ export class AppointmentPageComponent extends BasePageComponent {
   @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
-  defaultFieldLength = 100;
+  readonly defaultFieldLength = 100;
   readonly globalError = signal('');
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
   readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;

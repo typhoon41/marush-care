@@ -1,0 +1,85 @@
+/* stylelint-disable selector-max-pseudo-class */
+@use 'breakpoints';
+@use 'headers';
+@use 'variables';
+
+$side-gap: 10px;
+
+.pagination-table {
+	margin-top: 5px;
+	padding: 0 20px;
+	border-spacing: 0;
+	user-select: none;
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 0 60px;
+	}
+
+	.table-cell {
+		padding: 5px $side-gap;
+
+		@include breakpoints.apply-from-desktop() {
+			@include headers.marush-tablet-caption();
+			padding: $side-gap;
+		}
+	}
+}
+
+.pagination-row:hover .table-cell {
+	background-color: variables.$accent;
+	color: variables.$body-color;
+
+	&:first-child {
+		border-radius: 12px 0 0 12px;
+	}
+
+	&:last-child {
+		border-radius: 0 12px 12px 0;
+	}
+}
+
+.table-header {
+	padding: 0 $side-gap 10px;
+	text-align: left;
+	text-transform: uppercase;
+	vertical-align: bottom;
+
+	.caret {
+		position: relative;
+		right: 0;
+		bottom: 1px;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+
+		.caret {
+			margin-left: 10px;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+
+		.caret {
+			margin-left: 15px;
+		}
+	}
+}
+
+.arrow-icon {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.no-results {
+	margin: 35px 0;
+
+	@include breakpoints.apply-from-tablet() {
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+	}
+}

@@ -1,0 +1,62 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events -->
+<table class="pagination-table column-12">
+  <thead>
+    <tr>
+      @for(column of tableMetadata().columns; track column.name)
+      {
+      @if(!column.hidden) {
+      <th [class]="`${column.className} table-header`">
+        <span [class.clickable]="column.sortable" (click)="sortBy(column.name)">{{ column.displayName }}</span>
+
+        @if(column.sortable && this.tableMetadata().state().sortBy() === column.name) {
+        <span role="img" class="sort-icon caret" [class.clickable]="column.sortable" (click)="sortBy(column.name)">{{isSorted(column.name, false) ? '&and;' :
+          '&or;'}}</span>
+        }
+      </th>
+      }
+      }
+    </tr>
+  <tbody>
+
+    @for(row of tableContent().items; track row['id'])
+    {
+    <tr class="pagination-row clickable">
+      @for(cellName of tableMetadata().columns; track cellName.name)
+      {
+      @if(!cellName.hidden) {<td [class]="`${cellName.className} table-cell`">{{ row[cellName.name] }}</td>}
+      }
+    </tr>
+    }
+  </tbody>
+</table>
+@if(pageCount() > 0) {
+<div class="button-container aligned-centrally">
+  <button class="pagination-button main-action jump-left" type="button" [disabled]="cantGoBack()" (click)="setCurrentPage(1)">
+    <span role="img" class="arrow-icon left"></span><span role="img" class="arrow-icon left"></span>
+  </button>
+  <button class="pagination-button main-action jump-left" type="button" [disabled]="cantGoBack()" (click)="previousPage()">
+    <span role="img" class="arrow-icon left"></span>
+  </button>
+
+  @for(page of allPages(); track page)
+  {
+  <button class="pagination-button" type="button" [class.main-action]="currentPage() === page"
+    (click)="setCurrentPage(page)">
+    <span>{{ page }}</span>
+  </button>
+  }
+  <button class="pagination-button main-action jump-right" type="button" [disabled]="cantGoForward()" (click)="nextPage()"><span role="img"
+      class="arrow-icon right"></span>
+  </button>
+  <button class="pagination-button main-action jump-right" type="button" [disabled]="cantGoForward()" (click)="setCurrentPage(pageCount())">
+    <span role="img" class="arrow-icon right"></span><span role="img" class="arrow-icon right"></span>
+  </button>
+</div>
+}
+
+@else
+{
+  <div>
+    <p class="center-content no-results">Za zadati filter nema rezultata.</p>
+  </div>
+}

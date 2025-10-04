@@ -1,0 +1,39 @@
+@use 'breakpoints';
+
+$jump-gap: 10px;
+$jump-gap-wide: 50px;
+
+.button-container {
+	justify-content: center;
+	margin: 20px 0;
+
+	.pagination-button {
+		margin: 0 3px;
+		padding: 8px;
+
+		&.jump-left {
+			margin-right: $jump-gap;
+		}
+
+		&.jump-right {
+			margin-left: $jump-gap;
+		}
+	}
+	@include breakpoints.apply-from-tablet() {
+		.pagination-button {
+			margin: 0 10px;
+			padding: 10px 30px;
+
+			&.jump-left {
+				margin-right: $jump-gap-wide;
+			}
+
+			&.jump-right {
+				margin-left: $jump-gap-wide;
+			}
+		}
+	}
+	@include breakpoints.apply-from-desktop() {
+		margin: 40px 0;
+	}
+}

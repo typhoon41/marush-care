@@ -28,10 +28,10 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
 
         if (!string.IsNullOrWhiteSpace(byFullName))
         {
-            entities = entities.Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName));
+            entities = entities.Where(c => c.Name.Contains(byFullName) || c.Surname.Contains(byFullName) || (c.Name + " " + c.Surname).Contains(byFullName));
         }
 
-        var orderedResult = request is { SortBy: "Name", DescendingSort: true }
+        var orderedResult = request is { SortBy: "FullName", DescendingSort: true }
             ? entities.OrderByDescending(c => c.Name).ThenByDescending(c => c.Surname)
             : entities.OrderBy(c => c.Name).ThenBy(c => c.Surname);
 
@@ -40,7 +40,7 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
             .Take(request.PageSize)
             .ToListAsync();
 
-        return (paginatedResult.Select(MapToDomain), _customers.Count());
+        return (paginatedResult.Select(MapToDomain), entities.Count());
     }
 
     public async Task<CustomerDetails?> GetByIdAsync(Guid id)
