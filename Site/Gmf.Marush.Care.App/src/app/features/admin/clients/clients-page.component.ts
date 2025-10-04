@@ -25,7 +25,7 @@ export class ClientsPageComponent implements OnInit {
         this.title.setTitle('Marush: Space of Care - klijenti');
         this.form = this.formBuilder.group({
             name: new FormControl('', [Validators.maxLength(this.defaultFieldLength)])
-        }, { updateOn: 'blur' });
+        }, { updateOn: 'change' });
     }
 
     readonly tableContent = computed(() => this.customersList.hasValue() ? this.customersList.value() :
@@ -48,6 +48,7 @@ export class ClientsPageComponent implements OnInit {
             return;
         }
 
-        this.clientService.data().filter.set(this.form.get('name')?.value ?? '');
+        const name = this.form.get('name')?.value as string;
+        this.clientService.data().filter.set(name ?? '');
     };
 }

@@ -29,6 +29,7 @@
     }
   </tbody>
 </table>
+@if(pageCount() > 0) {
 <div class="button-container aligned-centrally">
   <button class="pagination-button main-action jump-left" type="button" [disabled]="cantGoBack()" (click)="setCurrentPage(1)">
     <span role="img" class="arrow-icon left"></span><span role="img" class="arrow-icon left"></span>
@@ -51,3 +52,4 @@
     <span role="img" class="arrow-icon right"></span><span role="img" class="arrow-icon right"></span>
   </button>
 </div>
+}
