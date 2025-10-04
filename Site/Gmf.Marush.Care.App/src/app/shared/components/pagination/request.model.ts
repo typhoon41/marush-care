@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 
 export class PaginatedRequest {
-    static readonly defaultPageSize = 1;
+    static readonly defaultPageSize = 20;
     readonly filter = signal<string>('');
     readonly pageNumber = signal<number>(1);
     readonly pageSize = signal<number>(PaginatedRequest.defaultPageSize);
