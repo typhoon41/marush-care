@@ -6,8 +6,12 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 // Serve static files from /assets for SSR (will not be shown otherwise).
-app.use('/assets', express.static('dist/browser/assets'));
-app.use('*', async(req, res, next) => {
+app.use('/assets', express.static('dist/browser/assets', {
+  maxAge: '1y',
+  index: false,
+  redirect: false,
+}));
+app.use(async (req, res, next) => {
   try {
     const response = await angularApp.handle(req);
     if (response) {
@@ -21,9 +25,15 @@ app.use('*', async(req, res, next) => {
   }
 });
 
-if (isMainModule(import.meta.url)) {
-  const PORT = process.env['PORT'] || environment.ssrPort;
-  app.listen(PORT);
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  const port = process.env['PORT'] || environment.ssrPort;
+  app.listen(port, (error) => {
+    if (error) {
+      throw error;
+    }
+
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
 }
 
 /**

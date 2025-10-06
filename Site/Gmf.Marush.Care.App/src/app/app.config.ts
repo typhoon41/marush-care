@@ -1,5 +1,5 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
 import { InMemoryScrollingOptions, provideRouter, withInMemoryScrolling } from '@angular/router';
 import { RoutingDefinition } from './app.routes';
@@ -13,8 +13,9 @@ const scrollConfig: InMemoryScrollingOptions = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideBrowserGlobalErrorListeners(),
     provideHttpClient(withFetch(), withInterceptors([languageInterceptor, errorInterceptor])),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideRouter(new RoutingDefinition().routes, withInMemoryScrolling(scrollConfig)),
     provideClientHydration(withEventReplay(), withIncrementalHydration())]
 };
