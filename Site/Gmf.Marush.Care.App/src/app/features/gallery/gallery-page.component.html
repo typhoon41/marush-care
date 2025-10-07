@@ -1,9 +1,9 @@
 <section class="previews-container stretch-equally">
-    @for(image of fetchedImages(); track image.name; let imageIndex = $index)
+    @for(image of fetchedImages(); track image.name)
     {
         <marush-image-loader class="preview-image-placeholder center-content"
             role="button" givenClass="preview-image stretch clickable" [selectable]="true"
-            [url]="image.previewPath" (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
+            [url]="image.previewPath" (keydown)="openFullImage(image, $index, $event)" (click)="openFullImage(image, $index)" />
     }
 </section>
 

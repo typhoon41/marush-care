@@ -7,8 +7,14 @@
       "node"
     ]
   },
+  "files": [
+    "src/main.ts",
+    "src/main.server.ts",
+    "src/server.ts"
+  ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.d.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts"

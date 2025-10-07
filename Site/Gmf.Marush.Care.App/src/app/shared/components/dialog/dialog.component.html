@@ -3,7 +3,7 @@
     <header class="dialog-header" aria-labelledby="dialog-header" (click)="onDialogClick($event)">
         <h2 id="dialog-header" class="title header-centered">{{title()}}</h2>
         <button class="line-button crossed close-button" title="Zatvori" aria-label="Zatvori" type="button"
-            i18n-title="@@close" (click)="close()" i18n-aria-label="@@close" (keydown)="close($event)">
+            i18n-title="@@close" i18n-aria-label="@@close" (click)="close()" (keydown)="close($event)">
             <div class="line-placeholder stretch">
                 <span class="first line"></span>
                 <span class="last line"></span>
