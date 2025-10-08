@@ -37,8 +37,8 @@
     "@types/express": "^5.0.3",
     "@types/node": "22.13.8",
     "@typhoon41/eslint-config-angular": "1.0.2",
-    "@typhoon41/scss-solutions": "0.1.12",
-    "@typhoon41/stylelint-config": "1.1.1",
+    "@typhoon41/scss-solutions": "0.2.1",
+    "@typhoon41/stylelint-config": "1.1.2",
     "copyfiles": "2.4.1",
     "json-sort-cli": "4.0.10",
     "typescript": "~5.9.2"
