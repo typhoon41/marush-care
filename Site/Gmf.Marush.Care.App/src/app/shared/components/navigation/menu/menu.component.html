@@ -36,5 +36,5 @@
 
 @if(isMobile()) {
     <marush-mobile-menu id="mobile-menu" role="navigation" class="mobile-menu" [collapsed]="showMobileMenu"
-        [ngClass]="{'collapsed': showMobileMenu }" (hideMobileMenu)="hideMobileMenu()" />
+        [class.collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" />
 }

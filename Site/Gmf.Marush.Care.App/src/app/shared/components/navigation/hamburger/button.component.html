@@ -1,4 +1,4 @@
-<button class="line-button" type="button" [ngClass]="{'crossed': collapsed()}" [ariaLabel]="buttonDescription"
+<button type="button" class="line-button" [class.crossed]="collapsed()" [ariaLabel]="buttonDescription"
     (click)="toggle()" (keydown)="toggle($event)">
     <div class="line-placeholder stretch">
         <span class="first line"></span>

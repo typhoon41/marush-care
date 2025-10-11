@@ -1,4 +1,4 @@
-<section class="aligned-centrally vertical-stack column-12" [ngClass]="{'animate-fading-in': services.length }">
+<section class="aligned-centrally vertical-stack column-12" [class.animate-fading-in]="services.length">
     @for(service of services; track service.key)
     {
     <marush-expansion-panel #panels class="column-12" panelHeaderClass="service-title emphasized"

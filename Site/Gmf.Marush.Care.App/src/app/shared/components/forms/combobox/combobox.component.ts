@@ -28,8 +28,8 @@ export class ComboBoxComponent {
 
   constructor(private readonly cdr: ChangeDetectorRef) { }
 
-  readonly containerId = () => `${this.id}-container`;
-  readonly buttonId = () => `${this.id}-button`;
+  readonly containerId = () => `${this.id()}-container`;
+  readonly buttonId = () => `${this.id()}-button`;
   get invalid() {
     const control = this.formGroup().get(this.name());
     return control?.invalid && (control?.touched || control?.dirty);
