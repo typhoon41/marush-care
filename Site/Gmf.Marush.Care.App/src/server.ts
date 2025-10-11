@@ -9,9 +9,9 @@ const angularApp = new AngularNodeAppEngine();
 app.use('/assets', express.static('dist/browser/assets', {
   maxAge: '1y',
   index: false,
-  redirect: false,
+  redirect: false
 }));
-app.use(async (req, res, next) => {
+app.use(async(req, res, next) => {
   try {
     const response = await angularApp.handle(req);
     if (response) {
@@ -27,11 +27,12 @@ app.use(async (req, res, next) => {
 
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || environment.ssrPort;
-  app.listen(port, (error) => {
+  app.listen(port, error => {
     if (error) {
       throw error;
     }
 
+    // eslint-disable-next-line no-console
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }

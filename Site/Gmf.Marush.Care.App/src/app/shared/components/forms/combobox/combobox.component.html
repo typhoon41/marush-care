@@ -13,9 +13,10 @@
     </button>
     <ul role="listbox" tabindex="-1" aria-hidden="true" class="dropdown clickable column-12"
         [class.collapsed]="collapsed" [ariaHidden]="!collapsed" [id]="containerId()" (keydown)="onOptionsKey($event)">
-        @for(item of items(); track item.value){
-        <li #option aria-selected="false" role="option" ariaSelected]="selectedItem()?.value === item.value"
-            class="option-container" [class.selected]="selectedItem()?.value === item.value"
+        @for(item of items(); track item.value)
+        {
+        <li #option aria-selected="false" role="option" class="option-container"
+            [ariaSelected]="selectedItem()?.value === item.value" [class.selected]="selectedItem()?.value === item.value"
             [tabindex]="collapsed ? 0 : -1" (click)="select(item)" (keydown)="onOptionKey(item, $event, $index)"
             (blur)="onBlur($event)">
             <label class="control-description clickable" tabindex="-1">{{item.label}}<input class="control" type="radio"
