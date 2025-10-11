@@ -67,11 +67,6 @@ $side-gap: 10px;
 	}
 }
 
-.arrow-icon {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 .no-results {
 	margin: 35px 0;
 
@@ -81,5 +76,14 @@ $side-gap: 10px;
 
 	@include breakpoints.apply-from-desktop() {
 		@include headers.marush-header();
+	}
+}
+
+.button-container {
+	justify-content: center;
+	margin: 20px 0;
+
+	@include breakpoints.apply-from-desktop() {
+		margin: 40px 0;
 	}
 }

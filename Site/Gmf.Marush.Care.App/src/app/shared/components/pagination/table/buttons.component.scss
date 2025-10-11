@@ -1,0 +1,36 @@
+@use 'breakpoints';
+
+$jump-gap: 10px;
+$jump-gap-wide: 50px;
+
+.arrow-icon {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.pagination-button {
+	margin: 0 3px;
+	padding: 8px;
+
+	&.jump-left {
+		margin-right: $jump-gap;
+	}
+
+	&.jump-right {
+		margin-left: $jump-gap;
+	}
+}
+@include breakpoints.apply-from-tablet() {
+	.pagination-button {
+		margin: 0 10px;
+		padding: 10px 30px;
+
+		&.jump-left {
+			margin-right: $jump-gap-wide;
+		}
+
+		&.jump-right {
+			margin-left: $jump-gap-wide;
+		}
+	}
+}
