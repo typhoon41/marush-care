@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/max-len */
 import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata.model';
 import { ILanguage } from '@shared/models/language.model';
-import { GalleryMetadata } from './models/gallery.model';
+import { GalleryImage } from './models/gallery.model';
 
 export class GalleryPageMetadata extends PageMetadata {
     override pathTranslations = () => ({ en: 'gallery', sr: 'galerija', ru: 'галерея' });
@@ -31,8 +31,8 @@ export class GalleryPageMetadata extends PageMetadata {
 
     private readonly imageFrom = (imageName: string, description: string) => ({
             '@type': 'ImageObject',
-            contentUrl: GalleryMetadata.imageLocation(imageName),
-            thumbnailUrl: GalleryMetadata.previewsLocation(imageName),
+            contentUrl: GalleryImage.imageLocation(imageName),
+            thumbnailUrl: GalleryImage.previewsLocation(imageName),
             name: description
         });
 }
