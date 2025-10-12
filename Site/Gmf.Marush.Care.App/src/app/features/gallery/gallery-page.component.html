@@ -1,13 +1,13 @@
 <section class="previews-container stretch-equally">
-    @for(image of fetchedImages(); track image.name; let imageIndex = $index)
+    @for(image of fetchedImages(); track image.name)
     {
         <marush-image-loader class="preview-image-placeholder center-content"
             role="button" givenClass="preview-image stretch clickable" [selectable]="true"
-            [url]="image.previewPath" (keydown)="openFullImage(image, imageIndex, $event)" (click)="openFullImage(image, imageIndex)" />
+            [url]="image.previewPath" (keydown)="openFullImage($index, $event)" (click)="openFullImage($index)" />
     }
 </section>
 
-@if(fetchedCount !== imageCount)
+@if(fetchedImages().length !== allImages().length)
 {
     <button type="button" class="main-action" (click)="loadMoreImages()">
         <span i18n="@@gallery.load-more">Učitaj još slika</span>
@@ -16,7 +16,7 @@
 
 <marush-dialog bodyClass="stretch gallery-dialog-body" footerClass="gallery-dialog-footer">
     <marush-image-loader class="stretch center-content" slot="body"
-        [url]="selectedImage?.path!" [givenClass]="selectedImage?.orientation!" />
+        [url]="selectedImage()?.path!" [givenClass]="selectedImage()?.orientation!" />
     <button type="button" slot="actions" class="slide-action main-action" aria-label="Prethodni sadržaj"
         i18n-aria-label="@@content.previous" (click)="previous()"><span role="img"
             class="arrow-icon left"></span></button>

@@ -1,20 +1,21 @@
 @if (currentDiscounts.length){
-  <div class="discounts-placeholder aligned-centrally stretch-between" role="complementary">
-    <img class="decoration upper" src="/assets/images/home/discount.svg" alt="" />
-    <div class="content">
-      @if (showSlider()){
-        <button type="button" class="slide-action" aria-label="Prethodni sadržaj" i18n-aria-label="@@content.previous"
-          (click)="previous()"><span role="img" class="arrow-icon left"></span></button>
-        }
-      @for (discount of currentDiscounts; track $index) {
-        <div class="description animate-fading header-centered" role="alert" [innerHTML]="discount"
-          [ngClass]="{'active': $index === currentDiscountPosition, 'single': currentDiscounts.length === 1}"></div>
-        }
-      @if (showSlider()){
-        <button type="button" class="slide-action" aria-label="Sledeći sadržaj" i18n-aria-label="@@content.next"
-          (click)="next()"><span role="img" class="arrow-icon right"></span></button>
-        }
+<div class="discounts-placeholder aligned-centrally stretch-between" role="complementary">
+  <img class="decoration upper" src="/assets/images/home/discount.svg" alt="" />
+  <div class="content">
+    @if (showSlider()){
+    <button type="button" class="slide-action" aria-label="Prethodni sadržaj" i18n-aria-label="@@content.previous"
+      (click)="previous()"><span role="img" class="arrow-icon left"></span></button>
+    }
+    @for (discount of currentDiscounts; track $index) {
+    <div role="alert" class="description animate-fading header-centered" [innerHTML]="discount"
+      [class.active]="$index === currentDiscountPosition()" [class.single]="$count === 1">
     </div>
-    <img class="decoration" src="/assets/images/home/discount.svg" alt="" />
+    }
+    @if (showSlider()){
+    <button type="button" class="slide-action" aria-label="Sledeći sadržaj" i18n-aria-label="@@content.next"
+      (click)="next()"><span role="img" class="arrow-icon right"></span></button>
+    }
   </div>
+  <img class="decoration" src="/assets/images/home/discount.svg" alt="" />
+</div>
 }

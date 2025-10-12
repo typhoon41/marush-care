@@ -1,10 +1,11 @@
-<section class="aligned-centrally stretch-equally services-container" [ngClass]="{'active': selectedService()}">
+<section class="aligned-centrally stretch-equally services-container" [class.active]="selectedService()">
   @for(service of services; track service.key)
   {
-    <div class="service-placeholder clickable" role="button" tabindex="0"
-      [ngClass]="{'active': selectedService() === service.key}" [ariaLabel]="service.title" (click)="selectService(service.key)" (keydown)="selectService(service.key, $event)" >
-      <img [class]="'image ' + service.image" [src]="servicesImageFor(service.image)" [alt]="service.imageDescription" />
-      <h2 class="title">{{service.title}}</h2>
-    </div>
+  <div role="button" tabindex="0" class="service-placeholder clickable"
+    [class.active]="selectedService() === service.key" [ariaLabel]="service.title" (click)="selectService(service.key)"
+    (keydown)="selectService(service.key, $event)">
+    <img [class]="'image ' + service.image" [src]="servicesImageFor(service.image)" [alt]="service.imageDescription" />
+    <h2 class="title">{{service.title}}</h2>
+  </div>
   }
 </section>

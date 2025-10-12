@@ -17,6 +17,6 @@ export class RequestSentPageComponent extends BasePageComponent {
     readonly text = $localize`:@@appointment.request.sent:Vaš zahtev za zakazivanje termina je poslat. Očekujte uskoro potvrdu putem email-a.`;
 
     constructor(protected override readonly metadataService: PageMetadataService, protected readonly router: Router) {
-        super(metadataService, new RequestSentPageMetadata(router.getCurrentNavigation()?.extras.state as IRepresentUserRequest));
+        super(metadataService, new RequestSentPageMetadata(router.currentNavigation()?.extras.state as IRepresentUserRequest));
     }
 }

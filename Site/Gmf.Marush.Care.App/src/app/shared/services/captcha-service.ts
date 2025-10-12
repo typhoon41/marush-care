@@ -40,7 +40,7 @@ export class CaptchaService {
                         await action(token, actionName);
                         resolve(token);
                     }
-                    catch (error) {
+                    catch(error) {
                         reject(error);
                     }
                   })());

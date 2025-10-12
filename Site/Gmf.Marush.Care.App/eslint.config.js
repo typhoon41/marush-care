@@ -1,7 +1,8 @@
 import defaultConfiguration from "@typhoon41/eslint-config-angular";
 import angular from "angular-eslint";
+import { defineConfig } from "eslint/config";
 
-export default [
+export default defineConfig([
     {
         "ignores": ['.angular/**/*.js'],
     },
@@ -32,4 +33,4 @@ export default [
             ]
         }
     }
-];
+]);

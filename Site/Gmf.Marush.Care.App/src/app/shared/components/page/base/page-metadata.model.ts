@@ -118,7 +118,7 @@ export abstract class PageMetadata {
             }
         });
 
-    protected readonly capitalize = (value: string) => String(value).charAt(0)
+    protected readonly capitalize = (value: unknown) => String(value).charAt(0)
         .toUpperCase() + String(value).slice(1);
 
     protected readonly localizedUrl = (desiredLanguage: SupportedLanguage, path: string) =>

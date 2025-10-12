@@ -3,6 +3,12 @@
     "css.validate": false,
     "less.validate": false,
     "scss.validate": false,
+    "eslint.enable": true,
+    "eslint.validate": [
+        "typescript",
+        "typescriptangular",
+        "html"
+    ],
     "stylelint.enable": true,
     "stylelint.validate": [
         "css",

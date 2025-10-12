@@ -9,6 +9,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "declaration": false,
     "isolatedModules": true,
@@ -17,17 +18,19 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "preserve",
     "useDefineForClassFields": false,
     "baseUrl": "./",
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
     "paths": {
-      "@env": ["src/environments/environment"],
-      "@features/*": [ "src/app/features/*" ],
-      "@shared/*": ["src/app/shared/*"]
+      "@env": [
+        "src/environments/environment"
+      ],
+      "@features/*": [
+        "src/app/features/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ]
     },
   },
   "angularCompilerOptions": {
@@ -35,6 +38,16 @@
     "strictStandalone": true,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
     "strictTemplates": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

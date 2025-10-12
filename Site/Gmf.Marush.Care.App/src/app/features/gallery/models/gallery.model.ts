@@ -1,7 +1,8 @@
 import { environment } from '@env';
 
-export class GalleryMetadata {
-    readonly allImages: GalleryImage[];
+export class GalleryImage implements GalleryImageDefinition {
+    readonly path: string;
+    readonly previewPath: string;
 
     private static readonly previewsSuffix = 'previews/';
     static readonly imageLocation = (imageName: string) => `${environment.staticContentUrl}images/gallery/${imageName}`;
@@ -10,19 +11,13 @@ export class GalleryMetadata {
 
     static filePath = `${this.previewsLocation('')}metadata.json`;
 
-    constructor(private readonly galleryImages: GalleryImage[]) {
-        this.allImages = this.galleryImages.map(image => ({
-                name: image.name,
-                orientation: image.orientation,
-                previewPath: GalleryMetadata.previewsLocation(image.name),
-                path: GalleryMetadata.imageLocation(image.name)
-            }));
+    constructor(readonly name: string, readonly orientation: 'portrait' | 'landscape') {
+        this.previewPath = GalleryImage.previewsLocation(name);
+        this.path = GalleryImage.imageLocation(name);
     }
 }
 
-export interface GalleryImage {
+export interface GalleryImageDefinition {
     name: string;
-    path: string;
-    previewPath: string;
     orientation: 'portrait' | 'landscape';
 }

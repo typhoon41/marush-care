@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, OnDestroy, signal } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { currentDiscounts } from '../page-metadata.model';
 
@@ -11,7 +11,7 @@ import { currentDiscounts } from '../page-metadata.model';
   styleUrl: './discounts.component.scss'
 })
 export class HomeDiscountsComponent implements OnDestroy {
-  currentDiscountPosition = 0;
+  readonly currentDiscountPosition = signal(0);
   currentDiscounts = currentDiscounts;
 
   private subscription: Subscription | undefined;
@@ -41,19 +41,19 @@ export class HomeDiscountsComponent implements OnDestroy {
 
   private readonly shift = (position: number) => {
     this.resetSubscription();
-    const newPosition = this.currentDiscountPosition + position;
+    const newPosition = this.currentDiscountPosition() + position;
 
     if (newPosition < 0) {
-      this.currentDiscountPosition = currentDiscounts.length - 1;
+      this.currentDiscountPosition.set(currentDiscounts.length - 1);
       return;
     }
 
     if (newPosition >= currentDiscounts.length) {
-      this.currentDiscountPosition = 0;
+      this.currentDiscountPosition.set(0);
       return;
     }
 
-    this.currentDiscountPosition = newPosition;
+    this.currentDiscountPosition.set(newPosition);
   };
 
   private readonly resetSubscription = () => {
