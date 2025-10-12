@@ -1,9 +1,9 @@
-import { Signal } from '@angular/core';
+import { WritableSignal } from '@angular/core';
 import { PaginatedRequest } from '../request.model';
 
 export interface TableMetadata {
     columns: Column[];
-    state: Signal<PaginatedRequest>;
+    state: WritableSignal<PaginatedRequest>;
 }
 
 export interface Column {
