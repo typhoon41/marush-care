@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, linkedSignal } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,23 +8,18 @@ import { ChangeDetectionStrategy, Component, input, OnChanges, SimpleChanges } f
   templateUrl: './loader.component.html',
   styleUrl: './loader.component.scss'
 })
-export class ImageLoaderComponent implements OnChanges {
+export class ImageLoaderComponent {
   readonly url = input.required<string>();
   readonly description = input<string>('');
   readonly givenClass = input<string>('');
   readonly selectable = input<boolean>(false);
 
-  isLoading: boolean = true;
-
-  ngOnChanges(changes: SimpleChanges) {
-    const urlChanged = changes['url'];
-
-    if (urlChanged) {
-      this.isLoading = true;
-    }
-  }
+  readonly isLoading = linkedSignal({
+    source: this.url,
+    computation: (newValue, previous) => previous?.value !== newValue
+  });
 
   hideLoader = () => {
-    this.isLoading = false;
+    this.isLoading.set(false);
   };
 }

@@ -36,6 +36,7 @@ export class AuthenticationService {
 
     readonly login = async(data: LoginRequest, captchaToken: string, captchaAction: string) => {
         const loginUrl = `${environment.apiUrl}user/login`;
+        // Can't be switched to httpResource because of lack of reactivity in Captcha service.
         const result = await lastValueFrom(this.http.post<{ token: string }>(loginUrl, data, {
             headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
         }));

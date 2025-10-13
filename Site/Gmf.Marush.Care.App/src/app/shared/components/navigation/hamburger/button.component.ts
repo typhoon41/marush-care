@@ -18,6 +18,7 @@ export class HamburgerButtonComponent implements OnInit {
     buttonDescription: string = '';
 
     ngOnInit(): void {
+        // No other signal/event to listen to, so OnInit needs to stay.
         this.emitEvent();
         this.setButtonDescription();
     }

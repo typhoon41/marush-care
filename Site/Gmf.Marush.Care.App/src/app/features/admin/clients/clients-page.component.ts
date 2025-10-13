@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, HostBinding, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { InputComponent } from '@shared/components/forms/input/input.component';
@@ -14,7 +14,7 @@ import { ClientService } from './clients-service';
     templateUrl: './clients-page.component.html',
     styleUrl: './clients-page.component.scss'
 })
-export class ClientsPageComponent implements OnInit {
+export class ClientsPageComponent {
     form: FormGroup;
     defaultFieldLength = 100;
     private readonly clientService = inject(ClientService);
@@ -27,6 +27,7 @@ export class ClientsPageComponent implements OnInit {
         this.form = this.formBuilder.group({
             name: new FormControl('', [Validators.maxLength(this.defaultFieldLength)])
         }, { updateOn: 'change' });
+        this.customersList.reload();
     }
 
     readonly tableContent = computed(() => this.customersList.hasValue() ? this.customersList.value() :
@@ -39,10 +40,6 @@ export class ClientsPageComponent implements OnInit {
         ],
         state: this.clientService.data
     } as TableMetadata;
-
-    ngOnInit() {
-        this.customersList.reload();
-    }
 
     readonly onSubmit = () => {
         if (this.form.invalid) {

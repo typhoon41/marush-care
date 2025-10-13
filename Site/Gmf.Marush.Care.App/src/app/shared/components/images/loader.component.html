@@ -1,7 +1,7 @@
-@if(isLoading)
+@if(isLoading())
 {
     <img class="loader" i18n-alt="@@loading" alt="Učitavanje..." src="/assets/images/loader.gif" />
 }
 
-<img [class]="'image ' + givenClass()" [class.visible]="!isLoading" [alt]="description()" [src]="url()"
+<img [class]="'image ' + givenClass()" [class.visible]="!isLoading()" [alt]="description()" [src]="url()"
     [tabIndex]="selectable() ? 0 : -1" (load)="hideLoader()" (error)="hideLoader()" />
