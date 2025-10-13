@@ -138,6 +138,20 @@ const supportedFaceTreatments = [
         description: $localize`:@@treatments.face.vitamin-c.description:Vitamin C tretman Skeyndor se sastoji od 25% derivata vitamina C i 10% antioksidanata dobijenih iz <em>acai</em> bobica. Ovo je tretman koji će Vašoj koži pružiti osveženje i blistavost uz opuštajuću masažu tokom celog tretmana. Namenjen je svim tipovima kože.`
     }),
     new TreatmentDefinition({
+        title: $localize`:@@treatments.face.eternal:Eternal Skeyndor`,
+        name: 'Eternal Skeyndor',
+        duration: 60,
+        price: 8000,
+        description: $localize`:@@treatments.face.eternal.description:Eternal Skeyndor je well age tretman koji koristi biljne matične ćelije, peptide i visokoefikasne aktivne sastojke za dubinsku regeneraciju kože.<br><br>Cilj: vratiti elastičnost, redukovati bore, intenzivno hidrirati i podići tonus kože — za prirodno blistav i mladalački izgled.`
+    }),
+    new TreatmentDefinition({
+        title: $localize`:@@treatments.face.global-lifting:Global Lift Skeyndor`,
+        name: 'Global Lift Skeyndor',
+        duration: 60,
+        price: 8000,
+        description: $localize`:@@treatments.face.global-lifting.description:Global Lift Skeyndor je profesionalni lifting tretman lica koji kombinuje napredne tehnologije i aktivne sastojke da zategne kožu, podigne konture i redefiniše oval lica.<br><br>Rezultat: vidljivo čvršća, podmlađena koža sa pojačanim tonusom i revitalizovanim izgledom.`
+    }),
+    new TreatmentDefinition({
         title: $localize`:@@treatments.face.ultrasonic:Ultrazvučno čišćenje kože`,
         name: 'Ultrazvučno čišćenje kože',
         duration: 60,
