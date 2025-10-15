@@ -1,7 +1,7 @@
 /* eslint-disable @stylistic/max-len */
-import { IStructuredData } from '@shared/components/page/base/page-metadata.model';
-import { ServicesMetadata } from '@shared/components/page/base/services-metadata.model';
-import { ILanguage } from '@shared/models/language.model';
+import { IStructuredData } from '@shared/components/page/base/page-metadata';
+import { ServicesMetadata } from '@shared/components/page/base/services-metadata';
+import { ILanguage } from '@shared/models/language';
 
 export class ServicesPageMetadata extends ServicesMetadata {
     override pathTranslations = () => ({ en: 'services', sr: 'usluge', ru: 'услуги' });
