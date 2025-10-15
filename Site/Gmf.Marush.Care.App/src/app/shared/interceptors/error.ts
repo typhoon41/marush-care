@@ -18,7 +18,7 @@ export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Obser
                 await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.unauthorized:nemate-pristup`)]);
             }
 
-            else if (errorFound.status === HttpStatusCode.InternalServerError) {
+            else if (errorFound.status !== HttpStatusCode.BadRequest) {
                 await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.system:sistemska`)]);
             }
 
