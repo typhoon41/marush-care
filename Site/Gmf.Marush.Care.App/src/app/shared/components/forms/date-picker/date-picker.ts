@@ -17,7 +17,7 @@ export class DatePicker extends Field {
     readonly placeholder = input<string>('');
     readonly validation = input<string[]>(['required']);
     readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
-    protected readonly datePicker: AirDatepicker | undefined;
+    private readonly datePicker: AirDatepicker | undefined;
 
     constructor() {
         super();
