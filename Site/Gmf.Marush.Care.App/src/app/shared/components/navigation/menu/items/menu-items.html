@@ -1,0 +1,32 @@
+@if(authentication.isCurrentRouteProtected())
+{
+    <a class="action" routerLinkActive="active" routerLink="admin/klijenti" [tabIndex]="tabIndex()" (click)="hideMenu()">
+        <span>Klijenti</span>
+    </a>
+    <a class="action last clickable" [tabindex]="tabIndex()" (click)="logOut()" (keydown)="logOut($event)">
+        <span>Odjavi se</span>
+    </a>
+}
+
+@else
+{
+    <a class="action" routerLinkActive="active" [routerLink]="'services' | translateRoute" [tabIndex]="tabIndex()"
+        (click)="hideMenu()">
+        <span i18n="@@routes.services">usluge</span>
+    </a>
+    <a class="action" routerLinkActive="active" [routerLink]="'gallery' | translateRoute" [tabIndex]="tabIndex()"
+        (click)="hideMenu()">
+        <span i18n="@@routes.gallery">galerija</span>
+    </a>
+    <a class="action" routerLinkActive="active" [routerLink]="'appointment'| translateRoute" [tabIndex]="tabIndex()"
+        (click)="hideMenu()">
+        <span i18n="@@routes.appointment">zakazivanje</span>
+    </a>
+    <a class="action" routerLinkActive="active" [routerLink]="'contact' | translateRoute" [tabIndex]="tabIndex()"
+        (click)="hideMenu()">
+        <span i18n="@@routes.contact">kontakt</span>
+    </a>
+    <a class="action last" target="_blank" [href]="marushDetails.priceListUrl()" [tabIndex]="tabIndex()">
+        <span i18n="@@pricelist">cenovnik | PDF</span>
+    </a>
+}

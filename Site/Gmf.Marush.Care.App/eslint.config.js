@@ -11,6 +11,7 @@ export default defineConfig([
         "processor": angular.processInlineTemplates,
         "files": ["src/**/*.ts"],
         "rules": {
+            "@angular-eslint/component-class-suffix": "off",
             "@angular-eslint/component-selector": [
                 "error",
                 {

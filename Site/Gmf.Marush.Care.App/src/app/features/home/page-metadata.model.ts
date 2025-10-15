@@ -1,8 +1,8 @@
 /* eslint-disable @stylistic/max-len */
 import { environment } from '@env';
-import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata.model';
-import { ILanguage } from '@shared/models/language.model';
-import { MoneyPipe } from '@shared/pipes/money-pipe';
+import { IStructuredData, PageMetadata } from '@shared/components/page/base/page-metadata';
+import { ILanguage } from '@shared/models/language';
+import { Money } from '@shared/pipes/money';
 
 export const currentDiscounts = [
     $localize`:@@discounts.1:<h3><strong>9.10. - 16.10.</strong></h3><p>Mikro dermo abraz. + vitam. tretman<br/><br/><s>6.500</s> 5.500</p>`,
@@ -41,7 +41,7 @@ export class HomePageMetadata extends PageMetadata {
         [
             {
                 '@type': 'UnitPriceSpecification',
-                price: new MoneyPipe().transform(originalPrice),
+                price: new Money().transform(originalPrice),
                 priceCurrency: 'RSD',
                 valueAddedTaxIncluded: true,
                 eligibleTransactionVolume: {
@@ -51,7 +51,7 @@ export class HomePageMetadata extends PageMetadata {
             },
             {
                 '@type': 'UnitPriceSpecification',
-                price: new MoneyPipe().transform(discountedPrice),
+                price: new Money().transform(discountedPrice),
                 priceCurrency: 'RSD',
                 valueAddedTaxIncluded: true,
                 eligibleTransactionVolume: {
@@ -67,7 +67,7 @@ export class HomePageMetadata extends PageMetadata {
             availability: 'https://schema.org/InStock',
             priceValidUntil,
             priceCurrency: 'RSD',
-            price: new MoneyPipe().transform(price),
+            price: new Money().transform(price),
             priceSpecification: this.priceSpecification(originalPrice, price)
         });
 }
