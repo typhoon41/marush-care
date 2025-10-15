@@ -18,7 +18,7 @@ export class MobileMenu {
   readonly hideMobileMenu = output();
   protected readonly environment = environment;
 
-  constructor(protected readonly authenticationService: Authentication) { }
+  constructor(protected readonly authentication: Authentication) { }
 
   protected readonly hideMenu = () => this.hideMobileMenu.emit();
 }

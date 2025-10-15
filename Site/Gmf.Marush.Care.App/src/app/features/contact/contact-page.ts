@@ -19,7 +19,7 @@ export class ContactPage extends BasePage {
 
   protected readonly marushDetails = marushDetails;
 
-  constructor(protected override readonly metadataService: Stapler) {
-    super(metadataService, new ContactPageMetadata());
+  constructor(protected override readonly stapler: Stapler) {
+    super(stapler, new ContactPageMetadata());
   }
 }

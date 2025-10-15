@@ -20,7 +20,7 @@ import { HomeSpace } from './space/space';
 export class HomePage extends BasePage {
   protected readonly mainImageUrl = `${environment.staticContentUrl}images/home/main.png`;
 
-  constructor(protected override readonly metadataService: Stapler) {
-    super(metadataService, new HomePageMetadata());
+  constructor(protected override readonly stapler: Stapler) {
+    super(stapler, new HomePageMetadata());
   }
 }

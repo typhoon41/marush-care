@@ -1,6 +1,6 @@
 <nav class="main-menu aligned-centrally stretch-between">
     <div class="aligned-centrally stretch-between">
-        @if(authenticationService.isAuthenticated())
+        @if(authentication.isAuthenticated())
         {
             <a #adminLogo="routerLinkActive" class="admin-logo-container" routerLinkActive="active" ariaCurrentWhenActive="page" routerLink="admin/klijenti" tabindex="0" (click)="hideMobileMenu()">
                 <img class="admin-logo" alt="Marush: Space of Care - idi na zaštićeni deo" [src]="adminLogoPath()" (mouseover)="adminLogoHovered = true"
@@ -15,7 +15,7 @@
         </a>
     </div>
 
-    @if(sizeService.lastKnownSize()) {
+    @if(screenSize.lastKnownSize()) {
         @if(isMobile()) {
             <marush-hamburger-button role="button" aria-controls="mobile-menu" [ariaExpanded]="showMobileMenu"
                 [(collapsed)]="showMobileMenu" />
@@ -23,7 +23,7 @@
 
         @else {
             <marush-menu-items />
-            @if(environment.name !== 'development' && !authenticationService.isCurrentRouteProtected()){
+            @if(environment.name !== 'development' && !authentication.isCurrentRouteProtected()){
                 <marush-language-selector />
             }
         }

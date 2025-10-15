@@ -18,8 +18,8 @@ export class LoginPage {
   @HostBinding('class') classAttribute: string = 'row center-content vertical-stack';
   form: FormGroup;
   readonly globalError = signal('');
-  constructor(private readonly captchaService: Captcha,
-    private readonly authenticationService: Authentication,
+  constructor(private readonly captcha: Captcha,
+    private readonly authentication: Authentication,
     private readonly router: Router,
     private readonly renderer: Renderer2,
     private readonly title: Title,
@@ -34,7 +34,7 @@ export class LoginPage {
 
     afterNextRender(() => {
       const script = this.renderer.createElement('script') as HTMLScriptElement;
-      this.renderer.appendChild(document.body, this.captchaService.setup(script));
+      this.renderer.appendChild(document.body, this.captcha.setup(script));
     });
   }
 
@@ -46,8 +46,8 @@ export class LoginPage {
     }
 
     try {
-      await this.captchaService.executeProtectedAction('LOGIN', (token, action) =>
-        this.authenticationService.login(this.form.value, token, action));
+      await this.captcha.executeProtectedAction('LOGIN', (token, action) =>
+        this.authentication.login(this.form.value, token, action));
         await this.router.navigate(['admin/klijenti']);
     } catch {
       this.globalError.set('Korisničko ime ili lozinka nisu ispravni!');

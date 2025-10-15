@@ -17,10 +17,10 @@ import { RouteTranslator } from '../../../../pipes/routing-translator';
   }
 })
 export class MenuItems {
-  constructor(readonly authenticationService: Authentication, private readonly router: Router) { }
+  constructor(protected readonly authentication: Authentication, private readonly router: Router) { }
 
-  readonly classAttribute = computed(() =>
-    this.authenticationService.isCurrentRouteProtected() ? 'protected-menu-items aligned-centrally stretch-between' : '');
+  protected readonly classAttribute = computed(() =>
+    this.authentication.isCurrentRouteProtected() ? 'protected-menu-items aligned-centrally stretch-between' : '');
 
   readonly hideMobileMenu = output();
   readonly visible = input<boolean>(true);
@@ -33,7 +33,7 @@ export class MenuItems {
 
   protected readonly logOut = async(event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
-      this.authenticationService.logout();
+      this.authentication.logout();
       await this.router.navigate(['']);
     }
   };

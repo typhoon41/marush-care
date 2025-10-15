@@ -25,12 +25,12 @@ export class Menu {
   protected showMobileMenu = false;
   protected logoHovered = false;
   protected adminLogoHovered = false;
-  protected readonly isMobile = computed(() => this.sizeService.lastKnownSize()?.supportsMenu);
+  protected readonly isMobile = computed(() => this.screenSize.lastKnownSize()?.supportsMenu);
   readonly logo = viewChild<RouterLinkActive>('logo');
   readonly adminLogo = viewChild<RouterLinkActive>('adminLogo');
 
-  constructor(protected readonly sizeService: ScreenSize,
-    protected readonly authenticationService: Authentication) { }
+  constructor(protected readonly screenSize: ScreenSize,
+    protected readonly authentication: Authentication) { }
 
   protected readonly adminLogoPath = () => this.adminLogo()?.isActive || this.adminLogoHovered ?
     '/assets/images/menu/admin-active.svg' : '/assets/images/menu/admin.svg';

@@ -2,7 +2,7 @@
     <img class="decoration upper" src="/assets/images/menu/upper-decoration.svg" alt="" />
     <marush-menu-items class="actions center-content vertical-stack" [visible]="collapsed()" (hideMobileMenu)="hideMenu()" />
     <img class="decoration lower" src="/assets/images/menu/lower-decoration.svg" alt="" />
-    @if(environment.name !== 'development' && !authenticationService.isCurrentRouteProtected()){
+    @if(environment.name !== 'development' && !authentication.isCurrentRouteProtected()){
         <marush-language-selector [horizontal]="true" [visible]="collapsed()" />
     }
 </nav>

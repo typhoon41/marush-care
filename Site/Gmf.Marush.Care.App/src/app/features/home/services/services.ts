@@ -10,10 +10,10 @@ import { RouteTranslator } from '@shared/pipes/routing-translator';
   styleUrl: './services.scss'
 })
 export class HomeServices {
-  constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslator) { }
+  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) { }
 
   protected readonly redirectToServices = async() => {
-    await this.router.navigate([this.routeTranslatorPipe.transform('services')]);
+    await this.router.navigate([this.routeTranslator.transform('services')]);
   };
 }
 

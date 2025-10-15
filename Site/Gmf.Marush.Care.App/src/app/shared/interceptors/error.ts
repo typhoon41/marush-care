@@ -9,12 +9,12 @@ import { RoutingDefinition } from 'src/app/routes';
 export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const router = inject(Router);
     const loader = inject(GlobalLoader);
-    const authenticationService = inject(Authentication);
+    const authentication = inject(Authentication);
     loader.startLoading();
     return next(request).pipe(finalize(() => loader.stopLoading()),
         catchError(async(errorFound: HttpErrorResponse) => {
             if (errorFound.status === HttpStatusCode.Unauthorized) {
-                authenticationService.logout();
+                authentication.logout();
                 await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.unauthorized:nemate-pristup`)]);
             }
 

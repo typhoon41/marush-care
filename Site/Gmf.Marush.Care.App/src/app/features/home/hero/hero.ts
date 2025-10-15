@@ -10,9 +10,9 @@ import { RouteTranslator } from '@shared/pipes/routing-translator';
   styleUrl: './hero.scss'
 })
 export class HomeHero {
-  constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslator) { }
+  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) { }
 
   protected readonly redirectToAppointments = async() => {
-    await this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
+    await this.router.navigate([this.routeTranslator.transform('appointment')]);
   };
 }

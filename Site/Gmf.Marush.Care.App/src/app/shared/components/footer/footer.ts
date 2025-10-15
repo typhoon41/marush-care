@@ -15,11 +15,11 @@ import { RouteTranslator } from '../../pipes/routing-translator';
 export class Footer {
   protected readonly marushDetails = marushDetails;
 
-  constructor(private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslator) { }
+  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) { }
 
   protected readonly redirectToContact = async(event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {
-      await this.router.navigate([this.routeTranslatorPipe.transform('contact')]);
+      await this.router.navigate([this.routeTranslator.transform('contact')]);
     }
   };
 }

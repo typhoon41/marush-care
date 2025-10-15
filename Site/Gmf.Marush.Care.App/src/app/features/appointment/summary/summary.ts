@@ -10,7 +10,7 @@ import { Money } from '@shared/pipes/money';
     templateUrl: './summary.html',
     styleUrl: './summary.scss'
 })
-export class AppointmentSummaryComponent {
+export class AppointmentSummary {
     readonly checkedServices = input.required<TreatmentDefinition[]>();
     readonly totalCost = input.required<number>();
     readonly removeSelection = output<TreatmentDefinition>();

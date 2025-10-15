@@ -15,9 +15,9 @@ export class TreatmentDefinition {
 
   static readonly minutesLabel = $localize`:@@minutes: minuta`;
 
-  constructor(data: Required<Pick<TreatmentDefinition, RequiredProperties>> &
+  constructor(private readonly data: Required<Pick<TreatmentDefinition, RequiredProperties>> &
     Partial<Omit<TreatmentDefinition, RequiredProperties>>) {
-    Object.assign(this, data);
+    Object.assign(this, this.data);
   }
 
   readonly titleWithDuration = () => this.title + (this.showDuration ? ` (${this.duration + TreatmentDefinition.minutesLabel})` : '');

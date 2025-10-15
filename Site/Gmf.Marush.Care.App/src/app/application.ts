@@ -21,8 +21,8 @@ export class Application {
   private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly router: Router,
-    readonly loader: GlobalLoader,
-    private readonly sizeService: ScreenSize,
+    protected readonly loader: GlobalLoader,
+    private readonly screenSize: ScreenSize,
     private readonly renderer: Renderer2) {
     this.router.events
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -36,7 +36,7 @@ export class Application {
       }
 
       new Language().setup();
-      this.sizeService.startTrackingResizeOf(document);
+      this.screenSize.startTrackingResizeOf(document);
     });
   }
 }

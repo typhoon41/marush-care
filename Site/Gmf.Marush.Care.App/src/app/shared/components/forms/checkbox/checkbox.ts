@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   templateUrl: './checkbox.html',
   styleUrl: './checkbox.scss'
 })
-export class CheckBoxComponent {
+export class CheckBox {
   readonly labelText = input.required<string>();
   readonly checked = input<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-empty-function

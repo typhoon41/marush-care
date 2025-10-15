@@ -21,7 +21,7 @@ export class ServicesPage extends BasePage {
   protected selectedService: SelectedService = '';
   protected readonly marushDetails = marushDetails;
 
-  constructor(protected override readonly metadataService: Stapler) {
-    super(metadataService, new ServicesPageMetadata());
+  constructor(protected override readonly stapler: Stapler) {
+    super(stapler, new ServicesPageMetadata());
   }
 }

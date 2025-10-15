@@ -4,9 +4,9 @@ import { Authentication } from '@shared/services/authentication';
 import { RoutingDefinition } from 'src/app/routes';
 
 export const isUserAuthenticated = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): MaybeAsync<GuardResult> => {
-  const authenticationService = inject(Authentication);
+  const authentication = inject(Authentication);
 
-    if (authenticationService.isAuthenticated()) {
+    if (authentication.isAuthenticated()) {
         return true;
     }
 

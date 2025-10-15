@@ -34,8 +34,8 @@ export class GalleryPage extends BasePage {
   protected readonly fetchedImages = signal<GalleryImage[]>([]);
   protected readonly selectedImage = linkedSignal<GalleryImage | undefined>(() => this.fetchedImages()[0]);
 
-  constructor(protected override readonly metadataService: Stapler) {
-    super(metadataService, new GalleryPageMetadata());
+  constructor(protected override readonly stapler: Stapler) {
+    super(stapler, new GalleryPageMetadata());
     const effectReference = effect(() => {
       if (this.allImages().length) {
         this.loadMoreImages();

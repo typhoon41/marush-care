@@ -22,7 +22,7 @@ export class TreatmentSelector {
   protected treatments: TreatmentDefinition[] = [];
 
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly router: Router, private readonly routeTranslatorPipe: RouteTranslator) {
+    private readonly router: Router, private readonly routeTranslator: RouteTranslator) {
     effect(() => {
       if (isPlatformBrowser(this.platformId)) {
         this.handleSelectedService(this.selectedService());
@@ -32,7 +32,7 @@ export class TreatmentSelector {
   }
 
   protected readonly redirectToAppointment = async() => {
-    await this.router.navigate([this.routeTranslatorPipe.transform('appointment')]);
+    await this.router.navigate([this.routeTranslator.transform('appointment')]);
   };
 
   protected readonly collapseOpenedPanel = (indexToSkip: number) => {

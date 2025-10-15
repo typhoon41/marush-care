@@ -9,7 +9,7 @@ import { Authentication } from '@shared/services/authentication';
     providedIn: 'root'
 })
 export class Clients {
-    private readonly authenticationService = inject(Authentication);
+    private readonly authentication = inject(Authentication);
     readonly data = signal<PaginatedRequest>(new PaginatedRequest('fullName'));
 
     readonly getAll = () => {
@@ -19,7 +19,7 @@ export class Clients {
             method: 'POST',
             body: this.data().toJson(),
             headers: {
-                Authorization: `Bearer ${this.authenticationService.getToken()}`,
+                Authorization: `Bearer ${this.authentication.getToken()}`,
                 'Content-Type': 'application/json'
             }
         }));

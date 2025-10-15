@@ -3,9 +3,9 @@ import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, Router, RouterStateSna
 import { Authentication } from '@shared/services/authentication';
 
 export const isAdmin = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): MaybeAsync<GuardResult> => {
-  const authenticationService = inject(Authentication);
+  const authentication = inject(Authentication);
 
-    if (!authenticationService.isAuthenticated()) {
+    if (!authentication.isAuthenticated()) {
         return true;
     }
 

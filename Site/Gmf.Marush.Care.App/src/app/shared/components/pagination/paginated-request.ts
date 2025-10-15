@@ -8,8 +8,8 @@ export class PaginatedRequest {
     readonly sortBy = signal<string | undefined>(undefined);
     readonly descendingSort = signal<boolean>(false);
 
-    constructor(initialSort: string) {
-        this.sortBy.set(initialSort);
+    constructor(private readonly initialSort: string) {
+        this.sortBy.set(this.initialSort);
     }
 
     readonly toJson = () => ({

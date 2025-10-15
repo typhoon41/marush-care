@@ -11,7 +11,7 @@ import { StructuredData } from './structured-data';
     providedIn: 'root'
 })
 export class Stapler {
-    constructor(@Inject(LOCALE_ID) protected readonly locale: string, @Inject(DOCUMENT)private document: Document,
+    constructor(@Inject(LOCALE_ID) protected readonly locale: string, @Inject(DOCUMENT)private readonly document: Document,
       protected readonly meta: Meta, protected readonly title: Title) {}
 
     readonly attach = (metadata: PageMetadata) => {

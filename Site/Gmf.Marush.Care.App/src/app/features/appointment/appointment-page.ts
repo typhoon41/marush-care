@@ -10,17 +10,17 @@ import { TreatmentDefinition } from '@shared/models/services/treatments/treatmen
 import { RouteTranslator } from '@shared/pipes/routing-translator';
 import { Captcha } from '@shared/services/captcha';
 import { Stapler } from '@shared/services/metadata/stapler';
-import { CustomerDetailsComponent } from './customer-details/customer-details';
+import { CustomerDetails } from './customer-details/customer-details';
 import { AppointmentPageMetadata } from './page-metadata';
 import { requestFormWith } from './request';
 import { RequestUser } from './request-sent/user';
 import { ServicesSelector } from './services-selector/services-selector';
-import { AppointmentSummaryComponent } from './summary/summary';
+import { AppointmentSummary } from './summary/summary';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-appointment-page',
-  imports: [ReactiveFormsModule, CustomerDetailsComponent, AppointmentSummaryComponent, ServicesSelector],
+  imports: [ReactiveFormsModule, CustomerDetails, AppointmentSummary, ServicesSelector],
   templateUrl: './appointment-page.html',
   styleUrl: './appointment-page.scss'
 })
@@ -31,14 +31,14 @@ export class AppointmentPage extends BasePage {
   readonly globalError = signal('');
   disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
   readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
-  readonly totalCost: Signal<number>;
+  protected readonly totalCost: Signal<number>;
 
-  constructor(protected override readonly metadataService: Stapler, private readonly router: Router,
-    private readonly routeTranslatorPipe: RouteTranslator,
-    private readonly captchaService: Captcha,
+  constructor(protected override readonly stapler: Stapler, private readonly router: Router,
+    private readonly routeTranslator: RouteTranslator,
+    private readonly captcha: Captcha,
     private readonly renderer: Renderer2,
     private readonly appointment: Appointment, private readonly formBuilder: NonNullableFormBuilder) {
-    super(metadataService, new AppointmentPageMetadata());
+    super(stapler, new AppointmentPageMetadata());
     this.form = requestFormWith(this.formBuilder);
 
     this.checkedServices = signal(this.form.get('checkedServices') as FormArray<FormControl<TreatmentDefinition>>);
@@ -46,7 +46,7 @@ export class AppointmentPage extends BasePage {
 
     afterNextRender(() => {
       const script = this.renderer.createElement('script') as HTMLScriptElement;
-      this.renderer.appendChild(document.body, this.captchaService.setup(script));
+      this.renderer.appendChild(document.body, this.captcha.setup(script));
     });
   }
 
@@ -82,8 +82,8 @@ export class AppointmentPage extends BasePage {
     this.form.get('serbianTreatments')?.setValue(this.checkedServices().value.map(({ name }) => name));
 
     try {
-      await this.captchaService.executeProtectedAction('APPOINTMENT', (token, action) => this.appointment.makeRequest(this.form.value, token, action));
-      await this.router.navigate([this.routeTranslatorPipe.transform('request-sent')], { state: RequestUser.from(this.form) });
+      await this.captcha.executeProtectedAction('APPOINTMENT', (token, action) => this.appointment.makeRequest(this.form.value, token, action));
+      await this.router.navigate([this.routeTranslator.transform('request-sent')], { state: RequestUser.from(this.form) });
     } catch {
       this.globalError.set($localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`);
     }

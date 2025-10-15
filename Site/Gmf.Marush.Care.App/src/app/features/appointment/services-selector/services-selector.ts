@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output, viewChildren } from '@angular/core';
 import { ExpansionPanel } from '@shared/components/expansion-panel/expansion-panel';
-import { CheckBoxComponent } from '@shared/components/forms/checkbox/checkbox';
+import { CheckBox } from '@shared/components/forms/checkbox/checkbox';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-appointment-services-selector',
-    imports: [CommonModule, ExpansionPanel, CheckBoxComponent],
+    imports: [CommonModule, ExpansionPanel, CheckBox],
     templateUrl: './services-selector.html',
     styleUrl: './services-selector.scss'
 })

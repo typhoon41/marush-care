@@ -12,7 +12,7 @@ import { Input } from '@shared/components/forms/input/input';
     templateUrl: './customer-details.html',
     styleUrl: './customer-details.scss'
 })
-export class CustomerDetailsComponent {
+export class CustomerDetails {
     @HostBinding('class') classAttribute: string = 'row customer-details-container';
     readonly formGroup = input.required<FormGroup>();
     protected readonly namePlaceholder = $localize`:@@appointment.customer.name:Ime`;

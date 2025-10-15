@@ -17,7 +17,7 @@ export class RequestSentPage extends BasePage {
     protected readonly text =
         $localize`:@@appointment.request.sent:Vaš zahtev za zakazivanje termina je poslat. Očekujte uskoro potvrdu putem email-a.`;
 
-    constructor(protected override readonly metadataService: Stapler, protected readonly router: Router) {
-        super(metadataService, new RequestSentPageMetadata(router.currentNavigation()?.extras.state as IRepresentUserRequest));
+    constructor(protected override readonly stapler: Stapler, protected readonly router: Router) {
+        super(stapler, new RequestSentPageMetadata(router.currentNavigation()?.extras.state as IRepresentUserRequest));
     }
 }
