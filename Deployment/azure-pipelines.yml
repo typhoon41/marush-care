@@ -15,7 +15,8 @@ stages:
   jobs:
   - template: 'Templates/build.yaml'
     parameters:
-      dotNetVersion: 9.0.201
+      dotNetVersion: 9.0.x
+      nodeVersion: 22.20.0
       applicationVersion: $(applicationVersion)
       angularApplicationPath: 'Site/Gmf.Marush.Care.App'
       apiApplicationPath: 'Gmf.Marush.Care.Api'
@@ -25,7 +26,7 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   variables:
-    - group: Test
+  - template: Variables/variables.test.yml
   jobs:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
@@ -43,7 +44,7 @@ stages:
   dependsOn: 'DeployToTest'
   condition:  succeeded()
   variables:
-    - group: Production
+  - template: Variables/variables.production.yml
   jobs:
   - job: WaitForValidation
     displayName: Wait for approval

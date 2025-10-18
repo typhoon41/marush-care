@@ -22,7 +22,6 @@ jobs:
     variables:
     - name: environment
       value: ${{ parameters.environment }}
-    - template: ../Variables/${{ parameters.environment }}-variables.yaml 
     environment: 
       name: ${{ parameters.environment }}
       resourceName: ${{ parameters.resourceName }}
@@ -31,29 +30,33 @@ jobs:
       runOnce:
         deploy:
           steps:
+          - download: none # https://github.com/microsoft/azure-pipelines-tasks/issues/17207
           - task: DownloadPipelineArtifact@2
             displayName: Download artifact
             inputs:
-              buildType: 'current'
               artifactName: '${{ parameters.artifactName }}-$(Build.BuildNumber)'
               targetPath: '$(Pipeline.Workspace)'
+
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
             inputs:
               archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}-$(Build.BuildNumber)/${{ parameters.archiveFile }}'
               destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
             retryCountOnTaskFailure: 3
+
           - task: PowerShell@2
             displayName: 'Copy Robots.txt'
             inputs:
                 targetType: inline
                 script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/robots.txt"
+
           - task: PowerShell@2
             displayName: 'Copy Sitemaps'
             condition: eq(variables['environment'], 'Production')
             inputs:
                 targetType: inline
                 script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/sitemap.xml" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/sitemap.xml"
+
           - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:
@@ -66,8 +69,10 @@ jobs:
               tokenPattern: custom
               tokenPrefix: '_-_-'
               tokenSuffix: '-_-_'
-              keepToken: true
+              telemetryOptout: true
+              missingVarAction: keep
               missingVarLog: off
+
           - task: ArchiveFiles@2
             displayName: 'Pack ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
@@ -75,22 +80,27 @@ jobs:
               includeRootFolder: false
               archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               retryCountOnTaskFailure: 3
+
           - script: |
               msdeploy.exe -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync -disablerule:BackupRule
             displayName: 'Put App Offline page'
             retryCountOnTaskFailure: 3
+
           - task: IISWebAppDeploymentOnMachineGroup@0
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
+              RemoveAdditionalFilesFlag: true
               retryCountOnTaskFailure: 3
+
           - script: |
               msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete -disablerule:BackupRule
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
             failOnStderr: true
             displayName: 'Remove App Offline pages'
             retryCountOnTaskFailure: 3
+
   - job: git_tag
     displayName: Create Git tag
     dependsOn: ${{ parameters.deploymentName }}
@@ -105,6 +115,7 @@ jobs:
         script: |
           git tag ${{ parameters.environment }}-$(Build.BuildNumber)
           git push origin ${{ parameters.environment }}-$(Build.BuildNumber)
+
   - job: 'CleanUp${{ parameters.deploymentName }}'
     displayName: 'Clean up ${{ parameters.deploymentName }}'
     dependsOn: ${{ parameters.deploymentName }}

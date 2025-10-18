@@ -18,10 +18,10 @@ jobs:
   pool: ${{ parameters.environment }}
   steps:
     - checkout: none
+    - download: none # https://github.com/microsoft/azure-pipelines-tasks/issues/17207
     - task: DownloadPipelineArtifact@2
       displayName: Download migrations artifact
       inputs:
-        buildType: 'current'
         artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
         targetPath: '$(Pipeline.Workspace)'
     - task: CmdLine@2

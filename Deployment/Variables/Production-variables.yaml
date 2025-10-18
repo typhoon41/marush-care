@@ -1,4 +1,0 @@
-variables: 
-   applicationUrl: https://marushcare.com
-   apiUrl: https://marushcare.com/api/
-   apiLogFileLocation: 'C:\Temp\Marush\Api'

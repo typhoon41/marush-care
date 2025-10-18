@@ -1,5 +1,6 @@
 parameters:
 - name: dotNetVersion
+- name: nodeVersion
 - name: applicationVersion
 - name: angularApplicationPath
 - name: apiApplicationPath
@@ -25,54 +26,62 @@ jobs:
       - task: UseNode@1
         displayName: 'Set Node version'
         inputs:
-          version: '22.x'
+          version: ${{ parameters.nodeVersion }}
           
       - task: Npm@1
         displayName: 'Install node modules'
         inputs:
           command: 'ci'
           workingDir: ${{ parameters.angularApplicationPath }}
+
       - task: Npm@1
         displayName: 'Execute Linting'
         inputs:
           command: 'custom'
           customCommand: 'run lint'
-          workingDir: ${{ parameters.angularApplicationPath }}   
+          workingDir: ${{ parameters.angularApplicationPath }}
+
       - task: Npm@1
         displayName: 'Building Angular Application'
         inputs:
           command: 'custom'
           customCommand: 'run build --configuration=production'
           workingDir: ${{ parameters.angularApplicationPath }}
+
       - task: DotNetCoreCLI@2
         displayName: 'Add Manifest for tool installation'
         inputs:
           command: 'custom'
           custom: 'new'
-          arguments: tool-manifest
+          arguments: tool-manifest --force
+
       - task: DotNetCoreCLI@2
         displayName: 'Install EF Tool'
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef
+          arguments: install dotnet-ef --version 9.0.*
+
       - task: DotNetCoreCLI@2
         displayName: 'Install workload for Aspire'
         inputs:
           command: 'custom'
           custom: 'workload'
           arguments: 'install aspire'
+
       - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
         inputs:
           command: 'restore'
           restoreArguments : '-r win-x64'
+
       - task: DotNetCoreCLI@2
         displayName: '.Net Core Build'
         inputs:
           command: 'custom'
           custom: 'build'
           arguments: --no-incremental --configuration Release --no-restore $(BuildParameters)
+
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
@@ -82,31 +91,36 @@ jobs:
           publishWebProjects: True
           arguments: -r win-x64 --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=_-_-environment-_-_ $(BuildParameters)
           zipAfterPublish: True
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing artifacts'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
           publishLocation: 'Container'
+
       - task: DotNetCoreCLI@2
         displayName: Create Entity Framework's Bundle for SQL
         inputs:
           command: 'custom'
           workingDirectory: $(FullAppPath)
           custom: 'ef '
-          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)\Migrations\${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration Release --runtime win-x64 --force --verbose     
+          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)/Migrations/${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration Release --runtime win-x64 --force --verbose
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publishing migration artifacts'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)\Migrations'
           ArtifactName: $(MigrationsArtifact)
           publishLocation: 'Container'
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publish SQL artifacts - appsettings.json'
         inputs:
           PathtoPublish: $(Build.SourcesDirectory)/$(FullAppPath)/appsettings.json
           ArtifactName: $(MigrationsArtifact)
           publishLocation: 'Container'
+
       - task: CmdLine@2
         displayName: 'Reset local changes'
         inputs:
