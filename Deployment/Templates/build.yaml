@@ -34,14 +34,6 @@ jobs:
           command: 'ci'
           workingDir: ${{ parameters.angularApplicationPath }}
 
-      - task: PowerShell@2
-        displayName: 'Set .net major version'
-        inputs:
-          targetType: 'inline'
-          script: |
-            $majorVersion = "$(DotNetVersion)" -split "\." | Select-Object -First 1
-            Write-Host "##vso[task.setvariable variable=dotNetMajorVersion]$majorVersion"
-
       - task: Npm@1
         displayName: 'Execute Linting'
         inputs:
@@ -89,6 +81,12 @@ jobs:
           command: 'custom'
           custom: 'build'
           arguments: --no-incremental --configuration Release --no-restore $(BuildParameters)
+
+      - task: PowerShell@2
+        displayName: 'Copy app_offline'
+        inputs:
+          targetType: inline
+          script: Copy-Item -Path "$(Build.SourcesDirectory)/$(FullAppPath)/Properties/app_offline_template.htm" -Destination "$(Build.ArtifactStagingDirectory)/app_offline.htm -Force"
 
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'

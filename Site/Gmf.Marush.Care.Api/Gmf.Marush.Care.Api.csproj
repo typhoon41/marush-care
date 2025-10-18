@@ -96,10 +96,4 @@
             <Generator></Generator>
         </EmbeddedResource>
     </ItemGroup>
-    <Target Name="CopyAppOffline" AfterTargets="Build">
-        <ItemGroup>
-            <FilesToCopy Include="Properties\app_offline_template.htm" />
-        </ItemGroup>
-        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(OutDir)app_offline.htm" />
-    </Target>
 </Project>
