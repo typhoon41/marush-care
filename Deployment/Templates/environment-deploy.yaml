@@ -92,6 +92,8 @@ jobs:
               WebSiteName: ${{ parameters.destinationWebsiteName }}
               Package: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
               RemoveAdditionalFilesFlag: true
+              AdditionalArguments: >
+                -skip:skipaction=Delete,objectName=file,absolutePath='${{ parameters.destinationWebsiteName }}\app_offline.htm'
               retryCountOnTaskFailure: 3
 
           - script: |
