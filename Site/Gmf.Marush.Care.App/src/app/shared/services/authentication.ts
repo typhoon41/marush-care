@@ -1,6 +1,6 @@
-import { isPlatformBrowser, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { effect, Inject, Injectable, PLATFORM_ID, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, effect, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { environment } from '@env';
 import { LoginRequest } from '@shared/models/authentication/login-request';
@@ -11,16 +11,17 @@ import { RoutingDefinition } from 'src/app/routes';
     providedIn: 'root'
 })
 export class Authentication {
-    private readonly storage!: Signal<Event | undefined>;
-    readonly isAuthenticated: WritableSignal<boolean> = signal(false);
+    // eslint-disable-next-line @angular-eslint/prefer-signals
+    private storage!: Signal<Event | undefined>;
+    // eslint-disable-next-line @angular-eslint/prefer-signals
+    isAuthenticated: WritableSignal<boolean> = signal(false);
     readonly isCurrentRouteProtected: WritableSignal<boolean> = signal(false);
     readonly getToken = () => localStorage.getItem('token');
     private readonly store = (token: string) => localStorage.setItem('token', token);
     private readonly removeToken = () => localStorage.removeItem('token');
 
-    constructor(@Inject(PLATFORM_ID) private readonly platformId: object,
-        private readonly location: Location, private readonly http: HttpClient) {
-        if (isPlatformBrowser(this.platformId)) {
+    constructor(private readonly location: Location, private readonly http: HttpClient) {
+        afterNextRender(() => {
             this.storage = toSignal(fromEvent(window, 'storage'));
             this.isAuthenticated = signal(!!this.getToken());
             this.isCurrentRouteProtected.set(this.checkProtectedLocation());
@@ -31,7 +32,7 @@ export class Authentication {
                 this.storage();
                 this.isAuthenticated.set(!!this.getToken());
             });
-        }
+        });
     }
 
     readonly login = async(data: LoginRequest, captchaToken: string, captchaAction: string) => {

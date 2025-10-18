@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, ElementRef, Inject, input, PLATFORM_ID, viewChild, viewChildren } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef, input, viewChild, viewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanel } from '@shared/components/expansion-panel/expansion-panel';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments';
@@ -21,13 +21,12 @@ export class TreatmentSelector {
 
   protected treatments: TreatmentDefinition[] = [];
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly router: Router, private readonly routeTranslator: RouteTranslator) {
+  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) {
     effect(() => {
-      if (isPlatformBrowser(this.platformId)) {
+      afterNextRender(() => {
         this.handleSelectedService(this.selectedService());
         this.treatmentsContainer()?.nativeElement?.scrollIntoView({ block: 'start' });
-      }
+      });
     });
   }
 

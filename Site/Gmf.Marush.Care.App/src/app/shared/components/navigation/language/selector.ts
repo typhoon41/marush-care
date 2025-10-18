@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, Inject, input, PLATFORM_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import Language, { ILanguage } from '@shared/models/language';
@@ -19,18 +19,20 @@ export class LanguageSelector {
   protected readonly index = computed(() => this.visible() ? 0 : -1);
   protected readonly language = new Language();
   protected readonly supportedLanguages: IComboBoxItem[];
-  protected selectedLanguage: IComboBoxItem;
 
-  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) {
+  private readonly toItem = (language: ILanguage) => ({
+    value: language.value,
+    label: language.description
+  } as IComboBoxItem);
+
+  protected selectedLanguage: IComboBoxItem = this.toItem(this.language.default);
+
+  constructor() {
     this.supportedLanguages = this.language.supportedLanguages.map(language => this.toItem(language));
 
-    if (isPlatformBrowser(this.platformId)) {
+    afterNextRender(() => {
       this.selectedLanguage = this.toItem(this.language.predefined());
-    }
-
-    else {
-      this.selectedLanguage = this.toItem(this.language.default);
-    }
+    });
   }
 
   protected readonly select = (language: IComboBoxItem, event?: OptionalKeyboardEvent) => {
@@ -39,9 +41,4 @@ export class LanguageSelector {
       this.language.changeTo(selectedLanguage);
     }
   };
-
-  private readonly toItem = (language: ILanguage) => ({
-    value: language.value,
-    label: language.description
-  } as IComboBoxItem);
 }
