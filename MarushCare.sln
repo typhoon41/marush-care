@@ -38,8 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gmf.Marush.Care.Services", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Variables", "Variables", "{7811E0E7-BCCF-4DDD-825C-779A2137FB5C}"
 	ProjectSection(SolutionItems) = preProject
-		Deployment\Variables\Production-variables.yaml = Deployment\Variables\Production-variables.yaml
-		Deployment\Variables\Test-variables.yaml = Deployment\Variables\Test-variables.yaml
+		Deployment\Variables\variables.production.yaml = Deployment\Variables\variables.production.yaml
+		Deployment\Variables\variables.test.yaml = Deployment\Variables\variables.test.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{7D4D6257-2AE3-4AC6-A1BD-795D79D05745}"

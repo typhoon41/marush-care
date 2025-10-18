@@ -1,99 +1,105 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591;NU1702</NoWarn>
-    <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
-    <SpaRoot>..\Gmf.Marush.Care.App</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
-    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="packages.lock.json" />
-    <Content Include="Properties\app_offline_template.htm">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Properties\robots.Production.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Properties\robots.Test.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Properties\sitemap.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Email Templates\appointment-confirmation.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Email Templates\appointment-rejection.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Email Templates\appointment-request.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Email Templates\appointment-submitted.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Aspire.Hosting.SqlServer" />
-    <PackageReference Include="AutoMapper" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="System.Resources.ResourceManager" />
-  </ItemGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591;NU1702</NoWarn>
+        <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
+        <SpaRoot>..\Gmf.Marush.Care.App</SpaRoot>
+        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
+        <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+        <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+        <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="packages.lock.json" />
+        <Content Include="Properties\app_offline_template.htm">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Properties\robots.Production.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Properties\robots.Test.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Properties\sitemap.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Resources\Email Templates\appointment-confirmation.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Resources\Email Templates\appointment-rejection.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Resources\Email Templates\appointment-request.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Resources\Email Templates\appointment-submitted.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="web.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Aspire.Hosting.SqlServer" />
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
+        <PackageReference Include="System.Resources.ResourceManager" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
-    <ProjectReference Include="..\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" />
-    <ProjectReference Include="..\Gmf.Marush.Care.App\Gmf.Marush.Care.App.esproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
+        <ProjectReference Include="..\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" />
+        <ProjectReference Include="..\Gmf.Marush.Care.App\Gmf.Marush.Care.App.esproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+        </ProjectReference>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="..\Gmf.Marush.Care.App\dist\**" CopyToPublishDirectory="PreserveNewest" TargetPath="dist\%(RecursiveDir)%(Filename)%(Extension)" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\Gmf.Marush.Care.App\dist\**" CopyToPublishDirectory="PreserveNewest" TargetPath="dist\%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Properties\sitemap.xml" />
-    <None Remove="Resources\Email Templates\appointment-confirmation.html" />
-    <None Remove="Resources\Email Templates\appointment-rejection.html" />
-    <None Remove="Resources\Email Templates\appointment-request.html" />
-    <None Remove="Resources\Email Templates\appointment-submitted.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Resources\Labels.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Labels.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Update="Resources\Labels.en.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Labels.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Labels.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Labels.ru.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Properties\sitemap.xml" />
+        <None Remove="Resources\Email Templates\appointment-confirmation.html" />
+        <None Remove="Resources\Email Templates\appointment-rejection.html" />
+        <None Remove="Resources\Email Templates\appointment-request.html" />
+        <None Remove="Resources\Email Templates\appointment-submitted.html" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Resources\Labels.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Labels.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Resources\Labels.en.resx">
+            <Generator></Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Labels.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Labels.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Labels.ru.resx">
+            <Generator></Generator>
+        </EmbeddedResource>
+    </ItemGroup>
+    <Target Name="CopyAppOffline" AfterTargets="Build">
+        <ItemGroup>
+            <FilesToCopy Include="Properties\app_offline_template.htm" />
+        </ItemGroup>
+        <Copy SourceFiles="@(FilesToCopy)" DestinationFiles="$(OutDir)app_offline.htm" />
+    </Target>
 </Project>

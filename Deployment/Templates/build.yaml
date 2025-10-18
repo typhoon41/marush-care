@@ -90,12 +90,6 @@ jobs:
           custom: 'build'
           arguments: --no-incremental --configuration Release --no-restore $(BuildParameters)
 
-      - task: PowerShell@2
-        displayName: 'Copy app_offline'
-        inputs:
-          targetType: inline
-          script: Copy-Item -Path "$(Build.SourcesDirectory)/$(FullAppPath)/Properties/app_offline_template.htm" -Destination "$(Build.SourcesDirectory)/$(FullAppPath)/bin/Release/net$(dotNetMajorVersion).0/win-x64/app_offline.htm"
-
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
         inputs:
