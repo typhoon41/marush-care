@@ -1,6 +1,10 @@
 variables:
  - group: Production
-   applicationUrl: https://marushcare.com
-   apiUrl: https://marushcare.com/api/
-   apiLogFileLocation: 'C:\Temp\Marush\Api'
-   ssrPort: 4141
+ - name: applicationUrl
+   value: https://marushcare.com
+ - name: apiUrl
+   value: https://marushcare.com/api/
+ - name: apiLogFileLocation
+   value: 'C:\Temp\Marush\Api'
+ - name: ssrPort
+   value: 4141
