@@ -35,7 +35,7 @@ jobs:
             displayName: Download artifact
             inputs:
               artifactName: '${{ parameters.artifactName }}-$(Build.BuildNumber)'
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(Pipeline.Workspace)/${{ parameters.projectName }}-$(Build.BuildNumber)'
 
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
