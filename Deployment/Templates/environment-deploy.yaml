@@ -57,6 +57,12 @@ jobs:
                 targetType: inline
                 script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/sitemap.xml" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/sitemap.xml"
 
+          - task: PowerShell@2
+            displayName: 'Copy app_offline'
+            inputs:
+              targetType: inline
+              script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/app_offline_template.htm" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/app_offline.htm" -Force
+
           - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:
