@@ -1,6 +1,4 @@
 parameters:
-- name: dotNetVersion
-- name: nodeVersion
 - name: applicationVersion
 - name: angularApplicationPath
 - name: apiApplicationPath
@@ -16,23 +14,33 @@ jobs:
       BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
       MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
       FullAppPath: Site/${{ parameters.apiApplicationPath }}
+      DotNetVersion: 9.0.x
+      NodeVersion: 22.20.0
    displayName: 'Build'
    steps:
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
-          version: ${{ parameters.dotNetVersion }}
+          version: $(DotNetVersion)
           
       - task: UseNode@1
         displayName: 'Set Node version'
         inputs:
-          version: ${{ parameters.nodeVersion }}
+          version: $(NodeVersion)
           
       - task: Npm@1
         displayName: 'Install node modules'
         inputs:
           command: 'ci'
           workingDir: ${{ parameters.angularApplicationPath }}
+
+      - task: PowerShell@2
+        displayName: 'Set .net major version'
+        inputs:
+          targetType: 'inline'
+          script: |
+            $majorVersion = "$(DotNetVersion)" -split "\." | Select-Object -First 1
+            Write-Host "##vso[task.setvariable variable=dotNetMajorVersion]$majorVersion"
 
       - task: Npm@1
         displayName: 'Execute Linting'
@@ -60,7 +68,7 @@ jobs:
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef --version 9.0.*
+          arguments: install dotnet-ef
 
       - task: DotNetCoreCLI@2
         displayName: 'Install workload for Aspire'
@@ -81,6 +89,12 @@ jobs:
           command: 'custom'
           custom: 'build'
           arguments: --no-incremental --configuration Release --no-restore $(BuildParameters)
+
+      - task: PowerShell@2
+        displayName: 'Copy app_offline'
+        inputs:
+          targetType: inline
+          script: Copy-Item -Path "$(Build.SourcesDirectory)/$(FullAppPath)/Properties/app_offline_template.htm" -Destination "$(Build.SourcesDirectory)/$(FullAppPath)/bin/Release/net$(dotNetMajorVersion).0/win-x64/app_offline.htm"
 
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'

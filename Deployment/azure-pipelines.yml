@@ -15,8 +15,6 @@ stages:
   jobs:
   - template: 'Templates/build.yaml'
     parameters:
-      dotNetVersion: 9.0.x
-      nodeVersion: 22.20.0
       applicationVersion: $(applicationVersion)
       angularApplicationPath: 'Site/Gmf.Marush.Care.App'
       apiApplicationPath: 'Gmf.Marush.Care.Api'
