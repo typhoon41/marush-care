@@ -26,7 +26,7 @@ stages:
   dependsOn: 'Build'
   condition:  succeeded()
   variables:
-  - template: Variables/variables.test.yml
+  - template: Variables/variables.test.yaml
   jobs:
   - template: 'Templates/environment-deploy.yaml'
     parameters:
@@ -44,7 +44,7 @@ stages:
   dependsOn: 'DeployToTest'
   condition:  succeeded()
   variables:
-  - template: Variables/variables.production.yml
+  - template: Variables/variables.production.yaml
   jobs:
   - job: WaitForValidation
     displayName: Wait for approval
