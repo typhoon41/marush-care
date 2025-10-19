@@ -1,4 +1,4 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, input, signal, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Language from '@shared/models/language';
 import AirDatepicker from 'air-datepicker';
@@ -17,7 +17,8 @@ export class DatePicker extends Field {
     readonly placeholder = input<string>('');
     readonly validation = input<string[]>(['required']);
     readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
-    private readonly datePicker: AirDatepicker | undefined;
+    // eslint-disable-next-line @angular-eslint/prefer-signals
+    private datePicker = signal<AirDatepicker | undefined>(undefined);
 
     constructor() {
         super();
@@ -26,7 +27,7 @@ export class DatePicker extends Field {
             const nextMonth = new Date(new Date().setMonth(today.getMonth() + 1));
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            new AirDatepicker(this.date()!.nativeElement, {
+            this.datePicker.set(new AirDatepicker(this.date()!.nativeElement, {
                 locale: new Language().predefined().datePickerLocale,
                 autoClose: true,
                 showOtherMonths: false,
@@ -49,9 +50,9 @@ export class DatePicker extends Field {
 
                     return {};
                 }
-            });
+            }));
         });
     }
 
-    protected readonly toggleDatePicker = () => this.datePicker?.show();
+    protected readonly toggleDatePicker = () => this.datePicker()?.show();
 }

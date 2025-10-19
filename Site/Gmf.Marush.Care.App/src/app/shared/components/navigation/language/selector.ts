@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import Language, { ILanguage } from '@shared/models/language';
@@ -25,13 +25,13 @@ export class LanguageSelector {
     label: language.description
   } as IComboBoxItem);
 
-  protected selectedLanguage: IComboBoxItem = this.toItem(this.language.default);
+  protected readonly selectedLanguage = signal(this.toItem(this.language.default));
 
   constructor() {
     this.supportedLanguages = this.language.supportedLanguages.map(language => this.toItem(language));
 
     afterNextRender(() => {
-      this.selectedLanguage = this.toItem(this.language.predefined());
+      this.selectedLanguage.set(this.toItem(this.language.predefined()));
     });
   }
 

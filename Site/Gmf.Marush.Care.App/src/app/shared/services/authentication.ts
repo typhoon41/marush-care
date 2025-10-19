@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { afterNextRender, effect, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, effect, Injectable, Injector, runInInjectionContext, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { environment } from '@env';
 import { LoginRequest } from '@shared/models/authentication/login-request';
@@ -20,17 +20,19 @@ export class Authentication {
     private readonly store = (token: string) => localStorage.setItem('token', token);
     private readonly removeToken = () => localStorage.removeItem('token');
 
-    constructor(private readonly location: Location, private readonly http: HttpClient) {
+    constructor(private readonly location: Location, private readonly injector: Injector, private readonly http: HttpClient) {
         afterNextRender(() => {
-            this.storage = toSignal(fromEvent(window, 'storage'));
-            this.isAuthenticated = signal(!!this.getToken());
-            this.isCurrentRouteProtected.set(this.checkProtectedLocation());
-            this.location.onUrlChange(() => {
+            runInInjectionContext(this.injector, () => {
+                this.storage = toSignal(fromEvent(window, 'storage'));
+                this.isAuthenticated = signal(!!this.getToken());
                 this.isCurrentRouteProtected.set(this.checkProtectedLocation());
-            });
-            effect(() => {
-                this.storage();
-                this.isAuthenticated.set(!!this.getToken());
+                this.location.onUrlChange(() => {
+                    this.isCurrentRouteProtected.set(this.checkProtectedLocation());
+                });
+                effect(() => {
+                    this.storage();
+                    this.isAuthenticated.set(!!this.getToken());
+                });
             });
         });
     }
