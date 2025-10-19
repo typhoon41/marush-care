@@ -46,7 +46,7 @@ export default class Language {
         language.value === this.initial)[0];
 
     readonly predefined = () => this.supportedLanguages.filter(language =>
-        language.value === (this.storedLanguage() ?? this.default.value))[0] ?? this.default.value;
+        language.value === (this.storedLanguage() ?? this.default.value))[0] ?? this.default;
 
     private readonly storedLanguage = () => this.storage.load(this.languageKey);
     private readonly urlLanguage = () => window.location.pathname.split('/')[1] ?? this.default.value;
