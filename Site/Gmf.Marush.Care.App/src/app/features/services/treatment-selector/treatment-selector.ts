@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef, input, viewChild, viewChildren } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef, Injector, input, runInInjectionContext, viewChild, viewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanel } from '@shared/components/expansion-panel/expansion-panel';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments';
@@ -21,11 +21,13 @@ export class TreatmentSelector {
 
   protected treatments: TreatmentDefinition[] = [];
 
-  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) {
-    effect(() => {
-      afterNextRender(() => {
-        this.handleSelectedService(this.selectedService());
-        this.treatmentsContainer()?.nativeElement?.scrollIntoView({ block: 'start' });
+  constructor(private readonly router: Router, private readonly injector: Injector, private readonly routeTranslator: RouteTranslator) {
+    afterNextRender(() => {
+      runInInjectionContext(this.injector, () => {
+        effect(() => {
+          this.handleSelectedService(this.selectedService());
+          this.treatmentsContainer()?.nativeElement?.scrollIntoView({ block: 'start' });
+        });
       });
     });
   }
