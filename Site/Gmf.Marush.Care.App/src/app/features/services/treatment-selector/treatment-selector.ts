@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef, Injector, input, runInInjectionContext, viewChild, viewChildren } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef,
+  Injector, input, runInInjectionContext, viewChild, viewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanel } from '@shared/components/expansion-panel/expansion-panel';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments';
