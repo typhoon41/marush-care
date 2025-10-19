@@ -1,6 +1,6 @@
 <div class="column-12" [formGroup]="form()">
     <input #date readonly type="text" class="field column-12" [formControlName]="name()"
-    [placeholder]="placeholder()" [ariaLabel]="placeholder()" [attr.aria-required]="required ? 'true' : null" (focus)="toggleDatePicker()">
+    [placeholder]="placeholder()" [ariaLabel]="placeholder()" [attr.aria-required]="required ? 'true' : null" (focus)="showDatePicker()">
 
     @if(required)
     {
