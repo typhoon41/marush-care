@@ -1,7 +1,7 @@
 import { environment } from '@env';
 import { AirDatepickerLocale } from 'air-datepicker';
-import localeEn from 'air-datepicker/locale/en';
-import localeRu from 'air-datepicker/locale/ru';
+import localeEnRaw from 'air-datepicker/locale/en';
+import localeRuRaw from 'air-datepicker/locale/ru';
 import localeSr from './air-datepicker-serbian';
 import { CookieStorage } from './cookie-storage';
 
@@ -19,9 +19,15 @@ export default class Language {
     private readonly languageKey = 'language';
     private readonly storage = new CookieStorage();
 
+    private readonly unwrap = (translationLocale: { default: AirDatepickerLocale }): AirDatepickerLocale =>
+        translationLocale?.default ?? translationLocale;
+
+    private readonly localeEn: AirDatepickerLocale = this.unwrap(localeEnRaw as unknown as { default: AirDatepickerLocale });
+    private readonly localeRu: AirDatepickerLocale = this.unwrap(localeRuRaw as unknown as { default: AirDatepickerLocale });
+
     readonly supportedLanguages: ILanguage[] = [{ description: 'SRB', value: 'sr', datePickerLocale: localeSr, iso: 'sr_Latn_RS' },
-    { description: 'ENG', value: 'en', datePickerLocale: localeEn, iso: 'en_GB' },
-    { description: 'RUS', value: 'ru', datePickerLocale: localeRu, iso: 'ru_RU' }];
+    { description: 'ENG', value: 'en', datePickerLocale: this.localeEn, iso: 'en_GB' },
+    { description: 'RUS', value: 'ru', datePickerLocale: this.localeRu, iso: 'ru_RU' }];
 
     readonly setup = () => {
         let urlLanguage = this.urlLanguage();
