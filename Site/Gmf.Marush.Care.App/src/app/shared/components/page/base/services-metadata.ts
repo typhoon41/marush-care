@@ -9,7 +9,6 @@ export abstract class ServicesMetadata extends PageMetadata {
                 this.serviceFrom('facial', $localize`:@@services.treatments.title:Tretmani Lica`),
                 this.serviceFrom('combination', $localize`:@@services.treatments-combination.title:Kombinacije Tretmana`),
                 this.serviceFrom('brows-lashes', $localize`:@@services.brows-lashes.title:Obrve i Trepavice`),
-                this.serviceFrom('waxing', $localize`:@@services.waxing.title:Depilacija`),
                 this.serviceFrom('body', $localize`:@@services.body.title:Tretmani tela`)
             ]
         };

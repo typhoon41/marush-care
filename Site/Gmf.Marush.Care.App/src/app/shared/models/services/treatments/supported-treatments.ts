@@ -2,7 +2,6 @@ import supportedBodyTreatments from './definitions/body-treatments';
 import supportedBrowsLashesTreatments from './definitions/brows-lashes';
 import supportedCombinationTreatments from './definitions/combination-treatments';
 import supportedFaceTreatments from './definitions/face-treatments';
-import supportedWaxing from './definitions/waxing';
 import { IDefineTreatmentGroup } from './types';
 
 const supportedTreatments = [
@@ -26,13 +25,6 @@ const supportedTreatments = [
         image: 'brows-lashes',
         imageDescription: $localize`:@@services.brows-lashes.image-description:Obrva i trepavica žene koja žmuri`,
         treatments: supportedBrowsLashesTreatments
-    },
-    {
-        key: 'waxing',
-        title: $localize`:@@services.waxing.title:Depilacija`,
-        image: 'treatments-waxing',
-        imageDescription: $localize`:@@services.waxing.image-description:Priprema voska za depilaciju`,
-        treatments: supportedWaxing
     },
     {
         key: 'body',
