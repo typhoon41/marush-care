@@ -1,6 +1,6 @@
 
 /* eslint-disable @stylistic/max-len, max-params */
-import { afterNextRender, ChangeDetectionStrategy, Component, computed, HostBinding, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Appointment } from '@features/appointment/appointment';
@@ -22,10 +22,10 @@ import { AppointmentSummary } from './summary/summary';
   selector: 'marush-appointment-page',
   imports: [ReactiveFormsModule, CustomerDetails, AppointmentSummary, ServicesSelector],
   templateUrl: './appointment-page.html',
-  styleUrl: './appointment-page.scss'
+  styleUrl: './appointment-page.scss',
+  host: { class: 'row appointment-container' }
 })
 export class AppointmentPage extends BasePage {
-  @HostBinding('class') classAttribute: string = 'row appointment-container';
   marushDetails = marushDetails;
   form: FormGroup;
   readonly globalError = signal('');

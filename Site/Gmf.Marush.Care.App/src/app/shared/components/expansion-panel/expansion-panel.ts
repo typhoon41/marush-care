@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, ElementRef,
-  HostBinding, input, model, output, viewChild
+import { ChangeDetectionStrategy, Component, effect, ElementRef, input, model, output, viewChild
 } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
@@ -9,10 +8,10 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
   selector: 'marush-expansion-panel',
   imports: [CommonModule],
   templateUrl: './expansion-panel.html',
-  styleUrl: './expansion-panel.scss'
+  styleUrl: './expansion-panel.scss',
+  host: { class: 'row' }
 })
 export class ExpansionPanel {
-  @HostBinding('class') classAttribute: string = 'row';
   readonly panel = viewChild<ElementRef>('panel');
   readonly panelHeaderClass = input<string>('');
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
@@ -10,10 +10,10 @@ import { Input } from '@shared/components/forms/input/input';
     selector: 'marush-appointment-customer-details',
     imports: [ComboBox, Input, DatePicker, ReactiveFormsModule],
     templateUrl: './customer-details.html',
-    styleUrl: './customer-details.scss'
+    styleUrl: './customer-details.scss',
+    host: { class: 'row customer-details-container' }
 })
 export class CustomerDetails {
-    @HostBinding('class') classAttribute: string = 'row customer-details-container';
     readonly formGroup = input.required<FormGroup>();
     protected readonly namePlaceholder = $localize`:@@appointment.customer.name:Ime`;
     protected readonly surnamePlaceholder = $localize`:@@appointment.customer.surname:Prezime`;

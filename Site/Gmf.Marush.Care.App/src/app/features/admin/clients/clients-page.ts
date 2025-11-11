@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, HostBinding, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Input } from '@shared/components/forms/input/input';
@@ -12,14 +12,14 @@ import { Clients } from './clients';
     selector: 'marush-clients-page',
     imports: [TablePagination, Input, ReactiveFormsModule, CommonModule],
     templateUrl: './clients-page.html',
-    styleUrl: './clients-page.scss'
+    styleUrl: './clients-page.scss',
+    host: { class: 'clients-page' }
 })
 export class ClientsPage {
     form: FormGroup;
     defaultFieldLength = 100;
     private readonly clients = inject(Clients);
     retrievedClients = this.clients.getAll();
-    @HostBinding('class') classAttribute: string = 'clients-page';
 
     constructor(private readonly title: Title, private readonly formBuilder: FormBuilder) {
         this.title.setTitle('Marush: Space of Care - klijenti');

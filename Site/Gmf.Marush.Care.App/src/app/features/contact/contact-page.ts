@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BasePage } from '@shared/components/page/base/base-page';
 import marushDetails from '@shared/models/marush-details';
@@ -12,11 +12,10 @@ import { ContactPageMetadata } from './page-metadata';
   selector: 'marush-contact-page',
   imports: [RouterModule, RouteTranslator],
   templateUrl: './contact-page.html',
-  styleUrl: './contact-page.scss'
+  styleUrl: './contact-page.scss',
+  host: { class: 'contact-container row' }
 })
 export class ContactPage extends BasePage {
-  @HostBinding('class') classAttribute: string = 'contact-container row';
-
   protected readonly marushDetails = marushDetails;
 
   constructor(protected override readonly stapler: Stapler) {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -7,10 +7,10 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
     selector: 'marush-dialog',
     imports: [CommonModule],
     templateUrl: './dialog.html',
-    styleUrl: './dialog.scss'
+    styleUrl: './dialog.scss',
+    host: { class: 'marush-dialog stretch' }
 })
 export class Dialog {
-    @HostBinding('class') classAttribute: string = 'marush-dialog stretch';
     readonly dialog = viewChild<ElementRef>('dialog');
     readonly title = input<string>();
     readonly bodyClass = input<string>();

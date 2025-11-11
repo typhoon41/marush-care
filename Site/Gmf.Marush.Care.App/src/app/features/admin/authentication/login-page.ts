@@ -1,5 +1,5 @@
 /* eslint-disable max-params */
-import { afterNextRender, ChangeDetectionStrategy, Component, HostBinding, Renderer2, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, Renderer2, signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { Authentication } from '@shared/services/authentication';
 import { Captcha } from '@shared/services/captcha';
 
 @Component({
+  host: { class: 'row center-content vertical-stack' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'marush-login-page',
   imports: [ReactiveFormsModule, Input],
@@ -15,7 +16,6 @@ import { Captcha } from '@shared/services/captcha';
   styleUrl: './login-page.scss'
 })
 export class LoginPage {
-  @HostBinding('class') classAttribute: string = 'row center-content vertical-stack';
   form: FormGroup;
   readonly globalError = signal('');
   constructor(private readonly captcha: Captcha,

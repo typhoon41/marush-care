@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -8,10 +8,10 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'marush-error-page',
     imports: [],
     templateUrl: './error.html',
-    styleUrl: './error.scss'
+    styleUrl: './error.scss',
+    host: { class: 'center-content vertical-stack' }
 })
 export class ErrorPage {
-    @HostBinding('class') classAttribute: string = 'center-content vertical-stack';
     protected readonly errors = [{
         route: $localize`:@@routes.error.not-found:stranica-nije-pronađena`,
         title: $localize`:@@routes.error.not-found.title:Marush: Space of Care - stranica nije pronađena`,

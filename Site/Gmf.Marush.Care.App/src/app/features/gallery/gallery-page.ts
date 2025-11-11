@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, effect, HostBinding, linkedSignal, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, linkedSignal, signal, viewChild } from '@angular/core';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { ImageLoader } from '@shared/components/images/loader';
 import { BasePage } from '@shared/components/page/base/base-page';
@@ -13,10 +13,10 @@ import { GalleryPageMetadata } from './page-metadata';
   selector: 'marush-gallery-page',
   imports: [ImageLoader, Dialog],
   templateUrl: './gallery-page.html',
-  styleUrl: './gallery-page.scss'
+  styleUrl: './gallery-page.scss',
+  host: { class: 'gallery' }
 })
 export class GalleryPage extends BasePage {
-  @HostBinding('class') classAttribute: string = 'gallery';
   readonly detailsDialog = viewChild<Dialog>(Dialog);
   private readonly imagesRequest = httpResource<{ images: GalleryImageDefinition[] }>(() => ({
     url: GalleryImage.filePath,
