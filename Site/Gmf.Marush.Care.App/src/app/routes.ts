@@ -7,13 +7,13 @@ import { TranslatedRoute } from '@shared/models/routing/translated-route';
 export class RoutingDefinition {
     readonly translateRoute = (key: string) => `/${this.routes.filter(route => route.key === key)[0].path}`;
     readonly lazyRoute = (key: string, path: string, loadCallback: () => Promise<unknown>,
-    guards: ((_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => MaybeAsync<GuardResult>)[] = []) => ({
-        key,
-        path,
-        loadComponent: loadCallback,
-        isProtected: path.startsWith('admin'),
-        canActivate: guards.length > 0 ? guards : undefined
-    } as TranslatedRoute);
+        guards: ((_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot) => MaybeAsync<GuardResult>)[] = []) => ({
+            key,
+            path,
+            loadComponent: loadCallback,
+            isProtected: path.startsWith('admin'),
+            canActivate: guards.length > 0 ? guards : undefined
+        } as TranslatedRoute);
 
     readonly home = () => $localize`:@@routes.home:početna` as string;
     readonly error = (errorType: string) =>
@@ -32,6 +32,8 @@ export class RoutingDefinition {
             () => import('./features/admin/authentication/login-page').then(mod => mod.LoginPage), [isAdmin]),
         this.lazyRoute('clients', 'admin/klijenti',
             () => import('./features/admin/clients/clients-page').then(mod => mod.ClientsPage), [isUserAuthenticated]),
+        this.lazyRoute('clients-edit', 'admin/klijent/:id',
+            () => import('./features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated]),
         this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,
             () => import('./features/appointment/appointment-page').then(mod => mod.AppointmentPage)),
         this.lazyRoute('request-sent', $localize`:@@routes.appointment.requested:zahtev-poslat`,

@@ -21,7 +21,7 @@
 
     @for(row of tableContent().items; track row['id'])
     {
-    <tr class="pagination-row clickable">
+    <tr class="pagination-row clickable" (click)="tableMetadata().onRowClick?.(row['id'])">
       @for(cellName of tableMetadata().columns; track cellName.name)
       {
       <!-- eslint-disable-next-line @angular-eslint/template/cyclomatic-complexity -->

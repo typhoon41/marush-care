@@ -1,0 +1,5 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+    <marush-input name="name" placeholder="Ime i(li) Prezime" [form]="form" [autoComplete]="true"
+        [validation]="['maxlength']" />
+    <button type="submit" class="main-action"><span>Sačuvaj</span></button>
+</form>

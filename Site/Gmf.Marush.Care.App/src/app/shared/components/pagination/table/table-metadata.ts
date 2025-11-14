@@ -4,6 +4,7 @@ import { PaginatedRequest } from '../paginated-request';
 export interface TableMetadata {
     columns: Column[];
     state: WritableSignal<PaginatedRequest>;
+    onRowClick?: (id: string) => void;
 }
 
 export interface Column {

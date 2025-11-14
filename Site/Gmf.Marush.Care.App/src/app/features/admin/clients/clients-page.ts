@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Input } from '@shared/components/forms/input/input';
 import { PaginatedResponse, TableMetadata } from '@shared/components/pagination/table/table-metadata';
 import { TablePagination } from '@shared/components/pagination/table/table-pagination';
@@ -19,6 +20,7 @@ export class ClientsPage {
     form: FormGroup;
     defaultFieldLength = 100;
     private readonly clients = inject(Clients);
+    private readonly router = inject(Router);
     retrievedClients = this.clients.getAll();
 
     constructor(private readonly title: Title, private readonly formBuilder: FormBuilder) {
@@ -37,7 +39,11 @@ export class ClientsPage {
         { name: 'fullName', displayName: 'Ime i prezime', hidden: false, sortable: true, className: 'column-6' },
         { name: 'contactNumber', displayName: 'Kontakt', hidden: false, sortable: false, className: 'column-6' }
         ],
-        state: this.clients.data
+        state: this.clients.data,
+        onRowClick: async(id: string) => {
+            await this.router.navigate(['/admin/klijent', id]);
+        }
+
     } as TableMetadata;
 
     protected readonly onSubmit = () => {
