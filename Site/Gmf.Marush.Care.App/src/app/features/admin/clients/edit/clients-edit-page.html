@@ -1,5 +1,47 @@
 <form [formGroup]="form" (submit)="onSubmit()">
-    <marush-input name="name" placeholder="Ime i(li) Prezime" [form]="form" [autoComplete]="true"
+    <marush-input name="name" placeholder="Ime" [form]="form" [autoComplete]="true"
+        [validation]="['maxlength', 'required']" />
+    <marush-input name="surname" placeholder="Prezime" [form]="form" [autoComplete]="true"
+        [validation]="['maxlength', 'required']" />
+
+    <section formArrayName="phones">
+        <button type="button" (click)="addPhone()">Dodaj telefon</button>
+        @for(phone of phones.controls; track $index)
+        {
+        <marush-input name="phone" placeholder="Telefon" [form]="phone" [validation]="['required', 'pattern']" />
+        <button type="button" (click)="removePhone($index)">Ukloni</button>
+        }
+    </section>
+
+    <section formArrayName="emails">
+        <button type="button" (click)="addEmail()">Dodaj email</button>
+        @for(email of emails.controls; track $index)
+        {
+        <marush-input name="email" placeholder="Email" [form]="email" [validation]="['required', 'email']" />
+        <button type="button" (click)="removeEmail($index)">Ukloni</button>
+        }
+    </section>
+
+    <marush-date-picker name="birthday" placeholder="Datum rođenja" [form]="form" />
+    <marush-input name="city" placeholder="Mesto prebivališta" [form]="form" [autoComplete]="true"
         [validation]="['maxlength']" />
+    <marush-input name="diagnosis" placeholder="Dijagnoze" [form]="form" [validation]="['maxlength']" [big]="true" />
+    <marush-input name="allergies" placeholder="Alergije" [form]="form" [validation]="['maxlength']" [big]="true" />
+    <marush-input name="comments" placeholder="Komentari" [form]="form" [validation]="['maxlength']" [big]="true" />
+    <marush-input name="remarks" placeholder="Napomene" [form]="form" [validation]="['maxlength']" [big]="true" />
+
+    <section formArrayName="appointments">
+        <button type="button" (click)="addAppointment()">Dodaj termin</button>
+        @for(appointment of appointments.controls; track $index)
+        {
+        <div [formGroup]="appointment">
+            <marush-date-picker name="date" placeholder="Datum tretmana" [form]="appointment" />
+            <marush-input name="description" placeholder="Opis" [form]="appointment" [validation]="['maxlength']" [big]="true" />
+            <button type="button" (click)="removeAppointment($index)">Ukloni</button>
+        </div>
+        }
+    </section>
+
     <button type="submit" class="main-action"><span>Sačuvaj</span></button>
+    <button type="button" (click)="onCancel()"><span>Odustani</span></button>
 </form>

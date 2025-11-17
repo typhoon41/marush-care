@@ -14,12 +14,14 @@ export interface AppointmentRequest {
     duration: number;
 }
 
+export const phonePattern = Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u);
+
 const defaultFieldLength = 100;
 export const requestFormWith = (formBuilder: NonNullableFormBuilder) => formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.maxLength(defaultFieldLength)]),
       surname: new FormControl('', [Validators.required, Validators.maxLength(defaultFieldLength)]),
       email: new FormControl('', [Validators.required, Validators.maxLength(defaultFieldLength), Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u)]),
+      phone: new FormControl('', [Validators.required, phonePattern]),
       date: new FormControl('', [Validators.required]),
       time: new FormControl(''),
       treatments: new FormControl([]),

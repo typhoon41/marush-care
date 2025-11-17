@@ -13,6 +13,7 @@ export class Input extends Field {
     readonly form = input.required<FormGroup>();
     readonly name = input<string>('');
     readonly type = input<string>('text');
+    readonly big = input<boolean>(false);
     readonly placeholder = input<string>('');
     readonly autoComplete = input<boolean>(false);
     readonly customValidation = input<string>('');
