@@ -15,3 +15,8 @@ textarea, input[type = 'text'], input[type = 'password'] {
 		@extend %error-element;
 	}
 }
+
+textarea {
+	min-width: 200px;
+	min-height: 42px;
+}

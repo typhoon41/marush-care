@@ -1,6 +1,7 @@
 @use 'variables';
 @use 'breakpoints';
 @use 'scss-solutions/src/modules/position/absolute';
+@use 'sass:color';
 
 .main-action {
 	background-color: variables.$accent;
@@ -25,5 +26,18 @@
 
 	@include breakpoints.apply-from-tablet() {
 		right: 20px;
+	}
+}
+
+.add-action, .delete-action {
+	padding: 0 10px 2px;
+
+	&:active {
+		background-color: color.adjust(variables.$accent, $lightness: -20%, $alpha: -.8);
+	}
+
+	.icon {
+		width: 15px;
+		vertical-align: middle;
 	}
 }

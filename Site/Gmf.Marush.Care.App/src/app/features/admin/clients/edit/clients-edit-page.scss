@@ -1,0 +1,31 @@
+@use 'variables';
+
+$button-size: 42px;
+
+.clients-edit-form {
+	padding: variables.$side-gaps;
+}
+
+.grow-input {
+	flex-basis: 0;
+	flex-grow: 1;
+}
+
+.add-action, .delete-action {
+	width: $button-size;
+	height: $button-size;
+}
+
+.delete-action, .form-group-title {
+	margin-left: 10px;
+}
+
+.add-action, .form-group-title {
+	margin: 0 0 0 5px;
+}
+
+.form-group-title {
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: sub;
+}
