@@ -8,7 +8,9 @@
         <button type="button" (click)="addPhone()">Dodaj telefon</button>
         @for(phone of phones.controls; track $index)
         {
-        <marush-input name="phone" placeholder="Telefon" [form]="phone" [validation]="['required', 'pattern']" />
+        <marush-input name="phone" placeholder="Telefon" customValidation="pattern"
+            customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX" [form]="phone"
+            [validation]="['required', 'pattern']" />
         <button type="button" (click)="removePhone($index)">Ukloni</button>
         }
     </section>
@@ -17,7 +19,8 @@
         <button type="button" (click)="addEmail()">Dodaj email</button>
         @for(email of emails.controls; track $index)
         {
-        <marush-input name="email" placeholder="Email" [form]="email" [validation]="['required', 'email']" />
+        <marush-input name="email" placeholder="Email" [form]="email"
+            [validation]="['required', 'email', 'maxlength']" />
         <button type="button" (click)="removeEmail($index)">Ukloni</button>
         }
     </section>
@@ -36,7 +39,8 @@
         {
         <div [formGroup]="appointment">
             <marush-date-picker name="date" placeholder="Datum tretmana" [form]="appointment" />
-            <marush-input name="description" placeholder="Opis" [form]="appointment" [validation]="['maxlength']" [big]="true" />
+            <marush-input name="description" placeholder="Opis" [form]="appointment"
+                [validation]="['required','maxlength']" [big]="true" />
             <button type="button" (click)="removeAppointment($index)">Ukloni</button>
         </div>
         }
