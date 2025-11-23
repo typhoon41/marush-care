@@ -18,20 +18,13 @@ export const createPhoneGroup = (formBuilder: NonNullableFormBuilder): FormGroup
 export const requestFormWith = (formBuilder: NonNullableFormBuilder) => formBuilder.group({
     name: new FormControl('', [Validators.maxLength(25), Validators.required]),
     surname: new FormControl('', [Validators.maxLength(50), Validators.required]),
-    phones: formBuilder.array([
-        createPhoneGroup(formBuilder)
-    ]),
-    emails: formBuilder.array([
-        createEmailGroup(formBuilder)
-    ]),
+    phones: formBuilder.array([]),
+    emails: formBuilder.array([]),
     birthday: new FormControl('', []),
     city: new FormControl('', [Validators.maxLength(50)]),
     diagnosis: new FormControl('', [Validators.maxLength(500)]),
     allergies: new FormControl('', [Validators.maxLength(500)]),
     comments: new FormControl('', [Validators.maxLength(2000)]),
     remarks: new FormControl('', [Validators.maxLength(2000)]),
-    appointments: formBuilder.array([
-        createAppointmentGroup(formBuilder)
-    ])
-
+    appointments: formBuilder.array([])
 }, { updateOn: 'change' });

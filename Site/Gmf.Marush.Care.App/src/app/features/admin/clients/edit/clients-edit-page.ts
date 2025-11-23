@@ -4,13 +4,14 @@ import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } fro
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DatePicker } from '@shared/components/forms/date-picker/date-picker';
+import { FieldGroup } from '@shared/components/forms/group/field-group';
 import { Input } from '@shared/components/forms/input/input';
 import { createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-clients-edit-page',
-    imports: [Input, DatePicker, ReactiveFormsModule],
+    imports: [Input, DatePicker, FieldGroup, ReactiveFormsModule],
     templateUrl: './clients-edit-page.html',
     styleUrl: './clients-edit-page.scss'
 })

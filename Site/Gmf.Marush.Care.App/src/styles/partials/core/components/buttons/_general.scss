@@ -3,6 +3,8 @@
 @use 'scss-solutions/src/modules/position/absolute';
 @use 'sass:color';
 
+$button-size: 42px;
+
 .main-action {
 	background-color: variables.$accent;
 	color: variables.$body-color;
@@ -30,6 +32,8 @@
 }
 
 .add-action, .delete-action {
+	width: $button-size;
+	height: $button-size;
 	padding: 0 10px 2px;
 
 	&:active {
