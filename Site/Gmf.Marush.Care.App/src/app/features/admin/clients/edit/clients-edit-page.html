@@ -1,17 +1,16 @@
-<form class="clients-edit-form row" [formGroup]="form" (submit)="onSubmit()">
+@if(form)
+{
+<form class="clients-edit-form row offset-tablet-2 column-tablet-8 offset-desktop-3 column-desktop-6" [formGroup]="form" (submit)="onSubmit()">
     <marush-input class="column-12" name="name" placeholder="Ime" [form]="form" [autoComplete]="true"
         [validation]="['maxlength', 'required']" />
     <marush-input class="column-12" name="surname" placeholder="Prezime" [form]="form" [autoComplete]="true"
         [validation]="['maxlength', 'required']" />
-
-    @if(form)
-    {
     <marush-field-group class="column-12" addOperationDescription="Dodaj telefon" dynamicContentName="phones"
         title="Telefoni" [addDynamicContent]="addPhone" [formGroup]="form">
         @for(phone of phones.controls; track $index)
         {
         <div class="row column-12">
-            <marush-input class="grow-input" name="phone" placeholder="Telefon" customValidation="pattern"
+            <marush-input class="grow-nested-block" name="phone" placeholder="Telefon" customValidation="pattern"
                 customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX" [form]="phone"
                 [validation]="['required', 'pattern']" />
             <button class="main-action delete-action clients-delete-action " type="button"
@@ -26,7 +25,7 @@
         @for(email of emails.controls; track $index)
         {
         <div class="row column-12">
-            <marush-input class="grow-input" name="email" placeholder="Email" [form]="email"
+            <marush-input class="grow-nested-block" name="email" placeholder="Email" [form]="email"
                 [validation]="['required', 'email', 'maxlength']" />
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removeEmail($index)">
@@ -35,8 +34,6 @@
         </div>
         }
     </marush-field-group>
-    }
-
     <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form" />
     <marush-input class="column-12" name="city" placeholder="Mesto prebivališta" [form]="form" [autoComplete]="true"
         [validation]="['maxlength']" />
@@ -49,17 +46,16 @@
     <marush-input class="column-12" name="remarks" placeholder="Napomene" [form]="form" [validation]="['maxlength']"
         [big]="true" />
 
-    @if(form)
-    {
     <marush-field-group class="column-12" addOperationDescription="Dodaj termin" dynamicContentName="appointments"
         title="Termini" [addDynamicContent]="addAppointment" [formGroup]="form">
         @for(appointment of appointments.controls; track $index)
         {
-        <div class="row column-12">
-            <marush-date-picker class="grow-input column-12" name="date" placeholder="Datum tretmana"
-                [form]="appointment" />
-            <marush-input class="grow-input column-12" name="description" placeholder="Opis" [form]="appointment"
-                [validation]="['required','maxlength']" [big]="true" />
+        <div class="row column-12" [class.field-group-section]="!$last">
+            <div class="column-12 field-container grow-nested-block">
+                <marush-date-picker class="field-container column-12 column-tablet-4" name="date" placeholder="Tretman" [form]="appointment" />
+                <marush-input class="field-container column-12 offset-tablet-1 column-tablet-7" name="description" placeholder="Opis" [form]="appointment"
+                    [validation]="['required','maxlength']" [big]="true" />
+            </div>
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removeAppointment($index)">
                 <img class="icon" alt="Ukloni termin" src="/assets/images/actions/trash-can.svg">
@@ -67,8 +63,9 @@
         </div>
         }
     </marush-field-group>
-    }
-
-    <button type="submit" class="main-action"><span>Sačuvaj</span></button>
-    <button type="button" (click)="onCancel()"><span>Odustani</span></button>
+    <div class="actions aligned-centrally stretch-equally column-12">
+        <button type="submit" class="main-action"><span>Sačuvaj</span></button>
+        <button type="button" class="cancel-action" (click)="onCancel()"><span>Odustani</span></button>
+    </div>
 </form>
+}

@@ -4,6 +4,7 @@
 @use 'sass:color';
 
 $button-size: 42px;
+$button-desktop-size: 51px;
 
 .main-action {
 	background-color: variables.$accent;
@@ -35,6 +36,11 @@ $button-size: 42px;
 	width: $button-size;
 	height: $button-size;
 	padding: 0 10px 2px;
+
+	@include breakpoints.apply-from-desktop() {
+		width: $button-desktop-size;
+		height: $button-desktop-size;
+	}
 
 	&:active {
 		background-color: color.adjust(variables.$accent, $lightness: -20%, $alpha: -.8);
