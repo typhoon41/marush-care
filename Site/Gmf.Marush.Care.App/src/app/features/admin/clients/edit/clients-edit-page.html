@@ -34,7 +34,7 @@
         </div>
         }
     </marush-field-group>
-    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form" />
+    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form" [startDate]="averageClientAge" />
     <marush-input class="column-12" name="city" placeholder="Mesto prebivališta" [form]="form" [autoComplete]="true"
         [validation]="['maxlength']" />
     <marush-input class="column-12" name="diagnosis" placeholder="Dijagnoze" [form]="form" [validation]="['maxlength']"
@@ -52,7 +52,7 @@
         {
         <div class="row column-12" [class.field-group-section]="!$last">
             <div class="column-12 field-container grow-nested-block">
-                <marush-date-picker class="field-container column-12 column-tablet-4" name="date" placeholder="Tretman" [form]="appointment" />
+                <marush-date-picker class="field-container column-12 column-tablet-4" name="date" placeholder="Tretman" [form]="appointment" [startDate]="today" />
                 <marush-input class="field-container column-12 offset-tablet-1 column-tablet-7" name="description" placeholder="Opis" [form]="appointment"
                     [validation]="['required','maxlength']" [big]="true" />
             </div>

@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -16,10 +16,14 @@ import { createAppointmentGroup, createEmailGroup, createPhoneGroup, requestForm
     styleUrl: './clients-edit-page.scss'
 })
 export class ClientsEditPage {
+    readonly id = input<string | undefined>();
     private readonly formBuilder = inject(NonNullableFormBuilder);
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     protected readonly form: FormGroup;
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    protected readonly averageClientAge = new Date(2000, 0, 1);
+    protected readonly today = new Date();
 
     constructor() {
         this.form = requestFormWith(this.formBuilder);

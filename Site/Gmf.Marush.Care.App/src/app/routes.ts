@@ -32,6 +32,8 @@ export class RoutingDefinition {
             () => import('./features/admin/authentication/login-page').then(mod => mod.LoginPage), [isAdmin]),
         this.lazyRoute('clients', 'admin/klijenti',
             () => import('./features/admin/clients/clients-page').then(mod => mod.ClientsPage), [isUserAuthenticated]),
+        this.lazyRoute('clients-create', 'admin/klijent',
+            () => import('./features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated]),
         this.lazyRoute('clients-edit', 'admin/klijent/:id',
             () => import('./features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated]),
         this.lazyRoute('appointment', $localize`:@@routes.appointment:zakazivanje`,

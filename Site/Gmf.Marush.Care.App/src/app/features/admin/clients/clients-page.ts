@@ -46,6 +46,10 @@ export class ClientsPage {
 
     } as TableMetadata;
 
+    protected readonly onAdd = async() => {
+        await this.router.navigate(['/admin/klijent']);
+    };
+
     protected readonly onSubmit = () => {
         if (this.form.invalid) {
             return;

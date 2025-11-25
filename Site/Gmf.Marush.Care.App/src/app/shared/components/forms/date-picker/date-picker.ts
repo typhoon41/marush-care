@@ -16,6 +16,7 @@ export class DatePicker extends Field {
     readonly name = input.required<string>();
     readonly placeholder = input<string>('');
     readonly validation = input<string[]>(['required']);
+    readonly startDate = input<Date | undefined>();
     readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
     // eslint-disable-next-line @angular-eslint/prefer-signals
     private datePicker = signal<AirDatepicker | undefined>(undefined);
@@ -31,17 +32,18 @@ export class DatePicker extends Field {
                     autoClose: true,
                     showOtherMonths: false,
                     moveToOtherMonthsOnSelect: false,
+                    startDate: this.startDate(),
                     selectOtherMonths: false,
-                    minDate: today,
-                    maxDate: nextMonth,
-                    onBeforeSelect: ({ date }) => date.getDay() !== 0,
+                    minDate: this.startDate() ? undefined : today,
+                    maxDate: this.startDate() ? undefined : nextMonth,
+                    onBeforeSelect: ({ date }) => !!this.startDate() || date.getDay() !== 0,
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
                     onSelect: ({ date, formattedDate, datepicker }) => {
                         this.form().get(this.name())
                             ?.setValue(formattedDate);
                     },
                     onRenderCell: ({ date, cellType }) => {
-                        if (cellType === 'day' && date.getDay() === 0) {
+                        if (cellType === 'day' && date.getDay() === 0 && !this.startDate()) {
                             return {
                                 disabled: true
                             };
