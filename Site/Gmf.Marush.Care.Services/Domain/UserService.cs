@@ -30,7 +30,7 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
         }
     }
 
-    public async Task<bool> ValidateAsync(User given)
+    public async Task<(bool Failure, Guid UserId)> ValidateAsync(User given)
     {
         var existingUser = await userRepository.FindUserBy(given.Username);
         var validCredentials = existingUser != null &&
@@ -39,16 +39,16 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
         if (validCredentials)
         {
             await userRepository.AuditAuthenticationOf(existingUser!, given.RequestDetails);
-            return true;
+            return (false, existingUser!.Id);
         }
 
         integrationEvents.Add(new UserAuthenticationFailure(given));
-        return false;
+        return (true, Guid.Empty);
     }
 
-    public string GenerateJwtToken(string username)
+    public string GenerateJwtToken(string username, Guid userId)
     {
-        var claims = new List<Claim> { new(ClaimTypes.Name, username) };
+        var claims = new List<Claim> { new(ClaimTypes.Name, username), new(JwtRegisteredClaimNames.Sub, userId.ToString()) };
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -64,5 +64,12 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
         logger.LogInformation("Issuing token for user {Username}...", username);
 
         return result;
+    }
+
+    public Guid GetUserIdFrom(ClaimsIdentity identity)
+    {
+        var userIdClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
+        var userId = userIdClaim?.Value ?? throw new InvalidOperationException("User ID claim not found - token is malformed.");
+        return Guid.Parse(userId);
     }
 }

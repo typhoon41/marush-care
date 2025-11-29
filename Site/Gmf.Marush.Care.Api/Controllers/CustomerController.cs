@@ -1,5 +1,7 @@
-﻿using Gmf.Marush.Care.Api.Models.Customers;
+﻿using System.Security.Claims;
+using Gmf.Marush.Care.Api.Models.Customers;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
+using Gmf.Marush.Care.Domain.Contracts.Services;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Net.Core.Common.Requests;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +14,7 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Consumes("application/json")]
 [Authorize]
 public class CustomerController(ICustomerModificationRepository customerModificationRepository,
+    IUserService userService,
     ICustomerRetrievalRepository customerRetievalRepository) : ControllerBase
 {
     [HttpGet("{id:guid}")]
@@ -44,8 +47,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create(NewCustomerDto dto)
     {
-        var customer = MapToDomain(dto);
-        await customerModificationRepository.StoreAsync(customer);
+        await Store(MapToDomain(dto));
         return Created();
     }
 
@@ -57,8 +59,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(CustomerDto dto)
     {
-        var customer = MapToDomain(dto);
-        await customerModificationRepository.StoreAsync(customer);
+        await Store(MapToDomain(dto));
         return NoContent();
     }
 
@@ -72,6 +73,15 @@ public class CustomerController(ICustomerModificationRepository customerModifica
         return deleted ? NoContent() : NotFound();
     }
 
+    private async Task Store(CustomerDetails customerDetails)
+    {
+        var usedId = userService.GetUserIdFrom(Identity());
+        await customerModificationRepository.StoreAsync(customerDetails, usedId);
+    }
+
     private static CustomerDetails MapToDomain(NewCustomerDto dto) => new(null, dto.Name, dto.Surname, dto.Phones, dto.Emails,
          dto.DateOfBirth, dto.PlaceOfResidence, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Notes);
+
+    private ClaimsIdentity Identity() =>
+        HttpContext.User.Identity as ClaimsIdentity ?? throw new InvalidOperationException("Identity is missing");
 }

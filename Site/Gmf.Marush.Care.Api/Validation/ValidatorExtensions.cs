@@ -32,9 +32,7 @@ public static class ValidatorExtensions
             .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
         _ = validator.RuleFor(request => request.DateOfBirth)
-            .NotNull()
-            .WithMessage(Labels.ValidationRequired)
-            .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date.ToDateTime(new TimeOnly(0))))
+            .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date?.ToDateTime(new TimeOnly(0)) ?? DateTime.UtcNow.AddYears(-50)))
             .WithMessage(Labels.ValidationInterval);
         _ = validator.SetupValidationFor(request => request.PlaceOfResidence);
         _ = validator.SetupValidationFor(request => request.Diagnosis, CustomerPropertiesConfiguration.IssuesLength);

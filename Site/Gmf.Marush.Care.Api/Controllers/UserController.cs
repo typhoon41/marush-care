@@ -19,13 +19,14 @@ public class UserController(IUserService userService) : ControllerBase
     public async Task<IActionResult> Login([FromBody][Required] LoginRequest request)
     {
         var user = GetUserFrom(request);
+        var validationResult = await userService.ValidateAsync(user);
 
-        if (!await userService.ValidateAsync(user))
+        if (validationResult.Failure)
         {
             return BadRequest();
         }
 
-        var token = userService.GenerateJwtToken(request.Email);
+        var token = userService.GenerateJwtToken(request.Email, validationResult.UserId);
         return Ok(new { Token = token });
     }
 

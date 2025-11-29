@@ -4,6 +4,7 @@ using Gmf.Marush.Care.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gmf.Marush.Care.Infrastructure.Migrations
 {
     [DbContext(typeof(MarushCareContext))]
-    partial class MarushCareContextModelSnapshot : ModelSnapshot
+    [Migration("20251129113447_OptionalBirthDate")]
+    partial class OptionalBirthDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,12 +174,6 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
 
-                    b.Property<DateTime>("LastEditAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("LastEditedById")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasMaxLength(4096)
@@ -188,8 +185,6 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CustomerId");
-
-                    b.HasIndex("LastEditedById");
 
                     b.ToTable("CustomerProperties", (string)null);
                 });
@@ -282,15 +277,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.UserDto", "LastEditedBy")
-                        .WithMany()
-                        .HasForeignKey("LastEditedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
-
-                    b.Navigation("LastEditedBy");
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentStatusDto", b =>
