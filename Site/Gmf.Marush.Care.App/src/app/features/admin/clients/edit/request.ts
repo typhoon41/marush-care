@@ -2,6 +2,19 @@
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { phonePattern } from '@features/appointment/request';
 
+export interface ClientEditRequest {
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+    treatments: string[];
+    serbianTreatments: string[];
+    sum: number;
+    date: string;
+    time: string;
+    duration: number;
+}
+
 export const createAppointmentGroup = (formBuilder: NonNullableFormBuilder): FormGroup => formBuilder.group({
     date: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required, Validators.maxLength(6000)])

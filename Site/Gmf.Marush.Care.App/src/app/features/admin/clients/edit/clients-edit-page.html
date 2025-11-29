@@ -64,8 +64,9 @@
         }
     </marush-field-group>
     <div class="actions aligned-centrally stretch-equally column-12">
+        <p class="invalid-field-message" [class.hidden]="!globalError()">{{globalError()}}</p>
         <button type="submit" class="main-action"><span>Sačuvaj</span></button>
-        <button type="button" class="cancel-action" (click)="onCancel()"><span>Odustani</span></button>
+        <button type="button" class="cancel-action" (click)="goBack()"><span>Odustani</span></button>
     </div>
 </form>
 }

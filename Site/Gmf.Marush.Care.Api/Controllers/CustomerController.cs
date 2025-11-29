@@ -4,6 +4,7 @@ using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Contracts.Services;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Net.Core.Common.Requests;
+using Gmf.Net.Core.Common.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,6 +43,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidateCaptchaAttribute))]
     [ProducesResponseType(typeof(CustomerDetails), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -53,6 +55,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
 
 
     [HttpPut]
+    [ServiceFilter(typeof(ValidateCaptchaAttribute))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

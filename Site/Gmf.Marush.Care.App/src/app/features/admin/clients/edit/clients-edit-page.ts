@@ -1,11 +1,13 @@
 
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DatePicker } from '@shared/components/forms/date-picker/date-picker';
 import { FieldGroup } from '@shared/components/forms/group/field-group';
 import { Input } from '@shared/components/forms/input/input';
+import { Captcha } from '@shared/services/captcha';
+import { Clients } from '../clients';
 import { createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
 
 @Component({
@@ -19,8 +21,11 @@ export class ClientsEditPage {
     readonly id = input<string | undefined>();
     private readonly formBuilder = inject(NonNullableFormBuilder);
     private readonly router = inject(Router);
+    private readonly captcha = inject(Captcha);
     private readonly title = inject(Title);
+    private readonly clients = inject(Clients);
     protected readonly form: FormGroup;
+    protected readonly globalError = signal('');
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     protected readonly averageClientAge = new Date(2000, 0, 1);
     protected readonly today = new Date();
@@ -30,18 +35,24 @@ export class ClientsEditPage {
         this.title.setTitle('Marush: Space of Care - izmena klijenta');
     }
 
-    protected readonly onSubmit = () => {
+    protected readonly onSubmit = async() => {
+        this.globalError.set('');
+        this.form.markAllAsTouched();
         if (this.form.invalid) {
             return;
         }
 
-        const name = this.form.get('name')?.value as string;
-        // eslint-disable-next-line no-console
-        console.log('Submitted name:', name);
-        // This.clients.data().filter.set(name ?? '');
+        try {
+            await this.captcha.executeProtectedAction('CLIENT_EDIT', (token, action) =>
+                this.clients.storeChanges(this.form.value, this.id(), token, action));
+            await this.goBack();
+        } catch {
+            // eslint-disable-next-line @stylistic/max-len
+            this.globalError.set($localize`:@@error.local.description:Došlo je do greške prilikom slanja zahteva. Molimo Vas, osvežite stranicu i pokušajte ponovo. Administratori sistema su obavešteni o problemu.`);
+        }
     };
 
-    protected readonly onCancel = async() => {
+    protected readonly goBack = async() => {
         await this.router.navigate(['/admin/klijenti']);
     };
 
