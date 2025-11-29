@@ -1,5 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
-import { RoutingDefinition } from 'src/app/routes';
+import { RoutingDefinition } from '@shared/routes/routes';
 
 @Pipe({
   name: 'translateRoute'

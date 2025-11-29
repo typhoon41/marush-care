@@ -1,10 +1,10 @@
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { RoutingDefinition } from '@shared/routes/routes';
 import { Authentication } from '@shared/services/authentication';
 import { GlobalLoader } from '@shared/services/global-loader';
 import { Observable, catchError, finalize } from 'rxjs';
-import { RoutingDefinition } from 'src/app/routes';
 
 export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const router = inject(Router);

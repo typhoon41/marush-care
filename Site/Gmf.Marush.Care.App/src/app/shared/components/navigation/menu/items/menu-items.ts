@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { Router, RouterModule } from '@angular/router';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import marushDetails from '@shared/models/marush-details';
+import { RouteTranslator } from '@shared/pipes/routing-translator';
 import { Authentication } from '@shared/services/authentication';
-import { RouteTranslator } from '../../../../pipes/routing-translator';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

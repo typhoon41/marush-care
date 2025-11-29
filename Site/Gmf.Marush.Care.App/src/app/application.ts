@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, DestroyRef, Renderer2, afterNextRen
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
 import { environment } from '@env';
+import { Footer } from '@shared/components/footer/footer';
+import { Menu } from '@shared/components/navigation/menu/menu';
 import { setupGoogleAnalytics } from '@shared/models/google/tag-manager';
+import Language from '@shared/models/language';
 import { GlobalLoader } from '@shared/services/global-loader';
-import { Footer } from './shared/components/footer/footer';
-import { Menu } from './shared/components/navigation/menu/menu';
-import Language from './shared/models/language';
-import { ScreenSize } from './shared/services/screen-size';
+import { ScreenSize } from '@shared/services/screen-size';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

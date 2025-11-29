@@ -4,8 +4,8 @@ import {
   inject, RESPONSE_INIT, LOCALE_ID, REQUEST
 } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { serverRoutes } from '@shared/routes/server-routes';
 import { appConfig } from './application-configuration';
-import { serverRoutes } from './server-routes';
 
 export const SERVER_RESPONSE = new InjectionToken<ResponseInit>('SERVER_RESPONSE');
 

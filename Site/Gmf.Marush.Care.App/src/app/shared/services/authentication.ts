@@ -4,8 +4,8 @@ import { afterNextRender, effect, Injectable, Injector, runInInjectionContext, S
 import { toSignal } from '@angular/core/rxjs-interop';
 import { environment } from '@env';
 import { LoginRequest } from '@shared/models/authentication/login-request';
+import { RoutingDefinition } from '@shared/routes/routes';
 import { fromEvent, lastValueFrom } from 'rxjs';
-import { RoutingDefinition } from 'src/app/routes';
 
 @Injectable({
     providedIn: 'root'
