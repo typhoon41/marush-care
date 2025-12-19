@@ -83,7 +83,8 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     }
 
     private static CustomerDetails MapToDomain(NewCustomerDto dto) => new(null, dto.Name, dto.Surname, dto.Phones, dto.Emails,
-         dto.DateOfBirth, dto.PlaceOfResidence, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Notes);
+         dto.Birthday, dto.City, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Remarks, 
+         dto.Appointments.Select(appointment => new CustomerAppointment(appointment.Date, appointment.Description)));
 
     private ClaimsIdentity Identity() =>
         HttpContext.User.Identity as ClaimsIdentity ?? throw new InvalidOperationException("Identity is missing");

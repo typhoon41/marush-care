@@ -5,14 +5,18 @@ import { phonePattern } from '@features/appointment/request';
 export interface ClientEditRequest {
     name: string;
     surname: string;
-    email: string;
-    phone: string;
-    treatments: string[];
-    serbianTreatments: string[];
-    sum: number;
-    date: string;
-    time: string;
-    duration: number;
+    emails: string[];
+    phones: string[];
+    birthday: string | undefined;
+    city: string | undefined;
+    diagnosis: string | undefined;
+    allergies: string | undefined;
+    comments: string | undefined;
+    remarks: string | undefined;
+    appointments: {
+        date: string;
+        description: string;
+    }[];
 }
 
 export const createAppointmentGroup = (formBuilder: NonNullableFormBuilder): FormGroup => formBuilder.group({

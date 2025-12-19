@@ -1,5 +1,8 @@
-﻿using Gmf.Marush.Care.Domain.Contracts.Repositories;
+﻿using Gmf.DDD.Common.Concepts;
+using Gmf.Marush.Care.Domain.Contracts.Repositories;
+using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Bcpg;
@@ -37,23 +40,71 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
 
     private async Task Create(CustomerDetails customer, Guid userId)
     {
-        var entity = EntityFrom(customer, userId);
+        var entity = CustomerDto.MapFrom(new CustomerDto(), customer, userId);
         SetContactDetailsFor(customer, entity);
+        AddAppointmentsFor(customer, entity);
 
         _ = await _customers.AddAsync(entity);
     }
 
+    private void AddAppointmentsFor(CustomerDetails customer, CustomerDto entity)
+    {
+        foreach (var appointment in customer.Appointments)
+        {
+            var status = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
+            context.Set<AppointmentStatusDto>().Attach(status);
+            entity.Appointments.Add(AppointmentDto.MapFrom(customer, appointment, status, entity));
+        }
+    }
+
     private void Update(CustomerDetails customer, Guid id, Guid userId)
     {
-        var entity = EntityFrom(customer, userId);
-        entity.Id = id;
+        var entity = context.Set<CustomerDto>()
+            .Include(context => context.Phones)
+            .Include(context => context.Emails)
+            .Include(context => context.Properties)
+            .Include(context => context.Appointments)
+            .SingleOrDefault(entity => entity.Id == id)
+            ?? throw new InvalidOperationException($"Customer with id {id} not found for update.");
 
-        _ = _customers.Attach(entity);
-
+        _ = CustomerDto.MapFrom(entity, customer, userId);
         entity.Phones.Clear();
         entity.Emails.Clear();
 
         SetContactDetailsFor(customer, entity);
+        SetAppointmentsFor(customer, entity);
+    }
+
+    private void SetAppointmentsFor(CustomerDetails customer, CustomerDto entity)
+    {
+        var incomingDates = customer.Appointments.Select(appointment => appointment.Date).ToHashSet();
+        var existingByDate = entity.Appointments
+            .Where(appointment => appointment.MapToStatus().IsExecuted())
+            .ToDictionary(appointment => DateOnly.FromDateTime(appointment.ScheduledFor.DateTime), appointment => appointment);
+
+        var toRemove = entity.Appointments
+            .Where(a => !incomingDates.Contains(DateOnly.FromDateTime(a.ScheduledFor.DateTime)))
+            .ToList();
+
+        foreach (var remove in toRemove)
+        {
+            entity.Appointments.Remove(remove);
+        }
+
+        foreach (var incoming in customer.Appointments)
+        {
+            if (existingByDate.TryGetValue(incoming.Date, out var existing))
+            {
+                existing.Description = incoming.Description;
+            }
+            else
+            {
+                var status = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
+                context.Set<AppointmentStatusDto>().Attach(status);
+
+                entity.Appointments.Add(AppointmentDto.MapFrom(customer, incoming, status, entity));
+            }
+        }
     }
 
     private static void SetContactDetailsFor(CustomerDetails customer, CustomerDto entity)
@@ -68,23 +119,4 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
             entity.Emails.Add(new CustomerEmailDto { Email = email });
         }
     }
-
-    private static CustomerDto EntityFrom(CustomerDetails customer, Guid userId) => new()
-    {
-        Name = customer.Name,
-        Surname = customer.Surname,
-        Properties = new CustomerPropertiesDto
-        {
-            DateOfBirth = customer.DateOfBirth,
-            PlaceOfResidence = customer.PlaceOfResidence ?? throw ValidationError(nameof(customer.PlaceOfResidence)),
-            Diagnosis = customer.Diagnosis ?? throw ValidationError(nameof(customer.Diagnosis)),
-            Allergies = customer.Allergies ?? throw ValidationError(nameof(customer.Allergies)),
-            Comments = customer.Comments ?? throw ValidationError(nameof(customer.Comments)),
-            Notes = customer.Notes ?? throw ValidationError(nameof(customer.Notes)),
-            LastEditAt = DateTime.UtcNow,
-            LastEditedById = userId
-        }
-    };
-
-    private static InvalidOperationException ValidationError(string propertyName) => new($"Validation of upper layer failed for {propertyName}");
 }

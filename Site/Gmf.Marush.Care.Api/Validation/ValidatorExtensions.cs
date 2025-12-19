@@ -31,13 +31,13 @@ public static class ValidatorExtensions
         _ = validator.RuleForEach(request => request.Phones)
             .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
-        _ = validator.RuleFor(request => request.DateOfBirth)
+        _ = validator.RuleFor(request => request.Birthday)
             .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date?.ToDateTime(new TimeOnly(0)) ?? DateTime.UtcNow.AddYears(-50)))
             .WithMessage(Labels.ValidationInterval);
-        _ = validator.SetupValidationFor(request => request.PlaceOfResidence);
+        _ = validator.SetupValidationFor(request => request.City);
         _ = validator.SetupValidationFor(request => request.Diagnosis, CustomerPropertiesConfiguration.IssuesLength);
         _ = validator.SetupValidationFor(request => request.Allergies, CustomerPropertiesConfiguration.IssuesLength);
         _ = validator.SetupValidationFor(request => request.Comments, CustomerPropertiesConfiguration.AttachmentsLength);
-        _ = validator.SetupValidationFor(request => request.Notes, CustomerPropertiesConfiguration.AttachmentsLength);
+        _ = validator.SetupValidationFor(request => request.Remarks, CustomerPropertiesConfiguration.AttachmentsLength);
     }
 }
