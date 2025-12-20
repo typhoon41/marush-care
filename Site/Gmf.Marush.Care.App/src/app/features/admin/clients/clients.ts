@@ -1,5 +1,5 @@
 import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, Signal, signal } from '@angular/core';
 import { environment } from '@env';
 import { PaginatedRequest } from '@shared/components/pagination/paginated-request';
 import { PaginatedResponse } from '@shared/components/pagination/table/table-metadata';
@@ -16,9 +16,9 @@ export class Clients {
     static readonly customerEndpoint = `${environment.apiUrl}customer`;
     readonly data = signal<PaginatedRequest>(new PaginatedRequest('fullName'));
 
-    readonly getById = (id: string | undefined) => httpResource<Client>(() => id ?
+    readonly getById = (id: Signal<string | undefined>) => httpResource<Client>(() => id() ?
         {
-            url: `${Clients.customerEndpoint}/${id}`,
+            url: `${Clients.customerEndpoint}/${id()}`,
             method: 'GET',
             headers: this.headers()
         } : undefined);
@@ -37,14 +37,14 @@ export class Clients {
         if (id) {
             // Can't be switched to httpResource because of lack of reactivity in Captcha service.
             await lastValueFrom(this.http.put<Client>(Clients.customerEndpoint, data, {
-                headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
+                headers: this.headersWithCaptcha(captchaToken, captchaAction)
             }));
         }
 
         else {
             // Can't be switched to httpResource because of lack of reactivity in Captcha service.
             await lastValueFrom(this.http.post<Client>(Clients.customerEndpoint, data, {
-                headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
+                headers: this.headersWithCaptcha(captchaToken, captchaAction)
             }));
         }
     };
@@ -52,5 +52,11 @@ export class Clients {
     private readonly headers = () => ({
         Authorization: `Bearer ${this.authentication.getToken()}`,
         'Content-Type': 'application/json'
+    });
+
+    private readonly headersWithCaptcha = (captchaToken: string, captchaAction: string) => ({
+        ...this.headers(),
+        Captcha: captchaToken,
+        CaptchaAction: captchaAction
     });
 }

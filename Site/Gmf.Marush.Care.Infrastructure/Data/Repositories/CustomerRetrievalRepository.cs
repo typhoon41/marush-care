@@ -50,6 +50,7 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
             .Include(c => c.Phones)
             .Include(c => c.Properties)
             .Include(c => c.Appointments)
+            .ThenInclude(a => a.Status)
             .AsSplitQuery()
             .SingleOrDefaultAsync(c => c.Id == id);
         return customerFound?.MapToDetails();

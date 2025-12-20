@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
-import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DatePicker } from '@shared/components/forms/date-picker/date-picker';
@@ -8,6 +8,7 @@ import { FieldGroup } from '@shared/components/forms/group/field-group';
 import { Input } from '@shared/components/forms/input/input';
 import { Captcha } from '@shared/services/captcha';
 import { Clients } from '../clients';
+import { Appointment } from './appointment';
 import { Client, createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
 
 @Component({
@@ -30,7 +31,7 @@ export class ClientsEditPage {
     protected readonly averageClientAge = new Date(2000, 0, 1);
     protected readonly today = new Date();
 
-    private readonly clientFetch = this.clients.getById(this.id());
+    private readonly clientFetch = this.clients.getById(this.id);
 
     constructor() {
         effect(() => {
@@ -80,24 +81,24 @@ export class ClientsEditPage {
         return this.form()?.get('appointments') as FormArray<FormGroup>;
     }
 
-    protected get phones(): FormArray<FormGroup> {
-        return this.form()?.get('phones') as FormArray<FormGroup>;
+    protected get phones(): FormArray<FormControl> {
+        return this.form()?.get('phones') as FormArray<FormControl>;
     }
 
-    protected get emails(): FormArray<FormGroup> {
-        return this.form()?.get('emails') as FormArray<FormGroup>;
+    protected get emails(): FormArray<FormControl> {
+        return this.form()?.get('emails') as FormArray<FormControl>;
     }
 
     protected readonly addEmail = (): void => {
-        this.emails.push(createEmailGroup(this.formBuilder));
+        this.emails.push(createEmailGroup(this.formBuilder, ''));
     };
 
     protected readonly addPhone = (): void => {
-        this.phones.push(createPhoneGroup(this.formBuilder));
+        this.phones.push(createPhoneGroup(this.formBuilder, ''));
     };
 
     protected readonly addAppointment = (): void => {
-        this.appointments.push(createAppointmentGroup(this.formBuilder));
+        this.appointments.push(createAppointmentGroup(this.formBuilder, new Appointment()));
     };
 
     protected removeAppointment(index: number): void {

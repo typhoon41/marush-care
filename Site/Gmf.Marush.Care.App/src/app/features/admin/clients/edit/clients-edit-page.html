@@ -1,6 +1,7 @@
 @if(form())
 {
-<form class="clients-edit-form row offset-tablet-2 column-tablet-8 offset-desktop-3 column-desktop-6" [formGroup]="form()!" (submit)="onSubmit()">
+<form class="clients-edit-form row offset-tablet-2 column-tablet-8 offset-desktop-3 column-desktop-6"
+    [formGroup]="form()!" (submit)="onSubmit()">
     <marush-input class="column-12" name="name" placeholder="Ime" [form]="form()!" [autoComplete]="true"
         [validation]="['maxlength', 'required']" />
     <marush-input class="column-12" name="surname" placeholder="Prezime" [form]="form()!" [autoComplete]="true"
@@ -10,8 +11,8 @@
         @for(phone of phones.controls; track $index)
         {
         <div class="row column-12">
-            <marush-input class="grow-nested-block" name="phone" placeholder="Telefon" customValidation="pattern"
-                customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX" [form]="phone"
+            <marush-input class="grow-nested-block" name="phones" placeholder="Telefon" customValidation="pattern"
+                customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX" [form]="form()!" [formControl]="phone"
                 [validation]="['required', 'pattern']" />
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removePhone($index)">
@@ -25,7 +26,7 @@
         @for(email of emails.controls; track $index)
         {
         <div class="row column-12">
-            <marush-input class="grow-nested-block" name="email" placeholder="Email" [form]="email"
+            <marush-input class="grow-nested-block" name="emails" placeholder="Email" [form]="form()!" [formControl]="email"
                 [validation]="['required', 'email', 'maxlength']" />
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removeEmail($index)">
@@ -34,15 +35,16 @@
         </div>
         }
     </marush-field-group>
-    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form()!" [startDate]="averageClientAge" />
+    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form()!"
+        [startDate]="averageClientAge" />
     <marush-input class="column-12" name="city" placeholder="Mesto prebivališta" [form]="form()!" [autoComplete]="true"
         [validation]="['maxlength']" />
-    <marush-input class="column-12" name="diagnosis" placeholder="Dijagnoze" [form]="form()!" [validation]="['maxlength']"
-        [big]="true" />
-    <marush-input class="column-12" name="allergies" placeholder="Alergije" [form]="form()!" [validation]="['maxlength']"
-        [big]="true" />
-    <marush-input class="column-12" name="comments" placeholder="Komentari" [form]="form()!" [validation]="['maxlength']"
-        [big]="true" />
+    <marush-input class="column-12" name="diagnosis" placeholder="Dijagnoze" [form]="form()!"
+        [validation]="['maxlength']" [big]="true" />
+    <marush-input class="column-12" name="allergies" placeholder="Alergije" [form]="form()!"
+        [validation]="['maxlength']" [big]="true" />
+    <marush-input class="column-12" name="comments" placeholder="Komentari" [form]="form()!"
+        [validation]="['maxlength']" [big]="true" />
     <marush-input class="column-12" name="remarks" placeholder="Napomene" [form]="form()!" [validation]="['maxlength']"
         [big]="true" />
 
@@ -52,9 +54,10 @@
         {
         <div class="row column-12" [class.field-group-section]="!$last">
             <div class="column-12 field-container grow-nested-block">
-                <marush-date-picker class="field-container column-12 column-tablet-4" name="date" placeholder="Tretman" [form]="appointment" [startDate]="today" />
-                <marush-input class="field-container column-12 offset-tablet-1 column-tablet-7" name="description" placeholder="Opis" [form]="appointment"
-                    [validation]="['required','maxlength']" [big]="true" />
+                <marush-date-picker class="field-container column-12 column-tablet-4" name="date" placeholder="Tretman"
+                    [form]="appointment" [startDate]="today" />
+                <marush-input class="field-container column-12 offset-tablet-1 column-tablet-7" name="description"
+                    placeholder="Opis" [form]="appointment" [validation]="['required','maxlength']" [big]="true" />
             </div>
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removeAppointment($index)">
@@ -63,8 +66,8 @@
         </div>
         }
     </marush-field-group>
+    <p class="invalid-field-message" [class.hidden]="!globalError()">{{globalError()}}</p>
     <div class="actions aligned-centrally stretch-equally column-12">
-        <p class="invalid-field-message" [class.hidden]="!globalError()">{{globalError()}}</p>
         <button type="submit" class="main-action"><span>Sačuvaj</span></button>
         <button type="button" class="cancel-action" (click)="goBack()"><span>Odustani</span></button>
     </div>
