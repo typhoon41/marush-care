@@ -1,5 +1,5 @@
-
-import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+/* eslint-disable max-lines */
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { FormArray, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { FieldGroup } from '@shared/components/forms/group/field-group';
 import { Input } from '@shared/components/forms/input/input';
 import { Captcha } from '@shared/services/captcha';
 import { Clients } from '../clients';
-import { createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
+import { Client, createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,27 +24,47 @@ export class ClientsEditPage {
     private readonly captcha = inject(Captcha);
     private readonly title = inject(Title);
     private readonly clients = inject(Clients);
-    protected readonly form: FormGroup;
+    protected readonly form = signal<FormGroup | undefined>(undefined);
     protected readonly globalError = signal('');
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     protected readonly averageClientAge = new Date(2000, 0, 1);
     protected readonly today = new Date();
 
+    private readonly clientFetch = this.clients.getById(this.id());
+
     constructor() {
-        this.form = requestFormWith(this.formBuilder);
+        effect(() => {
+            if (!this.id()) {
+                this.form.set(requestFormWith(this.formBuilder, new Client()));
+                return;
+            }
+
+            if (this.clientFetch.hasValue()) {
+                this.form.set(requestFormWith(this.formBuilder, this.clientFetch.value()));
+                return;
+            }
+
+            this.form.set(undefined);
+        });
+
         this.title.setTitle('Marush: Space of Care - izmena klijenta');
     }
 
     protected readonly onSubmit = async() => {
+        const form = this.form();
+        if (!form) {
+            return;
+        }
+
         this.globalError.set('');
-        this.form.markAllAsTouched();
-        if (this.form.invalid) {
+        form.markAllAsTouched();
+        if (form.invalid) {
             return;
         }
 
         try {
             await this.captcha.executeProtectedAction('CLIENT_EDIT', (token, action) =>
-                this.clients.storeChanges(this.form.value, this.id(), token, action));
+                this.clients.storeChanges(form.value, this.id(), token, action));
             await this.goBack();
         } catch {
             // eslint-disable-next-line @stylistic/max-len
@@ -57,15 +77,15 @@ export class ClientsEditPage {
     };
 
     protected get appointments(): FormArray<FormGroup> {
-        return this.form.get('appointments') as FormArray<FormGroup>;
+        return this.form()?.get('appointments') as FormArray<FormGroup>;
     }
 
     protected get phones(): FormArray<FormGroup> {
-        return this.form.get('phones') as FormArray<FormGroup>;
+        return this.form()?.get('phones') as FormArray<FormGroup>;
     }
 
     protected get emails(): FormArray<FormGroup> {
-        return this.form.get('emails') as FormArray<FormGroup>;
+        return this.form()?.get('emails') as FormArray<FormGroup>;
     }
 
     protected readonly addEmail = (): void => {

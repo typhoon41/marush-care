@@ -5,7 +5,7 @@ import { PaginatedRequest } from '@shared/components/pagination/paginated-reques
 import { PaginatedResponse } from '@shared/components/pagination/table/table-metadata';
 import { Authentication } from '@shared/services/authentication';
 import { lastValueFrom } from 'rxjs';
-import { ClientEditRequest } from './edit/request';
+import { Client } from './edit/request';
 
 @Injectable({
     providedIn: 'root'
@@ -13,35 +13,44 @@ import { ClientEditRequest } from './edit/request';
 export class Clients {
     private readonly authentication = inject(Authentication);
     private readonly http = inject(HttpClient);
-    private readonly customerEndpoint = `${environment.apiUrl}customer`;
+    static readonly customerEndpoint = `${environment.apiUrl}customer`;
     readonly data = signal<PaginatedRequest>(new PaginatedRequest('fullName'));
 
+    readonly getById = (id: string | undefined) => httpResource<Client>(() => id ?
+        {
+            url: `${Clients.customerEndpoint}/${id}`,
+            method: 'GET',
+            headers: this.headers()
+        } : undefined);
+
     readonly getAll = () => {
-        const appointmentUrl = `${this.customerEndpoint}/get-all`;
+        const appointmentUrl = `${Clients.customerEndpoint}/get-all`;
         return httpResource<PaginatedResponse>(() => ({
             url: appointmentUrl,
             method: 'POST',
             body: this.data().toJson(),
-            headers: {
-                Authorization: `Bearer ${this.authentication.getToken()}`,
-                'Content-Type': 'application/json'
-            }
+            headers: this.headers()
         }));
     };
 
-    readonly storeChanges = async(data: ClientEditRequest, id: string | undefined, captchaToken: string, captchaAction: string) => {
+    readonly storeChanges = async(data: Client, id: string | undefined, captchaToken: string, captchaAction: string) => {
         if (id) {
             // Can't be switched to httpResource because of lack of reactivity in Captcha service.
-            await lastValueFrom(this.http.put<ClientEditRequest>(this.customerEndpoint, data, {
+            await lastValueFrom(this.http.put<Client>(Clients.customerEndpoint, data, {
                 headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
             }));
         }
 
         else {
             // Can't be switched to httpResource because of lack of reactivity in Captcha service.
-            await lastValueFrom(this.http.post<ClientEditRequest>(this.customerEndpoint, data, {
+            await lastValueFrom(this.http.post<Client>(Clients.customerEndpoint, data, {
                 headers: { Captcha: captchaToken, CaptchaAction: captchaAction }
             }));
         }
     };
+
+    private readonly headers = () => ({
+        Authorization: `Bearer ${this.authentication.getToken()}`,
+        'Content-Type': 'application/json'
+    });
 }

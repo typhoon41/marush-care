@@ -1,12 +1,12 @@
-@if(form)
+@if(form())
 {
-<form class="clients-edit-form row offset-tablet-2 column-tablet-8 offset-desktop-3 column-desktop-6" [formGroup]="form" (submit)="onSubmit()">
-    <marush-input class="column-12" name="name" placeholder="Ime" [form]="form" [autoComplete]="true"
+<form class="clients-edit-form row offset-tablet-2 column-tablet-8 offset-desktop-3 column-desktop-6" [formGroup]="form()!" (submit)="onSubmit()">
+    <marush-input class="column-12" name="name" placeholder="Ime" [form]="form()!" [autoComplete]="true"
         [validation]="['maxlength', 'required']" />
-    <marush-input class="column-12" name="surname" placeholder="Prezime" [form]="form" [autoComplete]="true"
+    <marush-input class="column-12" name="surname" placeholder="Prezime" [form]="form()!" [autoComplete]="true"
         [validation]="['maxlength', 'required']" />
     <marush-field-group class="column-12" addOperationDescription="Dodaj telefon" dynamicContentName="phones"
-        title="Telefoni" [addDynamicContent]="addPhone" [formGroup]="form">
+        title="Telefoni" [addDynamicContent]="addPhone" [formGroup]="form()!">
         @for(phone of phones.controls; track $index)
         {
         <div class="row column-12">
@@ -21,7 +21,7 @@
         }
     </marush-field-group>
     <marush-field-group class="column-12" addOperationDescription="Dodaj email" dynamicContentName="emails"
-        title="Emailovi" [addDynamicContent]="addEmail" [formGroup]="form">
+        title="Emailovi" [addDynamicContent]="addEmail" [formGroup]="form()!">
         @for(email of emails.controls; track $index)
         {
         <div class="row column-12">
@@ -34,20 +34,20 @@
         </div>
         }
     </marush-field-group>
-    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form" [startDate]="averageClientAge" />
-    <marush-input class="column-12" name="city" placeholder="Mesto prebivališta" [form]="form" [autoComplete]="true"
+    <marush-date-picker class="column-12" name="birthday" placeholder="Datum rođenja" [form]="form()!" [startDate]="averageClientAge" />
+    <marush-input class="column-12" name="city" placeholder="Mesto prebivališta" [form]="form()!" [autoComplete]="true"
         [validation]="['maxlength']" />
-    <marush-input class="column-12" name="diagnosis" placeholder="Dijagnoze" [form]="form" [validation]="['maxlength']"
+    <marush-input class="column-12" name="diagnosis" placeholder="Dijagnoze" [form]="form()!" [validation]="['maxlength']"
         [big]="true" />
-    <marush-input class="column-12" name="allergies" placeholder="Alergije" [form]="form" [validation]="['maxlength']"
+    <marush-input class="column-12" name="allergies" placeholder="Alergije" [form]="form()!" [validation]="['maxlength']"
         [big]="true" />
-    <marush-input class="column-12" name="comments" placeholder="Komentari" [form]="form" [validation]="['maxlength']"
+    <marush-input class="column-12" name="comments" placeholder="Komentari" [form]="form()!" [validation]="['maxlength']"
         [big]="true" />
-    <marush-input class="column-12" name="remarks" placeholder="Napomene" [form]="form" [validation]="['maxlength']"
+    <marush-input class="column-12" name="remarks" placeholder="Napomene" [form]="form()!" [validation]="['maxlength']"
         [big]="true" />
 
     <marush-field-group class="column-12" addOperationDescription="Dodaj termin" dynamicContentName="appointments"
-        title="Termini" [addDynamicContent]="addAppointment" [formGroup]="form">
+        title="Termini" [addDynamicContent]="addAppointment" [formGroup]="form()!">
         @for(appointment of appointments.controls; track $index)
         {
         <div class="row column-12" [class.field-group-section]="!$last">

@@ -1,4 +1,5 @@
 ﻿using Gmf.DDD.Common.Persistance;
+using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 
@@ -41,7 +42,9 @@ public record CustomerDto : EntityDto
     {
         var properties = Properties;
         var appointments = Appointments
-            .            Select(appointmentDto => new CustomerAppointment(DateOnly.FromDateTime(appointmentDto.ScheduledFor.DateTime), appointmentDto.Description)).ToList();
+            .Where(appointment => appointment.MapToStatus().IsExecuted())
+            .Select(appointmentDto => new CustomerAppointment(DateOnly.FromDateTime(appointmentDto.ScheduledFor.DateTime), appointmentDto.Description))
+            .ToList();
         return new CustomerDetails(Id, Name, Surname, Phones.Select(phone => phone.PhoneNumber),
             Emails.Select(email => email.Email), properties?.DateOfBirth,
             properties?.PlaceOfResidence, properties?.Diagnosis, properties?.Allergies, properties?.Comments, properties?.Notes, appointments);
