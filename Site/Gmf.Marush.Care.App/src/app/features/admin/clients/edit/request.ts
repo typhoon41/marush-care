@@ -4,6 +4,7 @@ import { phonePattern } from '@features/appointment/request';
 import { Appointment } from './appointment';
 
 export class Client {
+    id: string = '';
     name: string = '';
     surname: string = '';
     emails: string[] = [];

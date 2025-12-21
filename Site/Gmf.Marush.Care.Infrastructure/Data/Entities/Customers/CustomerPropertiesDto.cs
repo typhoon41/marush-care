@@ -10,7 +10,6 @@ public record CustomerPropertiesDto
     public string Comments { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
     public DateTime LastEditAt { get; set; }
-    public Guid LastEditedById { get; set; }
     public CustomerDto Customer { get; set; } = new CustomerDto();
     public UserDto LastEditedBy { get; set; } = new UserDto();
 }

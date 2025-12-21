@@ -13,7 +13,7 @@ public record CustomerDto : EntityDto
     public IList<CustomerPhoneDto> Phones { get; } = [];
     public IList<CustomerEmailDto> Emails { get; } = [];
 
-    public static CustomerDto MapFrom(CustomerDto target, CustomerDetails customer, Guid userId)
+    public static CustomerDto MapFrom(CustomerDto target, CustomerDetails customer, UserDto user)
     {
         target.Name = customer.Name;
         target.Surname = customer.Surname;
@@ -26,7 +26,7 @@ public record CustomerDto : EntityDto
         target.Properties.Comments = customer.Comments ?? string.Empty;
         target.Properties.Notes = customer.Notes ?? string.Empty;
         target.Properties.LastEditAt = DateTime.UtcNow;
-        target.Properties.LastEditedById = userId;
+        target.Properties.LastEditedBy = user;
 
         return target;
     }

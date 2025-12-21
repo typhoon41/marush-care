@@ -62,7 +62,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(CustomerDto dto)
     {
-        await Store(MapToDomain(dto));
+        await Store(MapToDomain(dto, dto.Id));
         return NoContent();
     }
 
@@ -82,7 +82,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
         await customerModificationRepository.StoreAsync(customerDetails, usedId);
     }
 
-    private static CustomerDetails MapToDomain(NewCustomerDto dto) => new(null, dto.Name, dto.Surname, dto.Phones, dto.Emails,
+    private static CustomerDetails MapToDomain(NewCustomerDto dto, Guid? id = null) => new(id, dto.Name, dto.Surname, dto.Phones, dto.Emails,
          dto.Birthday, dto.City, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Remarks, 
          dto.Appointments.Select(appointment => new CustomerAppointment(appointment.Date, appointment.Description)));
 

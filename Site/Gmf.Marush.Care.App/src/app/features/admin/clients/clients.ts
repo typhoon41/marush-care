@@ -35,6 +35,7 @@ export class Clients {
 
     readonly storeChanges = async(data: Client, id: string | undefined, captchaToken: string, captchaAction: string) => {
         if (id) {
+            data.id = id;
             // Can't be switched to httpResource because of lack of reactivity in Captcha service.
             await lastValueFrom(this.http.put<Client>(Clients.customerEndpoint, data, {
                 headers: this.headersWithCaptcha(captchaToken, captchaAction)

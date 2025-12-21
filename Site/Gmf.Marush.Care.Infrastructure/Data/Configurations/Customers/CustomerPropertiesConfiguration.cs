@@ -25,7 +25,6 @@ public class CustomerPropertiesConfiguration : IEntityTypeConfiguration<Customer
         _ = builder.Property(x => x.Allergies).HasMaxLength(IssuesLength);
         _ = builder.Property(x => x.Comments).HasMaxLength(AttachmentsLength);
         _ = builder.Property(x => x.Notes).HasMaxLength(AttachmentsLength);
-        _ = builder.Property(x => x.LastEditedById);
         _ = builder.Property(x => x.LastEditAt);
         _ = builder.Navigation(e => e.LastEditedBy)
                .UsePropertyAccessMode(PropertyAccessMode.Property);
