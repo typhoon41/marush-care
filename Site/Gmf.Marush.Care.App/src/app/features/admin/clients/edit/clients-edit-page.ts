@@ -9,7 +9,7 @@ import { Input } from '@shared/components/forms/input/input';
 import { Captcha } from '@shared/services/captcha';
 import { Clients } from '../clients';
 import { Appointment } from './appointment';
-import { Client, createAppointmentGroup, createEmailGroup, createPhoneGroup, requestFormWith } from './request';
+import { Client, createAppointmentGroup, createEmailControl, createPhoneControl, requestFormWith } from './request';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,11 +90,11 @@ export class ClientsEditPage {
     }
 
     protected readonly addEmail = (): void => {
-        this.emails.push(createEmailGroup(this.formBuilder, ''));
+        this.emails.push(createEmailControl(this.formBuilder, ''));
     };
 
     protected readonly addPhone = (): void => {
-        this.phones.push(createPhoneGroup(this.formBuilder, ''));
+        this.phones.push(createPhoneControl(this.formBuilder, ''));
     };
 
     protected readonly addAppointment = (): void => {

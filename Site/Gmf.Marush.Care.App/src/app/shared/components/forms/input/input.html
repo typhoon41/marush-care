@@ -1,13 +1,15 @@
 <div class="column-12" [formGroup]="form()">
     @if(big())
     {
-    <textarea class="column-12 field" [autocomplete]="autoComplete() ? 'on' : 'off'" [formControlName]="name()"
-        [name]="name()" [placeholder]="placeholder()" [ariaLabel]="placeholder()"
+    <textarea class="column-12 field" [autocomplete]="autoComplete() ? 'on' : 'off'"
+        [formControl]="resolvedControl"
+        [attr.name]="control() ? null : name()"  [placeholder]="placeholder()" [ariaLabel]="placeholder()"
         [attr.aria-required]="required ? 'true' : null"></textarea>
     }
     @else {
     <input class="column-12 field" [type]="type()" [autocomplete]="autoComplete() ? 'on' : 'off'"
-        [formControlName]="name()" [name]="name()" [placeholder]="placeholder()" [ariaLabel]="placeholder()"
+        [formControl]="resolvedControl"
+        [attr.name]="control() ? null : name()" [placeholder]="placeholder()" [ariaLabel]="placeholder()"
         [attr.aria-required]="required ? 'true' : null">
     }
 

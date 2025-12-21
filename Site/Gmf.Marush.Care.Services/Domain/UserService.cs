@@ -68,7 +68,7 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
 
     public Guid GetUserIdFrom(ClaimsIdentity identity)
     {
-        var userIdClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
+        var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
         var userId = userIdClaim?.Value ?? throw new InvalidOperationException("User ID claim not found - token is malformed.");
         return Guid.Parse(userId);
     }

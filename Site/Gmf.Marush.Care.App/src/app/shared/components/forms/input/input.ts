@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Field } from '../field';
 
 @Component({
@@ -11,7 +11,8 @@ import { Field } from '../field';
 })
 export class Input extends Field {
     readonly form = input.required<FormGroup>();
-    readonly name = input<string>('');
+    readonly control = input<FormControl | undefined>(undefined);
+    readonly name = input<string | number>('');
     readonly type = input<string>('text');
     readonly big = input<boolean>(false);
     readonly placeholder = input<string>('');

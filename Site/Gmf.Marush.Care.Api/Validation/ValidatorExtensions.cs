@@ -11,14 +11,19 @@ namespace Gmf.Marush.Care.Api.Validation;
 public static class ValidatorExtensions
 {
     public static IRuleBuilderOptions<T, string> SetupValidationFor<T>(this AbstractValidator<T> validator,
-        Expression<Func<T, string>> property, int? length = null)
+        Expression<Func<T, string>> property, bool required = true, int? length = null)
     {
         var lengthToSet = length ?? CustomerConfiguration.DefaultLength;
-        return validator.RuleFor(property)
-        .NotNull()
-        .WithMessage(Labels.ValidationRequired)
-        .MaximumLength(lengthToSet)
-        .WithMessage(Labels.ValidationLength);
+        var rule = validator.RuleFor(property);
+
+        if (required)
+        {
+            rule.NotNull()
+            .WithMessage(Labels.ValidationRequired);
+        }
+
+        return rule.MaximumLength(lengthToSet)
+                .WithMessage(Labels.ValidationLength);
     }
 
     public static void SetupCustomerRules<T>(this AbstractValidator<T> validator) where T : NewCustomerDto
@@ -34,10 +39,10 @@ public static class ValidatorExtensions
         _ = validator.RuleFor(request => request.Birthday)
             .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date?.ToDateTime(new TimeOnly(0)) ?? DateTime.UtcNow.AddYears(-50)))
             .WithMessage(Labels.ValidationInterval);
-        _ = validator.SetupValidationFor(request => request.City);
-        _ = validator.SetupValidationFor(request => request.Diagnosis, CustomerPropertiesConfiguration.IssuesLength);
-        _ = validator.SetupValidationFor(request => request.Allergies, CustomerPropertiesConfiguration.IssuesLength);
-        _ = validator.SetupValidationFor(request => request.Comments, CustomerPropertiesConfiguration.AttachmentsLength);
-        _ = validator.SetupValidationFor(request => request.Remarks, CustomerPropertiesConfiguration.AttachmentsLength);
+        _ = validator.SetupValidationFor(request => request.City!, false);
+        _ = validator.SetupValidationFor(request => request.Diagnosis!, false, CustomerPropertiesConfiguration.IssuesLength);
+        _ = validator.SetupValidationFor(request => request.Allergies!, false, CustomerPropertiesConfiguration.IssuesLength);
+        _ = validator.SetupValidationFor(request => request.Comments!, false, CustomerPropertiesConfiguration.AttachmentsLength);
+        _ = validator.SetupValidationFor(request => request.Remarks!, false, CustomerPropertiesConfiguration.AttachmentsLength);
     }
 }

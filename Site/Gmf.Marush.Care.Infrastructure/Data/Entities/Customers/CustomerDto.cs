@@ -20,11 +20,11 @@ public record CustomerDto : EntityDto
         target.Properties ??= new CustomerPropertiesDto();
 
         target.Properties.DateOfBirth = customer.DateOfBirth;
-        target.Properties.PlaceOfResidence = customer.PlaceOfResidence ?? throw ValidationError(nameof(customer.PlaceOfResidence));
-        target.Properties.Diagnosis = customer.Diagnosis ?? throw ValidationError(nameof(customer.Diagnosis));
-        target.Properties.Allergies = customer.Allergies ?? throw ValidationError(nameof(customer.Allergies));
-        target.Properties.Comments = customer.Comments ?? throw ValidationError(nameof(customer.Comments));
-        target.Properties.Notes = customer.Notes ?? throw ValidationError(nameof(customer.Notes));
+        target.Properties.PlaceOfResidence = customer.PlaceOfResidence ?? string.Empty;
+        target.Properties.Diagnosis = customer.Diagnosis ?? string.Empty;
+        target.Properties.Allergies = customer.Allergies ?? string.Empty;
+        target.Properties.Comments = customer.Comments ?? string.Empty;
+        target.Properties.Notes = customer.Notes ?? string.Empty;
         target.Properties.LastEditAt = DateTime.UtcNow;
         target.Properties.LastEditedById = userId;
 
@@ -49,6 +49,4 @@ public record CustomerDto : EntityDto
             Emails.Select(email => email.Email), properties?.DateOfBirth,
             properties?.PlaceOfResidence, properties?.Diagnosis, properties?.Allergies, properties?.Comments, properties?.Notes, appointments);
     }
-
-    private static InvalidOperationException ValidationError(string propertyName) => new($"Validation of upper layer failed for {propertyName}");
 }
