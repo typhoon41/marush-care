@@ -71,6 +71,8 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
             .ThenInclude(appointment => appointment.CustomerEmail)
             .Include(context => context.Appointments)
             .ThenInclude(appointment => appointment.CustomerPhone)
+            .Include(context => context.Appointments)
+            .ThenInclude(appointment => appointment.Status)
             .SingleOrDefault(entity => entity.Id == id)
             ?? throw new InvalidOperationException($"Customer with id {id} not found for update.");
 
@@ -96,8 +98,13 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
             entity.Appointments.Remove(remove);
         }
 
-        var status = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
-        context.Set<AppointmentStatusDto>().Attach(status);
+        var newStatus = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
+        var statusId = newStatus.Id;
+        var statusSet = context.Set<AppointmentStatusDto>();
+
+        var status = statusSet.Local.FirstOrDefault(s => s.Id == statusId)
+            ?? entity.Appointments.Select(a => a.Status).FirstOrDefault(s => s.Id == statusId)
+            ?? statusSet.Attach(newStatus).Entity;
 
         foreach (var incoming in customer.Appointments)
         {
@@ -115,30 +122,61 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
 
     private void SetContactDetailsFor(CustomerDetails customer, CustomerDto entity)
     {
-        foreach (var phone in entity.Phones)
+        var incomingPhones = customer.Phones.ToHashSet(StringComparer.Ordinal);
+        var incomingEmails = customer.Emails.ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var phonesToRemove = entity.Phones.Where(p => !incomingPhones.Contains(p.PhoneNumber)).ToList();
+
+        // Ensure there's at least one phone left if any appointment exists (DB requires NOT NULL)
+        var remainingPhoneNumber =
+            entity.Phones.Where(p => incomingPhones.Contains(p.PhoneNumber)).Select(p => p.PhoneNumber).FirstOrDefault()
+            ?? incomingPhones.First();
+        var phoneNumbersToRemove = phonesToRemove.Select(p => p.PhoneNumber).ToHashSet();
+
+        foreach (var appointment in entity.Appointments)
         {
-            context.Entry(phone).State = EntityState.Deleted;
+            if (phoneNumbersToRemove.Contains(appointment.Phone))
+            {
+                appointment.Phone = remainingPhoneNumber;
+            }
         }
 
-        foreach (var email in entity.Emails)
+        foreach (var remove in phonesToRemove)
         {
-            context.Entry(email).State = EntityState.Deleted;
+            entity.Phones.Remove(remove);
+            context.Remove(remove);
         }
-        entity.Phones.Clear();
-        entity.Emails.Clear();
 
-        foreach (var phone in customer.Phones)
+        var emailsToRemove = entity.Emails.Where(e => !incomingEmails.Contains(e.Email)).ToList();
+
+        foreach (var remove in emailsToRemove)
         {
+            entity.Emails.Remove(remove);
+            context.Remove(remove);
+        }
+
+        foreach (var phone in incomingPhones)
+        {
+            if (entity.Phones.Any(p => p.PhoneNumber == phone))
+            {
+                continue;
+            }
+
             var newPhone = new CustomerPhoneDto { PhoneNumber = phone, Customer = entity };
-            context.Set<CustomerPhoneDto>().Add(newPhone);
             entity.Phones.Add(newPhone);
+            context.Add(newPhone);
         }
 
-        foreach (var email in customer.Emails)
+        foreach (var email in incomingEmails)
         {
+            if (entity.Emails.Any(e => string.Equals(e.Email, email, StringComparison.OrdinalIgnoreCase)))
+            {
+                continue;
+            }
+
             var newEmail = new CustomerEmailDto { Email = email, Customer = entity };
-            context.Set<CustomerEmailDto>().Add(newEmail);
             entity.Emails.Add(newEmail);
+            context.Add(newEmail);
         }
     }
 }

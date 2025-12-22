@@ -19,12 +19,12 @@ public record CustomerDto : EntityDto
         target.Surname = customer.Surname;
         target.Properties ??= new CustomerPropertiesDto();
 
-        target.Properties.DateOfBirth = customer.DateOfBirth;
-        target.Properties.PlaceOfResidence = customer.PlaceOfResidence ?? string.Empty;
+        target.Properties.DateOfBirth = customer.Birthday;
+        target.Properties.PlaceOfResidence = customer.City ?? string.Empty;
         target.Properties.Diagnosis = customer.Diagnosis ?? string.Empty;
         target.Properties.Allergies = customer.Allergies ?? string.Empty;
         target.Properties.Comments = customer.Comments ?? string.Empty;
-        target.Properties.Notes = customer.Notes ?? string.Empty;
+        target.Properties.Notes = customer.Remarks ?? string.Empty;
         target.Properties.LastEditAt = DateTime.UtcNow;
         target.Properties.LastEditedBy = user;
 
