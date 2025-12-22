@@ -44,9 +44,10 @@ public record CustomerDto : EntityDto
         var appointments = Appointments
             .Where(appointment => appointment.MapToStatus().IsExecuted())
             .Select(appointmentDto => new CustomerAppointment(DateOnly.FromDateTime(appointmentDto.ScheduledFor.DateTime), appointmentDto.Description))
+            .OrderByDescending(appointments => appointments.Date)
             .ToList();
-        return new CustomerDetails(Id, Name, Surname, Phones.Select(phone => phone.PhoneNumber),
-            Emails.Select(email => email.Email), properties?.DateOfBirth,
+        return new CustomerDetails(Id, Name, Surname, Phones.Select(phone => phone.PhoneNumber).OrderBy(phone => phone),
+            Emails.Select(email => email.Email).OrderBy(email => email), properties?.DateOfBirth,
             properties?.PlaceOfResidence, properties?.Diagnosis, properties?.Allergies, properties?.Comments, properties?.Notes, appointments);
     }
 }

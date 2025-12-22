@@ -53,10 +53,10 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
 
     private void AddAppointmentsFor(CustomerDetails customer, CustomerDto entity)
     {
+        var status = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
+        context.Set<AppointmentStatusDto>().Attach(status);
         foreach (var appointment in customer.Appointments)
         {
-            var status = new AppointmentStatusDto { Id = AppointmentStatus.Performed.Value };
-            context.Set<AppointmentStatusDto>().Attach(status);
             entity.Appointments.Add(AppointmentDto.MapFrom(customer, appointment, status, entity));
         }
     }

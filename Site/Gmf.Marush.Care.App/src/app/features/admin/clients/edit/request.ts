@@ -7,8 +7,8 @@ export class Client {
     id: string = '';
     name: string = '';
     surname: string = '';
-    emails: string[] = [];
-    phones: string[] = [];
+    emails: string[] = [''];
+    phones: string[] = [''];
     birthday: string = '';
     city: string = '';
     diagnosis: string = '';

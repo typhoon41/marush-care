@@ -11,12 +11,16 @@
         @for(phone of phones.controls; track $index)
         {
         <div class="row column-12">
-            <marush-input class="grow-nested-block" placeholder="Telefon" customValidation="pattern" customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX"
-                [form]="form()!" [control]="phone" [validation]="['required', 'pattern']"/>
+            <marush-input class="grow-nested-block" placeholder="Telefon" customValidation="pattern"
+                customValidationMessage="Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX" [form]="form()!"
+                [control]="phone" [validation]="['required', 'pattern']" />
+            @if($count > 1)
+            {
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removePhone($index)">
                 <img class="icon" alt="Ukloni telefon" src="/assets/images/actions/trash-can.svg">
             </button>
+            }
         </div>
         }
     </marush-field-group>
@@ -27,10 +31,13 @@
         <div class="row column-12">
             <marush-input class="grow-nested-block" placeholder="Email" [form]="form()!" [control]="email"
                 [validation]="['required', 'email', 'maxlength']" />
+            @if($count > 1)
+            {
             <button class="main-action delete-action clients-delete-action " type="button"
                 (click)="removeEmail($index)">
                 <img class="icon" alt="Ukloni email" src="/assets/images/actions/trash-can.svg">
             </button>
+            }
         </div>
         }
     </marush-field-group>

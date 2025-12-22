@@ -14,7 +14,7 @@ export interface AppointmentRequest {
     duration: number;
 }
 
-export const phonePattern = Validators.pattern(/(06\d{7,8})|(\+\d{10,13})/u);
+export const phonePattern = Validators.pattern(/^(?:06\d{7,8}|\+\d{10,13})$/u);
 
 const defaultFieldLength = 100;
 export const requestFormWith = (formBuilder: NonNullableFormBuilder) => formBuilder.group({

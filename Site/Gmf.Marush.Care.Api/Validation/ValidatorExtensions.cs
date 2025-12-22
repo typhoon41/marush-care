@@ -30,15 +30,35 @@ public static class ValidatorExtensions
     {
         _ = validator.SetupValidationFor(request => request.Name);
         _ = validator.SetupValidationFor(request => request.Surname);
+
+        _ = validator.RuleFor(request => request.Emails)
+            .NotNull()
+            .WithMessage(Labels.ValidationRequired)
+            .Must(emails => emails.Any())
+            .WithMessage(Labels.ValidationRequired);
+
         _ = validator.RuleForEach(request => request.Emails)
+            .NotEmpty()
+            .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
+
+        _ = validator.RuleFor(request => request.Phones)
+            .NotNull()
+            .WithMessage(Labels.ValidationRequired)
+            .Must(phones => phones.Any())
+            .WithMessage(Labels.ValidationRequired);
+
         _ = validator.RuleForEach(request => request.Phones)
+            .NotEmpty()
+            .WithMessage(Labels.ValidationRequired)
             .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
+
         _ = validator.RuleFor(request => request.Birthday)
             .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date?.ToDateTime(new TimeOnly(0)) ?? DateTime.UtcNow.AddYears(-50)))
             .WithMessage(Labels.ValidationInterval);
+
         _ = validator.SetupValidationFor(request => request.City!, false);
         _ = validator.SetupValidationFor(request => request.Diagnosis!, false, CustomerPropertiesConfiguration.IssuesLength);
         _ = validator.SetupValidationFor(request => request.Allergies!, false, CustomerPropertiesConfiguration.IssuesLength);
