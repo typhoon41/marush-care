@@ -60,7 +60,7 @@ jobs:
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef
+          arguments: install dotnet-ef --version 9.0.11
 
       - task: DotNetCoreCLI@2
         displayName: 'Install workload for Aspire'
