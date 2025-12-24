@@ -96,6 +96,11 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         {
                             Id = new Guid("b14a3e57-15c6-4de2-bd70-431e00e14520"),
                             Name = "Approved"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f8b1835-c724-4635-bef7-30b2f1c37965"),
+                            Name = "Performed"
                         });
                 });
 
@@ -163,13 +168,19 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasMaxLength(4096)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("DateOfBirth")
+                    b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("Diagnosis")
                         .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
+
+                    b.Property<DateTime>("LastEditAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LastEditedById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Notes")
                         .IsRequired()
@@ -182,6 +193,8 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("CustomerId");
+
+                    b.HasIndex("LastEditedById");
 
                     b.ToTable("CustomerProperties", (string)null);
                 });
@@ -274,7 +287,15 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.UserDto", "LastEditedBy")
+                        .WithMany()
+                        .HasForeignKey("LastEditedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("LastEditedBy");
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentStatusDto", b =>

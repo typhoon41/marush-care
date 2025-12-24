@@ -1,4 +1,14 @@
+@use 'breakpoints';
+
 .clients-page {
 	display: block;
 	min-height: 500px;
+}
+
+.clients-delete-action {
+	margin-left: 10px;
+
+	@include breakpoints.apply-from-tablet() {
+		margin-left: 20px;
+	}
 }

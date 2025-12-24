@@ -1,0 +1,29 @@
+@use 'breakpoints';
+@use 'headers';
+
+.form-group .title {
+	margin-left: 10px;
+}
+
+.add-action, .form-group .title {
+	margin: 0 0 0 5px;
+}
+
+.form-group {
+	margin-bottom: 25px;
+
+	.header {
+		margin-bottom: 15px;
+
+		.title {
+			display: inline-block;
+			margin-right: 5px;
+			vertical-align: sub;
+
+			@include breakpoints.apply-from-desktop() {
+				@include headers.marush-headline();
+				margin-left: 10px;
+			}
+		}
+	}
+}

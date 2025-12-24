@@ -2,8 +2,8 @@
     <h4 class="medium-title" i18n="@@routes.services">usluge</h4>
     @for(checkedService of checkedServices(); track checkedService.name){
         <div class="row service-container aligned-centrally">
-            <button type="button" class="service-removal" aria-label="Ukloni izabranu uslugu" i18n-aria-label="@@appointment.summary.remove-item" (click)="onRemove(checkedService)">
-                <img class="trash-can-icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
+            <button type="button" class="service-removal delete-action" aria-label="Ukloni izabranu uslugu" i18n-aria-label="@@appointment.summary.remove-item" (click)="onRemove(checkedService)">
+                <img class="icon" i18n-alt="@@appointment.summary.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
             </button>
             <span class="service grow-nested-block">{{checkedService.titleWithDuration()}}</span>
             <span class="price">{{checkedService.formattedPrice()}}</span>

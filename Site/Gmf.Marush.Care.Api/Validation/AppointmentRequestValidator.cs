@@ -16,7 +16,7 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
         _ = this.SetupValidationFor(request => request.Email)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
-        _ = this.SetupValidationFor(request => request.Phone, PhonesConfiguration.PhoneLength)
+        _ = this.SetupValidationFor(request => request.Phone, true, PhonesConfiguration.PhoneLength)
             .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
 

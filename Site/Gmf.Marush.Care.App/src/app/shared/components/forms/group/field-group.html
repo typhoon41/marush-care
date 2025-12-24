@@ -1,0 +1,11 @@
+<fieldset class="form-group column-12" [formGroup]="formGroup()">
+    <legend class="header">
+        <button class="main-action add-action" type="button" (click)="addDynamicContent()()">
+            <img class="icon" src="/assets/images/actions/plus-sign.svg" [alt]="addOperationDescription()">
+        </button>
+        <h3 class="title">{{title()}}</h3>
+    </legend>
+    <section class="column-12" [formArrayName]="dynamicContentName()">
+        <ng-content />
+    </section>
+</fieldset>

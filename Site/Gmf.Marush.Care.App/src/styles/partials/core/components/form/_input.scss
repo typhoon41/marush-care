@@ -1,5 +1,13 @@
 @use 'variables';
 
+.field {
+	margin-bottom: 20px;
+
+	#{variables.$error-selector} {
+		margin-bottom: 0;
+	}
+}
+
 .invalid-field-message {
 	margin-top: 5px;
 	margin-bottom: 20px;

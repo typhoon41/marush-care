@@ -19,7 +19,7 @@ public class AppointmentStatusConfiguration : IEntityTypeConfiguration<Appointme
         _ = builder.Property(x => x.Name).HasMaxLength(DefaultLength).IsRequired();
         _ = builder.Navigation(e => e.Appointments)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
-        _ = builder.HasData(new List<AppointmentStatus>() { AppointmentStatus.Requested, AppointmentStatus.Rejected, AppointmentStatus.Approved }
+        _ = builder.HasData(new List<AppointmentStatus>() { AppointmentStatus.Requested, AppointmentStatus.Rejected, AppointmentStatus.Approved, AppointmentStatus.Performed }
             .Select(s => new AppointmentStatusDto { Id = s.Value, Name = s.DisplayName }));
     }
 }

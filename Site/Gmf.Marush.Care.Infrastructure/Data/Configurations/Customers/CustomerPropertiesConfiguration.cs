@@ -19,11 +19,14 @@ public class CustomerPropertiesConfiguration : IEntityTypeConfiguration<Customer
         _ = builder.ToTable(CustomerProperties);
         _ = builder.Navigation(e => e.Customer)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
-        _ = builder.Property(x => x.DateOfBirth);
+        _ = builder.Property(x => x.DateOfBirth).IsRequired(false);
         _ = builder.Property(x => x.PlaceOfResidence).HasMaxLength(DefaultLength);
         _ = builder.Property(x => x.Diagnosis).HasMaxLength(IssuesLength);
         _ = builder.Property(x => x.Allergies).HasMaxLength(IssuesLength);
         _ = builder.Property(x => x.Comments).HasMaxLength(AttachmentsLength);
         _ = builder.Property(x => x.Notes).HasMaxLength(AttachmentsLength);
+        _ = builder.Property(x => x.LastEditAt);
+        _ = builder.Navigation(e => e.LastEditedBy)
+               .UsePropertyAccessMode(PropertyAccessMode.Property);
     }
 }

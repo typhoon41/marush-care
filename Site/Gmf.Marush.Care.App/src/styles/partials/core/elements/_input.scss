@@ -8,10 +8,16 @@ input[type = 'checkbox'] {
 	border-radius: 6px;
 }
 
-input[type = 'text'], input[type = 'password'] {
+textarea, input[type = 'text'], input[type = 'password'] {
 	@extend %element;
 
 	#{variables.$error-selector} {
 		@extend %error-element;
 	}
+}
+
+textarea {
+	min-width: 200px;
+	min-height: 42px;
+	resize: vertical;
 }

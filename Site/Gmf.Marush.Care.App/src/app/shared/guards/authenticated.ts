@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
+import { RoutingDefinition } from '@shared/routes/routes';
 import { Authentication } from '@shared/services/authentication';
-import { RoutingDefinition } from 'src/app/routes';
 
 export const isUserAuthenticated = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): MaybeAsync<GuardResult> => {
   const authentication = inject(Authentication);

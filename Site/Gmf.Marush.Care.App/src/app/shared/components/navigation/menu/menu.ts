@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, viewChild } from '@angula
 import { RouterLinkActive, RouterModule } from '@angular/router';
 import { environment } from '@env';
 import marushDetails from '@shared/models/marush-details';
+import { RouteTranslator } from '@shared/pipes/routing-translator';
 import { Authentication } from '@shared/services/authentication';
 import { ScreenSize } from '@shared/services/screen-size';
-import { RouteTranslator } from '../../../pipes/routing-translator';
 import { HamburgerButton } from '../hamburger/button';
 import { LanguageSelector } from '../language/selector';
 import { MobileMenu } from '../mobile/menu';

@@ -1,0 +1,32 @@
+@use 'variables';
+@use 'breakpoints';
+
+.clients-edit-form {
+	padding: variables.$side-gaps;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 1.5 * variables.$side-gaps 0;
+	}
+}
+
+.actions {
+	.main-action, .cancel-action {
+		padding: 12px 24px;
+
+		@include breakpoints.apply-from-desktop() {
+			padding: 12px 64px;
+		}
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		margin-top: 30px;
+	}
+}
+
+.field-container {
+	display: block;
+
+	@include breakpoints.apply-from-tablet() {
+		display: flex;
+	}
+}

@@ -1,7 +1,6 @@
 @use 'variables';
 @use 'breakpoints';
 @use 'sass:math';
-@use 'sass:color';
 
 $panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
 $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
@@ -51,17 +50,7 @@ $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 }
 
 .service-removal {
-	padding: 0 10px 2px;
 	background-color: transparent;
-
-	.trash-can-icon {
-		width: 15px;
-		vertical-align: middle;
-	}
-
-	&:active {
-		background-color: color.adjust(variables.$accent, $lightness: -20%, $alpha: -.8);
-	}
 }
 
 .disclaimer {
