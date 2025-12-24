@@ -55,6 +55,13 @@ public static class ValidatorExtensions
             .Matches(Customer.PhoneRegex)
             .WithMessage(Labels.ValidationPhone);
 
+        _ = validator.RuleForEach(request => request.Appointments)
+            .NotNull()
+            .WithMessage(Labels.ValidationRequired)
+            .ChildRules(appointment => appointment.RuleFor(a => a.Description)
+                    .NotEmpty()
+                    .WithMessage(Labels.ValidationRequired));
+
         _ = validator.RuleFor(request => request.Birthday)
             .Must((request, date) => new Period(DateTime.UtcNow.AddYears(-100), DateTime.UtcNow).Contains(date?.ToDateTime(new TimeOnly(0)) ?? DateTime.UtcNow.AddYears(-50)))
             .WithMessage(Labels.ValidationInterval);

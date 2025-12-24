@@ -23,7 +23,7 @@ public record AppointmentDto : EntityDto
     public static AppointmentDto MapFrom(CustomerDetails customer, CustomerAppointment appointment, AppointmentStatusDto status, CustomerDto entity) => new()
     {
         Language = "sr",
-        Phone = entity.Phones.FirstOrDefault()?.PhoneNumber ?? string.Empty,
+        Phone = entity.Phones.First().PhoneNumber ?? string.Empty,
         Email = entity.Emails.FirstOrDefault()?.Email ?? string.Empty,
         ScheduledFor = new DateTimeOffset(appointment.Date, TimeOnly.MinValue, TimeSpan.Zero),
         ExpectedEndTime = new DateTimeOffset(appointment.Date, TimeOnly.MaxValue, TimeSpan.Zero),

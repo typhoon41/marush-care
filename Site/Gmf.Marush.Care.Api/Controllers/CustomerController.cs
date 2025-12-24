@@ -78,12 +78,12 @@ public class CustomerController(ICustomerModificationRepository customerModifica
 
     private async Task Store(CustomerDetails customerDetails)
     {
-        var usedId = userService.GetUserIdFrom(Identity());
-        await customerModificationRepository.StoreAsync(customerDetails, usedId);
+        var userId = userService.GetUserIdFrom(Identity());
+        await customerModificationRepository.StoreAsync(customerDetails, userId);
     }
 
     private static CustomerDetails MapToDomain(NewCustomerDto dto, Guid? id = null) => new(id, dto.Name, dto.Surname, dto.Phones, dto.Emails,
-         dto.Birthday, dto.City, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Remarks, 
+         dto.Birthday, dto.City, dto.Diagnosis, dto.Allergies, dto.Comments, dto.Remarks,
          dto.Appointments.Select(appointment => new CustomerAppointment(appointment.Date, appointment.Description)));
 
     private ClaimsIdentity Identity() =>

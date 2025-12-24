@@ -1,12 +1,10 @@
-﻿using Gmf.DDD.Common.Concepts;
-using Gmf.Marush.Care.Domain.Contracts.Repositories;
+﻿using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Entities;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Bcpg;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 
@@ -124,10 +122,8 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
     {
         var incomingPhones = customer.Phones.ToHashSet(StringComparer.Ordinal);
         var incomingEmails = customer.Emails.ToHashSet(StringComparer.OrdinalIgnoreCase);
-
         var phonesToRemove = entity.Phones.Where(p => !incomingPhones.Contains(p.PhoneNumber)).ToList();
 
-        // Ensure there's at least one phone left if any appointment exists (DB requires NOT NULL)
         var remainingPhoneNumber =
             entity.Phones.Where(p => incomingPhones.Contains(p.PhoneNumber)).Select(p => p.PhoneNumber).FirstOrDefault()
             ?? incomingPhones.First();
