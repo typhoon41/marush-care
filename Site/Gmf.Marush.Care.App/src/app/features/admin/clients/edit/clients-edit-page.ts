@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, Renderer2, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -22,6 +22,7 @@ export class ClientsEditPage {
     readonly id = input<string | undefined>();
     private readonly formBuilder = inject(NonNullableFormBuilder);
     private readonly router = inject(Router);
+    private readonly renderer = inject(Renderer2);
     private readonly captcha = inject(Captcha);
     private readonly title = inject(Title);
     private readonly clients = inject(Clients);
@@ -46,6 +47,11 @@ export class ClientsEditPage {
             }
 
             this.form.set(undefined);
+        });
+
+        afterNextRender(() => {
+            const script = this.renderer.createElement('script') as HTMLScriptElement;
+            this.renderer.appendChild(document.body, this.captcha.setup(script));
         });
 
         this.title.setTitle('Marush: Space of Care - izmena klijenta');
