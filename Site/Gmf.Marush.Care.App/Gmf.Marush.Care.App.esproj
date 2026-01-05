@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.784122">
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.2752196">
   <PropertyGroup>
-    <StartupCommand>npm run serve:ssr</StartupCommand>
+    <StartupCommand>npm start</StartupCommand>
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\</BuildOutputFolder>
-    <BuildCommand>npm run build -- --configuration production</BuildCommand>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\browser\sr</BuildOutputFolder>
+    <BuildCommand>@echo angular build is done separately</BuildCommand>
     <ShouldRunNpmInstall>false</ShouldRunNpmInstall>
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
   </PropertyGroup>

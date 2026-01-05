@@ -1,32 +1,36 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.0.0" />
-    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.0.0" />
-    <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageVersion Include="Autofac" Version="8.2.0" />
-    <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
-    <PackageVersion Include="AutoMapper" Version="13.0.1" />
-    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="4.7.4" />
-    <PackageVersion Include="MailKit" Version="4.9.0" />
-    <PackageVersion Include="MimeKit" Version="4.9.0" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
-    <PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-    <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+        <AspireVersion>13.1.0</AspireVersion>
+        <DotnetVersion>10.0.1</DotnetVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Hosting.JavaScript" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Hosting.SqlServer" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="$(AspireVersion)" />
+        <PackageVersion Include="Autofac" Version="8.2.0" />
+        <PackageVersion Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+        <PackageVersion Include="AutoMapper" Version="[14.0.0]" />
+        <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
+        <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
+        <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="4.7.4" />
+        <PackageVersion Include="MailKit" Version="4.9.0" />
+        <PackageVersion Include="MimeKit" Version="4.9.0" />
+        <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0" />
+        <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+        <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
+    </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ jobs:
       BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
       MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
       FullAppPath: Site/${{ parameters.apiApplicationPath }}
-      DotNetVersion: 9.0.x
+      DotNetVersion: 10.0.x
       NodeVersion: 22.20.0
    displayName: 'Build'
    steps:
@@ -60,7 +60,7 @@ jobs:
         inputs:
           command: 'custom'
           custom: 'tool '
-          arguments: install dotnet-ef --version 9.0.11
+          arguments: install dotnet-ef --version 10.0.1
 
       - task: DotNetCoreCLI@2
         displayName: 'Install workload for Aspire'
