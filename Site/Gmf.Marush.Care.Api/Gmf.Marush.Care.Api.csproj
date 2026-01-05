@@ -71,6 +71,13 @@
         <Content Include="..\Gmf.Marush.Care.App\dist\**" CopyToPublishDirectory="PreserveNewest" TargetPath="dist\%(RecursiveDir)%(Filename)%(Extension)" />
     </ItemGroup>
 
+    <!-- Hide content files from NuGet packaging (BuildHost-net472 and BuildHost-netcore folder shortcuts) -->
+    <ItemGroup>
+        <Content Update="@(Content)">
+            <Visible Condition="'%(NuGetItemType)' == 'Content'">false</Visible>
+        </Content>
+    </ItemGroup>
+
     <ItemGroup>
         <None Remove="Properties\sitemap.xml" />
         <None Remove="Resources\Email Templates\appointment-confirmation.html" />

@@ -1,16 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
-    <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
-    <ProjectReference Include="..\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj" />
-    <PackageReference Include="AutoMapper" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
+        <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
+        <ProjectReference Include="..\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj" />
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
+    </ItemGroup>
+
+    <!-- Hide content files from NuGet packaging (BuildHost-net472 and BuildHost-netcore folder shortcuts) -->
+    <ItemGroup>
+        <Content Update="@(Content)">
+            <Visible Condition="'%(NuGetItemType)' == 'Content'">false</Visible>
+        </Content>
+    </ItemGroup>
 </Project>

@@ -24,7 +24,6 @@
         <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
         <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(DotnetVersion)" />
         <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
-        <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="4.7.4" />
         <PackageVersion Include="MailKit" Version="4.9.0" />
         <PackageVersion Include="MimeKit" Version="4.9.0" />
         <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />

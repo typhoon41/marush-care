@@ -1,40 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="Aspire.AppHost.Sdk" Version="13.1.0" />
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <IsAspireHost>true</IsAspireHost>
-    <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
-    <SuppressCheckGrpcNetClientFactoryVersion>true</SuppressCheckGrpcNetClientFactoryVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-    <None Remove="packages.lock.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="packages.lock.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+    <Sdk Name="Aspire.AppHost.Sdk" Version="13.1.0" />
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <IsAspireHost>true</IsAspireHost>
+        <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
+        <SuppressCheckGrpcNetClientFactoryVersion>true</SuppressCheckGrpcNetClientFactoryVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Remove="appsettings.json" />
+        <None Remove="packages.lock.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="packages.lock.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" />
-    <PackageReference Include="Aspire.Hosting.SqlServer" />
-    <PackageReference Include="Aspire.Hosting.JavaScript" />
-    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost" />
+        <PackageReference Include="Aspire.Hosting.SqlServer" />
+        <PackageReference Include="Aspire.Hosting.JavaScript" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj" />
-    <ProjectReference Include="..\Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" IsAspireProjectResource="false" />
-  </ItemGroup>
+    <!-- Hide content files from NuGet packaging (BuildHost-net472 and BuildHost-netcore folder shortcuts) -->
+    <ItemGroup>
+        <Content Update="@(Content)">
+            <Visible Condition="'%(NuGetItemType)' == 'Content'">false</Visible>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Site\Gmf.Marush.Care.Api\Gmf.Marush.Care.Api.csproj" />
+        <ProjectReference Include="..\Site\Gmf.Marush.Care.App\Gmf.Marush.Care.App.esproj" />
+        <ProjectReference Include="..\Site\Gmf.Marush.Care.Infrastructure\Gmf.Marush.Care.Infrastructure.csproj" IsAspireProjectResource="false" />
+    </ItemGroup>
 </Project>
