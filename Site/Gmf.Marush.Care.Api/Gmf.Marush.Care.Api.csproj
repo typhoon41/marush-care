@@ -3,12 +3,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591;NU1702</NoWarn>
         <UserSecretsId>f97807d1-719f-4672-8f27-c10ee3945118</UserSecretsId>
-        <SpaRoot>..\Gmf.Marush.Care.App</SpaRoot>
-        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
         <EnableDefaultContentItems>false</EnableDefaultContentItems>
         <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
-        <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-        <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
     </PropertyGroup>
     <ItemGroup>
         <Content Include="appsettings.json">
@@ -49,7 +45,6 @@
         <PackageReference Include="AutoMapper" />
         <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

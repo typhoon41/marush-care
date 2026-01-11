@@ -17,7 +17,6 @@
         <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="7.0.3" />
         <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(DotnetVersion)" />
         <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(DotnetVersion)" />
-        <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="$(DotnetVersion)" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(DotnetVersion)" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(DotnetVersion)" />
         <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(DotnetVersion)" />
@@ -26,9 +25,15 @@
         <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
         <PackageVersion Include="MailKit" Version="4.14.1" />
         <PackageVersion Include="MimeKit" Version="4.14.0" />
+        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.14.0" />
         <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
         <PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.0" />
         <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+        <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.0" />
         <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
     </ItemGroup>

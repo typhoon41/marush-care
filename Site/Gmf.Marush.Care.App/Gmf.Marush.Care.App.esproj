@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.2752196">
   <PropertyGroup>
-    <StartupCommand>npm start</StartupCommand>
     <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\browser\sr</BuildOutputFolder>
     <BuildCommand>@echo angular build is done separately</BuildCommand>

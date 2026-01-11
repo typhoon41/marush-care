@@ -14,6 +14,7 @@ internal class SerilogLogger
 {
     private readonly string _logFilePath;
     private readonly LogEventLevel _defaultLogLevel;
+    private readonly bool _isDevelopment;
     private const string LogExtension = ".log";
     private const string AuditSuffix = $"audit-{LogExtension}";
 
@@ -21,7 +22,8 @@ internal class SerilogLogger
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        _defaultLogLevel = builder.Environment.IsDevelopment() ? LogEventLevel.Debug : LogEventLevel.Warning;
+        _isDevelopment = builder.Environment.IsDevelopment();
+        _defaultLogLevel = _isDevelopment ? LogEventLevel.Debug : LogEventLevel.Warning;
         _logFilePath = builder.Configuration.ResolveFrom<string>("LogPath");
     }
 
@@ -54,7 +56,20 @@ internal class SerilogLogger
     private string FilePath(bool isAudit) => isAudit ?
         _logFilePath.Replace(LogExtension, AuditSuffix, StringComparison.InvariantCultureIgnoreCase) : _logFilePath;
 
-    private LoggerConfiguration DefaultFileConfiguration(LoggerConfiguration configuration, bool forAudit = false) => configuration
-         .WriteTo.File(FilePath(forAudit), rollingInterval: RollingInterval.Day, shared: true, formatProvider: CultureInfo.InvariantCulture,
-             outputTemplate: "[{Timestamp:HH:mm:ss.FFF} {Level}]: {Message:lj}{NewLine}{Exception}");
+    private LoggerConfiguration DefaultFileConfiguration(LoggerConfiguration configuration, bool forAudit = false)
+    {
+        configuration.WriteTo.File(
+                FilePath(forAudit),
+                rollingInterval: RollingInterval.Day,
+                shared: true,
+                formatProvider: CultureInfo.InvariantCulture,
+                outputTemplate: "[{Timestamp:HH:mm:ss.FFF} {Level}]: {Message:lj}{NewLine}{Exception}");
+
+        if (_isDevelopment)
+        {
+            configuration.WriteTo.OpenTelemetry();
+        }
+
+        return configuration;
+    }
 }

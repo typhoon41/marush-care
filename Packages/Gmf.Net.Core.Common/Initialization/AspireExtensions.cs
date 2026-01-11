@@ -3,13 +3,29 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 namespace Gmf.Net.Core.Common.Initialization;
 
 internal static class AspireExtensions
 {
+    private const string HealthEndpointPath = "/health";
+    private const string AlivenessEndpointPath = "/alive";
+
     internal static void UseAspireServiceDiscovery(this IHostApplicationBuilder builder)
     {
+        builder.Services.AddOpenTelemetry()
+            .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddRuntimeInstrumentation())
+            .WithTracing(tracing => tracing.AddSource(builder.Environment.ApplicationName)
+                .AddAspNetCoreInstrumentation(tracing =>
+                    // Exclude health check requests from tracing
+                    tracing.Filter = context =>
+                        !context.Request.Path.StartsWithSegments(HealthEndpointPath, StringComparison.InvariantCultureIgnoreCase) &&
+                        !context.Request.Path.StartsWithSegments(AlivenessEndpointPath, StringComparison.InvariantCultureIgnoreCase))
+                .AddHttpClientInstrumentation());
         _ = builder.Services.AddHealthChecks().AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
         _ = builder.Services.AddServiceDiscovery();
 

@@ -4,6 +4,9 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
+    "start:aspire": "run-script-os",
+    "start:aspire:win32": "ng serve --configuration=development,sr --port %PORT%",
+    "start:aspire:default": "ng serve --configuration=development,sr --port $PORT",
     "start": "ng serve --configuration=development,sr",
     "start-en": "ng serve --configuration=development,en",
     "start-ru": "ng serve --configuration=development,ru",
@@ -42,6 +45,7 @@
     "@typhoon41/stylelint-config": "1.1.2",
     "copyfiles": "2.4.1",
     "json-sort-cli": "4.0.10",
+    "run-script-os": "1.1.6",
     "typescript": "~5.9.2"
   }
 }

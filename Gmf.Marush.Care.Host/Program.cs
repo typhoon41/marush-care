@@ -5,11 +5,13 @@ var sql = builder.AddSqlServer("sql")
                  .WithConnectionStringRedirection(connectionString)
                  .AddDatabase("MarushCare");
 
-var api = builder.AddProject<Projects.Gmf_Marush_Care_Api>("gmf-marush-care-api")
+var api = builder.AddProject<Projects.Gmf_Marush_Care_Api>("marush-care-api")
     .WithReference(sql);
-builder.AddJavaScriptApp("gmf-marush-care-app", "../Site/Gmf.Marush.Care.App", "start")
+builder.AddJavaScriptApp("marush-care-app", "../Site/Gmf.Marush.Care.App", "start:aspire")
     .WithReference(api)
     .WaitFor(api)
-    .WithHttpEndpoint(port: 4200, env: "PORT");
+    .WithHttpEndpoint(port: 4200, env: "PORT")
+    .WithExternalHttpEndpoints()
+    .WithExplicitStart();
 
 builder.Build().Run();
