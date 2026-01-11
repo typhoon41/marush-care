@@ -43,7 +43,8 @@ export class DatePicker extends Field {
                         this.resolvedControl?.setValue(formattedDate);
                     },
                     onRenderCell: ({ date, cellType }) => {
-                        if (cellType === 'day' && date.getDay() === 0 && !this.startDate()) {
+                        const saturday = 6, sunday = 0;
+                        if (cellType === 'day' && (date.getDay() === sunday || date.getDay() === saturday) && !this.startDate()) {
                             return {
                                 disabled: true
                             };
