@@ -5,8 +5,8 @@ import { ILanguage } from '@shared/models/language';
 import { Money } from '@shared/pipes/money';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>10.11. - 30.11.</strong></h3><p>Dermapen & voćne kisel.<br/><br/><s>9.500</s> 8.000</p>`,
-    $localize`:@@discounts.2:<h3><strong>10.11. - 30.11.</strong></h3><p>Voćne kisel. + neinv. mezoter. + masaža lica<br/><br/><s>10.000</s> 8.000</p>`
+    $localize`:@@discounts.1:<h3><strong>9.2. - 20.2.</strong></h3><p>Mikro dermo abrazija + hig. tretman<br/><br/><s>6.000</s> 4.500</p>`,
+    $localize`:@@discounts.2:<h3><strong>9.2. - 20.2.</strong></h3><p>Global lift + radio talasi<br/><br/><s>9.000</s> 7.000</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -23,13 +23,13 @@ export class HomePageMetadata extends PageMetadata {
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2025-11-10',
-            expires: '2025-11-30',
+            datePosted: '2026-02-13',
+            expires: '2026-02-20',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer(currentDiscounts[0], '2025-11-30', '9500', '8000'),
-                this.offer(currentDiscounts[1], '2025-11-30', '10000', '8000')
+                this.offer(currentDiscounts[0], '2026-02-20', '6000', '4500'),
+                this.offer(currentDiscounts[1], '2026-02-20', '9000', '7000')
             ]
         };
 
