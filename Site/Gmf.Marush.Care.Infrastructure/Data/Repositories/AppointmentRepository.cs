@@ -43,8 +43,8 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
     {
         var statusRequested = GetStatus();
         var oldCustomerEntity = GetFetchedEntity<CustomerDto>(x => x.Id == customer.Id)!;
-        var previouslyUsedEmail = GetFetchedEntity<CustomerEmailDto>(x => x.Email == customer.GivenMail);
-        var previouslyUsedPhone = GetFetchedEntity<CustomerPhoneDto>(x => x.PhoneNumber == customer.GivenPhone);
+        var previouslyUsedEmail = oldCustomerEntity.Emails.FirstOrDefault(e => e.Email == customer.GivenMail);
+        var previouslyUsedPhone = oldCustomerEntity.Phones.FirstOrDefault(p => p.PhoneNumber == customer.GivenPhone);
 
         return await Create(customer, appointment, statusRequested, oldCustomerEntity, previouslyUsedEmail, previouslyUsedPhone);
     }
