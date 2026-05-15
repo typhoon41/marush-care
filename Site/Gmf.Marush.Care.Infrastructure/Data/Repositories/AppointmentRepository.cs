@@ -8,6 +8,7 @@ using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
+
 public class AppointmentRepository(DbContext context) : IAppointmentRepository
 {
     private readonly DbSet<AppointmentDto> _appointments = context.Set<AppointmentDto>();
@@ -43,8 +44,10 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
     {
         var statusRequested = GetStatus();
         var oldCustomerEntity = GetFetchedEntity<CustomerDto>(x => x.Id == customer.Id)!;
-        var previouslyUsedEmail = oldCustomerEntity.Emails.FirstOrDefault(e => e.Email == customer.GivenMail);
-        var previouslyUsedPhone = oldCustomerEntity.Phones.FirstOrDefault(p => p.PhoneNumber == customer.GivenPhone);
+        var previouslyUsedEmail = oldCustomerEntity.Emails.FirstOrDefault(e => e.Email == customer.GivenMail)
+            ?? GetFetchedEntity<CustomerEmailDto>(e => e.CustomerId == customer.Id && e.Email == customer.GivenMail);
+        var previouslyUsedPhone = oldCustomerEntity.Phones.FirstOrDefault(p => p.PhoneNumber == customer.GivenPhone)
+            ?? GetFetchedEntity<CustomerPhoneDto>(p => p.CustomerId == customer.Id && p.PhoneNumber == customer.GivenPhone);
 
         return await Create(customer, appointment, statusRequested, oldCustomerEntity, previouslyUsedEmail, previouslyUsedPhone);
     }
