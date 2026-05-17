@@ -3,7 +3,6 @@
         <ProjectReference Include="..\..\Packages\Gmf.Net.Core.Common\Gmf.Net.Core.Common.csproj" />
         <ProjectReference Include="..\Gmf.Marush.Care.Domain\Gmf.Marush.Care.Domain.csproj" />
         <ProjectReference Include="..\Gmf.Marush.Care.Services\Gmf.Marush.Care.Services.csproj" />
-        <PackageReference Include="AutoMapper" />
         <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <PrivateAssets>all</PrivateAssets>

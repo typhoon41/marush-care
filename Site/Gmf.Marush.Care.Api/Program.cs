@@ -78,7 +78,6 @@ void ServiceCallback(WebApplicationBuilder builder)
     _ = builder.Services.AddCors();
     _ = builder.Services.AddScoped(provider => new ValidateCaptchaAttribute(provider.GetService<IHttpClientFactory>()!,
             provider.GetService<CaptchaSettings>()!, builder.Environment, provider.GetService<ILogger<ValidateCaptchaAttribute>>()!));
-    _ = builder.Services.AddAutoMapper(marushAssembly.Api);
     builder.AddAuthentication();
     _ = builder.Services.AddAuthorization();
     _ = builder.Services.AddMvc([], [new DateOnlyJsonConverter()], marushAssembly.Api);
