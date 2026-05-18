@@ -4,6 +4,7 @@
     "no-empty-source": null,
     "scss/declaration-nested-properties": "never",
     "scss/function-no-unknown": null,
-    "selector-max-combinators": 3
+    "selector-max-combinators": 3,
+    "unit-allowed-list": ["px", "%", "em", "rem", "vw", "deg", "ms", "s", "fr"]
   }
 }

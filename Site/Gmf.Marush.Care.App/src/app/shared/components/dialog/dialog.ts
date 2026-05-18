@@ -20,6 +20,10 @@ export class Dialog {
         this.dialog()?.nativeElement.showModal();
     };
 
+    readonly dismiss = () => {
+        this.dialog()?.nativeElement.close();
+    };
+
     protected readonly close = (event?: OptionalKeyboardEvent) => {
         if (isAction(event)) {
             this.dialog()?.nativeElement.close();

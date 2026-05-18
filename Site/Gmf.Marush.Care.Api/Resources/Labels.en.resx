@@ -177,4 +177,19 @@
   <data name="ValidationPhone" xml:space="preserve">
     <value>The phone must be in the format 06XXXXXXXXXXX or +XXXXXXXXXXXXXXXXXX</value>
   </data>
+  <data name="AppointmentRescheduledTitle" xml:space="preserve">
+    <value>Marush: Space of Care - your appointment has been rescheduled</value>
+  </data>
+  <data name="AppointmentRescheduledSubtitle" xml:space="preserve">
+    <value>Your appointment has been rescheduled!</value>
+  </data>
+  <data name="AppointmentRescheduledText" xml:space="preserve">
+    <value>Salon Marush: Space of Care has changed the time of your appointment. Please check the new time below.</value>
+  </data>
+  <data name="AppointmentRescheduledOldDate" xml:space="preserve">
+    <value>Old appointment:</value>
+  </data>
+  <data name="AppointmentRescheduledNewDate" xml:space="preserve">
+    <value>New appointment:</value>
+  </data>
 </root>

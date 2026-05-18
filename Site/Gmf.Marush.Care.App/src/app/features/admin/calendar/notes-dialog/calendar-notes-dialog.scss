@@ -1,0 +1,68 @@
+@use 'variables' as v;
+
+.notes-body {
+	min-width: 320px;
+}
+
+.notes-textarea {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 10px;
+	border: 1px solid v.$accent;
+	border-radius: 4px;
+	outline: none;
+	background: v.$body-color;
+	color: v.$font-color;
+	font-family: inherit;
+	font-size: 14px;
+	resize: vertical;
+}
+
+.notes-textarea:focus {
+	border-color: v.$font-color;
+}
+
+.dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	gap: 12px;
+}
+
+.btn-primary {
+	padding: 8px 20px;
+	border: 2px solid v.$font-color;
+	border-radius: 2px;
+	background: v.$font-color;
+	color: v.$body-color;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: 1px;
+	cursor: pointer;
+
+	&:disabled {
+		opacity: .5;
+		cursor: not-allowed;
+	}
+}
+
+.btn-danger {
+	padding: 8px 20px;
+	border: 2px solid v.$error-font-color;
+	border-radius: 2px;
+	background: transparent;
+	color: v.$error-font-color;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: 1px;
+	cursor: pointer;
+
+	&:disabled {
+		opacity: .5;
+		cursor: not-allowed;
+	}
+
+	&:hover {
+		background: v.$error;
+	}
+}

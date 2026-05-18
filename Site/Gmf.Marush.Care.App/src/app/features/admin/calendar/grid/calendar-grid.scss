@@ -1,0 +1,171 @@
+/* stylelint-disable plugin/file-max-lines */
+@use 'variables' as v;
+
+$time-col-width: 60px;
+$header-row-height: 60px;
+$slot-height: 36px;
+$slots: 44;
+$days: 7;
+
+.calendar-grid {
+	display: grid;
+	position: relative;
+	grid-template-columns: $time-col-width repeat($days, minmax(80px, 1fr));
+	grid-template-rows: $header-row-height repeat($slots, $slot-height);
+	min-width: 620px;
+	border: 1px solid v.$accent;
+	background: v.$body-color;
+	user-select: none;
+}
+
+.grid-corner {
+	grid-column: 1;
+	grid-row: 1;
+	border-right: 1px solid v.$accent;
+	border-bottom: 2px solid v.$accent;
+	background: v.$primary;
+}
+
+.day-header {
+	display: flex;
+	grid-row: 1;
+	flex-direction: column;
+	padding: 6px 8px;
+	border-right: 1px solid v.$accent;
+	border-bottom: 2px solid v.$accent;
+	background: v.$primary;
+	gap: 4px;
+
+	&:last-of-type {
+		border-right: none;
+	}
+}
+
+.day-info {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.day-label {
+	color: v.$font-color;
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: capitalize;
+}
+
+.day-total {
+	opacity: .7;
+	color: v.$font-color;
+	font-size: 11px;
+}
+
+.note-btn {
+	align-self: flex-end;
+	padding: 2px 6px;
+	border: 1px solid v.$accent;
+	border-radius: 2px;
+	background: transparent;
+	color: v.$font-color;
+	font-family: inherit;
+	font-size: 10px;
+	letter-spacing: .5px;
+	line-height: 1.4;
+	cursor: pointer;
+
+	&.has-note {
+		background: v.$accent;
+	}
+
+	&:hover {
+		background: v.$accent;
+	}
+}
+
+.time-label {
+	display: flex;
+	grid-column: 1;
+	align-items: flex-start;
+	justify-content: flex-end;
+	padding: 0 6px;
+	padding-top: 2px;
+	border-right: 1px solid v.$accent;
+	opacity: .55;
+	color: v.$font-color;
+	font-size: 10px;
+}
+
+.slot-cell {
+	box-sizing: border-box;
+	border-right: 1px solid v.$primary;
+	border-bottom: 1px solid v.$primary;
+	cursor: crosshair;
+	touch-action: none;
+
+	&.hour-boundary {
+		border-bottom-color: v.$accent;
+	}
+
+	&.drag-selected {
+		opacity: .4;
+		background: v.$accent;
+	}
+}
+
+.entry-cell, .public-appt-cell {
+	display: flex;
+	position: relative;
+	z-index: 2;
+	box-sizing: border-box;
+	flex-direction: column;
+	margin: 1px 2px;
+	padding: 3px 6px;
+	overflow: hidden;
+	border-radius: 3px;
+	gap: 1px;
+}
+
+.entry-cell {
+	border-left: 3px solid v.$font-color;
+	background: v.$accent;
+	color: v.$font-color;
+	cursor: pointer;
+
+	&:hover {
+		opacity: .9;
+	}
+}
+
+.public-appt-cell {
+	border-left: 3px solid v.$error-font-color;
+	background: v.$error;
+	color: v.$error-font-color;
+	cursor: default;
+}
+
+.entry-time {
+	opacity: .75;
+	font-size: 10px;
+	line-height: 1.2;
+}
+
+.entry-client {
+	overflow: hidden;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.entry-money {
+	font-size: 10px;
+	line-height: 1.2;
+}
+
+.entry-notes-dot {
+	opacity: .7;
+	font-size: 7px;
+	line-height: 1;
+}

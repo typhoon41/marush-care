@@ -1,0 +1,134 @@
+/* stylelint-disable plugin/file-max-lines */
+@use 'variables' as v;
+
+.entry-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	min-width: 320px;
+	max-width: 480px;
+}
+
+.form-row {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.field-label {
+	color: v.$font-color;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.time-row {
+	flex-direction: row;
+	gap: 12px;
+
+	.time-field {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 4px;
+	}
+}
+
+.date-input, .time-select, .search-input, .notes-textarea {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid v.$accent;
+	border-radius: 4px;
+	outline: none;
+	background: v.$body-color;
+	color: v.$font-color;
+	font-family: inherit;
+	font-size: 14px;
+
+	&:focus {
+		border-color: v.$font-color;
+	}
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.notes-textarea {
+	resize: vertical;
+}
+
+.search-results {
+	position: absolute;
+	z-index: 100;
+	top: 100%;
+	right: 0;
+	left: 0;
+	max-height: 200px;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+	border: 1px solid v.$accent;
+	border-top: none;
+	border-radius: 0 0 4px 4px;
+	background: v.$body-color;
+	list-style: none;
+}
+
+.search-result-item {
+	padding: 8px 12px;
+	font-size: 14px;
+	cursor: pointer;
+
+	&:hover {
+		background: v.$primary;
+	}
+}
+
+.reschedule-warning {
+	margin: 0;
+	padding: 8px 12px;
+	border-radius: 4px;
+	background: v.$error;
+	color: v.$error-font-color;
+	font-size: 13px;
+}
+
+.dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	gap: 12px;
+}
+
+.line-button {
+	padding: 8px 20px;
+	transition: background .2s, color .2s;
+	border: 2px solid v.$font-color;
+	border-radius: 2px;
+	background: transparent;
+	color: v.$font-color;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: 1px;
+	cursor: pointer;
+
+	&.primary {
+		background: v.$font-color;
+		color: v.$body-color;
+	}
+
+	&.danger {
+		border-color: v.$error-font-color;
+		color: v.$error-font-color;
+
+		&:hover {
+			background: v.$error;
+		}
+	}
+
+	&:disabled {
+		opacity: .5;
+		cursor: not-allowed;
+	}
+}

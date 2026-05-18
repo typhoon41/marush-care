@@ -1,0 +1,40 @@
+ 
+<div class="page-header">
+    <h1 class="page-title" i18n="@@calendar.title">Kalendar</h1>
+    <div class="week-nav">
+        <button class="nav-btn" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
+        <span class="week-label">{{ weekLabel() }}</span>
+        <button class="nav-btn" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
+        <button class="nav-btn today-btn" type="button" i18n="@@calendar.week.today"
+                (click)="goToThisWeek()">Ova nedelja</button>
+    </div>
+    <div class="header-meta">
+        @if (weeklyTotal() > 0) {
+            <span class="weekly-total">
+                {{ formatMoney(weeklyTotal()) }} RSD
+            </span>
+        }
+        <button class="nav-btn" type="button"
+                i18n="@@calendar.notes.weekly"
+                [class.has-note]="weeklyNote()"
+                (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
+    </div>
+</div>
+
+<div class="grid-scroll-wrapper">
+    <marush-calendar-grid
+        [days]="days()"
+        [entries]="entries()"
+        [publicAppointments]="publicAppointments()"
+        [notes]="notes()"
+        (entryClick)="onEntryClick($event)"
+        (dragComplete)="onDragComplete($event)"
+        (noteClick)="onNoteClick($event)" />
+</div>
+
+<marush-calendar-entry-dialog
+    (saved)="onSaved()"
+    (deleted)="onSaved()" />
+
+<marush-calendar-notes-dialog
+    (saved)="onSaved()" />

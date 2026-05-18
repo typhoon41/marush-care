@@ -1,0 +1,77 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
+<marush-dialog [title]="editingEntry() ? (editingEntry()!.clientName || 'Termin') : 'Novi termin'"
+               i18n-title="@@calendar.entry.new">
+    <form slot="body" class="entry-form" [formGroup]="form">
+        <div class="form-row">
+            <label for="cal-date" i18n="@@calendar.entry.date" class="field-label">Datum</label>
+            <input id="cal-date" type="date" formControlName="date" class="date-input" (change)="onTimeChange()" />
+        </div>
+        <div class="form-row time-row">
+            <div class="time-field">
+                <label for="cal-start" i18n="@@calendar.entry.start-time" class="field-label">Početak</label>
+                <select id="cal-start" formControlName="startTime" class="time-select" (change)="onTimeChange()">
+                    @for (opt of timeOptions; track opt.value) {
+                        <option [value]="opt.value">{{ opt.label }}</option>
+                    }
+                </select>
+            </div>
+            <div class="time-field">
+                <label for="cal-end" i18n="@@calendar.entry.end-time" class="field-label">Kraj</label>
+                <select id="cal-end" formControlName="endTime" class="time-select" (change)="onTimeChange()">
+                    @for (opt of timeOptions; track opt.value) {
+                        <option [value]="opt.value">{{ opt.label }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        @if (showRescheduleWarning()) {
+            <p class="reschedule-warning" i18n="@@calendar.entry.reschedule.warning">
+                Klijent će dobiti email obaveštenje o promeni termina.
+            </p>
+        }
+
+        <div class="form-row">
+            <label for="cal-search" i18n="@@calendar.entry.client.search" class="field-label">Pretraži klijenta</label>
+            <input id="cal-search" type="text" class="search-input" placeholder="Ime klijenta..."
+                   (input)="onSearchInput($event)" />
+            @if (clientSearchResults().length > 0) {
+                <ul class="search-results">
+                    @for (client of clientSearchResults(); track client.id) {
+                        <li class="search-result-item" (click)="selectClient(client)">{{ client.label }}</li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <marush-input name="clientName" type="text" placeholder="Ime klijenta"
+                      i18n-placeholder="@@calendar.entry.client.name" [form]="form"
+                      [validation]="['maxlength']" />
+        <marush-input name="clientPhone" type="tel" placeholder="Telefon klijenta"
+                      i18n-placeholder="@@calendar.entry.client.phone" [form]="form"
+                      [validation]="['maxlength']" />
+        <marush-input name="clientEmail" type="email" placeholder="Email klijenta"
+                      i18n-placeholder="@@calendar.entry.client.email" [form]="form"
+                      [validation]="['email', 'maxlength']" />
+        <marush-input name="money" type="number" placeholder="Iznos (RSD)"
+                      i18n-placeholder="@@calendar.entry.money" [form]="form"
+                      [validation]="[]" />
+        <div class="form-row">
+            <label for="cal-notes" i18n="@@calendar.entry.notes" class="field-label">Napomene</label>
+            <textarea id="cal-notes" formControlName="notes" class="notes-textarea" rows="3"></textarea>
+        </div>
+    </form>
+
+    <div slot="actions" class="dialog-actions">
+        @if (editingEntry()) {
+            <button type="button" class="line-button danger" i18n="@@calendar.entry.delete"
+                    [disabled]="isLoading()" (click)="onDelete()">
+                Obriši termin
+            </button>
+        }
+        <button type="button" class="line-button primary" i18n="@@calendar.entry.save"
+                [disabled]="isLoading()" (click)="onSave()">
+            Sačuvaj
+        </button>
+    </div>
+</marush-dialog>

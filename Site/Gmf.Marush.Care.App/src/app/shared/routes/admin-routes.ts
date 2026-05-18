@@ -11,6 +11,8 @@ export class AdminRoutes {
         lazyRoute('clients-create', 'admin/klijent',
             () => import('@features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated]),
         lazyRoute('clients-edit', 'admin/klijent/:id',
-            () => import('@features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated])
+            () => import('@features/admin/clients/edit/clients-edit-page').then(mod => mod.ClientsEditPage), [isUserAuthenticated]),
+        lazyRoute('calendar', $localize`:@@routes.admin.calendar:admin/kalendar`,
+            () => import('@features/admin/calendar/calendar-page').then(mod => mod.CalendarPage), [isUserAuthenticated])
     ];
 }

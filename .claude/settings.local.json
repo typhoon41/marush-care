@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git revert *)"
+      "Bash(git revert *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet ef *)",
+      "Bash(npm run *)",
+      "Bash(grep *)",
+      "Bash(Select-String -Pattern \"\\(calendar|error|warning\\)\")"
     ]
   }
 }
