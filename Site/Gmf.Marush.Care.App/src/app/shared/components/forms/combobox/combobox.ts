@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, input, model, viewChild, viewChildren } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';

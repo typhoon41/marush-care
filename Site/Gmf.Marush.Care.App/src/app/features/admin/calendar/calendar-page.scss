@@ -23,7 +23,7 @@
 	letter-spacing: 1px;
 }
 
-.week-nav {
+.week-navigation {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -37,7 +37,7 @@
 	text-align: center;
 }
 
-.nav-btn {
+.navigation-button {
 	padding: 6px 14px;
 	border: 1px solid v.$accent;
 	border-radius: 2px;
@@ -51,7 +51,7 @@
 		background: v.$primary;
 	}
 
-	&.today-btn {
+	&.today-button {
 		font-size: 12px;
 		letter-spacing: .5px;
 	}

@@ -1,14 +1,13 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
-<marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'"
-               i18n-title="@@calendar.entry.new">
+<marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'">
     <form slot="body" class="entry-form" [formGroup]="form">
         <div class="form-row">
-            <label for="cal-date" i18n="@@calendar.entry.date" class="field-label">Datum</label>
+            <label for="cal-date" class="field-label">Datum</label>
             <input id="cal-date" type="date" formControlName="date" class="date-input" (change)="onTimeChange()" />
         </div>
         <div class="form-row time-row">
             <div class="time-field">
-                <label for="cal-start" i18n="@@calendar.entry.start-time" class="field-label">Početak</label>
+                <label for="cal-start" class="field-label">Početak</label>
                 <select id="cal-start" formControlName="startTime" class="time-select" (change)="onTimeChange()">
                     @for (opt of timeOptions; track opt.value) {
                         <option [value]="opt.value">{{ opt.label }}</option>
@@ -16,7 +15,7 @@
                 </select>
             </div>
             <div class="time-field">
-                <label for="cal-end" i18n="@@calendar.entry.end-time" class="field-label">Kraj</label>
+                <label for="cal-end" class="field-label">Kraj</label>
                 <select id="cal-end" formControlName="endTime" class="time-select" (change)="onTimeChange()">
                     @for (opt of timeOptions; track opt.value) {
                         <option [value]="opt.value">{{ opt.label }}</option>
@@ -26,13 +25,13 @@
         </div>
 
         @if (showRescheduleWarning()) {
-            <p class="reschedule-warning" i18n="@@calendar.entry.reschedule.warning">
+            <p class="reschedule-warning">
                 Klijent će dobiti email obaveštenje o promeni termina.
             </p>
         }
 
         <div class="form-row">
-            <label for="cal-search" i18n="@@calendar.entry.client.search" class="field-label">Pretraži klijenta</label>
+            <label for="cal-search" class="field-label">Pretraži klijenta</label>
             <input id="cal-search" type="text" class="search-input" placeholder="Ime klijenta..."
                    (input)="onSearchInput($event)" />
             @if (clientSearchResults().length > 0) {
@@ -45,22 +44,22 @@
         </div>
 
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
-                      i18n-placeholder="@@calendar.entry.money" [form]="form"
+                      [form]="form"
                       [validation]="[]" />
         <div class="form-row">
-            <label for="cal-notes" i18n="@@calendar.entry.notes" class="field-label">Napomene</label>
+            <label for="cal-notes" class="field-label">Napomene</label>
             <textarea id="cal-notes" formControlName="notes" class="notes-textarea" rows="3"></textarea>
         </div>
     </form>
 
     <div slot="actions" class="dialog-actions">
         @if (editingEntry()) {
-            <button type="button" class="line-button danger" i18n="@@calendar.entry.delete"
+            <button type="button" class="line-button danger"
                     [disabled]="isLoading()" (click)="onDelete()">
                 Obriši termin
             </button>
         }
-        <button type="button" class="line-button primary" i18n="@@calendar.entry.save"
+        <button type="button" class="line-button primary"
                 [disabled]="isLoading()" (click)="onSave()">
             Sačuvaj
         </button>

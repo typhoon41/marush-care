@@ -3,7 +3,9 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { environment } from '@env';
 import { Authentication } from '@shared/services/authentication';
 import { lastValueFrom } from 'rxjs';
-import { CalendarEntryRequest, CalendarNoteRequest, CalendarWeek } from './models';
+import { CalendarEntryRequest } from './calendar-entry-request';
+import { CalendarNoteRequest } from './calendar-note-request';
+import { CalendarWeek } from './calendar-week';
 
 @Injectable({ providedIn: 'root' })
 export class Calendar {

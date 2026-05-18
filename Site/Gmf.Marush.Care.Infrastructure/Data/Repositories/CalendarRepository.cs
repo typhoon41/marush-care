@@ -17,18 +17,18 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     {
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
         var dtos = await _entries
-            .Include(e => e.Appointment)
-            .Where(e => e.Appointment.ScheduledFor >= weekStartDto && e.Appointment.ScheduledFor <= weekEndDto)
-            .OrderBy(e => e.Appointment.ScheduledFor)
+            .Include(entry => entry.Appointment)
+            .Where(entry => entry.Appointment.ScheduledFor >= weekStartDto && entry.Appointment.ScheduledFor <= weekEndDto)
+            .OrderBy(entry => entry.Appointment.ScheduledFor)
             .ToListAsync();
-        return dtos.Select(d => d.ToDomain());
+        return dtos.Select(entry => entry.ToDomain());
     }
 
     public async Task<CalendarEntry?> GetEntryByIdAsync(Guid id)
     {
         var dto = await _entries
-            .Include(e => e.Appointment)
-            .SingleOrDefaultAsync(e => e.Id == id);
+            .Include(entry => entry.Appointment)
+            .SingleOrDefaultAsync(entry => entry.Id == id);
         return dto?.ToDomain();
     }
 
@@ -46,8 +46,8 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task UpdateEntryAsync(Guid id, CalendarEntry entry)
     {
         var dto = await _entries
-            .Include(e => e.Appointment)
-            .SingleOrDefaultAsync(e => e.Id == id)
+            .Include(entry => entry.Appointment)
+            .SingleOrDefaultAsync(entry => entry.Id == id)
             ?? throw new InvalidOperationException($"Calendar entry {id} not found.");
 
         dto.Appointment.ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero);
@@ -67,7 +67,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task UpsertNoteAsync(CalendarNote note)
     {
         var existing = await _notes
-            .SingleOrDefaultAsync(n => n.Date == note.Date && n.NoteType == note.Type.Value);
+            .SingleOrDefaultAsync(noteDto => noteDto.Date == note.Date && noteDto.NoteType == note.Type.Value);
         if (existing is null)
         {
             _ = await _notes.AddAsync(CalendarNoteDto.FromDomain(note));
@@ -90,10 +90,10 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     {
         var weekEnd = weekStart.AddDays(6);
         var dtos = await _notes
-            .Where(n => n.Date >= weekStart && n.Date <= weekEnd ||
-                        n.Date == weekStart && n.NoteType == CalendarNoteType.Weekly.Value)
+            .Where(note => note.Date >= weekStart && note.Date <= weekEnd ||
+                           note.Date == weekStart && note.NoteType == CalendarNoteType.Weekly.Value)
             .ToListAsync();
-        return dtos.Select(d => d.ToDomain());
+        return dtos.Select(note => note.ToDomain());
     }
 
     public async Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeekAsync(DateOnly weekStart)
@@ -102,37 +102,37 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         var rejectedId = AppointmentStatus.Rejected.Value;
 
         var dtos = await context.Set<AppointmentDto>()
-            .Include(a => a.Customer)
-            .Include(a => a.Status)
-            .Where(a => a.ScheduledFor >= weekStartDto && a.ScheduledFor <= weekEndDto
-                        && a.Status.Id != rejectedId)
-            .OrderBy(a => a.ScheduledFor)
+            .Include(appointment => appointment.Customer)
+            .Include(appointment => appointment.Status)
+            .Where(appointment => appointment.ScheduledFor >= weekStartDto && appointment.ScheduledFor <= weekEndDto
+                                  && appointment.Status.Id != rejectedId)
+            .OrderBy(appointment => appointment.ScheduledFor)
             .ToListAsync();
 
-        return dtos.Select(a => new CalendarAppointment(
-            a.Id,
-            DateOnly.FromDateTime(a.ScheduledFor.DateTime),
-            TimeOnly.FromDateTime(a.ScheduledFor.DateTime),
-            a.ExpectedEndTime.HasValue ? TimeOnly.FromDateTime(a.ExpectedEndTime.Value.DateTime) : TimeOnly.FromDateTime(a.ScheduledFor.DateTime).AddHours(1),
-            $"{a.Customer.Name} {a.Customer.Surname}".Trim(),
-            a.Phone,
-            a.Email ?? string.Empty,
-            a.Status.Name,
-            a.Description));
+        return dtos.Select(appointment => new CalendarAppointment(
+            appointment.Id,
+            DateOnly.FromDateTime(appointment.ScheduledFor.DateTime),
+            TimeOnly.FromDateTime(appointment.ScheduledFor.DateTime),
+            appointment.ExpectedEndTime.HasValue ? TimeOnly.FromDateTime(appointment.ExpectedEndTime.Value.DateTime) : TimeOnly.FromDateTime(appointment.ScheduledFor.DateTime).AddHours(1),
+            $"{appointment.Customer.Name} {appointment.Customer.Surname}".Trim(),
+            appointment.Phone,
+            appointment.Email ?? string.Empty,
+            appointment.Status.Name,
+            appointment.Description));
     }
 
     public async Task<string?> GetAppointmentEmailAsync(Guid appointmentId) =>
         await context.Set<AppointmentDto>()
-            .Where(a => a.Id == appointmentId)
-            .Select(a => a.Email)
+            .Where(appointment => appointment.Id == appointmentId)
+            .Select(appointment => appointment.Email)
             .SingleOrDefaultAsync();
 
     private async Task<Guid> CreateAppointmentAsync(CalendarEntry entry)
     {
         var customer = await context.Set<CustomerDto>()
-            .Include(c => c.Phones)
-            .Include(c => c.Emails)
-            .SingleOrDefaultAsync(c => c.Id == entry.CustomerId)
+            .Include(customerDto => customerDto.Phones)
+            .Include(customerDto => customerDto.Emails)
+            .SingleOrDefaultAsync(customerDto => customerDto.Id == entry.CustomerId)
             ?? throw new InvalidOperationException("Customer not found.");
 
         var phone = customer.Phones.First();

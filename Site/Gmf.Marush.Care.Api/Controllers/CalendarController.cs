@@ -32,10 +32,10 @@ public class CalendarController(ICalendarRepository calendarRepository,
 
         var response = new CalendarWeekResponse(
             monday,
-            entries.Select(e => new CalendarEntryResponse(e.Id, e.AppointmentId!.Value, e.Date, e.StartTime, e.EndTime, e.Notes, e.Money)),
-            publicAppointments.Select(a => new PublicAppointmentResponse(a.Id, a.Date, a.StartTime, a.EndTime,
-                a.ClientName, a.Phone, a.Email, a.Status, a.Description)),
-            notes.Select(n => new CalendarNoteResponse(n.Id, n.Date, n.Type.DisplayName, n.Content)));
+            entries.Select(entry => new CalendarEntryResponse(entry.Id, entry.AppointmentId!.Value, entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money)),
+            publicAppointments.Select(appointment => new PublicAppointmentResponse(appointment.Id, appointment.Date, appointment.StartTime, appointment.EndTime,
+                appointment.ClientName, appointment.Phone, appointment.Email, appointment.Status, appointment.Description)),
+            notes.Select(note => new CalendarNoteResponse(note.Id, note.Date, note.Type.DisplayName, note.Content)));
 
         return Ok(response);
     }

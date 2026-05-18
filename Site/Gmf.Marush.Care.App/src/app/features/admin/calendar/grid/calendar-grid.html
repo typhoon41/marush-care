@@ -14,8 +14,7 @@
                     <span class="day-total">{{ formatMoney(day.dailyTotal) }} RSD</span>
                 }
             </div>
-            <button class="note-btn" type="button"
-                    i18n-title="@@calendar.notes.daily"
+            <button class="note-button" type="button"
                     title="Dnevne napomene"
                     [class.has-note]="getDailyNote(day.isoDate)"
                     (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
@@ -56,13 +55,13 @@
         </div>
     }
 
-    @for (appt of publicAppointments(); track appt.id) {
-        <div class="public-appt-cell"
-             [style.grid-column]="getDayColumn(appt.date)"
-             [style.grid-row]="getEntryGridRow(appt.startTime, appt.endTime)"
+    @for (appointment of publicAppointments(); track appointment.id) {
+        <div class="public-appointment-cell"
+             [style.grid-column]="getDayColumn(appointment.date)"
+             [style.grid-row]="getEntryGridRow(appointment.startTime, appointment.endTime)"
              [style.pointer-events]="isDragging() ? 'none' : 'auto'">
-            <div class="entry-time">{{ appt.startTime }}-{{ appt.endTime }}</div>
-            <div class="entry-client">{{ appt.clientName }}</div>
+            <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
+            <div class="entry-client">{{ appointment.clientName }}</div>
         </div>
     }
 </div>

@@ -4,22 +4,8 @@ import { Dialog } from '@shared/components/dialog/dialog';
 import { Input } from '@shared/components/forms/input/input';
 import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
-import { generateTimeOptions } from '../calendar-utils';
-import { CalendarEntry } from '../models';
-
-const MAX_SEARCH_RESULTS = 8;
-const MIN_SEARCH_LENGTH = 2;
-const EMPTY_ENTRY: Partial<CalendarEntry> = {};
-
-const buildFormValue = (date?: string, start?: string, end?: string, entry: Partial<CalendarEntry> = EMPTY_ENTRY) => ({
-    date: date ?? entry.date ?? '',
-    startTime: start ?? entry.startTime ?? '',
-    endTime: end ?? entry.endTime ?? '',
-    customerId: '',
-    appointmentId: entry.appointmentId ?? '',
-    notes: entry.notes ?? '',
-    money: entry.money ?? null
-});
+import { CalendarEntry } from '../calendar-entry';
+import { buildEntryRequest, buildFormValue, filterClientResults, MIN_SEARCH_LENGTH, TIME_OPTIONS } from './calendar-entry-dialog-helpers';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,19 +17,16 @@ const buildFormValue = (date?: string, start?: string, end?: string, entry: Part
 export class CalendarEntryDialog {
     readonly saved = output<void>();
     readonly deleted = output<void>();
-
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
     private readonly clientsService = inject(Clients);
-    private readonly fb = inject(FormBuilder);
-
-    protected readonly timeOptions = generateTimeOptions();
+    private readonly formBuilder = inject(FormBuilder);
+    protected readonly timeOptions = TIME_OPTIONS;
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly showRescheduleWarning = signal(false);
     protected readonly clientSearchResults = signal<{ id: string; label: string }[]>([]);
     protected readonly isLoading = signal(false);
-
-    protected readonly form: FormGroup = this.fb.nonNullable.group({
+    protected readonly form: FormGroup = this.formBuilder.nonNullable.group({
         date: ['', Validators.required],
         startTime: ['', Validators.required],
         endTime: ['', Validators.required],
@@ -63,7 +46,7 @@ export class CalendarEntryDialog {
     protected readonly onTimeChange = () => {
         const entry = this.editingEntry();
         if (!entry)
-{ return; }
+        { return; }
         const { date, startTime, endTime } = this.form.value;
         const changed = date !== entry.date || startTime !== entry.startTime || endTime !== entry.endTime;
         this.showRescheduleWarning.set(changed);
@@ -79,12 +62,7 @@ export class CalendarEntryDialog {
         resource.reload();
         if (resource.hasValue()) {
             const items = resource.value().items as { id: string; fullName: string }[];
-            this.clientSearchResults.set(
-                items
-                    .filter(client => client.fullName.toLowerCase().includes(value.toLowerCase()))
-                    .slice(0, MAX_SEARCH_RESULTS)
-                    .map(client => ({ id: client.id, label: client.fullName }))
-            );
+            this.clientSearchResults.set(filterClientResults(items, value));
         }
     };
 
@@ -100,20 +78,11 @@ export class CalendarEntryDialog {
         }
         this.isLoading.set(true);
         try {
-            const val = this.form.value;
-            const req = {
-                date: val.date as string,
-                startTime: val.startTime as string,
-                endTime: val.endTime as string,
-                customerId: val.customerId || undefined,
-                appointmentId: val.appointmentId || undefined,
-                notes: val.notes || undefined,
-                money: (val.money as number | null) ?? undefined
-            };
+            const request = buildEntryRequest(this.form.value);
             const entry = this.editingEntry();
             await (entry
-                ? this.calendarService.updateEntry(entry.id, req)
-                : this.calendarService.createEntry(req));
+                ? this.calendarService.updateEntry(entry.id, request)
+                : this.calendarService.createEntry(request));
             this.dialog().dismiss();
             this.saved.emit();
         } finally {
@@ -124,7 +93,7 @@ export class CalendarEntryDialog {
     protected readonly onDelete = async() => {
         const entry = this.editingEntry();
         if (!entry)
-{ return; }
+        { return; }
         this.isLoading.set(true);
         try {
             await this.calendarService.deleteEntry(entry.id);

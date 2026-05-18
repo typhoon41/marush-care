@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { CalendarEntry } from '../calendar-entry';
+import { CalendarNote } from '../calendar-note';
 import { formatMoney, slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-utils';
-import { CalendarEntry, CalendarNote, DayInfo, PublicAppointment } from '../models';
+import { DayInfo } from '../day-info';
+import { PublicAppointment } from '../public-appointment';
 
 const UNSET_SLOT = -1;
 const GRID_OFFSET = 2;
@@ -70,9 +73,9 @@ export class CalendarGrid {
         if (!this.dragAnchorDate())
 { return; }
         const el = document.elementFromPoint(event.clientX, event.clientY);
-        const slotStr = el?.getAttribute('data-slot');
-        if (slotStr !== null && slotStr !== undefined) {
-            this.dragCurrentSlot.set(parseInt(slotStr, 10));
+        const slotIndexString = el?.getAttribute('data-slot');
+        if (slotIndexString !== null && slotIndexString !== undefined) {
+            this.dragCurrentSlot.set(parseInt(slotIndexString, 10));
         }
     };
 

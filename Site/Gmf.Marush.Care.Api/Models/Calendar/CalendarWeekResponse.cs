@@ -4,25 +4,3 @@ public record CalendarWeekResponse(
     IEnumerable<CalendarEntryResponse> Entries,
     IEnumerable<PublicAppointmentResponse> PublicAppointments,
     IEnumerable<CalendarNoteResponse> Notes);
-
-public record CalendarEntryResponse(
-    Guid Id,
-    Guid AppointmentId,
-    DateOnly Date,
-    TimeOnly StartTime,
-    TimeOnly EndTime,
-    string? Notes,
-    decimal? Money);
-
-public record PublicAppointmentResponse(
-    Guid Id,
-    DateOnly Date,
-    TimeOnly StartTime,
-    TimeOnly EndTime,
-    string ClientName,
-    string Phone,
-    string Email,
-    string Status,
-    string? Description);
-
-public record CalendarNoteResponse(Guid Id, DateOnly Date, string NoteType, string Content);

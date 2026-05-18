@@ -61,7 +61,7 @@ $days: 7;
 	font-size: 11px;
 }
 
-.note-btn {
+.note-button {
 	align-self: flex-end;
 	padding: 2px 6px;
 	border: 1px solid v.$accent;
@@ -113,7 +113,7 @@ $days: 7;
 	}
 }
 
-.entry-cell, .public-appt-cell {
+.entry-cell, .public-appointment-cell {
 	display: flex;
 	position: relative;
 	z-index: 2;
@@ -137,7 +137,7 @@ $days: 7;
 	}
 }
 
-.public-appt-cell {
+.public-appointment-cell {
 	border-left: 3px solid v.$error-font-color;
 	background: v.$error;
 	color: v.$error-font-color;

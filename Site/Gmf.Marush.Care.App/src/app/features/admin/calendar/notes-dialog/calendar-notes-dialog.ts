@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild }
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { Calendar } from '../calendar';
-import { CalendarNote } from '../models';
+import { CalendarNote } from '../calendar-note';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,13 +16,13 @@ export class CalendarNotesDialog {
 
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
-    private readonly fb = inject(FormBuilder);
+    private readonly formBuilder = inject(FormBuilder);
 
     protected readonly noteType = signal<'Daily' | 'Weekly'>('Daily');
     protected readonly noteDate = signal('');
     protected readonly existingNoteId = signal<string | null>(null);
     protected readonly isLoading = signal(false);
-    protected readonly content = this.fb.nonNullable.control('');
+    protected readonly content = this.formBuilder.nonNullable.control('');
 
     readonly open = (date: string, type: 'Daily' | 'Weekly', existingNote?: CalendarNote) => {
         this.noteDate.set(date);
@@ -33,9 +33,7 @@ export class CalendarNotesDialog {
     };
 
     protected readonly titleLabel = () =>
-        this.noteType() === 'Daily'
-            ? $localize`:@@calendar.notes.daily:Dnevne napomene`
-            : $localize`:@@calendar.notes.weekly:Nedeljne napomene`;
+        this.noteType() === 'Daily' ? 'Dnevne napomene' : 'Nedeljne napomene';
 
     protected readonly onSave = async() => {
         this.isLoading.set(true);

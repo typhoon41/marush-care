@@ -1,11 +1,11 @@
  
 <div class="page-header">
-    <h1 class="page-title" i18n="@@calendar.title">Kalendar</h1>
-    <div class="week-nav">
-        <button class="nav-btn" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
+    <h1 class="page-title">Kalendar</h1>
+    <div class="week-navigation">
+        <button class="navigation-button" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
         <span class="week-label">{{ weekLabel() }}</span>
-        <button class="nav-btn" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
-        <button class="nav-btn today-btn" type="button" i18n="@@calendar.week.today"
+        <button class="navigation-button" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
+        <button class="navigation-button today-button" type="button"
                 (click)="goToThisWeek()">Ova nedelja</button>
     </div>
     <div class="header-meta">
@@ -14,8 +14,7 @@
                 {{ formatMoney(weeklyTotal()) }} RSD
             </span>
         }
-        <button class="nav-btn" type="button"
-                i18n="@@calendar.notes.weekly"
+        <button class="navigation-button" type="button"
                 [class.has-note]="weeklyNote()"
                 (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
     </div>

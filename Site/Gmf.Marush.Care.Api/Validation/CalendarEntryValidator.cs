@@ -16,9 +16,9 @@ public class CalendarEntryValidator : AbstractValidator<CalendarEntryRequest>
         _ = RuleFor(x => x.EndTime)
             .Must(t => t > CalendarStart && t <= CalendarEnd)
             .WithMessage("End time must be between 11:00 and 22:00.")
-            .Must((req, end) => end > req.StartTime)
+            .Must((request, end) => end > request.StartTime)
             .WithMessage("End time must be after start time.")
-            .Must((req, end) => (end - req.StartTime).TotalMinutes % 15 == 0)
+            .Must((request, end) => (end - request.StartTime).TotalMinutes % 15 == 0)
             .WithMessage("Duration must be a multiple of 15 minutes.");
         _ = RuleFor(x => x.StartTime)
             .Must(t => t.Minute % 15 == 0)

@@ -73,6 +73,24 @@ DI uses **Autofac**; JWT auth + Swagger configured in `Site/Gmf.Marush.Care.Api/
 
 ---
 
+## Universal Conventions
+
+### No Abbreviations
+
+Never use abbreviations anywhere — HTML, SCSS/CSS, TypeScript, C#, file names, CSS classes, variables, properties, method names, parameters. Write the full word every time.
+
+Examples of what not to do: `btn`, `img`, `col`, `dir`, `repo`, `svc`, `msg`, `err`, `val`, `req`, `res`, `cnt`, `idx`, `el`, `evt`, `cfg`, `ctx`, `mgr`, `dto` (write `DataTransferObject` or a domain-specific name instead). If a name needs an abbreviation to be readable, the name is wrong — rename the concept.
+
+The only accepted abbreviations are industry-standard acronyms that are universally understood as-is: `Id`, `Url`, `Http`, `Api`, `Dto` (as a suffix on infrastructure persistence records only — see Persistence DTO Layer).
+
+### One File per Type
+
+Each type (class, record, interface, enum) lives in its own file. File name must match the type name exactly.
+
+This applies across all layers and both stacks: C# (`.cs`), TypeScript (`.ts`), and Angular components (`.ts` + `.html` + `.scss` trio). Do not group multiple types into one file even if they are small or closely related.
+
+---
+
 ## Backend Conventions
 
 ### DI: Autofac Modules
@@ -158,6 +176,8 @@ Use `NonNullableFormBuilder` with `updateOn: 'blur'`. Form components in `src/ap
 ### i18n
 
 Use `` $localize`:@@key.name:default string` `` throughout the codebase. After adding new keys, run `npm run translate` (extracts keys and sorts locale files), then add translations to `src/locale/messages.en.json` and `src/locale/messages.ru.json`.
+
+**Admin modules are exempt from i18n.** Any component under `src/app/features/admin/` must not use `$localize`, `i18n-*` attributes, or `@@` translation keys. Use plain string literals directly in templates and code.
 
 ### Dependencies
 

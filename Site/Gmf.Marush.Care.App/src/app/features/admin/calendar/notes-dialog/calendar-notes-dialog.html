@@ -1,15 +1,15 @@
 <marush-dialog [title]="titleLabel()">
     <div slot="body" class="notes-body">
-        <textarea class="notes-textarea" rows="6" i18n-placeholder="@@calendar.notes.placeholder"
+        <textarea class="notes-textarea" rows="6"
                   placeholder="Unesite napomene..."
                   [formControl]="content"></textarea>
     </div>
     <div slot="actions" class="dialog-actions">
         @if (existingNoteId()) {
-            <button type="button" class="btn-danger" [disabled]="isLoading()"
+            <button type="button" class="button-danger" [disabled]="isLoading()"
                     (click)="onDelete()">Obriši</button>
         }
-        <button type="button" class="btn-primary" i18n="@@calendar.entry.save"
+        <button type="button" class="button-primary"
                 [disabled]="isLoading()" (click)="onSave()">Sačuvaj</button>
     </div>
 </marush-dialog>

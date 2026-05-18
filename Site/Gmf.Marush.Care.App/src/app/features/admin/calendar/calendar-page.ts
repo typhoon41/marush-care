@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Calendar } from './calendar';
+import { CalendarEntry } from './calendar-entry';
 import { addDays, DAYS_IN_WEEK, formatMoney, mondayOf } from './calendar-utils';
+import { DayInfo } from './day-info';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
 import { CalendarGrid } from './grid/calendar-grid';
-import { CalendarEntry, DayInfo } from './models';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
 
 const WEEK_LAST_DAY_OFFSET = DAYS_IN_WEEK - 1;
@@ -56,15 +57,15 @@ export class CalendarPage {
     protected readonly weekLabel = computed(() => {
         const start = this.weekStart();
         const end = addDays(start, WEEK_LAST_DAY_OFFSET);
-        const fmt = (iso: string) =>
+        const formatDate = (iso: string) =>
             new Date(`${iso}T12:00:00`).toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'short' });
-        return `${fmt(start)} – ${fmt(end)}`;
+        return `${formatDate(start)} – ${formatDate(end)}`;
     });
 
     protected readonly formatMoney = formatMoney;
 
     constructor(title: Title) {
-        title.setTitle($localize`:@@calendar.title:Kalendar`);
+        title.setTitle('Kalendar');
     }
 
     protected readonly goToPrevWeek = () => this.weekStart.set(addDays(this.weekStart(), -DAYS_IN_WEEK));

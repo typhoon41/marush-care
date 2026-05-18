@@ -11,6 +11,7 @@ export default defineConfig([
         "processor": angular.processInlineTemplates,
         "files": ["src/**/*.ts"],
         "rules": {
+            "max-lines": ["error", { "max": 100, "skipBlankLines": true, "skipComments": true }],
             "@angular-eslint/component-class-suffix": "off",
             "@angular-eslint/component-selector": [
                 "error",
