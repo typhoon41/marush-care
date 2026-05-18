@@ -16,13 +16,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    ClientName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    ClientPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    ClientEmail = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AppointmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Money = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: true)
                 },
@@ -30,11 +24,11 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CalendarEntries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CalendarEntries_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        name: "FK_CalendarEntries_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,9 +46,10 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CalendarEntries_CustomerId",
+                name: "IX_CalendarEntries_AppointmentId",
                 table: "CalendarEntries",
-                column: "CustomerId");
+                column: "AppointmentId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CalendarNotes_Date_NoteType",

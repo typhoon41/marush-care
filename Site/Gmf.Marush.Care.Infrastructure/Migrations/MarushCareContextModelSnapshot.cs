@@ -110,26 +110,8 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ClientEmail")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ClientPhone")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid?>("CustomerId")
+                    b.Property<Guid>("AppointmentId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time");
 
                     b.Property<decimal?>("Money")
                         .HasPrecision(10, 2)
@@ -139,12 +121,10 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
 
                     b.ToTable("CalendarEntries", (string)null);
                 });
@@ -329,12 +309,13 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarEntryDto", b =>
                 {
-                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerDto", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", "Appointment")
+                        .WithOne()
+                        .HasForeignKey("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarEntryDto", "AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerEmailDto", b =>

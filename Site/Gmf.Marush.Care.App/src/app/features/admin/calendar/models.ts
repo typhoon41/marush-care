@@ -1,12 +1,9 @@
 export interface CalendarEntry {
     id: string;
+    appointmentId: string;
     date: string;
     startTime: string;
     endTime: string;
-    clientName?: string;
-    clientPhone?: string;
-    clientEmail?: string;
-    customerId?: string;
     notes?: string;
     money?: number;
 }
@@ -41,10 +38,8 @@ export interface CalendarEntryRequest {
     date: string;
     startTime: string;
     endTime: string;
-    clientName?: string;
-    clientPhone?: string;
-    clientEmail?: string;
     customerId?: string;
+    appointmentId?: string;
     notes?: string;
     money?: number;
 }

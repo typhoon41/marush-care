@@ -12,4 +12,5 @@ public interface ICalendarRepository
     Task<bool> DeleteNoteAsync(Guid id);
     Task<IEnumerable<CalendarNote>> GetNotesForWeekAsync(DateOnly weekStart);
     Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeekAsync(DateOnly weekStart);
+    Task<string?> GetAppointmentEmailAsync(Guid appointmentId);
 }

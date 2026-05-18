@@ -23,9 +23,7 @@ public class CalendarEntryValidator : AbstractValidator<CalendarEntryRequest>
         _ = RuleFor(x => x.StartTime)
             .Must(t => t.Minute % 15 == 0)
             .WithMessage("Start time must align to a 15-minute boundary.");
-        _ = RuleFor(x => x.ClientName).MaximumLength(200);
-        _ = RuleFor(x => x.ClientPhone).MaximumLength(20);
-        _ = RuleFor(x => x.ClientEmail).EmailAddress().When(x => !string.IsNullOrWhiteSpace(x.ClientEmail)).MaximumLength(200);
+        _ = RuleFor(x => x.CustomerId).NotEmpty().When(x => !x.AppointmentId.HasValue);
         _ = RuleFor(x => x.Notes).MaximumLength(1000);
         _ = RuleFor(x => x.Money).GreaterThanOrEqualTo(0).When(x => x.Money.HasValue);
     }

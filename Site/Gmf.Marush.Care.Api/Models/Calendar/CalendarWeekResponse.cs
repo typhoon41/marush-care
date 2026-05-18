@@ -7,13 +7,10 @@ public record CalendarWeekResponse(
 
 public record CalendarEntryResponse(
     Guid Id,
+    Guid AppointmentId,
     DateOnly Date,
     TimeOnly StartTime,
     TimeOnly EndTime,
-    string? ClientName,
-    string? ClientPhone,
-    string? ClientEmail,
-    Guid? CustomerId,
     string? Notes,
     decimal? Money);
 

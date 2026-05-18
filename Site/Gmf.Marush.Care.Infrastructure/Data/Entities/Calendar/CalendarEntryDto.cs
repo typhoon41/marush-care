@@ -1,34 +1,24 @@
 using Gmf.DDD.Common.Persistance;
 using Gmf.Marush.Care.Domain.Models;
-using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar;
 public record CalendarEntryDto : EntityDto
 {
-    public DateOnly Date { get; set; }
-    public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set; }
-    public string? ClientName { get; set; }
-    public string? ClientPhone { get; set; }
-    public string? ClientEmail { get; set; }
-    public Guid? CustomerId { get; set; }
-    public CustomerDto? Customer { get; set; }
+    public Guid AppointmentId { get; set; }
+    public AppointmentDto Appointment { get; set; } = new();
     public string? Notes { get; set; }
     public decimal? Money { get; set; }
 
-    public CalendarEntry ToDomain() => new(Id, Date, StartTime, EndTime,
-        ClientName, ClientPhone, ClientEmail, CustomerId, Notes, Money);
-
-    public static CalendarEntryDto FromDomain(CalendarEntry entry) => new()
-    {
-        Date = entry.Date,
-        StartTime = entry.StartTime,
-        EndTime = entry.EndTime,
-        ClientName = entry.ClientName,
-        ClientPhone = entry.ClientPhone,
-        ClientEmail = entry.ClientEmail,
-        CustomerId = entry.CustomerId,
-        Notes = entry.Notes,
-        Money = entry.Money
-    };
+    public CalendarEntry ToDomain() => new(
+        Id,
+        AppointmentId,
+        Appointment.CustomerId,
+        DateOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
+        TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
+        Appointment.ExpectedEndTime.HasValue
+            ? TimeOnly.FromDateTime(Appointment.ExpectedEndTime.Value.DateTime)
+            : TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime).AddHours(1),
+        Notes,
+        Money);
 }

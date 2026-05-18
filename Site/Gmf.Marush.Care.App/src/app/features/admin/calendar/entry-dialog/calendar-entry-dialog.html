@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
-<marush-dialog [title]="editingEntry() ? (editingEntry()!.clientName || 'Termin') : 'Novi termin'"
+<marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'"
                i18n-title="@@calendar.entry.new">
     <form slot="body" class="entry-form" [formGroup]="form">
         <div class="form-row">
@@ -44,15 +44,6 @@
             }
         </div>
 
-        <marush-input name="clientName" type="text" placeholder="Ime klijenta"
-                      i18n-placeholder="@@calendar.entry.client.name" [form]="form"
-                      [validation]="['maxlength']" />
-        <marush-input name="clientPhone" type="tel" placeholder="Telefon klijenta"
-                      i18n-placeholder="@@calendar.entry.client.phone" [form]="form"
-                      [validation]="['maxlength']" />
-        <marush-input name="clientEmail" type="email" placeholder="Email klijenta"
-                      i18n-placeholder="@@calendar.entry.client.email" [form]="form"
-                      [validation]="['email', 'maxlength']" />
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
                       i18n-placeholder="@@calendar.entry.money" [form]="form"
                       [validation]="[]" />

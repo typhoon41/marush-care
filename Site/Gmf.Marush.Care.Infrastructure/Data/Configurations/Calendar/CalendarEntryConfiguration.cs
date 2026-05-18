@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,20 +13,14 @@ public class CalendarEntryConfiguration : IEntityTypeConfiguration<CalendarEntry
     {
         _ = builder.ToTable("CalendarEntries");
         _ = builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        _ = builder.Property(x => x.Date).IsRequired();
-        _ = builder.Property(x => x.StartTime).IsRequired();
-        _ = builder.Property(x => x.EndTime).IsRequired();
-        _ = builder.Property(x => x.ClientName).HasMaxLength(200);
-        _ = builder.Property(x => x.ClientPhone).HasMaxLength(20);
-        _ = builder.Property(x => x.ClientEmail).HasMaxLength(200);
         _ = builder.Property(x => x.Notes).HasMaxLength(1000);
         _ = builder.Property(x => x.Money).HasPrecision(10, 2);
-        _ = builder.HasOne(x => x.Customer)
-            .WithMany()
-            .HasForeignKey(x => x.CustomerId)
-            .OnDelete(DeleteBehavior.SetNull)
-            .IsRequired(false);
-        _ = builder.Navigation(x => x.Customer)
+        _ = builder.HasOne<AppointmentDto>(x => x.Appointment)
+            .WithOne()
+            .HasForeignKey<CalendarEntryDto>(x => x.AppointmentId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
+        _ = builder.Navigation(x => x.Appointment)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
     }
 }

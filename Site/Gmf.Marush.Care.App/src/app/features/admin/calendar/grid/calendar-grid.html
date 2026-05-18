@@ -47,9 +47,6 @@
              [style.pointer-events]="isDragging() ? 'none' : 'auto'"
              (click)="entryClick.emit(entry)">
             <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
-            @if (entry.clientName) {
-                <div class="entry-client">{{ entry.clientName }}</div>
-            }
             @if (entry.money) {
                 <div class="entry-money">{{ formatMoney(entry.money) }} RSD</div>
             }

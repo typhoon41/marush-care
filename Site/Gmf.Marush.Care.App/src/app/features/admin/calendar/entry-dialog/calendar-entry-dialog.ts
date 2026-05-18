@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
@@ -16,10 +15,8 @@ const buildFormValue = (date?: string, start?: string, end?: string, entry: Part
     date: date ?? entry.date ?? '',
     startTime: start ?? entry.startTime ?? '',
     endTime: end ?? entry.endTime ?? '',
-    clientName: entry.clientName ?? '',
-    clientPhone: entry.clientPhone ?? '',
-    clientEmail: entry.clientEmail ?? '',
-    customerId: entry.customerId ?? '',
+    customerId: '',
+    appointmentId: entry.appointmentId ?? '',
     notes: entry.notes ?? '',
     money: entry.money ?? null
 });
@@ -50,10 +47,8 @@ export class CalendarEntryDialog {
         date: ['', Validators.required],
         startTime: ['', Validators.required],
         endTime: ['', Validators.required],
-        clientName: [''],
-        clientPhone: [''],
-        clientEmail: [''],
         customerId: [''],
+        appointmentId: [''],
         notes: [''],
         money: [null as number | null]
     }, { updateOn: 'blur' });
@@ -69,9 +64,9 @@ export class CalendarEntryDialog {
         const entry = this.editingEntry();
         if (!entry)
 { return; }
-        const { date, startTime, endTime, clientEmail } = this.form.value;
+        const { date, startTime, endTime } = this.form.value;
         const changed = date !== entry.date || startTime !== entry.startTime || endTime !== entry.endTime;
-        this.showRescheduleWarning.set(changed && !!(entry.clientEmail || clientEmail));
+        this.showRescheduleWarning.set(changed);
     };
 
     protected readonly onSearchInput = (event: Event) => {
@@ -94,7 +89,7 @@ export class CalendarEntryDialog {
     };
 
     protected readonly selectClient = (client: { id: string; label: string }) => {
-        this.form.patchValue({ customerId: client.id, clientName: client.label });
+        this.form.patchValue({ customerId: client.id });
         this.clientSearchResults.set([]);
     };
 
@@ -110,10 +105,8 @@ export class CalendarEntryDialog {
                 date: val.date as string,
                 startTime: val.startTime as string,
                 endTime: val.endTime as string,
-                clientName: val.clientName || undefined,
-                clientPhone: val.clientPhone || undefined,
-                clientEmail: val.clientEmail || undefined,
                 customerId: val.customerId || undefined,
+                appointmentId: val.appointmentId || undefined,
                 notes: val.notes || undefined,
                 money: (val.money as number | null) ?? undefined
             };

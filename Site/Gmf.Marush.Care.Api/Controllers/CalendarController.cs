@@ -32,8 +32,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
 
         var response = new CalendarWeekResponse(
             monday,
-            entries.Select(e => new CalendarEntryResponse(e.Id, e.Date, e.StartTime, e.EndTime,
-                e.ClientName, e.ClientPhone, e.ClientEmail, e.CustomerId, e.Notes, e.Money)),
+            entries.Select(e => new CalendarEntryResponse(e.Id, e.AppointmentId!.Value, e.Date, e.StartTime, e.EndTime, e.Notes, e.Money)),
             publicAppointments.Select(a => new PublicAppointmentResponse(a.Id, a.Date, a.StartTime, a.EndTime,
                 a.ClientName, a.Phone, a.Email, a.Status, a.Description)),
             notes.Select(n => new CalendarNoteResponse(n.Id, n.Date, n.Type.DisplayName, n.Content)));
@@ -66,12 +65,15 @@ public class CalendarController(ICalendarRepository calendarRepository,
             || existing.StartTime != request.StartTime
             || existing.EndTime != request.EndTime;
 
-        var updated = MapToDomain(id, request);
-        await calendarRepository.UpdateEntryAsync(id, updated);
+        await calendarRepository.UpdateEntryAsync(id, MapToDomain(id, request));
 
-        if (timeChanged && !string.IsNullOrWhiteSpace(existing.ClientEmail))
+        if (timeChanged)
         {
-            await SendRescheduleEmail(existing, request);
+            var email = await calendarRepository.GetAppointmentEmailAsync(existing.AppointmentId!.Value);
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                await SendRescheduleEmail(existing, request, email);
+            }
         }
 
         return NoContent();
@@ -110,15 +112,15 @@ public class CalendarController(ICalendarRepository calendarRepository,
     }
 
     private static CalendarEntry MapToDomain(Guid id, CalendarEntryRequest request) =>
-        new(id, request.Date, request.StartTime, request.EndTime,
-            request.ClientName, request.ClientPhone, request.ClientEmail,
-            request.CustomerId, request.Notes, request.Money);
+        new(id, request.AppointmentId, request.CustomerId ?? Guid.Empty,
+            request.Date, request.StartTime, request.EndTime,
+            request.Notes, request.Money);
 
-    private async Task SendRescheduleEmail(CalendarEntry old, CalendarEntryRequest updated)
+    private async Task SendRescheduleEmail(CalendarEntry old, CalendarEntryRequest updated, string email)
     {
         var oldDateTime = $"{old.Date:dd.MM.yyyy} {old.StartTime:HH:mm}–{old.EndTime:HH:mm}";
         var newDateTime = $"{updated.Date:dd.MM.yyyy} {updated.StartTime:HH:mm}–{updated.EndTime:HH:mm}";
         var template = new AppointmentRescheduledTemplate(smtpSettings.Username, oldDateTime, newDateTime);
-        await emailService.Send(old.ClientEmail!, template, Labels.AppointmentRescheduledTitle);
+        await emailService.Send(email, template, Labels.AppointmentRescheduledTitle);
     }
 }
