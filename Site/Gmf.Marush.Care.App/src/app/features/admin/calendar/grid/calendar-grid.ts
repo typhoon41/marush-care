@@ -8,7 +8,6 @@ import { DayInfo } from '../day-info';
 import { PublicAppointment } from '../public-appointment';
 
 const unsetSlot = -1;
-const gridOffset = 2;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,17 +56,20 @@ export class CalendarGrid {
         return slot >= range.minSlot && slot <= range.maxSlot;
     };
 
-    protected readonly getDayColumn = (isoDate: string): number =>
-        this.days().findIndex(day => day.isoDate === isoDate) + gridOffset;
-
-    protected readonly getEntryRowStart = (startTime: string): number =>
-        timeToSlotIndex(startTime) + gridOffset;
-
-    protected readonly getEntryRowEnd = (endTime: string): number =>
-        timeToSlotIndex(endTime) + gridOffset;
-
     protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
         this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
+
+    protected readonly entriesForDay = (isoDate: string): CalendarEntry[] =>
+        this.entries().filter(entry => entry.date === isoDate);
+
+    protected readonly appointmentsForDay = (isoDate: string): PublicAppointment[] =>
+        this.publicAppointments().filter(appointment => appointment.date === isoDate);
+
+    protected readonly getEntryTopSlot = (startTime: string): number =>
+        timeToSlotIndex(startTime);
+
+    protected readonly getEntrySpan = (startTime: string, endTime: string): number =>
+        timeToSlotIndex(endTime) - timeToSlotIndex(startTime);
 
     protected readonly onPointerDown = (event: PointerEvent, date: string, slot: number) => {
         event.preventDefault();

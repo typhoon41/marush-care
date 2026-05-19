@@ -5,56 +5,61 @@
      (pointerup)="onPointerUp()"
      (pointercancel)="cancelDrag()">
 
-    <div class="grid-corner"></div>
-
-    @for (day of days(); track day.isoDate) {
-        <div [class]="'day-header day-column-' + ($index + 2)">
-            <div class="day-info">
-                <span class="day-label">{{ day.label }}</span>
-                @if (day.dailyTotal > 0) {
-                    <span class="day-total">{{ formatMoney(day.dailyTotal) }} RSD</span>
-                }
-            </div>
-            <button class="note-button" type="button"
-                    title="Dnevne napomene"
-                    [class.has-note]="getDailyNote(day.isoDate)"
-                    (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
-        </div>
-    }
-
-    @for (slot of timeSlots; track slot.index) {
-        <div [class]="'time-label grid-row-' + (slot.index + 2)">{{ slot.label }}</div>
-    }
-
-    @for (day of days(); track day.isoDate; let di = $index) {
-        @for (slot of timeSlots; track slot.index) {
-            <div [class]="'slot-cell day-column-' + (di + 2) + ' grid-row-' + (slot.index + 2)"
-                 [class.drag-selected]="isSlotDragSelected(day.isoDate, slot.index)"
-                 [class.hour-boundary]="slot.isHour"
-                 [attr.data-date]="day.isoDate"
-                 [attr.data-slot]="slot.index"
-                 (pointerdown)="onPointerDown($event, day.isoDate, slot.index)">
+    <div class="calendar-header">
+        <div class="grid-corner"></div>
+        @for (day of days(); track day.isoDate) {
+            <div class="day-header">
+                <div class="day-info">
+                    <span class="day-label">{{ day.label }}</span>
+                    @if (day.dailyTotal > 0) {
+                        <span class="day-total">{{ formatMoney(day.dailyTotal) }} RSD</span>
+                    }
+                </div>
+                <button class="note-button" type="button"
+                        title="Dnevne napomene"
+                        [class.has-note]="getDailyNote(day.isoDate)"
+                        (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
             </div>
         }
-    }
+    </div>
 
-    @for (entry of entries(); track entry.id) {
-        <div [class]="'entry-cell day-column-' + getDayColumn(entry.date) + ' entry-row-start-' + getEntryRowStart(entry.startTime) + ' entry-row-end-' + getEntryRowEnd(entry.endTime)"
-             (click)="entryClick.emit(entry)">
-            <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
-            @if (entry.money) {
-                <div class="entry-money">{{ formatMoney(entry.money) }} RSD</div>
-            }
-            @if (entry.notes) {
-                <div class="entry-notes-dot" [title]="entry.notes">&#9679;</div>
+    <div class="calendar-body">
+        <div class="time-column">
+            @for (slot of timeSlots; track slot.index) {
+                <div class="time-label">{{ slot.label }}</div>
             }
         </div>
-    }
 
-    @for (appointment of publicAppointments(); track appointment.id) {
-        <div [class]="'public-appointment-cell day-column-' + getDayColumn(appointment.date) + ' entry-row-start-' + getEntryRowStart(appointment.startTime) + ' entry-row-end-' + getEntryRowEnd(appointment.endTime)">
-            <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
-            <div class="entry-client">{{ appointment.clientName }}</div>
-        </div>
-    }
+        @for (day of days(); track day.isoDate) {
+            <div class="day-column">
+                @for (slot of timeSlots; track slot.index) {
+                    <div class="slot-cell"
+                         [class.drag-selected]="isSlotDragSelected(day.isoDate, slot.index)"
+                         [class.hour-boundary]="slot.isHour"
+                         [attr.data-date]="day.isoDate"
+                         [attr.data-slot]="slot.index"
+                         (pointerdown)="onPointerDown($event, day.isoDate, slot.index)">
+                    </div>
+                }
+                @for (entry of entriesForDay(day.isoDate); track entry.id) {
+                    <div [class]="'entry-cell entry-top-' + getEntryTopSlot(entry.startTime) + ' entry-span-' + getEntrySpan(entry.startTime, entry.endTime)"
+                         (click)="entryClick.emit(entry)">
+                        <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
+                        @if (entry.money) {
+                            <div class="entry-money">{{ formatMoney(entry.money) }} RSD</div>
+                        }
+                        @if (entry.notes) {
+                            <div class="entry-notes-dot" [title]="entry.notes">&#9679;</div>
+                        }
+                    </div>
+                }
+                @for (appointment of appointmentsForDay(day.isoDate); track appointment.id) {
+                    <div [class]="'public-appointment-cell entry-top-' + getEntryTopSlot(appointment.startTime) + ' entry-span-' + getEntrySpan(appointment.startTime, appointment.endTime)">
+                        <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
+                        <div class="entry-client">{{ appointment.clientName }}</div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
 </div>

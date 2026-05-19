@@ -5,23 +5,10 @@ $time-col-width: 60px;
 $header-row-height: 60px;
 $slot-height: 36px;
 $slots: 44;
-$days: 7;
-
-@for $col from 2 through ($days + 1) {
-	.day-column-#{$col} { grid-column: $col; }
-}
-
-@for $row from 2 through ($slots + 2) {
-	.grid-row-#{$row} { grid-row: $row; }
-	.entry-row-start-#{$row} { grid-row-start: $row; }
-	.entry-row-end-#{$row} { grid-row-end: $row; }
-}
 
 .calendar-grid {
-	display: grid;
-	position: relative;
-	grid-template-columns: $time-col-width repeat($days, minmax(80px, 1fr));
-	grid-template-rows: $header-row-height repeat($slots, $slot-height);
+	display: flex;
+	flex-direction: column;
 	min-width: 620px;
 	border: 1px solid variables.$accent;
 	background: variables.$body-color;
@@ -34,21 +21,32 @@ $days: 7;
 	}
 }
 
-.grid-corner {
-	grid-column: 1;
-	grid-row: 1;
-	border-right: 1px solid variables.$accent;
+.calendar-header {
+	display: flex;
+	flex-shrink: 0;
 	border-bottom: 2px solid variables.$accent;
+}
+
+.calendar-body {
+	display: flex;
+}
+
+.grid-corner {
+	width: $time-col-width;
+	height: $header-row-height;
+	flex-shrink: 0;
+	border-right: 1px solid variables.$accent;
 	background: variables.$primary;
 }
 
 .day-header {
 	display: flex;
-	grid-row: 1;
+	flex: 1;
+	min-width: 80px;
 	flex-direction: column;
+	height: $header-row-height;
 	padding: 6px 8px;
 	border-right: 1px solid variables.$accent;
-	border-bottom: 2px solid variables.$accent;
 	background: variables.$primary;
 	gap: 4px;
 
@@ -99,22 +97,42 @@ $days: 7;
 	}
 }
 
+.time-column {
+	display: flex;
+	flex-direction: column;
+	width: $time-col-width;
+	flex-shrink: 0;
+	border-right: 1px solid variables.$accent;
+}
+
 .time-label {
 	display: flex;
-	grid-column: 1;
 	align-items: flex-start;
 	justify-content: flex-end;
+	height: $slot-height;
 	padding: 0 6px;
 	padding-top: 2px;
-	border-right: 1px solid variables.$accent;
 	opacity: .55;
 	color: variables.$font-color;
 	font-size: 10px;
 }
 
+.day-column {
+	display: flex;
+	flex: 1;
+	min-width: 80px;
+	flex-direction: column;
+	position: relative;
+	border-right: 1px solid variables.$primary;
+
+	&:last-of-type {
+		border-right: none;
+	}
+}
+
 .slot-cell {
 	box-sizing: border-box;
-	border-right: 1px solid variables.$primary;
+	height: $slot-height;
 	border-bottom: 1px solid variables.$primary;
 	cursor: crosshair;
 	touch-action: none;
@@ -131,13 +149,14 @@ $days: 7;
 
 .entry-cell, .public-appointment-cell {
 	display: flex;
-	position: relative;
+	position: absolute;
 	z-index: 2;
 	box-sizing: border-box;
+	right: 2px;
+	left: 2px;
 	flex-direction: column;
-	margin: 1px 2px;
-	padding: 3px 6px;
 	overflow: hidden;
+	padding: 3px 6px;
 	border-radius: 3px;
 	gap: 1px;
 }
@@ -184,4 +203,12 @@ $days: 7;
 	opacity: .7;
 	font-size: 7px;
 	line-height: 1;
+}
+
+@for $slot from 0 through $slots {
+	.entry-top-#{$slot} { top: $slot * $slot-height; }
+}
+
+@for $span from 1 through $slots {
+	.entry-span-#{$span} { height: $span * $slot-height; }
 }

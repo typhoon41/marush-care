@@ -123,6 +123,44 @@ The host element must never be styled via `:host` in the component's own stylesh
 
 Component-specific internal structure goes in the component's own `.scss` file.
 
+## Never use `display: grid`
+
+CSS Grid (`display: grid`) is banned. Use these alternatives instead:
+
+| Layout need | Use |
+|-------------|-----|
+| Simple row or column | `display: flex` |
+| Multi-column page layout | scss-solutions `.row` + `.column-N` / `.column-tablet-N` / `.column-desktop-N` utility classes |
+| 2D layout with precisely placed children | Nested flex containers (`display: flex; flex-direction: column; position: relative`) with `position: absolute` for overlapping/positioned children, combined with `@for`-generated utility classes for the variable dimension (top, height, etc.) |
+
+### Example — 2D calendar grid without `display: grid`
+
+```html
+<div class="calendar-body">
+    <div class="time-column">
+        @for (slot of timeSlots; track slot.index) { <div class="time-label">...</div> }
+    </div>
+    @for (day of days(); track day.isoDate) {
+        <div class="day-column">
+            @for (slot of timeSlots; track slot.index) { <div class="slot-cell">...</div> }
+            <div [class]="'entry-cell entry-top-' + getTopSlot(e.start) + ' entry-span-' + getSpan(e.start, e.end)">
+            </div>
+        </div>
+    }
+</div>
+```
+
+```scss
+.calendar-body   { display: flex; }
+.time-column     { display: flex; flex-direction: column; width: $time-col-width; }
+.day-column      { display: flex; flex: 1; flex-direction: column; position: relative; }
+.slot-cell       { height: $slot-height; }
+.entry-cell      { position: absolute; left: 2px; right: 2px; }
+
+@for $slot from 0 through $slots { .entry-top-#{$slot} { top: $slot * $slot-height; } }
+@for $span from 1 through $slots { .entry-span-#{$span} { height: $span * $slot-height; } }
+```
+
 ## SCSS module conventions
 
 ### Module imports — no aliases
@@ -176,6 +214,7 @@ left: 0;
 
 ## Final checklist before every HTML/SCSS edit
 
+- [ ] No `display: grid` — use flex, scss-solutions `.row`/`.column-N`, or nested flex + absolute
 - [ ] No `style="..."` inline attributes
 - [ ] No `[style.property]` or `[style.--custom-property]` bindings — use `[class]` with SCSS-generated classes
 - [ ] Dynamic layout positions (grid-column, grid-row) use `@for`-generated utility classes, not style bindings
