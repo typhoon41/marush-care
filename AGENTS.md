@@ -1,7 +1,3 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Project Overview
 
 **Marush: Space of Care** — a beauty salon management web app at [marushcare.com](https://marushcare.com). Full-stack: ASP.NET Core 10 API backend + Angular 20 frontend, orchestrated locally with .NET Aspire.
@@ -97,6 +93,24 @@ Every `if`, `for`, `while`, `switch`, and other control-flow body must have expl
 
 ## Backend Conventions
 
+### No `Async` Suffix on Method Names
+
+Methods that return `Task` or `Task<T>` must **not** carry an `Async` suffix. The return type already signals asynchrony.
+
+Keep the suffix only when overriding a framework contract that requires it: `BackgroundService.ExecuteAsync`/`StopAsync`, EF Core `SaveChangesAsync`, ASP.NET Core filter `OnActionExecutionAsync`, and middleware `InvokeAsync`. These are fixed by the framework interface — do not rename them.
+
+### Culture-Aware Date Formatting in Emails
+
+When building an email for a customer, always resolve the customer's stored language first, then format all dates and times using `CultureInfo.CurrentCulture`. Never hard-code a format string like `"dd.MM.yyyy"` or `"HH:mm"`.
+
+```csharp
+cultureResolver.SetCulture(language);           // language from AppointmentDto.Language
+var culture = CultureInfo.CurrentCulture;
+var formatted = $"{date.ToString("d", culture)} {start.ToString("t", culture)}–{end.ToString("t", culture)}";
+```
+
+Setting the culture also causes `Labels.*` resource strings to render in the correct language for that same request.
+
 ### DI: Autofac Modules
 
 All Autofac modules are in `Site/Gmf.Marush.Care.Infrastructure/Injection/Modules/` and registered via `InjectionExtensions.RegisterModules()` (called from `Program.cs`).
@@ -190,6 +204,8 @@ All TypeScript identifiers — variables, constants, functions, and class member
 Use `` $localize`:@@key.name:default string` `` throughout the codebase. After adding new keys, run `npm run translate` (extracts keys and sorts locale files), then add translations to `src/locale/messages.en.json` and `src/locale/messages.ru.json`.
 
 **Admin modules are exempt from i18n.** Any component under `src/app/features/admin/` must not use `$localize`, `i18n-*` attributes, or `@@` translation keys. Use plain string literals directly in templates and code.
+
+**No orphaned translation keys.** When a feature or string is removed, delete its entry from every locale file (`messages.en.json`, `messages.ru.json`) and every `.resx` file (`Labels.resx`, `Labels.en.resx`, `Labels.ru.resx`) at the same time. Keys that exist in translation files but have no reference in source code are dead weight — find and remove them. The same applies to the backend: remove a `Labels` entry the moment the last code reference to it is gone.
 
 ### Dependencies
 

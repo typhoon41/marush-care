@@ -26,7 +26,7 @@ export class Dialog {
 
     protected readonly close = (event?: OptionalKeyboardEvent) => {
         if (isAction(event)) {
-            this.dialog()?.nativeElement.close();
+            this.dismiss();
         }
     };
 
