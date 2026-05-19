@@ -1,24 +1,19 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
 <marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'">
     <form slot="body" class="entry-form" [formGroup]="form">
-        <div class="form-row">
-            <label for="cal-date" class="field-label">Datum</label>
-            <input id="cal-date" type="date" formControlName="date" class="date-input" (change)="onTimeChange()" />
-        </div>
+        <marush-input type="date" name="date" placeholder="Datum" [form]="form" [validation]="['required']" />
         <div class="form-row time-row">
             <div class="time-field">
                 <label class="field-label">Početak</label>
                 <marush-combobox [formGroup]="form" name="startTime"
                                  [items]="timeOptions"
-                                 [(selectedItem)]="selectedStartTime"
-                                 [onValueChanged]="onTimeChange" />
+                                 [(selectedItem)]="selectedStartTime" />
             </div>
             <div class="time-field">
                 <label class="field-label">Kraj</label>
                 <marush-combobox [formGroup]="form" name="endTime"
                                  [items]="timeOptions"
-                                 [(selectedItem)]="selectedEndTime"
-                                 [onValueChanged]="onTimeChange" />
+                                 [(selectedItem)]="selectedEndTime" />
             </div>
         </div>
 
@@ -29,9 +24,7 @@
         }
 
         <div class="form-row">
-            <label for="cal-search" class="field-label">Pretraži klijenta</label>
-            <input id="cal-search" type="text" class="search-input" placeholder="Ime klijenta..."
-                   (input)="onSearchInput($event)" />
+            <marush-input name="query" placeholder="Pretraži klijenta" [form]="clientSearchForm" [validation]="[]" />
             @if (clientSearchResults().length > 0) {
                 <ul class="search-results">
                     @for (client of clientSearchResults(); track client.id) {

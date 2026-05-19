@@ -36,22 +36,6 @@
 	}
 }
 
-.date-input, .search-input {
-	box-sizing: border-box;
-	width: 100%;
-	padding: 8px 10px;
-	border: 1px solid v.$accent;
-	border-radius: 4px;
-	outline: none;
-	background: v.$body-color;
-	color: v.$font-color;
-	font-family: inherit;
-	font-size: 14px;
-
-	&:focus {
-		border-color: v.$font-color;
-	}
-}
 
 .search-results {
 	position: absolute;

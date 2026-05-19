@@ -9,10 +9,10 @@ export const minSearchLength = 2;
 
 const emptyEntry: Partial<CalendarEntry> = {};
 
-export const buildFormValue = (date?: string, start?: string, end?: string, entry: Partial<CalendarEntry> = emptyEntry) => ({
+export const buildFormValue = (date?: string, startTime?: string, endTime?: string, entry: Partial<CalendarEntry> = emptyEntry) => ({
     date: date ?? entry.date ?? '',
-    startTime: start ?? entry.startTime ?? '',
-    endTime: end ?? entry.endTime ?? '',
+    startTime: startTime ?? entry.startTime ?? '',
+    endTime: endTime ?? entry.endTime ?? '',
     customerId: '',
     appointmentId: entry.appointmentId ?? '',
     notes: entry.notes ?? '',

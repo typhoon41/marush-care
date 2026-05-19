@@ -28,9 +28,6 @@ Accepted acronyms only: `Id`, `Url`, `Http`, `Api`.
 ### One file per type
 Each class, interface, type alias, or enum lives in its own `.ts` file (or `.ts` + `.html` + `.scss` trio for components). Never group multiple types in one file.
 
-### No "utils" files
-Files named `*-utils.ts`, `*Utils.ts`, `helpers.ts`, or any other catch-all label are banned. Group functions into a named abstraction that describes their domain purpose — e.g., `CalendarSlotCalculator`, not `calendar-utils`.
-
 ## Components
 
 ### Always standalone with OnPush
@@ -81,7 +78,17 @@ Use `model<T>()` only when the parent needs two-way binding.
 Style the host class in the **global partials tree** under `src/styles/partials/`, not in the component's own stylesheet.
 
 ### Braces required (1tbs)
-Every `if`, `for`, `while`, `switch` body must have explicit `{ }` braces. Opening `{` on the same line as the keyword.
+Every `if`, `for`, `while`, `switch` body must have explicit `{ }` braces. Opening `{` on the same line as the keyword; the body and closing `}` each on their own line. Never write the body on the same line as the braces.
+
+```ts
+// Wrong
+if (!entry) { return; }
+
+// Right
+if (!entry) {
+    return;
+}
+```
 
 ## State management — no NgRx
 
@@ -210,5 +217,4 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] New i18n key added to both locale files; removed key deleted from both
 - [ ] No abbreviations in any identifier; no `SCREAMING_SNAKE_CASE`
 - [ ] All control-flow bodies have braces
-- [ ] No `*-utils.ts` files — functions grouped into a named abstraction
 - [ ] Native `<input>` / `<select>` / `<textarea>` / `<dialog>` not used where a `marush-*` component exists

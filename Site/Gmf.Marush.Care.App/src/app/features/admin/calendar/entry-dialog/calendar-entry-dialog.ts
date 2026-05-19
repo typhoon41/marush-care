@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
@@ -39,43 +40,53 @@ export class CalendarEntryDialog {
         notes: [''],
         money: [null as number | null]
     }, { updateOn: 'blur' });
+    protected readonly clientSearchForm: FormGroup = this.formBuilder.nonNullable.group({
+        query: this.formBuilder.nonNullable.control('', { updateOn: 'change' })
+    });
+    private readonly entryFormValues = toSignal(this.form.valueChanges, { initialValue: this.form.value });
+    private readonly clientSearchValues = toSignal(this.clientSearchForm.valueChanges, { initialValue: this.clientSearchForm.value });
 
-    readonly open = (date?: string, start?: string, end?: string, entry?: CalendarEntry) => {
+    constructor() {
+        effect(() => {
+            const values = this.entryFormValues();
+            const entry = this.editingEntry();
+            if (!entry) {
+                return;
+            }
+            const changed = values.date !== entry.date || values.startTime !== entry.startTime || values.endTime !== entry.endTime;
+            this.showRescheduleWarning.set(changed);
+        });
+
+        effect(() => {
+            const query = this.clientSearchValues().query;
+            if ((query?.length ?? 0) < minSearchLength) {
+                this.clientSearchResults.set([]);
+                return;
+            }
+            const resource = this.clientsService.getAll();
+            resource.reload();
+            if (resource.hasValue()) {
+                const items = resource.value().items as { id: string; fullName: string }[];
+                this.clientSearchResults.set(filterClientResults(items, query));
+            }
+        });
+    }
+
+    readonly open = (date?: string, startTime?: string, endTime?: string, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.showRescheduleWarning.set(false);
-        this.form.reset(buildFormValue(date, start, end, entry));
-        const startValue = start ?? entry?.startTime;
-        const endValue = end ?? entry?.endTime;
-        this.selectedStartTime.set(startValue ? timeOptions.find(option => option.value === startValue) : undefined);
-        this.selectedEndTime.set(endValue ? timeOptions.find(option => option.value === endValue) : undefined);
+        this.form.reset(buildFormValue(date, startTime, endTime, entry));
+        this.clientSearchForm.reset();
+        const resolvedStartTime = startTime ?? entry?.startTime;
+        const resolvedEndTime = endTime ?? entry?.endTime;
+        this.selectedStartTime.set(resolvedStartTime ? timeOptions.find(option => option.value === resolvedStartTime) : undefined);
+        this.selectedEndTime.set(resolvedEndTime ? timeOptions.find(option => option.value === resolvedEndTime) : undefined);
         this.dialog().open();
-    };
-
-    protected readonly onTimeChange = () => {
-        const entry = this.editingEntry();
-        if (entry) {
-            const { date, startTime, endTime } = this.form.value;
-            const changed = date !== entry.date || startTime !== entry.startTime || endTime !== entry.endTime;
-            this.showRescheduleWarning.set(changed);
-        }
-    };
-
-    protected readonly onSearchInput = (event: Event) => {
-        const value = (event.target as HTMLInputElement).value;
-        if ((value?.length ?? 0) < minSearchLength) {
-            this.clientSearchResults.set([]);
-            return;
-        }
-        const resource = this.clientsService.getAll();
-        resource.reload();
-        if (resource.hasValue()) {
-            const items = resource.value().items as { id: string; fullName: string }[];
-            this.clientSearchResults.set(filterClientResults(items, value));
-        }
     };
 
     protected readonly selectClient = (client: { id: string; label: string }) => {
         this.form.patchValue({ customerId: client.id });
+        this.clientSearchForm.reset();
         this.clientSearchResults.set([]);
     };
 
