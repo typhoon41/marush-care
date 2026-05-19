@@ -7,6 +7,16 @@ $slot-height: 36px;
 $slots: 44;
 $days: 7;
 
+@for $col from 2 through ($days + 1) {
+	.day-column-#{$col} { grid-column: $col; }
+}
+
+@for $row from 2 through ($slots + 2) {
+	.grid-row-#{$row} { grid-row: $row; }
+	.entry-row-start-#{$row} { grid-row-start: $row; }
+	.entry-row-end-#{$row} { grid-row-end: $row; }
+}
+
 .calendar-grid {
 	display: grid;
 	position: relative;
@@ -16,6 +26,12 @@ $days: 7;
 	border: 1px solid v.$accent;
 	background: v.$body-color;
 	user-select: none;
+
+	&.is-dragging {
+		.entry-cell, .public-appointment-cell {
+			pointer-events: none;
+		}
+	}
 }
 
 .grid-corner {

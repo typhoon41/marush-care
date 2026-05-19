@@ -1,5 +1,6 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/no-inline-styles, @angular-eslint/template/cyclomatic-complexity -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
 <div #gridEl class="calendar-grid"
+     [class.is-dragging]="isDragging()"
      (pointermove)="onPointerMove($event)"
      (pointerup)="onPointerUp()"
      (pointercancel)="cancelDrag()">
@@ -7,7 +8,7 @@
     <div class="grid-corner"></div>
 
     @for (day of days(); track day.isoDate) {
-        <div class="day-header" [style.grid-column]="$index + 2">
+        <div [class]="'day-header day-column-' + ($index + 2)">
             <div class="day-info">
                 <span class="day-label">{{ day.label }}</span>
                 @if (day.dailyTotal > 0) {
@@ -22,16 +23,14 @@
     }
 
     @for (slot of timeSlots; track slot.index) {
-        <div class="time-label" [style.grid-row]="slot.index + 2">{{ slot.label }}</div>
+        <div [class]="'time-label grid-row-' + (slot.index + 2)">{{ slot.label }}</div>
     }
 
     @for (day of days(); track day.isoDate; let di = $index) {
         @for (slot of timeSlots; track slot.index) {
-            <div class="slot-cell"
+            <div [class]="'slot-cell day-column-' + (di + 2) + ' grid-row-' + (slot.index + 2)"
                  [class.drag-selected]="isSlotDragSelected(day.isoDate, slot.index)"
                  [class.hour-boundary]="slot.isHour"
-                 [style.grid-column]="di + 2"
-                 [style.grid-row]="slot.index + 2"
                  [attr.data-date]="day.isoDate"
                  [attr.data-slot]="slot.index"
                  (pointerdown)="onPointerDown($event, day.isoDate, slot.index)">
@@ -40,10 +39,7 @@
     }
 
     @for (entry of entries(); track entry.id) {
-        <div class="entry-cell"
-             [style.grid-column]="getDayColumn(entry.date)"
-             [style.grid-row]="getEntryGridRow(entry.startTime, entry.endTime)"
-             [style.pointer-events]="isDragging() ? 'none' : 'auto'"
+        <div [class]="'entry-cell day-column-' + getDayColumn(entry.date) + ' entry-row-start-' + getEntryRowStart(entry.startTime) + ' entry-row-end-' + getEntryRowEnd(entry.endTime)"
              (click)="entryClick.emit(entry)">
             <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
             @if (entry.money) {
@@ -56,10 +52,7 @@
     }
 
     @for (appointment of publicAppointments(); track appointment.id) {
-        <div class="public-appointment-cell"
-             [style.grid-column]="getDayColumn(appointment.date)"
-             [style.grid-row]="getEntryGridRow(appointment.startTime, appointment.endTime)"
-             [style.pointer-events]="isDragging() ? 'none' : 'auto'">
+        <div [class]="'public-appointment-cell day-column-' + getDayColumn(appointment.date) + ' entry-row-start-' + getEntryRowStart(appointment.startTime) + ' entry-row-end-' + getEntryRowEnd(appointment.endTime)">
             <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
             <div class="entry-client">{{ appointment.clientName }}</div>
         </div>

@@ -20,16 +20,14 @@
     </div>
 </div>
 
-<div class="grid-scroll-wrapper">
-    <marush-calendar-grid
-        [days]="days()"
-        [entries]="entries()"
-        [publicAppointments]="publicAppointments()"
-        [notes]="notes()"
-        (entryClick)="onEntryClick($event)"
-        (dragComplete)="onDragComplete($event)"
-        (noteClick)="onNoteClick($event)" />
-</div>
+<marush-calendar-grid
+    [days]="days()"
+    [entries]="entries()"
+    [publicAppointments]="publicAppointments()"
+    [notes]="notes()"
+    (entryClick)="onEntryClick($event)"
+    (dragComplete)="onDragComplete($event)"
+    (noteClick)="onNoteClick($event)" />
 
 <marush-calendar-entry-dialog
     (saved)="onSaved()"

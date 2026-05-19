@@ -11,6 +11,7 @@ const gridOffset = 2;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'calendar-grid-container' },
     selector: 'marush-calendar-grid',
     imports: [],
     templateUrl: './calendar-grid.html',
@@ -58,8 +59,11 @@ export class CalendarGrid {
     protected readonly getDayColumn = (isoDate: string): number =>
         this.days().findIndex(day => day.isoDate === isoDate) + gridOffset;
 
-    protected readonly getEntryGridRow = (startTime: string, endTime: string): string =>
-        `${timeToSlotIndex(startTime) + gridOffset} / ${timeToSlotIndex(endTime) + gridOffset}`;
+    protected readonly getEntryRowStart = (startTime: string): number =>
+        timeToSlotIndex(startTime) + gridOffset;
+
+    protected readonly getEntryRowEnd = (endTime: string): number =>
+        timeToSlotIndex(endTime) + gridOffset;
 
     protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
         this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
