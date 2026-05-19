@@ -1,4 +1,4 @@
-@use 'variables' as v;
+@use 'variables';
 
 .notes-input {
 	min-width: 320px;
@@ -13,10 +13,10 @@
 
 .button-primary {
 	padding: 8px 20px;
-	border: 2px solid v.$font-color;
+	border: 2px solid variables.$font-color;
 	border-radius: 2px;
-	background: v.$font-color;
-	color: v.$body-color;
+	background: variables.$font-color;
+	color: variables.$body-color;
 	font-family: inherit;
 	font-size: 14px;
 	letter-spacing: 1px;
@@ -30,10 +30,10 @@
 
 .button-danger {
 	padding: 8px 20px;
-	border: 2px solid v.$error-font-color;
+	border: 2px solid variables.$error-font-color;
 	border-radius: 2px;
 	background: transparent;
-	color: v.$error-font-color;
+	color: variables.$error-font-color;
 	font-family: inherit;
 	font-size: 14px;
 	letter-spacing: 1px;
@@ -45,6 +45,6 @@
 	}
 
 	&:hover {
-		background: v.$error;
+		background: variables.$error;
 	}
 }

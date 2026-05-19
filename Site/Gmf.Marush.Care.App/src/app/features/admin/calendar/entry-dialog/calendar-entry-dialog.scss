@@ -1,5 +1,6 @@
 /* stylelint-disable plugin/file-max-lines */
-@use 'variables' as v;
+@use 'variables';
+@use 'scss-solutions/src/modules/position/absolute';
 
 .entry-form {
 	display: flex;
@@ -17,7 +18,7 @@
 }
 
 .field-label {
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 1px;
@@ -36,21 +37,17 @@
 	}
 }
 
-
 .search-results {
-	position: absolute;
+	@include absolute.unset-position(100%, 0, unset, 0);
 	z-index: 100;
-	top: 100%;
-	right: 0;
-	left: 0;
 	max-height: 200px;
 	margin: 0;
 	padding: 0;
 	overflow-y: auto;
-	border: 1px solid v.$accent;
+	border: 1px solid variables.$accent;
 	border-top: none;
 	border-radius: 0 0 4px 4px;
-	background: v.$body-color;
+	background: variables.$body-color;
 	list-style: none;
 }
 
@@ -60,7 +57,7 @@
 	cursor: pointer;
 
 	&:hover {
-		background: v.$primary;
+		background: variables.$primary;
 	}
 }
 
@@ -68,8 +65,8 @@
 	margin: 0;
 	padding: 8px 12px;
 	border-radius: 4px;
-	background: v.$error;
-	color: v.$error-font-color;
+	background: variables.$error;
+	color: variables.$error-font-color;
 	font-size: 13px;
 }
 
@@ -83,26 +80,26 @@
 .line-button {
 	padding: 8px 20px;
 	transition: background .2s, color .2s;
-	border: 2px solid v.$font-color;
+	border: 2px solid variables.$font-color;
 	border-radius: 2px;
 	background: transparent;
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-family: inherit;
 	font-size: 14px;
 	letter-spacing: 1px;
 	cursor: pointer;
 
 	&.primary {
-		background: v.$font-color;
-		color: v.$body-color;
+		background: variables.$font-color;
+		color: variables.$body-color;
 	}
 
 	&.danger {
-		border-color: v.$error-font-color;
-		color: v.$error-font-color;
+		border-color: variables.$error-font-color;
+		color: variables.$error-font-color;
 
 		&:hover {
-			background: v.$error;
+			background: variables.$error;
 		}
 	}
 

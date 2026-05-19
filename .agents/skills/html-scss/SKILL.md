@@ -123,6 +123,57 @@ The host element must never be styled via `:host` in the component's own stylesh
 
 Component-specific internal structure goes in the component's own `.scss` file.
 
+## SCSS module conventions
+
+### Module imports — no aliases
+Use `@use` with the module's natural name. Never shorten with `as`:
+
+```scss
+// Wrong
+@use 'variables' as v;  // then: v.$font-color
+
+// Right
+@use 'variables';       // then: variables.$font-color
+@use 'breakpoints';     // then: @include breakpoints.apply-from-tablet()
+```
+
+Available modules and their namespaces:
+
+| Module | Namespace | Common use |
+|--------|-----------|------------|
+| `variables` | `variables.$varName` | Colors, spacing (`$expansion-panel-gap`, `$side-gaps`, etc.) |
+| `breakpoints` | `@include breakpoints.apply-from-tablet()` / `apply-from-desktop()` | Responsive media queries |
+| `headers` | `@include headers.marush-caption()` etc. | Typography mixins |
+| `elements` | `@extend %element` / `@include elements.marush-control-frame()` | Form control frames |
+| `scss-solutions/src/modules/position/absolute` | `@include absolute.unset-position()` / `absolute.zero-position()` | Absolute positioning |
+
+### Always use existing variables
+Never hardcode a color or spacing value that a variable already covers.
+
+### Responsive styles — always use breakpoint mixins
+Never write bare `@media` queries:
+
+```scss
+// Wrong
+@media (min-width: 930px) { ... }
+
+// Right
+@include breakpoints.apply-from-tablet() { ... }
+@include breakpoints.apply-from-desktop() { ... }
+```
+
+### Absolute positioning — always use the mixin
+```scss
+// Wrong
+position: absolute;
+top: 100%;
+right: 0;
+left: 0;
+
+// Right — args are (top, right, bottom, left); unset is the default
+@include absolute.unset-position(100%, 0, unset, 0);
+```
+
 ## Final checklist before every HTML/SCSS edit
 
 - [ ] No `style="..."` inline attributes
@@ -132,3 +183,7 @@ Component-specific internal structure goes in the component's own `.scss` file.
 - [ ] No unnecessary div wrappers — consider using the host element or merging into an existing parent
 - [ ] Host element class declared in decorator, styled in global partials (not in `:host`)
 - [ ] State-driven style changes (pointer-events, visibility, colour) use `[class.state-name]` + SCSS
+- [ ] `@use` imports use the module's natural name — no `as v` or other aliases
+- [ ] No hardcoded colors or spacing — use `variables.$xxx`
+- [ ] Responsive rules use `@include breakpoints.apply-from-tablet/desktop()` — no bare `@media`
+- [ ] `position: absolute` with edge values uses `@include absolute.unset-position()` or `absolute.zero-position()`

@@ -1,5 +1,5 @@
 /* stylelint-disable plugin/file-max-lines */
-@use 'variables' as v;
+@use 'variables';
 
 $time-col-width: 60px;
 $header-row-height: 60px;
@@ -23,8 +23,8 @@ $days: 7;
 	grid-template-columns: $time-col-width repeat($days, minmax(80px, 1fr));
 	grid-template-rows: $header-row-height repeat($slots, $slot-height);
 	min-width: 620px;
-	border: 1px solid v.$accent;
-	background: v.$body-color;
+	border: 1px solid variables.$accent;
+	background: variables.$body-color;
 	user-select: none;
 
 	&.is-dragging {
@@ -37,9 +37,9 @@ $days: 7;
 .grid-corner {
 	grid-column: 1;
 	grid-row: 1;
-	border-right: 1px solid v.$accent;
-	border-bottom: 2px solid v.$accent;
-	background: v.$primary;
+	border-right: 1px solid variables.$accent;
+	border-bottom: 2px solid variables.$accent;
+	background: variables.$primary;
 }
 
 .day-header {
@@ -47,9 +47,9 @@ $days: 7;
 	grid-row: 1;
 	flex-direction: column;
 	padding: 6px 8px;
-	border-right: 1px solid v.$accent;
-	border-bottom: 2px solid v.$accent;
-	background: v.$primary;
+	border-right: 1px solid variables.$accent;
+	border-bottom: 2px solid variables.$accent;
+	background: variables.$primary;
 	gap: 4px;
 
 	&:last-of-type {
@@ -65,7 +65,7 @@ $days: 7;
 }
 
 .day-label {
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-size: 12px;
 	font-weight: 600;
 	text-transform: capitalize;
@@ -73,17 +73,17 @@ $days: 7;
 
 .day-total {
 	opacity: .7;
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-size: 11px;
 }
 
 .note-button {
 	align-self: flex-end;
 	padding: 2px 6px;
-	border: 1px solid v.$accent;
+	border: 1px solid variables.$accent;
 	border-radius: 2px;
 	background: transparent;
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-family: inherit;
 	font-size: 10px;
 	letter-spacing: .5px;
@@ -91,11 +91,11 @@ $days: 7;
 	cursor: pointer;
 
 	&.has-note {
-		background: v.$accent;
+		background: variables.$accent;
 	}
 
 	&:hover {
-		background: v.$accent;
+		background: variables.$accent;
 	}
 }
 
@@ -106,26 +106,26 @@ $days: 7;
 	justify-content: flex-end;
 	padding: 0 6px;
 	padding-top: 2px;
-	border-right: 1px solid v.$accent;
+	border-right: 1px solid variables.$accent;
 	opacity: .55;
-	color: v.$font-color;
+	color: variables.$font-color;
 	font-size: 10px;
 }
 
 .slot-cell {
 	box-sizing: border-box;
-	border-right: 1px solid v.$primary;
-	border-bottom: 1px solid v.$primary;
+	border-right: 1px solid variables.$primary;
+	border-bottom: 1px solid variables.$primary;
 	cursor: crosshair;
 	touch-action: none;
 
 	&.hour-boundary {
-		border-bottom-color: v.$accent;
+		border-bottom-color: variables.$accent;
 	}
 
 	&.drag-selected {
 		opacity: .4;
-		background: v.$accent;
+		background: variables.$accent;
 	}
 }
 
@@ -143,9 +143,9 @@ $days: 7;
 }
 
 .entry-cell {
-	border-left: 3px solid v.$font-color;
-	background: v.$accent;
-	color: v.$font-color;
+	border-left: 3px solid variables.$font-color;
+	background: variables.$accent;
+	color: variables.$font-color;
 	cursor: pointer;
 
 	&:hover {
@@ -154,9 +154,9 @@ $days: 7;
 }
 
 .public-appointment-cell {
-	border-left: 3px solid v.$error-font-color;
-	background: v.$error;
-	color: v.$error-font-color;
+	border-left: 3px solid variables.$error-font-color;
+	background: variables.$error;
+	color: variables.$error-font-color;
 	cursor: default;
 }
 

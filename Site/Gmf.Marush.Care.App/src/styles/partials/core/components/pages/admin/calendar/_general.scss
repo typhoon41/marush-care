@@ -1,9 +1,16 @@
+@use 'breakpoints';
+@use 'variables';
+
 .calendar-page {
 	display: flex;
 	box-sizing: border-box;
 	flex-direction: column;
-	padding: 24px;
+	padding: variables.$expansion-panel-gap;
 	gap: 16px;
+
+	@include breakpoints.apply-from-desktop() {
+		padding: variables.$side-gaps;
+	}
 }
 
 .calendar-grid-container {
