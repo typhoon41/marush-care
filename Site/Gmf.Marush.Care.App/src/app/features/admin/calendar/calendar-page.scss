@@ -1,13 +1,5 @@
 @use 'variables' as v;
 
-:host {
-	display: flex;
-	box-sizing: border-box;
-	flex-direction: column;
-	padding: 24px;
-	gap: 16px;
-}
-
 .page-header {
 	display: flex;
 	flex-wrap: wrap;

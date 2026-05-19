@@ -59,7 +59,9 @@ public class CalendarController(ICalendarRepository calendarRepository,
     public async Task<IActionResult> UpdateEntry(Guid id, CalendarEntryRequest request)
     {
         var existing = await calendarRepository.GetEntryByIdAsync(id);
-        if (existing is null) return NotFound();
+        if (existing is null) {
+            return NotFound();
+        }
 
         var timeChanged = existing.Date != request.Date
             || existing.StartTime != request.StartTime

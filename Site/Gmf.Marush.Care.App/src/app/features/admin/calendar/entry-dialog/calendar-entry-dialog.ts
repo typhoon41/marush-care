@@ -5,7 +5,7 @@ import { Input } from '@shared/components/forms/input/input';
 import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
-import { buildEntryRequest, buildFormValue, filterClientResults, MIN_SEARCH_LENGTH, TIME_OPTIONS } from './calendar-entry-dialog-helpers';
+import { buildEntryRequest, buildFormValue, filterClientResults, minSearchLength, timeOptions } from './calendar-entry-dialog-helpers';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +21,7 @@ export class CalendarEntryDialog {
     private readonly calendarService = inject(Calendar);
     private readonly clientsService = inject(Clients);
     private readonly formBuilder = inject(FormBuilder);
-    protected readonly timeOptions = TIME_OPTIONS;
+    protected readonly timeOptions = timeOptions;
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly showRescheduleWarning = signal(false);
     protected readonly clientSearchResults = signal<{ id: string; label: string }[]>([]);
@@ -45,16 +45,16 @@ export class CalendarEntryDialog {
 
     protected readonly onTimeChange = () => {
         const entry = this.editingEntry();
-        if (!entry)
-        { return; }
-        const { date, startTime, endTime } = this.form.value;
-        const changed = date !== entry.date || startTime !== entry.startTime || endTime !== entry.endTime;
-        this.showRescheduleWarning.set(changed);
+        if (entry) {
+            const { date, startTime, endTime } = this.form.value;
+            const changed = date !== entry.date || startTime !== entry.startTime || endTime !== entry.endTime;
+            this.showRescheduleWarning.set(changed);
+        }
     };
 
     protected readonly onSearchInput = (event: Event) => {
         const value = (event.target as HTMLInputElement).value;
-        if ((value?.length ?? 0) < MIN_SEARCH_LENGTH) {
+        if ((value?.length ?? 0) < minSearchLength) {
             this.clientSearchResults.set([]);
             return;
         }
@@ -92,8 +92,9 @@ export class CalendarEntryDialog {
 
     protected readonly onDelete = async() => {
         const entry = this.editingEntry();
-        if (!entry)
-        { return; }
+        if (!entry) {
+            return;
+        }
         this.isLoading.set(true);
         try {
             await this.calendarService.deleteEntry(entry.id);

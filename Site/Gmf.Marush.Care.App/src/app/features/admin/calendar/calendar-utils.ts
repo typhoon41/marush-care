@@ -1,38 +1,38 @@
-export const SLOT_HEIGHT = 36;
-export const CALENDAR_START_HOUR = 11;
-export const CALENDAR_END_HOUR = 22;
-export const DAYS_IN_WEEK = 7;
+export const slotHeight = 36;
+export const calendarStartHour = 11;
+export const calendarEndHour = 22;
+export const daysInWeek = 7;
 
-const SLOTS_PER_HOUR = 4;
-const MINUTES_PER_SLOT = 15;
-const MINUTES_PER_HOUR = 60;
-const ZERO_PAD = 2;
+const slotsPerHour = 4;
+const minutesPerSlot = 15;
+const minutesPerHour = 60;
+const zeroPad = 2;
 
-export const SLOTS_COUNT = (CALENDAR_END_HOUR - CALENDAR_START_HOUR) * SLOTS_PER_HOUR;
+export const slotsCount = (calendarEndHour - calendarStartHour) * slotsPerHour;
 
 export const timeToSlotIndex = (time: string): number => {
     const [hours, minutes] = time.split(':').map(Number);
-    return (hours - CALENDAR_START_HOUR) * SLOTS_PER_HOUR + Math.floor(minutes / MINUTES_PER_SLOT);
+    return (hours - calendarStartHour) * slotsPerHour + Math.floor(minutes / minutesPerSlot);
 };
 
 export const slotIndexToTime = (slotIndex: number): string => {
-    const totalMinutes = CALENDAR_START_HOUR * MINUTES_PER_HOUR + slotIndex * MINUTES_PER_SLOT;
-    const hours = Math.floor(totalMinutes / MINUTES_PER_HOUR);
-    const minutes = totalMinutes % MINUTES_PER_HOUR;
-    return `${hours.toString().padStart(ZERO_PAD, '0')}:${minutes.toString().padStart(ZERO_PAD, '0')}`;
+    const totalMinutes = calendarStartHour * minutesPerHour + slotIndex * minutesPerSlot;
+    const hours = Math.floor(totalMinutes / minutesPerHour);
+    const minutes = totalMinutes % minutesPerHour;
+    return `${hours.toString().padStart(zeroPad, '0')}:${minutes.toString().padStart(zeroPad, '0')}`;
 };
 
-export const timeSlots = Array.from({ length: SLOTS_COUNT }, (_, slotIndex) => ({
+export const timeSlots = Array.from({ length: slotsCount }, (_, slotIndex) => ({
     index: slotIndex,
     time: slotIndexToTime(slotIndex),
-    label: slotIndex % SLOTS_PER_HOUR === 0 ? slotIndexToTime(slotIndex) : '',
-    isHour: slotIndex % SLOTS_PER_HOUR === 0
+    label: slotIndex % slotsPerHour === 0 ? slotIndexToTime(slotIndex) : '',
+    isHour: slotIndex % slotsPerHour === 0
 }));
 
 export const mondayOf = (date: Date): string => {
     const monday = new Date(date);
     const dayOfWeek = monday.getDay();
-    const daysFromMonday = dayOfWeek === 0 ? DAYS_IN_WEEK - 1 : dayOfWeek - 1;
+    const daysFromMonday = dayOfWeek === 0 ? daysInWeek - 1 : dayOfWeek - 1;
     monday.setDate(monday.getDate() - daysFromMonday);
     return monday.toISOString().split('T')[0];
 };
@@ -47,7 +47,7 @@ export const formatMoney = (amount: number): string =>
     amount.toLocaleString('sr-RS', { maximumFractionDigits: 0 });
 
 export const generateTimeOptions = (): { value: string; label: string }[] =>
-    Array.from({ length: SLOTS_COUNT + 1 }, (_, slotIndex) => {
-        const time = slotIndexToTime(Math.min(slotIndex, SLOTS_COUNT));
+    Array.from({ length: slotsCount + 1 }, (_, slotIndex) => {
+        const time = slotIndexToTime(Math.min(slotIndex, slotsCount));
         return { value: time, label: time };
     });

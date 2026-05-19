@@ -89,6 +89,10 @@ Each type (class, record, interface, enum) lives in its own file. File name must
 
 This applies across all layers and both stacks: C# (`.cs`), TypeScript (`.ts`), and Angular components (`.ts` + `.html` + `.scss` trio). Do not group multiple types into one file even if they are small or closely related.
 
+### Braces Required
+
+Every `if`, `for`, `while`, `switch`, and other control-flow body must have explicit `{ }` braces in all stacks (C# and TypeScript). Single-line bodies still require braces. Use 1tbs style: opening `{` on the same line as the control keyword, body indented on its own line, closing `}` on its own line.
+
 ---
 
 ## Backend Conventions
@@ -118,6 +122,8 @@ Add events to `EntityDto.DomainEvents` inside repository methods. `BaseDbContext
 ### FluentValidation
 
 Validators are auto-scanned from the Api assembly — just create a class inheriting `AbstractValidator<T>`. Shared rules live in `Site/Gmf.Marush.Care.Api/Validation/ValidatorExtensions.cs`. Validation error responses use camelCase property names.
+
+Validators for admin-only models always use **hard-coded Serbian messages** — no English, no `$localize`, no resource keys. The admin is operated exclusively by Serbian-speaking staff.
 
 ### Persistence DTO Layer
 
@@ -169,9 +175,15 @@ Two interceptors in `src/app/shared/interceptors/`:
 
 All components are **standalone** with `ChangeDetectionStrategy.OnPush`. Use `input()` signal inputs (not `@Input()` decorators). Use `@if` / `@for` control flow syntax (not `*ngIf` / `*ngFor`).
 
+Never use `:host` — it is deprecated. Instead, declare the host class in the component decorator (`host: { class: 'my-component' }`) and style it in the global partials tree under `src/styles/partials/`.
+
 ### Forms
 
 Use `NonNullableFormBuilder` with `updateOn: 'blur'`. Form components in `src/app/shared/components/forms/` all inherit from a `Field` base class and receive the parent `FormGroup` via `input()`.
+
+### camelCase Everywhere
+
+All TypeScript identifiers — variables, constants, functions, and class members — use camelCase, including module-level constants. Never use `SCREAMING_SNAKE_CASE`. Write `const slotHeight = 36;` not `const SLOT_HEIGHT = 36;`.
 
 ### i18n
 

@@ -2,14 +2,14 @@ import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
 import { generateTimeOptions } from '../calendar-utils';
 
-export const TIME_OPTIONS = generateTimeOptions();
+export const timeOptions = generateTimeOptions();
 
-export const MAX_SEARCH_RESULTS = 8;
-export const MIN_SEARCH_LENGTH = 2;
+export const maxSearchResults = 8;
+export const minSearchLength = 2;
 
-const EMPTY_ENTRY: Partial<CalendarEntry> = {};
+const emptyEntry: Partial<CalendarEntry> = {};
 
-export const buildFormValue = (date?: string, start?: string, end?: string, entry: Partial<CalendarEntry> = EMPTY_ENTRY) => ({
+export const buildFormValue = (date?: string, start?: string, end?: string, entry: Partial<CalendarEntry> = emptyEntry) => ({
     date: date ?? entry.date ?? '',
     startTime: start ?? entry.startTime ?? '',
     endTime: end ?? entry.endTime ?? '',
@@ -34,5 +34,5 @@ export const filterClientResults = (
     query: string
 ) => items
     .filter(client => client.fullName.toLowerCase().includes(query.toLowerCase()))
-    .slice(0, MAX_SEARCH_RESULTS)
+    .slice(0, maxSearchResults)
     .map(client => ({ id: client.id, label: client.fullName }));

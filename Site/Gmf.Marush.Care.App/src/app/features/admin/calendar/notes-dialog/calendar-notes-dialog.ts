@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { Calendar } from '../calendar';
 import { CalendarNote } from '../calendar-note';
+import { CalendarNoteType } from '../calendar-note-type';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,13 +19,13 @@ export class CalendarNotesDialog {
     private readonly calendarService = inject(Calendar);
     private readonly formBuilder = inject(FormBuilder);
 
-    protected readonly noteType = signal<'Daily' | 'Weekly'>('Daily');
+    protected readonly noteType = signal<CalendarNoteType>('Daily');
     protected readonly noteDate = signal('');
     protected readonly existingNoteId = signal<string | null>(null);
     protected readonly isLoading = signal(false);
     protected readonly content = this.formBuilder.nonNullable.control('');
 
-    readonly open = (date: string, type: 'Daily' | 'Weekly', existingNote?: CalendarNote) => {
+    readonly open = (date: string, type: CalendarNoteType, existingNote?: CalendarNote) => {
         this.noteDate.set(date);
         this.noteType.set(type);
         this.existingNoteId.set(existingNote?.id ?? null);
@@ -52,8 +53,9 @@ export class CalendarNotesDialog {
 
     protected readonly onDelete = async() => {
         const id = this.existingNoteId();
-        if (!id)
-{ return; }
+        if (!id) {
+            return;
+        }
         this.isLoading.set(true);
         try {
             await this.calendarService.deleteNote(id);

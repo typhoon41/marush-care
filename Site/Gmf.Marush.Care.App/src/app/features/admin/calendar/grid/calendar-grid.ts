@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
+import { CalendarNoteType } from '../calendar-note-type';
 import { formatMoney, slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-utils';
 import { DayInfo } from '../day-info';
 import { PublicAppointment } from '../public-appointment';
 
-const UNSET_SLOT = -1;
-const GRID_OFFSET = 2;
+const unsetSlot = -1;
+const gridOffset = 2;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +24,7 @@ export class CalendarGrid {
 
     readonly entryClick = output<CalendarEntry>();
     readonly dragComplete = output<{ date: string; startTime: string; endTime: string }>();
-    readonly noteClick = output<{ date: string; type: 'Daily' | 'Weekly' }>();
+    readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
 
     private readonly gridEl = viewChild.required<ElementRef<HTMLElement>>('gridEl');
 
@@ -31,8 +32,8 @@ export class CalendarGrid {
     protected readonly formatMoney = formatMoney;
 
     private readonly dragAnchorDate = signal<string | null>(null);
-    private readonly dragAnchorSlot = signal(UNSET_SLOT);
-    private readonly dragCurrentSlot = signal(UNSET_SLOT);
+    private readonly dragAnchorSlot = signal(unsetSlot);
+    private readonly dragCurrentSlot = signal(unsetSlot);
 
     protected readonly isDragging = computed(() => this.dragAnchorDate() !== null);
 
@@ -40,23 +41,25 @@ export class CalendarGrid {
         const date = this.dragAnchorDate();
         const anchor = this.dragAnchorSlot();
         const current = this.dragCurrentSlot();
-        if (!date || anchor < 0 || current < 0)
-{ return null; }
+        if (!date || anchor < 0 || current < 0) {
+            return null;
+        }
         return { date, minSlot: Math.min(anchor, current), maxSlot: Math.max(anchor, current) };
     });
 
     protected readonly isSlotDragSelected = (date: string, slot: number): boolean => {
         const range = this.dragRange();
-        if (range?.date !== date)
-{ return false; }
+        if (range?.date !== date) {
+            return false;
+        }
         return slot >= range.minSlot && slot <= range.maxSlot;
     };
 
     protected readonly getDayColumn = (isoDate: string): number =>
-        this.days().findIndex(day => day.isoDate === isoDate) + GRID_OFFSET;
+        this.days().findIndex(day => day.isoDate === isoDate) + gridOffset;
 
     protected readonly getEntryGridRow = (startTime: string, endTime: string): string =>
-        `${timeToSlotIndex(startTime) + GRID_OFFSET} / ${timeToSlotIndex(endTime) + GRID_OFFSET}`;
+        `${timeToSlotIndex(startTime) + gridOffset} / ${timeToSlotIndex(endTime) + gridOffset}`;
 
     protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
         this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
@@ -70,10 +73,11 @@ export class CalendarGrid {
     };
 
     protected readonly onPointerMove = (event: PointerEvent) => {
-        if (!this.dragAnchorDate())
-{ return; }
-        const el = document.elementFromPoint(event.clientX, event.clientY);
-        const slotIndexString = el?.getAttribute('data-slot');
+        if (!this.dragAnchorDate()) {
+            return;
+        }
+        const element = document.elementFromPoint(event.clientX, event.clientY);
+        const slotIndexString = element?.getAttribute('data-slot');
         if (slotIndexString !== null && slotIndexString !== undefined) {
             this.dragCurrentSlot.set(parseInt(slotIndexString, 10));
         }
@@ -81,8 +85,9 @@ export class CalendarGrid {
 
     protected readonly onPointerUp = () => {
         const range = this.dragRange();
-        if (!range)
-{ return; }
+        if (!range) {
+            return;
+        }
         const date = range.date;
         const startTime = slotIndexToTime(range.minSlot);
         const endTime = slotIndexToTime(range.maxSlot + 1);
@@ -92,7 +97,7 @@ export class CalendarGrid {
 
     protected readonly cancelDrag = () => {
         this.dragAnchorDate.set(null);
-        this.dragAnchorSlot.set(UNSET_SLOT);
-        this.dragCurrentSlot.set(UNSET_SLOT);
+        this.dragAnchorSlot.set(unsetSlot);
+        this.dragCurrentSlot.set(unsetSlot);
     };
 }

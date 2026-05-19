@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild
 import { Title } from '@angular/platform-browser';
 import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
-import { addDays, DAYS_IN_WEEK, formatMoney, mondayOf } from './calendar-utils';
+import { CalendarNoteType } from './calendar-note-type';
+import { addDays, daysInWeek, formatMoney, mondayOf } from './calendar-utils';
 import { DayInfo } from './day-info';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
 import { CalendarGrid } from './grid/calendar-grid';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
 
-const WEEK_LAST_DAY_OFFSET = DAYS_IN_WEEK - 1;
+const weekLastDayOffset = daysInWeek - 1;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +34,7 @@ export class CalendarPage {
     protected readonly days = computed((): DayInfo[] => {
         const start = this.weekStart();
         const entries = this.entries();
-        return Array.from({ length: DAYS_IN_WEEK }, (_, dayIndex) => {
+        return Array.from({ length: daysInWeek }, (_, dayIndex) => {
             const iso = addDays(start, dayIndex);
             const date = new Date(`${iso}T12:00:00`);
             const dayName = date.toLocaleDateString('sr-Latn-RS', { weekday: 'short' });
@@ -56,7 +57,7 @@ export class CalendarPage {
 
     protected readonly weekLabel = computed(() => {
         const start = this.weekStart();
-        const end = addDays(start, WEEK_LAST_DAY_OFFSET);
+        const end = addDays(start, weekLastDayOffset);
         const formatDate = (iso: string) =>
             new Date(`${iso}T12:00:00`).toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'short' });
         return `${formatDate(start)} – ${formatDate(end)}`;
@@ -68,8 +69,8 @@ export class CalendarPage {
         title.setTitle('Kalendar');
     }
 
-    protected readonly goToPrevWeek = () => this.weekStart.set(addDays(this.weekStart(), -DAYS_IN_WEEK));
-    protected readonly goToNextWeek = () => this.weekStart.set(addDays(this.weekStart(), DAYS_IN_WEEK));
+    protected readonly goToPrevWeek = () => this.weekStart.set(addDays(this.weekStart(), -daysInWeek));
+    protected readonly goToNextWeek = () => this.weekStart.set(addDays(this.weekStart(), daysInWeek));
     protected readonly goToThisWeek = () => this.weekStart.set(mondayOf(new Date()));
 
     protected readonly onEntryClick = (entry: CalendarEntry) => {
@@ -80,7 +81,7 @@ export class CalendarPage {
         this.entryDialog().open(drag.date, drag.startTime, drag.endTime);
     };
 
-    protected readonly onNoteClick = (event: { date: string; type: 'Daily' | 'Weekly' }) => {
+    protected readonly onNoteClick = (event: { date: string; type: CalendarNoteType }) => {
         const existing = this.notes().find(note => note.date === event.date && note.noteType === event.type);
         this.notesDialog().open(event.date, event.type, existing);
     };

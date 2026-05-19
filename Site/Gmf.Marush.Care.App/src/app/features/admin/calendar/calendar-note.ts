@@ -1,6 +1,8 @@
+import { CalendarNoteType } from './calendar-note-type';
+
 export interface CalendarNote {
     id: string;
     date: string;
-    noteType: 'Daily' | 'Weekly';
+    noteType: CalendarNoteType;
     content: string;
 }

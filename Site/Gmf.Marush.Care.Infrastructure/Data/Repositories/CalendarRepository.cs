@@ -59,7 +59,9 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task<bool> DeleteEntryAsync(Guid id)
     {
         var dto = await _entries.FindAsync(id);
-        if (dto is null) return false;
+        if (dto is null) {
+            return false;
+        }
         _ = _entries.Remove(dto);
         return true;
     }
@@ -81,7 +83,9 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task<bool> DeleteNoteAsync(Guid id)
     {
         var dto = await _notes.FindAsync(id);
-        if (dto is null) return false;
+        if (dto is null) {
+            return false;
+        }
         _ = _notes.Remove(dto);
         return true;
     }

@@ -12,17 +12,17 @@ public class CalendarEntryValidator : AbstractValidator<CalendarEntryRequest>
         _ = RuleFor(x => x.Date).NotEmpty();
         _ = RuleFor(x => x.StartTime)
             .Must(t => t >= CalendarStart && t < CalendarEnd)
-            .WithMessage("Start time must be between 11:00 and 22:00.");
+            .WithMessage("Vreme početka mora biti između 11:00 i 22:00.");
         _ = RuleFor(x => x.EndTime)
             .Must(t => t > CalendarStart && t <= CalendarEnd)
-            .WithMessage("End time must be between 11:00 and 22:00.")
+            .WithMessage("Vreme kraja mora biti između 11:00 i 22:00.")
             .Must((request, end) => end > request.StartTime)
-            .WithMessage("End time must be after start time.")
+            .WithMessage("Vreme kraja mora biti posle vremena početka.")
             .Must((request, end) => (end - request.StartTime).TotalMinutes % 15 == 0)
-            .WithMessage("Duration must be a multiple of 15 minutes.");
+            .WithMessage("Trajanje mora biti na 15 minuta.");
         _ = RuleFor(x => x.StartTime)
             .Must(t => t.Minute % 15 == 0)
-            .WithMessage("Start time must align to a 15-minute boundary.");
+            .WithMessage("Vreme početka mora biti na 15 minuta.");
         _ = RuleFor(x => x.CustomerId).NotEmpty().When(x => !x.AppointmentId.HasValue);
         _ = RuleFor(x => x.Notes).MaximumLength(1000);
         _ = RuleFor(x => x.Money).GreaterThanOrEqualTo(0).When(x => x.Money.HasValue);
