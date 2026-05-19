@@ -12,7 +12,7 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
 {
     private readonly DbSet<CustomerDto> _customers = context.Set<CustomerDto>();
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> Delete(Guid id)
     {
         var entity = await _customers.FindAsync(id);
         if (entity is null)
@@ -24,7 +24,7 @@ public class CustomerModificationRepository(DbContext context) : ICustomerModifi
         return true;
     }
 
-    public async Task StoreAsync(CustomerDetails customer, Guid userId)
+    public async Task Store(CustomerDetails customer, Guid userId)
     {
         var admin = new UserDto() { Id = userId };
         context.Set<UserDto>().Attach(admin);

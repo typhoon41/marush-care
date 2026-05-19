@@ -13,7 +13,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     private readonly DbSet<CalendarEntryDto> _entries = context.Set<CalendarEntryDto>();
     private readonly DbSet<CalendarNoteDto> _notes = context.Set<CalendarNoteDto>();
 
-    public async Task<IEnumerable<CalendarEntry>> GetEntriesForWeekAsync(DateOnly weekStart)
+    public async Task<IEnumerable<CalendarEntry>> GetEntriesForWeek(DateOnly weekStart)
     {
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
         var dtos = await _entries
@@ -24,7 +24,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return dtos.Select(entry => entry.ToDomain());
     }
 
-    public async Task<CalendarEntry?> GetEntryByIdAsync(Guid id)
+    public async Task<CalendarEntry?> GetEntryById(Guid id)
     {
         var dto = await _entries
             .Include(entry => entry.Appointment)
@@ -32,9 +32,9 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return dto?.ToDomain();
     }
 
-    public async Task AddEntryAsync(CalendarEntry entry)
+    public async Task AddEntry(CalendarEntry entry)
     {
-        var appointmentId = entry.AppointmentId ?? await CreateAppointmentAsync(entry);
+        var appointmentId = entry.AppointmentId ?? await CreateAppointment(entry);
         _ = await _entries.AddAsync(new CalendarEntryDto
         {
             AppointmentId = appointmentId,
@@ -43,7 +43,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         });
     }
 
-    public async Task UpdateEntryAsync(Guid id, CalendarEntry entry)
+    public async Task UpdateEntry(Guid id, CalendarEntry entry)
     {
         var dto = await _entries
             .Include(entry => entry.Appointment)
@@ -56,7 +56,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         dto.Money = entry.Money;
     }
 
-    public async Task<bool> DeleteEntryAsync(Guid id)
+    public async Task<bool> DeleteEntry(Guid id)
     {
         var dto = await _entries.FindAsync(id);
         if (dto is null) {
@@ -66,7 +66,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return true;
     }
 
-    public async Task UpsertNoteAsync(CalendarNote note)
+    public async Task UpsertNote(CalendarNote note)
     {
         var existing = await _notes
             .SingleOrDefaultAsync(noteDto => noteDto.Date == note.Date && noteDto.NoteType == note.Type.Value);
@@ -80,7 +80,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         }
     }
 
-    public async Task<bool> DeleteNoteAsync(Guid id)
+    public async Task<bool> DeleteNote(Guid id)
     {
         var dto = await _notes.FindAsync(id);
         if (dto is null) {
@@ -90,7 +90,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return true;
     }
 
-    public async Task<IEnumerable<CalendarNote>> GetNotesForWeekAsync(DateOnly weekStart)
+    public async Task<IEnumerable<CalendarNote>> GetNotesForWeek(DateOnly weekStart)
     {
         var weekEnd = weekStart.AddDays(6);
         var dtos = await _notes
@@ -100,7 +100,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return dtos.Select(note => note.ToDomain());
     }
 
-    public async Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeekAsync(DateOnly weekStart)
+    public async Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeek(DateOnly weekStart)
     {
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
         var rejectedId = AppointmentStatus.Rejected.Value;
@@ -125,13 +125,16 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             appointment.Description));
     }
 
-    public async Task<string?> GetAppointmentEmailAsync(Guid appointmentId) =>
-        await context.Set<AppointmentDto>()
+    public async Task<(string Email, string Language)?> GetAppointmentContact(Guid appointmentId)
+    {
+        var result = await context.Set<AppointmentDto>()
             .Where(appointment => appointment.Id == appointmentId)
-            .Select(appointment => appointment.Email)
+            .Select(appointment => new { appointment.Email, appointment.Language })
             .SingleOrDefaultAsync();
+        return string.IsNullOrWhiteSpace(result?.Email) ? null : (result!.Email!, result.Language ?? "sr");
+    }
 
-    private async Task<Guid> CreateAppointmentAsync(CalendarEntry entry)
+    private async Task<Guid> CreateAppointment(CalendarEntry entry)
     {
         var customer = await context.Set<CustomerDto>()
             .Include(customerDto => customerDto.Phones)
