@@ -1,7 +1,6 @@
 <marush-dialog [title]="titleLabel()">
-    <textarea slot="body" class="notes-textarea" rows="6"
-              placeholder="Unesite napomene..."
-              [formControl]="content"></textarea>
+    <marush-input slot="body" class="notes-input" name="content" placeholder="Unesite napomene..."
+                  [form]="noteForm" [big]="true" [validation]="[]" />
     <div slot="actions" class="dialog-actions">
         @if (existingNoteId()) {
             <button type="button" class="button-danger" [disabled]="isLoading()"

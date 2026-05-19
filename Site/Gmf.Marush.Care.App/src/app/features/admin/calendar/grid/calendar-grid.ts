@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, ElementRef, input, output
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
-import { formatMoney, slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-utils';
+import { slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-time-slots';
+import { formatMoney } from '../money-formatter';
 import { DayInfo } from '../day-info';
 import { PublicAppointment } from '../public-appointment';
 

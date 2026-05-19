@@ -28,6 +28,9 @@ Accepted acronyms only: `Id`, `Url`, `Http`, `Api`.
 ### One file per type
 Each class, interface, type alias, or enum lives in its own `.ts` file (or `.ts` + `.html` + `.scss` trio for components). Never group multiple types in one file.
 
+### No "utils" files
+Files named `*-utils.ts`, `*Utils.ts`, `helpers.ts`, or any other catch-all label are banned. Group functions into a named abstraction that describes their domain purpose — e.g., `CalendarSlotCalculator`, not `calendar-utils`.
+
 ## Components
 
 ### Always standalone with OnPush
@@ -144,6 +147,22 @@ export class MyInput extends Field {
 }
 ```
 
+## Always use marush-* shared components
+
+When a `marush-*` component exists for a UI pattern, use it. Never fall back to the raw HTML element.
+
+| Need | Use |
+|------|-----|
+| Text / number / textarea input | `marush-input` |
+| Date picker | `marush-date-picker` |
+| Combobox / autocomplete | `marush-combobox` |
+| Checkbox | `marush-checkbox` |
+| Dynamic repeating form field | `marush-field-group` |
+| Modal dialog | `marush-dialog` |
+| Collapsible section | `marush-expansion-panel` |
+
+Shared components live in `src/app/shared/components/`. Check there before reaching for a native `<input>`, `<select>`, `<textarea>`, or `<dialog>`.
+
 ## Routing
 
 All routes are declared in `src/app/shared/routes/` via the `lazyRoute()` helper. Use `RoutingDefinition` for all programmatic navigation — never build route strings by hand.
@@ -191,3 +210,5 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] New i18n key added to both locale files; removed key deleted from both
 - [ ] No abbreviations in any identifier; no `SCREAMING_SNAKE_CASE`
 - [ ] All control-flow bodies have braces
+- [ ] No `*-utils.ts` files — functions grouped into a named abstraction
+- [ ] Native `<input>` / `<select>` / `<textarea>` / `<dialog>` not used where a `marush-*` component exists

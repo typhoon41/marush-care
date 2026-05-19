@@ -76,6 +76,7 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **No abbreviations** — write every identifier in full. Accepted acronyms: `Id`, `Url`, `Http`, `Api`, `Dto` (as Infrastructure persistence-record suffix only).
 - **One file per type** — each class, record, interface, or enum in its own file, named after the type.
 - **Braces required** — every control-flow body has explicit `{ }` in 1tbs style, both C# and TypeScript.
+- **No "utils" naming** — files or modules named `*-utils`, `*Utils`, `helpers`, or any other catch-all label are banned. Every abstraction must be named for what it does, not that it is a collection (e.g., `CalendarSlotCalculator`, not `calendar-utils`).
 
 ---
 

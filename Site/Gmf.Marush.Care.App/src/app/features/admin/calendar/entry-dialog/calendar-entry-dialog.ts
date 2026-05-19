@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
+import { ComboBox } from '@shared/components/forms/combobox/combobox';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { Input } from '@shared/components/forms/input/input';
 import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
@@ -10,7 +12,7 @@ import { buildEntryRequest, buildFormValue, filterClientResults, minSearchLength
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-calendar-entry-dialog',
-    imports: [Dialog, Input, ReactiveFormsModule],
+    imports: [ComboBox, Dialog, Input, ReactiveFormsModule],
     templateUrl: './calendar-entry-dialog.html',
     styleUrl: './calendar-entry-dialog.scss'
 })
@@ -24,6 +26,8 @@ export class CalendarEntryDialog {
     protected readonly timeOptions = timeOptions;
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly showRescheduleWarning = signal(false);
+    protected readonly selectedStartTime = signal<IComboBoxItem | undefined>(undefined);
+    protected readonly selectedEndTime = signal<IComboBoxItem | undefined>(undefined);
     protected readonly clientSearchResults = signal<{ id: string; label: string }[]>([]);
     protected readonly isLoading = signal(false);
     protected readonly form: FormGroup = this.formBuilder.nonNullable.group({
@@ -40,6 +44,10 @@ export class CalendarEntryDialog {
         this.editingEntry.set(entry ?? null);
         this.showRescheduleWarning.set(false);
         this.form.reset(buildFormValue(date, start, end, entry));
+        const startValue = start ?? entry?.startTime;
+        const endValue = end ?? entry?.endTime;
+        this.selectedStartTime.set(startValue ? timeOptions.find(option => option.value === startValue) : undefined);
+        this.selectedEndTime.set(endValue ? timeOptions.find(option => option.value === endValue) : undefined);
         this.dialog().open();
     };
 

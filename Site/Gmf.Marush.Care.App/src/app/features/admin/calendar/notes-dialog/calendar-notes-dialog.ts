@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
+import { Input } from '@shared/components/forms/input/input';
 import { Calendar } from '../calendar';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
@@ -8,7 +9,7 @@ import { CalendarNoteType } from '../calendar-note-type';
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-calendar-notes-dialog',
-    imports: [Dialog, ReactiveFormsModule],
+    imports: [Dialog, Input, ReactiveFormsModule],
     templateUrl: './calendar-notes-dialog.html',
     styleUrl: './calendar-notes-dialog.scss'
 })
@@ -23,13 +24,13 @@ export class CalendarNotesDialog {
     protected readonly noteDate = signal('');
     protected readonly existingNoteId = signal<string | null>(null);
     protected readonly isLoading = signal(false);
-    protected readonly content = this.formBuilder.nonNullable.control('');
+    protected readonly noteForm: FormGroup = this.formBuilder.nonNullable.group({ content: [''] });
 
     readonly open = (date: string, type: CalendarNoteType, existingNote?: CalendarNote) => {
         this.noteDate.set(date);
         this.noteType.set(type);
         this.existingNoteId.set(existingNote?.id ?? null);
-        this.content.setValue(existingNote?.content ?? '');
+        this.noteForm.controls['content'].setValue(existingNote?.content ?? '');
         this.dialog().open();
     };
 
@@ -42,7 +43,7 @@ export class CalendarNotesDialog {
             await this.calendarService.upsertNote({
                 date: this.noteDate(),
                 noteType: this.noteType(),
-                content: this.content.value
+                content: this.noteForm.value.content as string
             });
             this.dialog().dismiss();
             this.saved.emit();

@@ -7,20 +7,18 @@
         </div>
         <div class="form-row time-row">
             <div class="time-field">
-                <label for="cal-start" class="field-label">Početak</label>
-                <select id="cal-start" formControlName="startTime" class="time-select" (change)="onTimeChange()">
-                    @for (opt of timeOptions; track opt.value) {
-                        <option [value]="opt.value">{{ opt.label }}</option>
-                    }
-                </select>
+                <label class="field-label">Početak</label>
+                <marush-combobox [formGroup]="form" name="startTime"
+                                 [items]="timeOptions"
+                                 [(selectedItem)]="selectedStartTime"
+                                 [onValueChanged]="onTimeChange" />
             </div>
             <div class="time-field">
-                <label for="cal-end" class="field-label">Kraj</label>
-                <select id="cal-end" formControlName="endTime" class="time-select" (change)="onTimeChange()">
-                    @for (opt of timeOptions; track opt.value) {
-                        <option [value]="opt.value">{{ opt.label }}</option>
-                    }
-                </select>
+                <label class="field-label">Kraj</label>
+                <marush-combobox [formGroup]="form" name="endTime"
+                                 [items]="timeOptions"
+                                 [(selectedItem)]="selectedEndTime"
+                                 [onValueChanged]="onTimeChange" />
             </div>
         </div>
 
@@ -46,10 +44,7 @@
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
                       [form]="form"
                       [validation]="[]" />
-        <div class="form-row">
-            <label for="cal-notes" class="field-label">Napomene</label>
-            <textarea id="cal-notes" formControlName="notes" class="notes-textarea" rows="3"></textarea>
-        </div>
+        <marush-input name="notes" placeholder="Napomene" [form]="form" [big]="true" [validation]="[]" />
     </form>
 
     <div slot="actions" class="dialog-actions">

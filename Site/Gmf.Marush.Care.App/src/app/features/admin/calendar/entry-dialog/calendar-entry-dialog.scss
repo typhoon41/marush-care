@@ -36,7 +36,7 @@
 	}
 }
 
-.date-input, .time-select, .search-input, .notes-textarea {
+.date-input, .search-input {
 	box-sizing: border-box;
 	width: 100%;
 	padding: 8px 10px;
@@ -51,11 +51,6 @@
 	&:focus {
 		border-color: v.$font-color;
 	}
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.notes-textarea {
-	resize: vertical;
 }
 
 .search-results {

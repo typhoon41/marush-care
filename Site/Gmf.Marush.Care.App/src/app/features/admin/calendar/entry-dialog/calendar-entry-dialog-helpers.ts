@@ -1,6 +1,6 @@
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
-import { generateTimeOptions } from '../calendar-utils';
+import { generateTimeOptions } from '../calendar-time-slots';
 
 export const timeOptions = generateTimeOptions();
 
