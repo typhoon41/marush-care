@@ -1,4 +1,3 @@
-/* stylelint-disable plugin/file-max-lines */
 @use 'variables';
 @use 'scss-solutions/src/modules/position/absolute';
 
@@ -54,7 +53,6 @@
 .search-result-item {
 	padding: 8px 12px;
 	font-size: 14px;
-	cursor: pointer;
 
 	&:hover {
 		background: variables.$primary;
@@ -68,43 +66,4 @@
 	background: variables.$error;
 	color: variables.$error-font-color;
 	font-size: 13px;
-}
-
-.dialog-actions {
-	display: flex;
-	justify-content: flex-end;
-	width: 100%;
-	gap: 12px;
-}
-
-.line-button {
-	padding: 8px 20px;
-	transition: background .2s, color .2s;
-	border: 2px solid variables.$font-color;
-	border-radius: 2px;
-	background: transparent;
-	color: variables.$font-color;
-	font-family: inherit;
-	font-size: 14px;
-	letter-spacing: 1px;
-	cursor: pointer;
-
-	&.primary {
-		background: variables.$font-color;
-		color: variables.$body-color;
-	}
-
-	&.danger {
-		border-color: variables.$error-font-color;
-		color: variables.$error-font-color;
-
-		&:hover {
-			background: variables.$error;
-		}
-	}
-
-	&:disabled {
-		opacity: .5;
-		cursor: not-allowed;
-	}
 }

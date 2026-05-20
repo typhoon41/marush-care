@@ -6,11 +6,18 @@ $header-row-height: 60px;
 $slot-height: 36px;
 $slots: 44;
 
+$grid-border: 1px solid variables.$accent;
+$slot-border: 1px solid variables.$primary;
+
+%entry-content {
+	line-height: 1.2;
+}
+
 .calendar-grid {
 	display: flex;
 	flex-direction: column;
 	min-width: 620px;
-	border: 1px solid variables.$accent;
+	border: $grid-border;
 	background: variables.$body-color;
 	user-select: none;
 
@@ -35,7 +42,7 @@ $slots: 44;
 	width: $time-col-width;
 	height: $header-row-height;
 	flex-shrink: 0;
-	border-right: 1px solid variables.$accent;
+	border-right: $grid-border;
 	background: variables.$primary;
 }
 
@@ -46,7 +53,7 @@ $slots: 44;
 	flex-direction: column;
 	height: $header-row-height;
 	padding: 6px 8px;
-	border-right: 1px solid variables.$accent;
+	border-right: $grid-border;
 	background: variables.$primary;
 	gap: 4px;
 
@@ -78,15 +85,14 @@ $slots: 44;
 .note-button {
 	align-self: flex-end;
 	padding: 2px 6px;
-	border: 1px solid variables.$accent;
+	border: $grid-border;
 	border-radius: 2px;
 	background: transparent;
 	color: variables.$font-color;
-	font-family: inherit;
 	font-size: 10px;
 	letter-spacing: .5px;
 	line-height: 1.4;
-	cursor: pointer;
+	text-transform: none;
 
 	&.has-note {
 		background: variables.$accent;
@@ -102,7 +108,7 @@ $slots: 44;
 	flex-direction: column;
 	width: $time-col-width;
 	flex-shrink: 0;
-	border-right: 1px solid variables.$accent;
+	border-right: $grid-border;
 }
 
 .time-label {
@@ -110,8 +116,7 @@ $slots: 44;
 	align-items: flex-start;
 	justify-content: flex-end;
 	height: $slot-height;
-	padding: 0 6px;
-	padding-top: 2px;
+	padding: 2px 6px 0;
 	opacity: .55;
 	color: variables.$font-color;
 	font-size: 10px;
@@ -123,7 +128,7 @@ $slots: 44;
 	min-width: 80px;
 	flex-direction: column;
 	position: relative;
-	border-right: 1px solid variables.$primary;
+	border-right: $slot-border;
 
 	&:last-of-type {
 		border-right: none;
@@ -133,7 +138,7 @@ $slots: 44;
 .slot-cell {
 	box-sizing: border-box;
 	height: $slot-height;
-	border-bottom: 1px solid variables.$primary;
+	border-bottom: $slot-border;
 	cursor: crosshair;
 	touch-action: none;
 
@@ -165,7 +170,6 @@ $slots: 44;
 	border-left: 3px solid variables.$font-color;
 	background: variables.$accent;
 	color: variables.$font-color;
-	cursor: pointer;
 
 	&:hover {
 		opacity: .9;
@@ -180,29 +184,30 @@ $slots: 44;
 }
 
 .entry-time {
+	@extend %entry-content;
+
 	opacity: .75;
 	font-size: 10px;
-	line-height: 1.2;
 }
 
 .entry-client {
-	overflow: hidden;
+	@extend %entry-content;
+
 	font-size: 11px;
 	font-weight: 600;
-	line-height: 1.2;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 .entry-money {
+	@extend %entry-content;
+
 	font-size: 10px;
-	line-height: 1.2;
 }
 
 .entry-notes-dot {
+	@extend %entry-content;
+
 	opacity: .7;
 	font-size: 7px;
-	line-height: 1;
 }
 
 @for $slot from 0 through $slots {

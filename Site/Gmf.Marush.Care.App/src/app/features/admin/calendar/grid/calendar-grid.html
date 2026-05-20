@@ -42,7 +42,7 @@
                     </div>
                 }
                 @for (entry of entriesForDay(day.isoDate); track entry.id) {
-                    <div [class]="'entry-cell entry-top-' + getEntryTopSlot(entry.startTime) + ' entry-span-' + getEntrySpan(entry.startTime, entry.endTime)"
+                    <div [class]="'entry-cell clickable entry-top-' + getEntryTopSlot(entry.startTime) + ' entry-span-' + getEntrySpan(entry.startTime, entry.endTime)"
                          (click)="entryClick.emit(entry)">
                         <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
                         @if (entry.money) {
@@ -56,7 +56,7 @@
                 @for (appointment of appointmentsForDay(day.isoDate); track appointment.id) {
                     <div [class]="'public-appointment-cell entry-top-' + getEntryTopSlot(appointment.startTime) + ' entry-span-' + getEntrySpan(appointment.startTime, appointment.endTime)">
                         <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
-                        <div class="entry-client">{{ appointment.clientName }}</div>
+                        <div class="entry-client ellipsis">{{ appointment.clientName }}</div>
                     </div>
                 }
             </div>
