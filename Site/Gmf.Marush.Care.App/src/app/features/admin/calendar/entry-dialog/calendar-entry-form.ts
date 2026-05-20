@@ -47,8 +47,13 @@ export const buildFormValue = (date?: string, startTime?: string, endTime?: stri
     money: entry.money ?? null
 });
 
+export const toSerbianDate = (isoDate: string): string => {
+    const [year, month, day] = isoDate.split('-');
+    return `${parseInt(day, 10)}.${parseInt(month, 10)}.${year}.`;
+};
+
 export const buildEntryRequest = (formValue: Record<string, unknown>): CalendarEntryRequest => ({
-    date: formValue['date'] as string,
+    date: toSerbianDate(formValue['date'] as string),
     startTime: formValue['startTime'] as string,
     endTime: formValue['endTime'] as string,
     customerId: (formValue['customerId'] as string) || undefined,

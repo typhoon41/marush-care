@@ -17,6 +17,9 @@
         <button class="navigation-button" type="button"
                 [class.has-note]="weeklyNote()"
                 (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
+        @if (weeklyNote()) {
+            <p class="weekly-note-content">{{ weeklyNote()!.content }}</p>
+        }
     </div>
 </div>
 

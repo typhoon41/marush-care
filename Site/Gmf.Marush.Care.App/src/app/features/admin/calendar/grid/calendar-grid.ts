@@ -4,6 +4,7 @@ import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
 import { slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-time-slots';
 import { DayInfo } from '../day-info';
+import { toSerbianDate } from '../entry-dialog/calendar-entry-form';
 import { formatMoney } from '../money-formatter';
 import { PublicAppointment } from '../public-appointment';
 
@@ -57,7 +58,7 @@ export class CalendarGrid {
     };
 
     protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
-        this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
+        this.notes().find(note => note.date === toSerbianDate(isoDate) && note.noteType === 'Daily');
 
     protected readonly entriesForDay = (isoDate: string): CalendarEntry[] =>
         this.entries().filter(entry => entry.date === isoDate);

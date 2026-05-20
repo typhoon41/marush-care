@@ -5,6 +5,7 @@ import { Input } from '@shared/components/forms/input/input';
 import { Calendar } from '../calendar';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
+import { toSerbianDate } from '../entry-dialog/calendar-entry-form';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +42,7 @@ export class CalendarNotesDialog {
         this.isLoading.set(true);
         try {
             await this.calendarService.upsertNote({
-                date: this.noteDate(),
+                date: toSerbianDate(this.noteDate()),
                 noteType: this.noteType(),
                 content: this.noteForm.value.content as string
             });

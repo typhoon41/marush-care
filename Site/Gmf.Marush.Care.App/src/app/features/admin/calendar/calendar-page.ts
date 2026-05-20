@@ -5,6 +5,7 @@ import { CalendarEntry } from './calendar-entry';
 import { CalendarNoteType } from './calendar-note-type';
 import { addDays, daysInWeek, mondayOf } from './calendar-week-navigator';
 import { DayInfo } from './day-info';
+import { toSerbianDate } from './entry-dialog/calendar-entry-form';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
 import { CalendarGrid } from './grid/calendar-grid';
 import { formatMoney } from './money-formatter';
@@ -83,7 +84,7 @@ export class CalendarPage {
     };
 
     protected readonly onNoteClick = (event: { date: string; type: CalendarNoteType }) => {
-        const existing = this.notes().find(note => note.date === event.date && note.noteType === event.type);
+        const existing = this.notes().find(note => note.date === toSerbianDate(event.date) && note.noteType === event.type);
         this.notesDialog().open(event.date, event.type, existing);
     };
 
