@@ -10,7 +10,7 @@ import { CalendarEntry } from '../calendar-entry';
 import {
     IComboBoxItem, buildClientSearchForm, buildEntryForm, buildEntryRequest,
     buildFormValue, filterClientResults, findTimeOption, minSearchLength, timeOptions
-} from './calendar-entry-dialog-helpers';
+} from './calendar-entry-form';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,

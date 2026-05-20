@@ -33,3 +33,5 @@ export const generateTimeOptions = (): { value: string; label: string }[] =>
         const time = slotIndexToTime(Math.min(slotIndex, slotsCount));
         return { value: time, label: time };
     });
+
+export const timeOptions = generateTimeOptions();

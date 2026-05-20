@@ -3,11 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
-import { generateTimeOptions } from '../calendar-time-slots';
+import { timeOptions } from '../calendar-time-slots';
 
 export type { IComboBoxItem };
-
-export const timeOptions = generateTimeOptions();
 
 export const buildEntryForm = (): FormGroup => {
     const fb = inject(FormBuilder);
