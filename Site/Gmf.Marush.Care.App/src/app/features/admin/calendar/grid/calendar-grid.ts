@@ -3,8 +3,8 @@ import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
 import { slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-time-slots';
-import { formatMoney } from '../money-formatter';
 import { DayInfo } from '../day-info';
+import { formatMoney } from '../money-formatter';
 import { PublicAppointment } from '../public-appointment';
 
 const unsetSlot = -1;
@@ -15,7 +15,7 @@ const unsetSlot = -1;
     selector: 'marush-calendar-grid',
     imports: [],
     templateUrl: './calendar-grid.html',
-    styleUrl: './calendar-grid.scss'
+    styleUrls: ['./calendar-grid.scss', './calendar-grid-header.scss', './calendar-grid-entries.scss']
 })
 export class CalendarGrid {
     readonly days = input.required<DayInfo[]>();

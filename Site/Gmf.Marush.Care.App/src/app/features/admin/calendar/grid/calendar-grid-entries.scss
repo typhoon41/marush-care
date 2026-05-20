@@ -1,0 +1,74 @@
+@use 'variables';
+
+$slot-height: 36px;
+$slots: 44;
+
+%entry-content {
+	line-height: 1.2;
+}
+
+.entry-cell, .public-appointment-cell {
+	display: flex;
+	position: absolute;
+	z-index: 2;
+	right: 2px;
+	left: 2px;
+	box-sizing: border-box;
+	flex-direction: column;
+	padding: 3px 6px;
+	overflow: hidden;
+	border-radius: 3px;
+	gap: 1px;
+}
+
+.entry-cell {
+	border-left: 3px solid variables.$font-color;
+	background: variables.$accent;
+	color: variables.$font-color;
+
+	&:hover {
+		opacity: .9;
+	}
+}
+
+.public-appointment-cell {
+	border-left: 3px solid variables.$error-font-color;
+	background: variables.$error;
+	color: variables.$error-font-color;
+	cursor: default;
+}
+
+.entry-time {
+	@extend %entry-content;
+	opacity: .75;
+	font-size: 10px;
+}
+
+.entry-client {
+	@extend %entry-content;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.entry-money {
+	@extend %entry-content;
+	font-size: 10px;
+}
+
+.entry-notes-dot {
+	@extend %entry-content;
+	opacity: .7;
+	font-size: 7px;
+}
+
+@for $slot from 0 through $slots {
+	.entry-top-#{$slot} {
+		top: $slot * $slot-height;
+	}
+}
+
+@for $span from 1 through $slots {
+	.entry-span-#{$span} {
+		height: $span * $slot-height;
+	}
+}

@@ -1,8 +1,38 @@
+import { inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
 import { generateTimeOptions } from '../calendar-time-slots';
 
+export type { IComboBoxItem };
+
 export const timeOptions = generateTimeOptions();
+
+export const buildEntryForm = (): FormGroup => {
+    const fb = inject(FormBuilder);
+    return fb.nonNullable.group({
+        date: ['', Validators.required],
+        startTime: ['', Validators.required],
+        endTime: ['', Validators.required],
+        customerId: [''],
+        appointmentId: [''],
+        notes: [''],
+        money: [null as number | null]
+    }, { updateOn: 'blur' });
+};
+
+export const buildClientSearchForm = (): FormGroup => {
+    const fb = inject(FormBuilder);
+    return fb.nonNullable.group({ query: fb.nonNullable.control('', { updateOn: 'change' }) });
+};
+
+export const findTimeOption = (value?: string): IComboBoxItem | undefined => {
+    if (!value) {
+        return undefined;
+    }
+    return timeOptions.find(option => option.value === value);
+};
 
 export const maxSearchResults = 8;
 export const minSearchLength = 2;

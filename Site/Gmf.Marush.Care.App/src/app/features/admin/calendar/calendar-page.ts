@@ -4,10 +4,10 @@ import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
 import { CalendarNoteType } from './calendar-note-type';
 import { addDays, daysInWeek, mondayOf } from './calendar-week-navigator';
-import { formatMoney } from './money-formatter';
 import { DayInfo } from './day-info';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
 import { CalendarGrid } from './grid/calendar-grid';
+import { formatMoney } from './money-formatter';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
 
 const weekLastDayOffset = daysInWeek - 1;
