@@ -103,8 +103,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> UpsertNote(NewCalendarNoteDto request)
     {
-        var noteType = request.NoteType == "Weekly" ? CalendarNoteType.Weekly : CalendarNoteType.Daily;
-        var note = new CalendarNote(Guid.Empty, request.Date, noteType, request.Content);
+        var note = new CalendarNote(Guid.Empty, request.Date, CalendarNoteType.From(request.NoteType), request.Content);
         await calendarRepository.UpsertNote(note);
         return NoContent();
     }

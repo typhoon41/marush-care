@@ -3,10 +3,10 @@
                   [form]="noteForm" [big]="true" [validation]="[]" />
     <div slot="actions" class="dialog-actions">
         @if (existingNoteId()) {
-            <button type="button" class="line-button danger" [disabled]="isLoading()"
-                    (click)="onDelete()">Obriši</button>
+            <button type="button" class="cancel-action" [disabled]="isLoading()"
+                    (click)="onDelete()"><span>Obriši</span></button>
         }
-        <button type="button" class="line-button primary"
-                [disabled]="isLoading()" (click)="onSave()">Sačuvaj</button>
+        <button type="button" class="main-action"
+                [disabled]="isLoading()" (click)="onSave()"><span>Sačuvaj</span></button>
     </div>
 </marush-dialog>

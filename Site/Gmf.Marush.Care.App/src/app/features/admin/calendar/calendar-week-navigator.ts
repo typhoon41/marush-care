@@ -14,3 +14,8 @@ export const addDays = (isoDate: string, days: number): string => {
     result.setDate(result.getDate() + days);
     return result.toISOString().split('T')[0];
 };
+
+export const toSerbianDate = (isoDate: string): string => {
+    const [year, month, day] = isoDate.split('-');
+    return `${parseInt(day, 10)}.${parseInt(month, 10)}.${year}.`;
+};

@@ -42,14 +42,14 @@
 
     <div slot="actions" class="dialog-actions">
         @if (editingEntry()) {
-            <button type="button" class="line-button danger"
+            <button type="button" class="cancel-action"
                     [disabled]="isLoading()" (click)="onDelete()">
-                Obriši termin
+                <span>Obriši termin</span>
             </button>
         }
-        <button type="button" class="line-button primary"
+        <button type="button" class="main-action"
                 [disabled]="isLoading()" (click)="onSave()">
-            Sačuvaj
+            <span>Sačuvaj</span>
         </button>
     </div>
 </marush-dialog>

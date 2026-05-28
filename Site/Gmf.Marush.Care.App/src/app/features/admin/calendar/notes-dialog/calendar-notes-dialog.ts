@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { Input } from '@shared/components/forms/input/input';
 import { Calendar } from '../calendar';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
-import { toSerbianDate } from '../entry-dialog/calendar-entry-form';
+import { toSerbianDate } from '../calendar-week-navigator';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,19 +19,21 @@ export class CalendarNotesDialog {
 
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
-    private readonly formBuilder = inject(FormBuilder);
+    private readonly formBuilder = inject(NonNullableFormBuilder);
 
     protected readonly noteType = signal<CalendarNoteType>('Daily');
     protected readonly noteDate = signal('');
     protected readonly existingNoteId = signal<string | null>(null);
     protected readonly isLoading = signal(false);
-    protected readonly noteForm: FormGroup = this.formBuilder.nonNullable.group({ content: [''] });
+    protected readonly noteForm = this.formBuilder.group({
+        content: new FormControl('', { nonNullable: true })
+    });
 
     readonly open = (date: string, type: CalendarNoteType, existingNote?: CalendarNote) => {
         this.noteDate.set(date);
         this.noteType.set(type);
         this.existingNoteId.set(existingNote?.id ?? null);
-        this.noteForm.controls['content'].setValue(existingNote?.content ?? '');
+        this.noteForm.controls.content.setValue(existingNote?.content ?? '');
         this.dialog().open();
     };
 
@@ -44,7 +46,7 @@ export class CalendarNotesDialog {
             await this.calendarService.upsertNote({
                 date: toSerbianDate(this.noteDate()),
                 noteType: this.noteType(),
-                content: this.noteForm.value.content as string
+                content: this.noteForm.getRawValue().content
             });
             this.dialog().dismiss();
             this.saved.emit();

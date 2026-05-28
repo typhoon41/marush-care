@@ -9,11 +9,7 @@ public record CalendarNoteDto : EntityDto
     public int NoteType { get; set; }
     public string Content { get; set; } = string.Empty;
 
-    public CalendarNote ToDomain()
-    {
-        var type = NoteType == CalendarNoteType.Weekly.Value ? CalendarNoteType.Weekly : CalendarNoteType.Daily;
-        return new CalendarNote(Id, Date, type, Content);
-    }
+    public CalendarNote ToDomain() => new(Id, Date, CalendarNoteType.From(NoteType), Content);
 
     public static CalendarNoteDto FromDomain(CalendarNote note) => new()
     {

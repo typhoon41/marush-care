@@ -1,4 +1,4 @@
-export interface SlotAddress {
-    date: string;
-    time: string;
+export class SlotAddress {
+    date: string = '';
+    time: string = '';
 }

@@ -12,7 +12,7 @@ export class AdminRoutes {
             () => import('@features/admin/clients/edit/clients-edit-page').then(module => module.ClientsEditPage), [isUserAuthenticated]),
         lazyRoute('clients-edit', 'admin/klijent/:id',
             () => import('@features/admin/clients/edit/clients-edit-page').then(module => module.ClientsEditPage), [isUserAuthenticated]),
-        lazyRoute('calendar', $localize`:@@routes.admin.calendar:admin/kalendar`,
+        lazyRoute('calendar', 'admin/kalendar',
             () => import('@features/admin/calendar/calendar-page').then(module => module.CalendarPage), [isUserAuthenticated])
     ];
 }

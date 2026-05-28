@@ -3,10 +3,9 @@ import { Title } from '@angular/platform-browser';
 import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
 import { CalendarNoteType } from './calendar-note-type';
-import { addDays, daysInWeek, mondayOf, workingDaysInWeek } from './calendar-week-navigator';
+import { addDays, daysInWeek, mondayOf, toSerbianDate, workingDaysInWeek } from './calendar-week-navigator';
 import { DayInfo } from './day-info';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
-import { toSerbianDate } from './entry-dialog/calendar-entry-form';
 import { CalendarGrid } from './grid/calendar-grid';
 import { formatMoney } from './money-formatter';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
@@ -36,17 +35,8 @@ export class CalendarPage {
     protected readonly days = computed((): DayInfo[] => {
         const start = this.weekStart();
         const entries = this.entries();
-        return Array.from({ length: workingDaysInWeek }, (_, dayIndex) => {
-            const iso = addDays(start, dayIndex);
-            const date = new Date(`${iso}T12:00:00`);
-            const dayName = date.toLocaleDateString('sr-Latn-RS', { weekday: 'short' });
-            const dayDate = date.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'numeric' });
-            const label = `${dayName} ${dayDate}`;
-            const dailyTotal = entries
-                .filter(entry => entry.date === iso && entry.money !== undefined)
-                .reduce((sum, entry) => sum + (entry.money ?? 0), 0);
-            return { isoDate: iso, label, dailyTotal };
-        });
+        return Array.from({ length: workingDaysInWeek }, (_, dayIndex) =>
+            new DayInfo(addDays(start, dayIndex), entries));
     });
 
     protected readonly weeklyTotal = computed(() =>

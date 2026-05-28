@@ -3,8 +3,8 @@ import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
 import { slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-time-slots';
+import { toSerbianDate } from '../calendar-week-navigator';
 import { DayInfo } from '../day-info';
-import { toSerbianDate } from '../entry-dialog/calendar-entry-form';
 import { formatMoney } from '../money-formatter';
 import { PublicAppointment } from '../public-appointment';
 

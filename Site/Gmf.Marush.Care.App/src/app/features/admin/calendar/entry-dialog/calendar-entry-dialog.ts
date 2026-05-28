@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
 import { Input } from '@shared/components/forms/input/input';
@@ -26,13 +26,14 @@ export class CalendarEntryDialog {
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
     private readonly clientsService = inject(Clients);
+    private readonly formBuilder = inject(NonNullableFormBuilder);
     protected readonly timeOptions = timeOptions;
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly selectedStartTime = signal<IComboBoxItem | undefined>(undefined);
     protected readonly selectedEndTime = signal<IComboBoxItem | undefined>(undefined);
     protected readonly isLoading = signal(false);
-    protected readonly form = buildEntryForm();
-    protected readonly clientSearchForm = buildClientSearchForm();
+    protected readonly form = buildEntryForm(this.formBuilder);
+    protected readonly clientSearchForm = buildClientSearchForm(this.formBuilder);
     private readonly entryFormValues = toSignal(this.form.valueChanges, { initialValue: this.form.value });
     private readonly clientSearchValues = toSignal(this.clientSearchForm.valueChanges, { initialValue: this.clientSearchForm.value });
     private readonly allClientsResource = this.clientsService.getAll();
@@ -75,7 +76,7 @@ export class CalendarEntryDialog {
         }
         this.isLoading.set(true);
         try {
-            const request = buildEntryRequest(this.form.value);
+            const request = buildEntryRequest(this.form.getRawValue());
             const entry = this.editingEntry();
             await (entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request));
             this.dialog().dismiss();

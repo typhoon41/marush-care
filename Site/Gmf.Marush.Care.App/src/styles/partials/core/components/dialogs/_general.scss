@@ -88,31 +88,3 @@ $footer-height: 75px;
 	width: 100%;
 	gap: 12px;
 }
-
-.line-button {
-	padding: 8px 20px;
-	transition: background .2s, color .2s;
-	border: 2px solid variables.$font-color;
-	border-radius: 2px;
-	background: transparent;
-	color: variables.$font-color;
-
-	&.primary {
-		background: variables.$font-color;
-		color: variables.$body-color;
-	}
-
-	&.danger {
-		border-color: variables.$error-font-color;
-		color: variables.$error-font-color;
-
-		&:hover {
-			background: variables.$error;
-		}
-	}
-
-	&:disabled {
-		opacity: .5;
-		cursor: not-allowed;
-	}
-}
