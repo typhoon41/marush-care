@@ -1,6 +1,7 @@
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Data.Configurations.Calendar;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
@@ -92,7 +93,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
     public async Task<IEnumerable<CalendarNote>> GetNotesForWeek(DateOnly weekStart)
     {
-        var weekEnd = weekStart.AddDays(6);
+        var weekEnd = weekStart.AddDays(CalendarEntryConfiguration.WorkingDaysInWeek - 1);
         var dtos = await _notes
             .Where(note => note.Date >= weekStart && note.Date <= weekEnd ||
                            note.Date == weekStart && note.NoteType == CalendarNoteType.Weekly.Value)
@@ -167,5 +168,5 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
     private static (DateTimeOffset start, DateTimeOffset end) WeekRange(DateOnly weekStart) => (
         new DateTimeOffset(weekStart.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero),
-        new DateTimeOffset(weekStart.AddDays(6).ToDateTime(TimeOnly.MaxValue), TimeSpan.Zero));
+        new DateTimeOffset(weekStart.AddDays(CalendarEntryConfiguration.WorkingDaysInWeek - 1).ToDateTime(TimeOnly.MaxValue), TimeSpan.Zero));
 }

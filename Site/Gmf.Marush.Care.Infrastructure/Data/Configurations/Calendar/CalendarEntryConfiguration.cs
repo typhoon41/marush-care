@@ -9,6 +9,8 @@ namespace Gmf.Marush.Care.Infrastructure.Data.Configurations.Calendar;
 [ExcludeFromCodeCoverage]
 public class CalendarEntryConfiguration : IEntityTypeConfiguration<CalendarEntryDto>
 {
+    public const int WorkingDaysInWeek = 6;
+
     public void Configure(EntityTypeBuilder<CalendarEntryDto> builder)
     {
         _ = builder.ToTable("CalendarEntries");

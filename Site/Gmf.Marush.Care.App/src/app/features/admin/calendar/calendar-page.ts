@@ -3,15 +3,15 @@ import { Title } from '@angular/platform-browser';
 import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
 import { CalendarNoteType } from './calendar-note-type';
-import { addDays, daysInWeek, mondayOf } from './calendar-week-navigator';
+import { addDays, daysInWeek, mondayOf, workingDaysInWeek } from './calendar-week-navigator';
 import { DayInfo } from './day-info';
-import { toSerbianDate } from './entry-dialog/calendar-entry-form';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
+import { toSerbianDate } from './entry-dialog/calendar-entry-form';
 import { CalendarGrid } from './grid/calendar-grid';
 import { formatMoney } from './money-formatter';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
 
-const weekLastDayOffset = daysInWeek - 1;
+const weekLastDayOffset = workingDaysInWeek - 1;
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +36,7 @@ export class CalendarPage {
     protected readonly days = computed((): DayInfo[] => {
         const start = this.weekStart();
         const entries = this.entries();
-        return Array.from({ length: daysInWeek }, (_, dayIndex) => {
+        return Array.from({ length: workingDaysInWeek }, (_, dayIndex) => {
             const iso = addDays(start, dayIndex);
             const date = new Date(`${iso}T12:00:00`);
             const dayName = date.toLocaleDateString('sr-Latn-RS', { weekday: 'short' });

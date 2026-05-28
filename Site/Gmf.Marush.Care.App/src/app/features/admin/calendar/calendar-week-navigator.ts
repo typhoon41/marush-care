@@ -1,4 +1,5 @@
 export const daysInWeek = 7;
+export const workingDaysInWeek = 6;
 
 export const mondayOf = (date: Date): string => {
     const monday = new Date(date);

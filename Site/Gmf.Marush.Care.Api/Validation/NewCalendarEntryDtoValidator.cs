@@ -2,12 +2,12 @@ using FluentValidation;
 using Gmf.Marush.Care.Api.Models.Calendar;
 
 namespace Gmf.Marush.Care.Api.Validation;
-public class CalendarEntryValidator : AbstractValidator<CalendarEntryRequest>
+public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDto>
 {
     private static readonly TimeOnly CalendarStart = new(11, 0);
     private static readonly TimeOnly CalendarEnd = new(22, 0);
 
-    public CalendarEntryValidator()
+    public NewCalendarEntryDtoValidator()
     {
         _ = RuleFor(x => x.Date).NotEmpty();
         _ = RuleFor(x => x.StartTime)

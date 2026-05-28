@@ -1,5 +1,5 @@
 namespace Gmf.Marush.Care.Api.Models.Calendar;
-public record CalendarEntryRequest
+public record NewCalendarEntryDto
 {
     public DateOnly Date { get; init; }
     public TimeOnly StartTime { get; init; }

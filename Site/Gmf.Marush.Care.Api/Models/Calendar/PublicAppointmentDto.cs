@@ -1,5 +1,5 @@
 namespace Gmf.Marush.Care.Api.Models.Calendar;
-public record PublicAppointmentResponse(
+public record PublicAppointmentDto(
     Guid Id,
     DateOnly Date,
     TimeOnly StartTime,

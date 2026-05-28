@@ -1,5 +1,5 @@
 namespace Gmf.Marush.Care.Api.Models.Calendar;
-public record CalendarNoteRequest
+public record NewCalendarNoteDto
 {
     public DateOnly Date { get; init; }
     public string NoteType { get; init; } = "Daily";
