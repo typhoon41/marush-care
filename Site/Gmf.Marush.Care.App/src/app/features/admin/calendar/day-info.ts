@@ -4,6 +4,7 @@ export class DayInfo {
     readonly isoDate: string;
     readonly label: string;
     readonly dailyTotal: number;
+    readonly isPast: boolean;
 
     constructor(isoDate: string, entries: CalendarEntry[]) {
         const date = new Date(`${isoDate}T12:00:00`);
@@ -14,5 +15,8 @@ export class DayInfo {
         this.dailyTotal = entries
             .filter(entry => entry.date === isoDate && entry.money !== undefined)
             .reduce((sum, entry) => sum + (entry.money ?? 0), 0);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        this.isPast = date < today;
     }
 }

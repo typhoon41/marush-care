@@ -9,16 +9,19 @@
         <div class="grid-corner"></div>
         @for (day of days(); track day.isoDate) {
             <div class="day-header">
-                <div class="day-info">
+                <div class="day-header-top">
                     <span class="day-label">{{ day.label }}</span>
-                    @if (day.dailyTotal > 0) {
-                        <span class="day-total">{{ formatMoney(day.dailyTotal) }} RSD</span>
-                    }
+                    <button class="note-button" type="button"
+                            title="Dnevne napomene"
+                            [class.has-note]="getDailyNote(day.isoDate)"
+                            (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
                 </div>
-                <button class="note-button" type="button"
-                        title="Dnevne napomene"
-                        [class.has-note]="getDailyNote(day.isoDate)"
-                        (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
+                @if (getDailyNote(day.isoDate); as note) {
+                    <p class="day-note-content">{{ note.content }}</p>
+                }
+                @if (day.dailyTotal > 0) {
+                    <span class="day-total">{{ day.isPast ? 'Zarada' : 'Očekivana zarada' }}: {{ formatMoney(day.dailyTotal) }} RSD</span>
+                }
             </div>
         }
     </div>

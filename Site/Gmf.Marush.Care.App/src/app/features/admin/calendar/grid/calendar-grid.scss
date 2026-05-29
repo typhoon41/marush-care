@@ -36,7 +36,7 @@ $slot-border: 1px solid variables.$primary;
 .grid-corner {
 	flex-shrink: 0;
 	width: $time-col-width;
-	height: $header-row-height;
+	min-height: $header-row-height;
 	border-right: $grid-border;
 	background: variables.$primary;
 }

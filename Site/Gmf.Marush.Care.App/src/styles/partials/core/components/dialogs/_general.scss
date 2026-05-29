@@ -13,6 +13,10 @@ $footer-height: 75px;
 	display: block;
 }
 
+.dialog-open {
+	overflow: hidden;
+}
+
 .dialog-container {
 	box-sizing: border-box;
 	width: calc(100% - 40px);
