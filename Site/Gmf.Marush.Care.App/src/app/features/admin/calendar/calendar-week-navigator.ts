@@ -1,18 +1,30 @@
 export const daysInWeek = 7;
 export const workingDaysInWeek = 6;
 
+const padToTwoDigits = 2;
+
+const toLocalIsoDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString()
+        .padStart(padToTwoDigits, '0');
+    const day = date.getDate().toString()
+        .padStart(padToTwoDigits, '0');
+    return `${year}-${month}-${day}`;
+};
+
 export const mondayOf = (date: Date): string => {
     const monday = new Date(date);
     const dayOfWeek = monday.getDay();
     const daysFromMonday = dayOfWeek === 0 ? daysInWeek - 1 : dayOfWeek - 1;
     monday.setDate(monday.getDate() - daysFromMonday);
-    return monday.toISOString().split('T')[0];
+    return toLocalIsoDate(monday);
 };
 
 export const addDays = (isoDate: string, days: number): string => {
-    const result = new Date(isoDate);
+    const [year, month, day] = isoDate.split('-').map(Number);
+    const result = new Date(year, month - 1, day);
     result.setDate(result.getDate() + days);
-    return result.toISOString().split('T')[0];
+    return toLocalIsoDate(result);
 };
 
 export const toSerbianDate = (isoDate: string): string => {

@@ -3,18 +3,14 @@
     <form slot="body" class="entry-form" [formGroup]="form">
         <marush-input type="date" name="date" placeholder="Datum" [form]="form" [validation]="['required']" />
         <div class="form-row time-row">
-            <div class="time-field">
-                <span class="field-label">Početak</span>
-                <marush-combobox name="startTime" [formGroup]="form"
-                                 [items]="timeOptions"
-                                 [(selectedItem)]="selectedStartTime" />
-            </div>
-            <div class="time-field">
-                <span class="field-label">Kraj</span>
-                <marush-combobox name="endTime" [formGroup]="form"
-                                 [items]="timeOptions"
-                                 [(selectedItem)]="selectedEndTime" />
-            </div>
+            <marush-combobox class="time-field" name="startTime" placeholder="Početak"
+                             [formGroup]="form"
+                             [items]="timeOptions"
+                             [(selectedItem)]="selectedStartTime" />
+            <marush-combobox class="time-field" name="endTime" placeholder="Kraj"
+                             [formGroup]="form"
+                             [items]="timeOptions"
+                             [(selectedItem)]="selectedEndTime" />
         </div>
 
         @if (showRescheduleWarning()) {

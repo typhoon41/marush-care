@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 
 @Component({
@@ -16,8 +16,17 @@ export class Dialog {
     readonly bodyClass = input<string>();
     readonly footerClass = input<string>();
 
+    constructor() {
+        afterNextRender(() => {
+            this.dialog()?.nativeElement.addEventListener('close', () => {
+                document.body.classList.remove('dialog-open');
+            });
+        });
+    }
+
     readonly open = () => {
         this.dialog()?.nativeElement.showModal();
+        document.body.classList.add('dialog-open');
     };
 
     readonly dismiss = () => {
