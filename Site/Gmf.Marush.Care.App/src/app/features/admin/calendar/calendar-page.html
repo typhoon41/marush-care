@@ -1,26 +1,25 @@
- 
+
 <div class="page-header">
-    <h1 class="page-title">Kalendar</h1>
-    <div class="week-navigation">
-        <button class="navigation-button" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
-        <span class="week-label">{{ weekLabel() }}</span>
-        <button class="navigation-button" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
-        <button class="navigation-button today-button" type="button"
-                (click)="goToThisWeek()">Ova nedelja</button>
-    </div>
-    <div class="header-meta">
+    <div class="header-row">
+        <button class="navigation-button" type="button"
+                [class.has-note]="weeklyNote()"
+                (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
+        <div class="week-navigation">
+            <button class="navigation-button" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
+            <span class="week-label">{{ weekLabel() }}</span>
+            <button class="navigation-button" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
+            <button class="navigation-button today-button" type="button"
+                    (click)="goToThisWeek()">Ova nedelja</button>
+        </div>
         @if (weeklyTotal() > 0) {
             <span class="weekly-total">
                 {{ formatMoney(weeklyTotal()) }} RSD
             </span>
         }
-        <button class="navigation-button" type="button"
-                [class.has-note]="weeklyNote()"
-                (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
-        @if (weeklyNote()) {
-            <p class="weekly-note-content">{{ weeklyNote()!.content }}</p>
-        }
     </div>
+    @if (weeklyNote()) {
+        <p class="weekly-note-content">{{ weeklyNote()!.content }}</p>
+    }
 </div>
 
 <marush-calendar-grid

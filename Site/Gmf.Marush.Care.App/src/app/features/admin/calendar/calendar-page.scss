@@ -2,17 +2,17 @@
 
 .page-header {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
 	align-items: center;
-	gap: 12px;
+	gap: 8px;
 }
 
-.page-title {
-	margin: 0;
-	color: v.$font-color;
-	font-size: 20px;
-	font-weight: 600;
-	letter-spacing: 1px;
+.header-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
 }
 
 .week-navigation {
@@ -53,16 +53,16 @@
 	}
 }
 
-.header-meta {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin-left: auto;
-}
-
 .weekly-total {
 	color: v.$font-color;
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: .5px;
+}
+
+.weekly-note-content {
+	margin: 0;
+	color: v.$accent;
+	font-size: 13px;
+	text-align: center;
 }
