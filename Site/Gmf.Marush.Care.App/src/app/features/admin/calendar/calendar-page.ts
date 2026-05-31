@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal, viewChild
 import { Title } from '@angular/platform-browser';
 import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
+import { CalendarNote } from './calendar-note';
 import { CalendarNoteType } from './calendar-note-type';
 import { addDays, daysInWeek, mondayOf, toSerbianDate, workingDaysInWeek } from './calendar-week-navigator';
 import { DayInfo } from './day-info';
@@ -81,6 +82,15 @@ export class CalendarPage {
     protected readonly onWeeklyNoteClick = () => {
         const existing = this.weeklyNote();
         this.notesDialog().open(this.weekStart(), 'Weekly', existing);
+    };
+
+    protected readonly onNonWorkingDayToggle = async (event: { date: string; existing: CalendarNote | undefined }) => {
+        if (event.existing) {
+            await this.calendarService.deleteNote(event.existing.id);
+        } else {
+            await this.calendarService.upsertNote({ date: toSerbianDate(event.date), noteType: 'NonWorkingDay', content: '' });
+        }
+        this.weekData.reload();
     };
 
     protected readonly onSaved = () => {

@@ -8,13 +8,23 @@
     <div class="calendar-header">
         <div class="grid-corner"></div>
         @for (day of days(); track day.isoDate) {
-            <div class="day-header">
+            <div class="day-header" [class.non-working-day]="getNonWorkingDay(day.isoDate)">
                 <div class="day-header-top">
+                    <button class="non-working-button" type="button"
+                            title="Neradni dan"
+                            [class.is-active]="getNonWorkingDay(day.isoDate)"
+                            (click)="nonWorkingDayToggle.emit({date: day.isoDate, existing: getNonWorkingDay(day.isoDate)})">
+                        <img class="button-icon" src="/assets/images/actions/non-working-day.svg" alt="" aria-hidden="true" />
+                    </button>
                     <span class="day-label">{{ day.label }}</span>
-                    <button class="note-button" type="button"
-                            title="Dnevne napomene"
-                            [class.has-note]="getDailyNote(day.isoDate)"
-                            (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">N</button>
+                    @if (!getNonWorkingDay(day.isoDate)) {
+                        <button class="note-button" type="button"
+                                title="Dnevne napomene"
+                                [class.has-note]="getDailyNote(day.isoDate)"
+                                (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">
+                            <img class="button-icon" src="/assets/images/actions/note.svg" alt="" aria-hidden="true" />
+                        </button>
+                    }
                 </div>
                 @if (getDailyNote(day.isoDate); as note) {
                     <p class="day-note-content">{{ note.content }}</p>
@@ -34,7 +44,7 @@
         </div>
 
         @for (day of days(); track day.isoDate) {
-            <div class="day-column">
+            <div class="day-column" [class.non-working]="getNonWorkingDay(day.isoDate)">
                 @for (slot of timeSlots; track slot.index) {
                     <div class="slot-cell"
                          [class.drag-selected]="isSlotDragSelected(day.isoDate, slot.index)"

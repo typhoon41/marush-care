@@ -5,7 +5,19 @@ public class CalendarNoteType(int value, string displayName) : Enumeration<int>(
 {
     public static CalendarNoteType Daily { get; } = new(1, nameof(Daily));
     public static CalendarNoteType Weekly { get; } = new(2, nameof(Weekly));
+    public static CalendarNoteType NonWorkingDay { get; } = new(3, nameof(NonWorkingDay));
 
-    public static CalendarNoteType From(string name) => name == Weekly.DisplayName ? Weekly : Daily;
-    public static CalendarNoteType From(int value) => value == Weekly.Value ? Weekly : Daily;
+    public static CalendarNoteType From(string name) => name switch
+    {
+        nameof(Weekly) => Weekly,
+        nameof(NonWorkingDay) => NonWorkingDay,
+        _ => Daily
+    };
+
+    public static CalendarNoteType From(int value) => value switch
+    {
+        2 => Weekly,
+        3 => NonWorkingDay,
+        _ => Daily
+    };
 }

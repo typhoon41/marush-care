@@ -27,6 +27,7 @@ export class CalendarGrid {
     readonly entryClick = output<CalendarEntry>();
     readonly dragComplete = output<{ date: string; startTime: string; endTime: string }>();
     readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
+    readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
 
     private readonly gridEl = viewChild.required<ElementRef<HTMLElement>>('gridEl');
 
@@ -60,6 +61,9 @@ export class CalendarGrid {
     protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
         this.notes().find(note => note.date === toSerbianDate(isoDate) && note.noteType === 'Daily');
 
+    protected readonly getNonWorkingDay = (isoDate: string): CalendarNote | undefined =>
+        this.notes().find(note => note.date === toSerbianDate(isoDate) && note.noteType === 'NonWorkingDay');
+
     protected readonly entriesForDay = (isoDate: string): CalendarEntry[] =>
         this.entries().filter(entry => entry.date === isoDate);
 
@@ -73,6 +77,9 @@ export class CalendarGrid {
         timeToSlotIndex(endTime) - timeToSlotIndex(startTime);
 
     protected readonly onPointerDown = (event: PointerEvent, date: string, slot: number) => {
+        if (this.getNonWorkingDay(date)) {
+            return;
+        }
         event.preventDefault();
         this.gridEl().nativeElement.setPointerCapture(event.pointerId);
         this.dragAnchorDate.set(date);

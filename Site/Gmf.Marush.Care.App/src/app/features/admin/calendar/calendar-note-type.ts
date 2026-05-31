@@ -1,1 +1,1 @@
-export type CalendarNoteType = 'Daily' | 'Weekly';
+export type CalendarNoteType = 'Daily' | 'Weekly' | 'NonWorkingDay';

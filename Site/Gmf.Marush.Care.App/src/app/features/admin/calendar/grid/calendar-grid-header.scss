@@ -52,15 +52,18 @@ $slot-border: 1px solid variables.$primary;
 	font-size: 11px;
 }
 
+.button-icon {
+	display: block;
+}
+
 .note-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	padding: 2px 6px;
 	border: $grid-border;
 	border-radius: 2px;
 	background: transparent;
-	color: variables.$font-color;
-	font-size: 10px;
-	letter-spacing: .5px;
-	line-height: 1.4;
 	text-transform: none;
 
 	&.has-note {
@@ -70,6 +73,42 @@ $slot-border: 1px solid variables.$primary;
 	&:hover {
 		background: variables.$accent;
 	}
+}
+
+.non-working-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2px 4px;
+	border: $grid-border;
+	border-radius: 2px;
+	background: transparent;
+	text-transform: none;
+
+	.button-icon {
+		opacity: .5;
+	}
+
+	&.is-active {
+		border-color: variables.$font-color;
+		background: variables.$accent;
+
+		.button-icon {
+			opacity: 1;
+		}
+	}
+
+	&:hover {
+		background: variables.$accent;
+
+		.button-icon {
+			opacity: 1;
+		}
+	}
+}
+
+.day-header.non-working-day {
+	background: rgba(variables.$accent, .3);
 }
 
 .time-label {

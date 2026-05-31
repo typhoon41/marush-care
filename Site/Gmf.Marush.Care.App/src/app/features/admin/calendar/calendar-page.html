@@ -30,7 +30,8 @@
     [notes]="notes()"
     (entryClick)="onEntryClick($event)"
     (dragComplete)="onDragComplete($event)"
-    (noteClick)="onNoteClick($event)" />
+    (noteClick)="onNoteClick($event)"
+    (nonWorkingDayToggle)="onNonWorkingDayToggle($event)" />
 
 <marush-calendar-entry-dialog
     (saved)="onSaved()"
