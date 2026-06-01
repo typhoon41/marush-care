@@ -13,6 +13,7 @@ $slot-border: 1px solid variables.$primary;
 	min-width: 80px;
 	min-height: $header-row-height;
 	padding: 6px 8px;
+	border-top: $grid-border;
 	border-right: $grid-border;
 	background: variables.$primary;
 	gap: 4px;

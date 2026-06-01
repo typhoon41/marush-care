@@ -80,6 +80,13 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 
 ---
 
+## Frontend Conventions (Angular / SCSS)
+
+- **No viewport units** — never use `vh`/`vw`/`vmin`/`vmax`; they are buggy on iOS Safari (the dynamic toolbar resizes the viewport). Use `%` instead. For modal `<dialog>`/overlays, `%` resolves against the viewport, so `max-width: 50%` / `max-height: 80%` behave like `vw`/`vh` without the bug.
+- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
+
+---
+
 ## Local Development Setup
 
 1. .NET 10.0 SDK

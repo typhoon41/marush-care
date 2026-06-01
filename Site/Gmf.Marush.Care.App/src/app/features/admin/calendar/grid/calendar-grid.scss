@@ -12,7 +12,7 @@ $slot-border: 1px solid variables.$primary;
 	display: flex;
 	flex-direction: column;
 	min-width: 620px;
-	border: $grid-border;
+	border-right: $grid-border;
 	background: variables.$body-color;
 	user-select: none;
 }
@@ -56,6 +56,7 @@ $slot-border: 1px solid variables.$primary;
 	flex-direction: column;
 	min-width: 80px;
 	border-right: $slot-border;
+	border-bottom: $grid-border;
 
 	&:last-of-type {
 		border-right: none;

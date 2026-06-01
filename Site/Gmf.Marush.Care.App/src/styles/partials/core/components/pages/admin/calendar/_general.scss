@@ -1,6 +1,9 @@
 @use 'breakpoints';
 @use 'variables';
 
+$dialog-gap: 16px;
+$dialog-mobile-size: calc(100% - #{$dialog-gap * 2});
+
 .calendar-page {
 	display: flex;
 	box-sizing: border-box;
@@ -11,9 +14,58 @@
 	@include breakpoints.apply-from-desktop() {
 		padding: variables.$side-gaps;
 	}
+
+	.dialog-container {
+		box-sizing: border-box;
+		width: $dialog-mobile-size;
+		max-width: $dialog-mobile-size;
+		height: auto;
+		max-height: $dialog-mobile-size;
+		padding: 20px;
+		overflow: auto;
+
+		@include breakpoints.apply-from-tablet() {
+			width: fit-content;
+			min-width: 480px;
+			max-width: 70%;
+			max-height: 85%;
+			padding: 24px;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			max-width: 50%;
+			max-height: 80%;
+			padding: 32px;
+		}
+	}
+
+	.dialog-header,
+	.dialog-body,
+	.dialog-footer {
+		height: auto;
+	}
+
+	.dialog-header {
+		padding-bottom: $dialog-gap;
+	}
+
+	.dialog-footer {
+		padding-top: $dialog-gap;
+	}
+
+	.dialog-actions {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		@include breakpoints.apply-from-tablet() {
+			flex-direction: row;
+		}
+	}
 }
 
 .calendar-grid-container {
+	display: block;
 	overflow-x: auto;
 }
 
