@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
+import { ScreenSize } from '../../../../shared/services/screen-size';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
@@ -16,9 +17,10 @@ const unsetSlot = -1;
     selector: 'marush-calendar-grid',
     imports: [],
     templateUrl: './calendar-grid.html',
-    styleUrls: ['./calendar-grid.scss', './calendar-grid-header.scss', './calendar-grid-entries.scss']
+    styleUrls: ['./calendar-grid.scss', './calendar-grid-header.scss', './calendar-grid-day-actions.scss', './calendar-grid-entries.scss']
 })
 export class CalendarGrid {
+    protected readonly screenSize = inject(ScreenSize);
     readonly days = input.required<DayInfo[]>();
     readonly entries = input<CalendarEntry[]>([]);
     readonly publicAppointments = input<PublicAppointment[]>([]);
@@ -30,7 +32,6 @@ export class CalendarGrid {
     readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
 
     private readonly gridEl = viewChild.required<ElementRef<HTMLElement>>('gridEl');
-
     protected readonly timeSlots = timeSlots;
     protected readonly formatMoney = formatMoney;
 
@@ -39,7 +40,6 @@ export class CalendarGrid {
     private readonly dragCurrentSlot = signal(unsetSlot);
 
     protected readonly isDragging = computed(() => this.dragAnchorDate() !== null);
-
     protected readonly dragRange = computed(() => {
         const date = this.dragAnchorDate();
         const anchor = this.dragAnchorSlot();
@@ -70,8 +70,7 @@ export class CalendarGrid {
     protected readonly appointmentsForDay = (isoDate: string): PublicAppointment[] =>
         this.publicAppointments().filter(appointment => appointment.date === isoDate);
 
-    protected readonly getEntryTopSlot = (startTime: string): number =>
-        timeToSlotIndex(startTime);
+    protected readonly getEntryTopSlot = (startTime: string): number => timeToSlotIndex(startTime);
 
     protected readonly getEntrySpan = (startTime: string, endTime: string): number =>
         timeToSlotIndex(endTime) - timeToSlotIndex(startTime);

@@ -84,7 +84,7 @@ export class CalendarPage {
         this.notesDialog().open(this.weekStart(), 'Weekly', existing);
     };
 
-    protected readonly onNonWorkingDayToggle = async (event: { date: string; existing: CalendarNote | undefined }) => {
+    protected readonly onNonWorkingDayToggle = async(event: { date: string; existing: CalendarNote | undefined }) => {
         if (event.existing) {
             await this.calendarService.deleteNote(event.existing.id);
         } else {

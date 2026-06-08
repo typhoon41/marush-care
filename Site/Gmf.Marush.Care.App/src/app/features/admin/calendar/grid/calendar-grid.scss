@@ -1,5 +1,7 @@
+@use 'breakpoints';
 @use 'variables';
 
+$time-col-width-mobile: 40px;
 $time-col-width: 60px;
 $header-row-height: 60px;
 $slot-height: 36px;
@@ -11,10 +13,13 @@ $slot-border: 1px solid variables.$primary;
 .calendar-grid {
 	display: flex;
 	flex-direction: column;
-	min-width: 620px;
 	border-right: $grid-border;
 	background: variables.$body-color;
 	user-select: none;
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 620px;
+	}
 }
 
 .calendar-grid.is-dragging {
@@ -35,18 +40,26 @@ $slot-border: 1px solid variables.$primary;
 
 .grid-corner {
 	flex-shrink: 0;
-	width: $time-col-width;
+	width: $time-col-width-mobile;
 	min-height: $header-row-height;
 	border-right: $grid-border;
 	background: variables.$primary;
+
+	@include breakpoints.apply-from-tablet() {
+		width: $time-col-width;
+	}
 }
 
 .time-column {
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0;
-	width: $time-col-width;
+	width: $time-col-width-mobile;
 	border-right: $grid-border;
+
+	@include breakpoints.apply-from-tablet() {
+		width: $time-col-width;
+	}
 }
 
 .day-column {
@@ -54,9 +67,13 @@ $slot-border: 1px solid variables.$primary;
 	position: relative;
 	flex: 1;
 	flex-direction: column;
-	min-width: 80px;
+	min-width: 40px;
 	border-right: $slot-border;
 	border-bottom: $grid-border;
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 80px;
+	}
 
 	&:last-of-type {
 		border-right: none;

@@ -39,9 +39,7 @@ $dialog-mobile-size: calc(100% - #{$dialog-gap * 2});
 		}
 	}
 
-	.dialog-header,
-	.dialog-body,
-	.dialog-footer {
+	.dialog-header, .dialog-body, .dialog-footer {
 		height: auto;
 	}
 

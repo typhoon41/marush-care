@@ -3,6 +3,8 @@ import { CalendarEntry } from './calendar-entry';
 export class DayInfo {
     readonly isoDate: string;
     readonly label: string;
+    readonly shortLabel: string;
+    readonly dateLabel: string;
     readonly dailyTotal: number;
     readonly isPast: boolean;
 
@@ -12,6 +14,8 @@ export class DayInfo {
         const dayDate = date.toLocaleDateString('sr-Latn-RS', { day: 'numeric', month: 'numeric' });
         this.isoDate = isoDate;
         this.label = `${dayName} ${dayDate}`;
+        this.shortLabel = dayName.charAt(0).toUpperCase();
+        this.dateLabel = dayDate;
         this.dailyTotal = entries
             .filter(entry => entry.date === isoDate && entry.money !== undefined)
             .reduce((sum, entry) => sum + (entry.money ?? 0), 0);

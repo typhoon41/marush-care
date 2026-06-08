@@ -1,40 +1,83 @@
+@use 'breakpoints';
 @use 'variables';
 
 $header-row-height: 60px;
-$slot-height: 36px;
 
 $grid-border: 1px solid variables.$accent;
-$slot-border: 1px solid variables.$primary;
 
 .day-header {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	min-width: 80px;
+	min-width: 0;
 	min-height: $header-row-height;
-	padding: 6px 8px;
+	padding: 4px;
+	overflow: hidden;
 	border-top: $grid-border;
 	border-right: $grid-border;
 	background: variables.$primary;
-	gap: 4px;
+	gap: 2px;
 
 	&:last-of-type {
 		border-right: none;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 80px;
+		padding: 6px 8px;
+		overflow: visible;
+		gap: 4px;
 	}
 }
 
 .day-header-top {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 4px;
+	justify-content: center;
+	gap: 2px;
+
+	@include breakpoints.apply-from-tablet() {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: 4px;
+	}
 }
 
 .day-label {
-	flex: 1;
+	display: flex;
+	flex: none;
+	flex-direction: column;
+	align-items: center;
+	order: 1;
+	width: 100%;
 	color: variables.$font-color;
-	font-size: 12px;
+	font-size: 11px;
+	font-weight: 600;
+	text-align: center;
+	text-transform: capitalize;
+
+	@include breakpoints.apply-from-tablet() {
+		display: block;
+		flex: 1;
+		order: 0;
+		width: auto;
+		font-size: 12px;
+		text-align: left;
+	}
+}
+
+.day-short-name {
+	color: variables.$font-color;
+	font-size: 13px;
 	font-weight: 600;
 	text-transform: capitalize;
+}
+
+.day-date-label {
+	opacity: .7;
+	color: variables.$font-color;
+	font-size: 10px;
 }
 
 .day-note-content {
@@ -48,77 +91,10 @@ $slot-border: 1px solid variables.$primary;
 }
 
 .day-total {
+	overflow: hidden;
 	opacity: .7;
 	color: variables.$font-color;
 	font-size: 11px;
-}
-
-.button-icon {
-	display: block;
-}
-
-.note-button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2px 6px;
-	border: $grid-border;
-	border-radius: 2px;
-	background: transparent;
-	text-transform: none;
-
-	&.has-note {
-		background: variables.$accent;
-	}
-
-	&:hover {
-		background: variables.$accent;
-	}
-}
-
-.non-working-button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2px 4px;
-	border: $grid-border;
-	border-radius: 2px;
-	background: transparent;
-	text-transform: none;
-
-	.button-icon {
-		opacity: .5;
-	}
-
-	&.is-active {
-		border-color: variables.$font-color;
-		background: variables.$accent;
-
-		.button-icon {
-			opacity: 1;
-		}
-	}
-
-	&:hover {
-		background: variables.$accent;
-
-		.button-icon {
-			opacity: 1;
-		}
-	}
-}
-
-.day-header.non-working-day {
-	background: rgba(variables.$accent, .3);
-}
-
-.time-label {
-	display: flex;
-	align-items: flex-start;
-	justify-content: flex-end;
-	height: $slot-height;
-	padding: 2px 6px 0;
-	opacity: .55;
-	color: variables.$font-color;
-	font-size: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
