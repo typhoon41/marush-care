@@ -13,6 +13,15 @@
 	}
 }
 
+@mixin marush-dropdown-frame() {
+	position: absolute;
+	box-sizing: border-box;
+	max-height: 300px;
+	margin-top: 7px;
+	overflow-y: auto;
+	@include marush-control-frame();
+}
+
 %element {
 	box-sizing: border-box;
 	padding: 10px 30px 8px;

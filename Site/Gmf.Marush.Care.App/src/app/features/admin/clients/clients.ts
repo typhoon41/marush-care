@@ -1,6 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, Signal, signal } from '@angular/core';
 import { environment } from '@env';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { PaginatedRequest } from '@shared/components/pagination/paginated-request';
 import { PaginatedResponse } from '@shared/components/pagination/table/table-metadata';
 import { Authentication } from '@shared/services/authentication';
@@ -14,6 +15,7 @@ export class Clients {
     private readonly authentication = inject(Authentication);
     private readonly http = inject(HttpClient);
     static readonly customerEndpoint = `${environment.apiUrl}customer`;
+    static readonly searchPageSize = 8;
     readonly data = signal<PaginatedRequest>(new PaginatedRequest('fullName'));
 
     readonly getById = (id: Signal<string | undefined>) => httpResource<Client>(() => id() ?
@@ -31,6 +33,15 @@ export class Clients {
             body: this.data().toJson(),
             headers: this.headers()
         }));
+    };
+
+    readonly searchByName = async(query: string): Promise<IComboBoxItem[]> => {
+        const request = new PaginatedRequest('fullName');
+        request.filter.set(query);
+        request.pageSize.set(Clients.searchPageSize);
+        const response = await lastValueFrom(this.http.post<PaginatedResponse>(`${Clients.customerEndpoint}/get-all`,
+            request.toJson(), { headers: this.headers() }));
+        return response.items.map(client => ({ value: client['id'], label: client['fullName'] }));
     };
 
     readonly storeChanges = async(data: Client, id: string | undefined, captchaToken: string, captchaAction: string) => {

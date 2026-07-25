@@ -7,9 +7,6 @@ import { toSerbianDate } from '../calendar-week-navigator';
 
 export type { IComboBoxItem };
 
-export const maxSearchResults = 8;
-export const minSearchLength = 2;
-
 export interface EntryFormValue {
     date: string;
     startTime: string;
@@ -73,11 +70,3 @@ export const buildEntryRequest = (formValue: EntryFormValue): CalendarEntryReque
     notes: formValue.notes || undefined,
     money: formValue.money ?? undefined
 });
-
-export const filterClientResults = (
-    items: { id: string; fullName: string }[],
-    query: string
-) => items
-    .filter(client => client.fullName.toLowerCase().includes(query.toLowerCase()))
-    .slice(0, maxSearchResults)
-    .map(client => ({ id: client.id, label: client.fullName }));

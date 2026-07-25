@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, output, signal, v
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
+import { Autocomplete } from '@shared/components/forms/autocomplete/autocomplete';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
 import { Input } from '@shared/components/forms/input/input';
 import { Clients } from '../../clients/clients';
@@ -10,13 +11,13 @@ import { CalendarEntry } from '../calendar-entry';
 import { timeOptions } from '../calendar-time-slots';
 import {
     IComboBoxItem, buildClientSearchForm, buildEntryForm, buildEntryRequest,
-    buildFormValue, filterClientResults, findTimeOption, minSearchLength
+    buildFormValue, findTimeOption
 } from './calendar-entry-form';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-calendar-entry-dialog',
-    imports: [ComboBox, Dialog, Input, ReactiveFormsModule],
+    imports: [Autocomplete, ComboBox, Dialog, Input, ReactiveFormsModule],
     templateUrl: './calendar-entry-dialog.html',
     styleUrl: './calendar-entry-dialog.scss'
 })
@@ -35,8 +36,6 @@ export class CalendarEntryDialog {
     protected readonly form = buildEntryForm(this.formBuilder);
     protected readonly clientSearchForm = buildClientSearchForm(this.formBuilder);
     private readonly entryFormValues = toSignal(this.form.valueChanges, { initialValue: this.form.value });
-    private readonly clientSearchValues = toSignal(this.clientSearchForm.valueChanges, { initialValue: this.clientSearchForm.value });
-    private readonly allClientsResource = this.clientsService.getAll();
 
     protected readonly showRescheduleWarning = computed(() => {
         const entry = this.editingEntry();
@@ -45,14 +44,6 @@ export class CalendarEntryDialog {
         }
         const values = this.entryFormValues();
         return values.date !== entry.date || values.startTime !== entry.startTime || values.endTime !== entry.endTime;
-    });
-
-    protected readonly clientSearchResults = computed(() => {
-        const query = this.clientSearchValues().query;
-        if ((query?.length ?? 0) < minSearchLength || !this.allClientsResource.hasValue()) {
-            return [];
-        }
-        return filterClientResults(this.allClientsResource.value().items as { id: string; fullName: string }[], query ?? '');
     });
 
     readonly open = (date?: string, startTime?: string, endTime?: string, entry?: CalendarEntry) => {
@@ -64,9 +55,10 @@ export class CalendarEntryDialog {
         this.dialog().open();
     };
 
-    protected readonly selectClient = (client: { id: string; label: string }) => {
-        this.form.patchValue({ customerId: client.id });
-        this.clientSearchForm.reset();
+    protected readonly searchClients = (query: string) => this.clientsService.searchByName(query);
+
+    protected readonly onClientSelected = (item: IComboBoxItem) => {
+        this.form.patchValue({ customerId: item.value });
     };
 
     protected readonly onSave = async() => {

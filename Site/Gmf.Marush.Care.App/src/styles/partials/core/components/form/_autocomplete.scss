@@ -1,0 +1,31 @@
+@use 'elements';
+@use 'variables';
+
+.autocomplete {
+	display: block;
+	position: relative;
+
+	.suggestions {
+		z-index: 1;
+		right: 0;
+		left: 0;
+		@include elements.marush-dropdown-frame();
+	}
+
+	.suggestion {
+		@extend %element;
+		display: block;
+		padding: 10px 30px;
+		border: none;
+		border-radius: 0;
+		text-transform: initial;
+		cursor: pointer;
+		overflow-wrap: break-word;
+
+		&:hover, &:focus {
+			outline: none;
+			background-color: variables.$accent;
+			color: variables.$body-color;
+		}
+	}
+}

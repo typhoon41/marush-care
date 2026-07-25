@@ -1,5 +1,4 @@
 @use 'variables';
-@use 'scss-solutions/src/modules/position/absolute';
 
 .entry-form {
 	display: flex;
@@ -23,29 +22,6 @@
 
 	.time-field {
 		flex: 1;
-	}
-}
-
-.search-results {
-	@include absolute.unset-position(100%, 0, unset, 0);
-	z-index: 100;
-	max-height: 200px;
-	margin: 0;
-	padding: 0;
-	overflow-y: auto;
-	border: 1px solid variables.$accent;
-	border-top: none;
-	border-radius: 0 0 4px 4px;
-	background: variables.$body-color;
-	list-style: none;
-}
-
-.search-result-item {
-	padding: 8px 12px;
-	font-size: 14px;
-
-	&:hover {
-		background: variables.$primary;
 	}
 }
 
