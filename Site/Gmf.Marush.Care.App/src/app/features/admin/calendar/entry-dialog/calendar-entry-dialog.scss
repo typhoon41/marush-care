@@ -25,6 +25,21 @@
 	}
 }
 
+.treatment-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.treatment-removal {
+	background-color: transparent;
+}
+
+.treatment-label {
+	flex: 1;
+	font-size: 14px;
+}
+
 .reschedule-warning {
 	margin: 0;
 	padding: 8px 12px;

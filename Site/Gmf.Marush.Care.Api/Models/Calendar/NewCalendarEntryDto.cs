@@ -8,4 +8,5 @@ public record NewCalendarEntryDto
     public Guid? AppointmentId { get; init; }
     public string? Notes { get; init; }
     public decimal? Money { get; init; }
+    public IEnumerable<string> Treatments { get; init; } = [];
 }

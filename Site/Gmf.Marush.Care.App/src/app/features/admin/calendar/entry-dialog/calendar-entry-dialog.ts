@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
@@ -10,9 +10,10 @@ import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { timeOptions } from '../calendar-time-slots';
 import {
-    IComboBoxItem, buildClientSearchForm, buildEntryForm, buildEntryRequest,
-    buildFormValue, findTimeOption
+    IComboBoxItem, buildEntryForm, buildEntryRequest, buildFormValue,
+    buildRescheduleWarning, buildSearchForm, findTimeOption
 } from './calendar-entry-form';
+import { buildTreatmentSearch, treatmentLabel } from './treatment-catalog-search';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,22 +35,20 @@ export class CalendarEntryDialog {
     protected readonly selectedEndTime = signal<IComboBoxItem | undefined>(undefined);
     protected readonly isLoading = signal(false);
     protected readonly form = buildEntryForm(this.formBuilder);
-    protected readonly clientSearchForm = buildClientSearchForm(this.formBuilder);
+    protected readonly clientSearchForm = buildSearchForm(this.formBuilder);
+    protected readonly treatmentSearchForm = buildSearchForm(this.formBuilder);
+    protected readonly selectedTreatments = signal<string[]>([]);
+    protected readonly searchTreatments = buildTreatmentSearch(this.selectedTreatments);
+    protected readonly treatmentLabel = treatmentLabel;
     private readonly entryFormValues = toSignal(this.form.valueChanges, { initialValue: this.form.value });
-
-    protected readonly showRescheduleWarning = computed(() => {
-        const entry = this.editingEntry();
-        if (!entry) {
-            return false;
-        }
-        const values = this.entryFormValues();
-        return values.date !== entry.date || values.startTime !== entry.startTime || values.endTime !== entry.endTime;
-    });
+    protected readonly showRescheduleWarning = buildRescheduleWarning(this.editingEntry, this.entryFormValues);
 
     readonly open = (date?: string, startTime?: string, endTime?: string, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.form.reset(buildFormValue(date, startTime, endTime, entry));
         this.clientSearchForm.reset();
+        this.treatmentSearchForm.reset();
+        this.selectedTreatments.set(entry?.treatments ?? []);
         this.selectedStartTime.set(findTimeOption(startTime ?? entry?.startTime));
         this.selectedEndTime.set(findTimeOption(endTime ?? entry?.endTime));
         this.dialog().open();
@@ -61,6 +60,16 @@ export class CalendarEntryDialog {
         this.form.patchValue({ customerId: item.value });
     };
 
+    protected readonly onTreatmentSelected = (item: IComboBoxItem) => {
+        if (!this.selectedTreatments().includes(item.value)) {
+            this.selectedTreatments.update(names => [...names, item.value]);
+        }
+        this.treatmentSearchForm.reset();
+    };
+
+    protected readonly removeTreatment = (name: string) =>
+        this.selectedTreatments.update(names => names.filter(existing => existing !== name));
+
     protected readonly onSave = async() => {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -68,7 +77,7 @@ export class CalendarEntryDialog {
         }
         this.isLoading.set(true);
         try {
-            const request = buildEntryRequest(this.form.getRawValue());
+            const request = buildEntryRequest(this.form.getRawValue(), this.selectedTreatments());
             const entry = this.editingEntry();
             await (entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request));
             this.dialog().dismiss();

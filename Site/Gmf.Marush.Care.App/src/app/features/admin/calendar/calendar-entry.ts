@@ -6,4 +6,5 @@ export class CalendarEntry {
     endTime: string = '';
     notes?: string;
     money?: number;
+    treatments: string[] = [];
 }

@@ -9,6 +9,7 @@ public record CalendarEntryDto : EntityDto
     public AppointmentDto Appointment { get; set; } = new();
     public string? Notes { get; set; }
     public decimal? Money { get; set; }
+    public IList<CalendarEntryTreatmentDto> Treatments { get; } = [];
 
     public CalendarEntry ToDomain() => new(
         Id,
@@ -20,5 +21,6 @@ public record CalendarEntryDto : EntityDto
             ? TimeOnly.FromDateTime(Appointment.ExpectedEndTime.Value.DateTime)
             : TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime).AddHours(1),
         Notes,
-        Money);
+        Money,
+        [.. Treatments.Select(treatment => treatment.Name)]);
 }

@@ -1,3 +1,4 @@
+import { Signal, computed } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { CalendarEntry } from '../calendar-entry';
@@ -27,7 +28,7 @@ export type EntryForm = FormGroup<{
     money: FormControl<number | null>;
 }>;
 
-export type ClientSearchForm = FormGroup<{ query: FormControl<string> }>;
+export type SearchForm = FormGroup<{ query: FormControl<string> }>;
 
 export const buildEntryForm = (formBuilder: NonNullableFormBuilder): EntryForm => formBuilder.group({
     date: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -39,7 +40,7 @@ export const buildEntryForm = (formBuilder: NonNullableFormBuilder): EntryForm =
     money: new FormControl<number | null>(null)
 }, { updateOn: 'blur' });
 
-export const buildClientSearchForm = (formBuilder: NonNullableFormBuilder): ClientSearchForm =>
+export const buildSearchForm = (formBuilder: NonNullableFormBuilder): SearchForm =>
     formBuilder.group({
         query: new FormControl('', { nonNullable: true, updateOn: 'change' })
     });
@@ -61,12 +62,25 @@ export const buildFormValue = (date?: string, startTime?: string, endTime?: stri
     money: entry?.money ?? null
 });
 
-export const buildEntryRequest = (formValue: EntryFormValue): CalendarEntryRequest => ({
+export const buildEntryRequest = (formValue: EntryFormValue, treatments: string[]): CalendarEntryRequest => ({
     date: toSerbianDate(formValue.date),
     startTime: formValue.startTime,
     endTime: formValue.endTime,
     customerId: formValue.customerId || undefined,
     appointmentId: formValue.appointmentId || undefined,
     notes: formValue.notes || undefined,
-    money: formValue.money ?? undefined
+    money: formValue.money ?? undefined,
+    treatments
 });
+
+export const buildRescheduleWarning = (
+    editingEntry: Signal<CalendarEntry | null>,
+    formValues: Signal<Partial<EntryFormValue>>): Signal<boolean> =>
+    computed(() => {
+        const entry = editingEntry();
+        if (!entry) {
+            return false;
+        }
+        const values = formValues();
+        return values.date !== entry.date || values.startTime !== entry.startTime || values.endTime !== entry.endTime;
+    });

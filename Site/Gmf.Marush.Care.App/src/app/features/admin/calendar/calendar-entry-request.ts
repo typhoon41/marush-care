@@ -6,4 +6,5 @@ export class CalendarEntryRequest {
     appointmentId?: string;
     notes?: string;
     money?: number;
+    treatments: string[] = [];
 }

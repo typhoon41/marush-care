@@ -4,6 +4,9 @@ using Gmf.Marush.Care.Api.Models.Calendar;
 namespace Gmf.Marush.Care.Api.Validation;
 public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDto>
 {
+    // Must stay in sync with CalendarEntryTreatmentConfiguration.NameLength in Infrastructure.
+    private const int TreatmentNameLength = 200;
+    private const int MaximumTreatments = 20;
     private static readonly TimeOnly CalendarStart = new(11, 0);
     private static readonly TimeOnly CalendarEnd = new(22, 0);
 
@@ -26,5 +29,10 @@ public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDt
         _ = RuleFor(x => x.CustomerId).NotEmpty().When(x => !x.AppointmentId.HasValue);
         _ = RuleFor(x => x.Notes).MaximumLength(1000);
         _ = RuleFor(x => x.Money).GreaterThanOrEqualTo(0).When(x => x.Money.HasValue);
+        _ = RuleForEach(x => x.Treatments).NotEmpty().MaximumLength(TreatmentNameLength)
+            .WithMessage($"Naziv tretmana mora imati između 1 i {TreatmentNameLength} karaktera.");
+        _ = RuleFor(x => x.Treatments)
+            .Must(treatments => treatments.Count() <= MaximumTreatments)
+            .WithMessage($"Najviše {MaximumTreatments} tretmana po terminu.");
     }
 }

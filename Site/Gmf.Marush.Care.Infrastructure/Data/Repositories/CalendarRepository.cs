@@ -19,6 +19,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
         var dtos = await _entries
             .Include(entry => entry.Appointment)
+            .Include(entry => entry.Treatments)
             .Where(entry => entry.Appointment.ScheduledFor >= weekStartDto && entry.Appointment.ScheduledFor <= weekEndDto)
             .OrderBy(entry => entry.Appointment.ScheduledFor)
             .ToListAsync();
@@ -29,6 +30,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     {
         var dto = await _entries
             .Include(entry => entry.Appointment)
+            .Include(entry => entry.Treatments)
             .SingleOrDefaultAsync(entry => entry.Id == id);
         return dto?.ToDomain();
     }
@@ -36,18 +38,24 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task AddEntry(CalendarEntry entry)
     {
         var appointmentId = entry.AppointmentId ?? await CreateAppointment(entry);
-        _ = await _entries.AddAsync(new CalendarEntryDto
+        var dto = new CalendarEntryDto
         {
             AppointmentId = appointmentId,
             Notes = entry.Notes,
             Money = entry.Money
-        });
+        };
+        foreach (var name in entry.Treatments)
+        {
+            dto.Treatments.Add(new CalendarEntryTreatmentDto { Name = name, CalendarEntry = dto });
+        }
+        _ = await _entries.AddAsync(dto);
     }
 
     public async Task UpdateEntry(Guid id, CalendarEntry entry)
     {
         var dto = await _entries
             .Include(entry => entry.Appointment)
+            .Include(entry => entry.Treatments)
             .SingleOrDefaultAsync(entry => entry.Id == id)
             ?? throw new InvalidOperationException($"Calendar entry {id} not found.");
 
@@ -55,6 +63,22 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         dto.Appointment.ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero);
         dto.Notes = entry.Notes;
         dto.Money = entry.Money;
+        UpdateTreatments(dto, entry);
+    }
+
+    private static void UpdateTreatments(CalendarEntryDto dto, CalendarEntry entry)
+    {
+        var removed = dto.Treatments.Where(existing => !entry.Treatments.Contains(existing.Name)).ToList();
+        foreach (var treatment in removed)
+        {
+            _ = dto.Treatments.Remove(treatment);
+        }
+
+        var existingNames = dto.Treatments.Select(existing => existing.Name).ToHashSet();
+        foreach (var name in entry.Treatments.Where(name => !existingNames.Contains(name)))
+        {
+            dto.Treatments.Add(new CalendarEntryTreatmentDto { CalendarEntryId = dto.Id, CalendarEntry = dto, Name = name });
+        }
     }
 
     public async Task<bool> DeleteEntry(Guid id)

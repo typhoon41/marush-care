@@ -24,5 +24,7 @@ public class CalendarEntryConfiguration : IEntityTypeConfiguration<CalendarEntry
             .IsRequired();
         _ = builder.Navigation(x => x.Appointment)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
+        _ = builder.Navigation(x => x.Treatments)
+            .UsePropertyAccessMode(PropertyAccessMode.Property);
     }
 }
