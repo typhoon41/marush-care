@@ -23,14 +23,8 @@
 
         <marush-autocomplete id="treatment-search" name="query" placeholder="Pretraži tretmane"
                              [form]="treatmentSearchForm" [search]="searchTreatments" [onSelected]="onTreatmentSelected" />
-        @for (name of selectedTreatments(); track name) {
-            <div class="treatment-row">
-                <button type="button" class="delete-action treatment-removal" (click)="removeTreatment(name)">
-                    <img class="icon" alt="Ukloni tretman" src="/assets/images/actions/trash-can.svg">
-                </button>
-                <span class="treatment-label">{{treatmentLabel(name)}}</span>
-            </div>
-        }
+        <marush-treatment-list [treatments]="selectedTreatmentDefinitions()" [showPrices]="false"
+                               (remove)="removeTreatment($event.name)" />
 
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
                       [form]="form"

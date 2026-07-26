@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { Autocomplete } from '@shared/components/forms/autocomplete/autocomplete';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
 import { Input } from '@shared/components/forms/input/input';
+import { TreatmentList } from '@shared/components/treatments/list/list';
+import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { timeOptions } from '../calendar-time-slots';
-import { buildTreatmentSearch, treatmentLabel } from '../treatment-catalog-search';
+import { buildTreatmentSearch, findTreatmentByName } from '../treatment-catalog-search';
 import {
     IComboBoxItem, buildEntryForm, buildEntryRequest, buildFormValue,
     buildRescheduleWarning, buildSearchForm, findTimeOption
@@ -18,7 +20,7 @@ import {
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-calendar-entry-dialog',
-    imports: [Autocomplete, ComboBox, Dialog, Input, ReactiveFormsModule],
+    imports: [Autocomplete, ComboBox, Dialog, Input, ReactiveFormsModule, TreatmentList],
     templateUrl: './calendar-entry-dialog.html',
     styleUrl: './calendar-entry-dialog.scss'
 })
@@ -39,7 +41,10 @@ export class CalendarEntryDialog {
     protected readonly treatmentSearchForm = buildSearchForm(this.formBuilder);
     protected readonly selectedTreatments = signal<string[]>([]);
     protected readonly searchTreatments = buildTreatmentSearch(this.selectedTreatments);
-    protected readonly treatmentLabel = treatmentLabel;
+    protected readonly selectedTreatmentDefinitions = computed(() =>
+        this.selectedTreatments().map(name =>
+            findTreatmentByName(name) ?? new TreatmentDefinition({ title: name, name, duration: 0, price: 0 })));
+
     private readonly entryFormValues = toSignal(this.form.valueChanges, { initialValue: this.form.value });
     protected readonly showRescheduleWarning = buildRescheduleWarning(this.editingEntry, this.entryFormValues);
 

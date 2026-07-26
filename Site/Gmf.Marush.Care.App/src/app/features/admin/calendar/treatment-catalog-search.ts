@@ -10,9 +10,6 @@ const treatmentCatalog: TreatmentDefinition[] = supportedTreatments
 export const findTreatmentByName = (name: string): TreatmentDefinition | undefined =>
     treatmentCatalog.find(treatment => treatment.name === name);
 
-export const treatmentLabel = (name: string): string =>
-    findTreatmentByName(name)?.titleWithDuration() ?? name;
-
 export const treatmentTitle = (name: string): string =>
     findTreatmentByName(name)?.title ?? name;
 

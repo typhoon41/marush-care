@@ -1,0 +1,51 @@
+@use 'breakpoints';
+@use 'headers';
+@use 'sass:math';
+@use 'variables';
+
+$panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
+$panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
+
+.treatment-list {
+	display: block;
+	padding: 6px $panel-gap-half 24px;
+	border-radius: 24px;
+	background-color: variables.$accent;
+	color: variables.$body-color;
+	@include headers.marush-caption(true, false);
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 40px $panel-gap-bigger-half;
+		@include headers.marush-tablet-caption();
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include headers.marush-header();
+	}
+
+	.treatment-container {
+		margin-bottom: 20px;
+		padding-left: 3px;
+
+		@include breakpoints.apply-from-tablet() {
+			padding-left: 12px;
+		}
+
+		.treatment {
+			margin-left: 6px;
+			letter-spacing: 1px;
+		}
+	}
+
+	.price {
+		display: block;
+		margin-left: 10px;
+		font-weight: 400;
+		letter-spacing: 1px;
+		text-align: right;
+	}
+
+	.treatment-removal {
+		background-color: transparent;
+	}
+}
