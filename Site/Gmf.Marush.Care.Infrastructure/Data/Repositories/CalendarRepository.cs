@@ -18,7 +18,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     {
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
         var dtos = await _entries
-            .Include(entry => entry.Appointment)
+            .Include(entry => entry.Appointment.Customer)
             .Include(entry => entry.Treatments)
             .Where(entry => entry.Appointment.ScheduledFor >= weekStartDto && entry.Appointment.ScheduledFor <= weekEndDto)
             .OrderBy(entry => entry.Appointment.ScheduledFor)
@@ -29,7 +29,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task<CalendarEntry?> GetEntryById(Guid id)
     {
         var dto = await _entries
-            .Include(entry => entry.Appointment)
+            .Include(entry => entry.Appointment.Customer)
             .Include(entry => entry.Treatments)
             .SingleOrDefaultAsync(entry => entry.Id == id);
         return dto?.ToDomain();
@@ -37,10 +37,14 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
     public async Task AddEntry(CalendarEntry entry)
     {
-        var appointmentId = entry.AppointmentId ?? await CreateAppointment(entry);
+        var appointment = entry.AppointmentId.HasValue
+            ? await context.Set<AppointmentDto>().FindAsync(entry.AppointmentId.Value)
+                ?? throw new InvalidOperationException("Appointment not found.")
+            : await CreateAppointment(entry);
         var dto = new CalendarEntryDto
         {
-            AppointmentId = appointmentId,
+            AppointmentId = appointment.Id,
+            Appointment = appointment,
             Notes = entry.Notes,
             Money = entry.Money
         };
@@ -134,7 +138,8 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             .Include(appointment => appointment.Customer)
             .Include(appointment => appointment.Status)
             .Where(appointment => appointment.ScheduledFor >= weekStartDto && appointment.ScheduledFor <= weekEndDto
-                                  && appointment.Status.Id != rejectedId)
+                                  && appointment.Status.Id != rejectedId
+                                  && !context.Set<CalendarEntryDto>().Any(entry => entry.AppointmentId == appointment.Id))
             .OrderBy(appointment => appointment.ScheduledFor)
             .ToListAsync();
 
@@ -159,7 +164,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
         return string.IsNullOrWhiteSpace(result?.Email) ? null : (result!.Email!, result.Language ?? "sr");
     }
 
-    private async Task<Guid> CreateAppointment(CalendarEntry entry)
+    private async Task<AppointmentDto> CreateAppointment(CalendarEntry entry)
     {
         var customer = await context.Set<CustomerDto>()
             .Include(customerDto => customerDto.Phones)
@@ -187,7 +192,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             CustomerEmail = email
         };
         _ = await context.Set<AppointmentDto>().AddAsync(appointment);
-        return appointment.Id;
+        return appointment;
     }
 
     private static (DateTimeOffset start, DateTimeOffset end) WeekRange(DateOnly weekStart) => (

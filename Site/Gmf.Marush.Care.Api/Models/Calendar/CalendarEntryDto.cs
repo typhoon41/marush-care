@@ -7,4 +7,5 @@ public record CalendarEntryDto(
     TimeOnly EndTime,
     string? Notes,
     decimal? Money,
-    IEnumerable<string> Treatments);
+    IEnumerable<string> Treatments,
+    string ClientName);

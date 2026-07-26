@@ -75,7 +75,7 @@ export class CalendarPage {
     };
 
     protected readonly onNoteClick = (event: { date: string; type: CalendarNoteType }) => {
-        const existing = this.notes().find(note => note.date === toSerbianDate(event.date) && note.noteType === event.type);
+        const existing = this.notes().find(note => note.date === event.date && note.noteType === event.type);
         this.notesDialog().open(event.date, event.type, existing);
     };
 

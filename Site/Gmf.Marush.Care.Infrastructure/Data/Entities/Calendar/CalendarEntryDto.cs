@@ -22,5 +22,6 @@ public record CalendarEntryDto : EntityDto
             : TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime).AddHours(1),
         Notes,
         Money,
-        [.. Treatments.Select(treatment => treatment.Name)]);
+        [.. Treatments.Select(treatment => treatment.Name)],
+        $"{Appointment.Customer.Name} {Appointment.Customer.Surname}".Trim());
 }

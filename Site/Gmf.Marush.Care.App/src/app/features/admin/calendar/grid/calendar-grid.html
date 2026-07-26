@@ -70,8 +70,15 @@
                 }
                 @for (entry of entriesForDay(day.isoDate); track entry.id) {
                     <div [class]="'entry-cell clickable entry-top-' + getEntryTopSlot(entry.startTime) + ' entry-span-' + getEntrySpan(entry.startTime, entry.endTime)"
+                         [title]="entry.clientName + '\n' + entry.treatmentTitles.join('\n')"
                          (click)="entryClick.emit(entry)">
                         <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
+                        @if (entry.clientName) {
+                            <div class="entry-client ellipsis">{{ entry.clientName }}</div>
+                        }
+                        @for (title of entry.treatmentTitles; track title) {
+                            <div class="entry-treatment ellipsis">{{ title }}</div>
+                        }
                         @if (entry.money) {
                             <div class="entry-money">{{ formatMoney(entry.money) }} RSD</div>
                         }

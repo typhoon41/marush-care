@@ -74,19 +74,19 @@ export class Autocomplete extends Field {
   };
 
   protected readonly onSuggestionKey = (item: IComboBoxItem, event: KeyboardEvent, index: number) => {
-    event.preventDefault();
     if (isAction(event)) {
+      event.preventDefault();
       event.stopImmediatePropagation();
       this.select(item);
     } else if (event.key === 'ArrowUp') {
-      if (index === 0) {
-        this.inputElement()?.nativeElement.focus();
-      } else {
-        this.suggestionElements()[index - 1]?.nativeElement.focus();
-      }
+      event.preventDefault();
+      const previous = index === 0 ? this.inputElement() : this.suggestionElements()[index - 1];
+      previous?.nativeElement.focus();
     } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
       this.suggestionElements()[(index + 1) % this.suggestionElements().length]?.nativeElement.focus();
     } else if (event.key === 'Escape') {
+      event.preventDefault();
       this.closeSuggestions();
       this.inputElement()?.nativeElement.focus();
     }

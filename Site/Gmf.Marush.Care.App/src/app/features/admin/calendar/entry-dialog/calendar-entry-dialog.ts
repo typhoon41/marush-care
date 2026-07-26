@@ -9,11 +9,11 @@ import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { timeOptions } from '../calendar-time-slots';
+import { buildTreatmentSearch, treatmentLabel } from '../treatment-catalog-search';
 import {
     IComboBoxItem, buildEntryForm, buildEntryRequest, buildFormValue,
     buildRescheduleWarning, buildSearchForm, findTimeOption
 } from './calendar-entry-form';
-import { buildTreatmentSearch, treatmentLabel } from './treatment-catalog-search';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -31,3 +31,8 @@ export const toSerbianDate = (isoDate: string): string => {
     const [year, month, day] = isoDate.split('-');
     return `${parseInt(day, 10)}.${parseInt(month, 10)}.${year}.`;
 };
+
+export const fromSerbianDate = (serbianDate: string): string => {
+    const [day, month, year] = serbianDate.split('.');
+    return `${year}-${month.padStart(padToTwoDigits, '0')}-${day.padStart(padToTwoDigits, '0')}`;
+};

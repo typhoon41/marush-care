@@ -13,6 +13,9 @@ export const findTreatmentByName = (name: string): TreatmentDefinition | undefin
 export const treatmentLabel = (name: string): string =>
     findTreatmentByName(name)?.titleWithDuration() ?? name;
 
+export const treatmentTitle = (name: string): string =>
+    findTreatmentByName(name)?.title ?? name;
+
 export const buildTreatmentSearch = (selectedTreatments: Signal<string[]>) =>
     (query: string): Promise<IComboBoxItem[]> => {
         const normalizedQuery = query.toLowerCase();

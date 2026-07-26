@@ -49,6 +49,12 @@ $slots: 44;
 	font-weight: 600;
 }
 
+.entry-treatment {
+	@extend %entry-content;
+	opacity: .85;
+	font-size: 10px;
+}
+
 .entry-money {
 	@extend %entry-content;
 	font-size: 10px;

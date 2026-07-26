@@ -38,7 +38,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
 
         var response = new CalendarWeekDto(
             monday,
-            entries.Select(entry => new CalendarEntryDto(entry.Id, entry.AppointmentId!.Value, entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money, entry.Treatments)),
+            entries.Select(entry => new CalendarEntryDto(entry.Id, entry.AppointmentId!.Value, entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money, entry.Treatments, entry.ClientName)),
             publicAppointments.Select(appointment => new PublicAppointmentDto(appointment.Id, appointment.Date, appointment.StartTime, appointment.EndTime,
                 appointment.ClientName, appointment.Phone, appointment.Email, appointment.Status, appointment.Description)),
             notes.Select(note => new CalendarNoteDto(note.Id, note.Date, note.Type.DisplayName, note.Content)));
@@ -128,7 +128,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
     private static CalendarEntry MapToDomain(Guid id, NewCalendarEntryDto request) =>
         new(id, request.AppointmentId, request.CustomerId ?? Guid.Empty,
             request.Date, request.StartTime, request.EndTime,
-            request.Notes, request.Money, [.. request.Treatments]);
+            request.Notes, request.Money, [.. request.Treatments], string.Empty);
 
     private async Task SendRescheduleEmail(CalendarEntry old, NewCalendarEntryDto updated, string email, string language)
     {
