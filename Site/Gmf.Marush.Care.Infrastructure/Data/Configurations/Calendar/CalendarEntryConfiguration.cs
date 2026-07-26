@@ -15,7 +15,6 @@ public class CalendarEntryConfiguration : IEntityTypeConfiguration<CalendarEntry
     {
         _ = builder.ToTable("CalendarEntries");
         _ = builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        _ = builder.Property(x => x.Notes).HasMaxLength(1000);
         _ = builder.Property(x => x.Money).HasPrecision(10, 2);
         _ = builder.HasOne<AppointmentDto>(x => x.Appointment)
             .WithOne()

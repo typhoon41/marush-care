@@ -7,7 +7,6 @@ public record CalendarEntryDto : EntityDto
 {
     public Guid AppointmentId { get; set; }
     public AppointmentDto Appointment { get; set; } = new();
-    public string? Notes { get; set; }
     public decimal? Money { get; set; }
     public IList<CalendarEntryTreatmentDto> Treatments { get; } = [];
 
@@ -20,7 +19,7 @@ public record CalendarEntryDto : EntityDto
         Appointment.ExpectedEndTime.HasValue
             ? TimeOnly.FromDateTime(Appointment.ExpectedEndTime.Value.DateTime)
             : TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime).AddHours(1),
-        Notes,
+        string.IsNullOrWhiteSpace(Appointment.Description) ? null : Appointment.Description,
         Money,
         [.. Treatments.Select(treatment => treatment.Name)],
         $"{Appointment.Customer.Name} {Appointment.Customer.Surname}".Trim());

@@ -41,11 +41,14 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             ? await context.Set<AppointmentDto>().FindAsync(entry.AppointmentId.Value)
                 ?? throw new InvalidOperationException("Appointment not found.")
             : await CreateAppointment(entry);
+        if (!string.IsNullOrWhiteSpace(entry.Notes))
+        {
+            appointment.Description = entry.Notes;
+        }
         var dto = new CalendarEntryDto
         {
             AppointmentId = appointment.Id,
             Appointment = appointment,
-            Notes = entry.Notes,
             Money = entry.Money
         };
         foreach (var name in entry.Treatments)
@@ -65,7 +68,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
         dto.Appointment.ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero);
         dto.Appointment.ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero);
-        dto.Notes = entry.Notes;
+        dto.Appointment.Description = entry.Notes ?? string.Empty;
         dto.Money = entry.Money;
         UpdateTreatments(dto, entry);
     }
