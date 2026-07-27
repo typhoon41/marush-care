@@ -165,6 +165,7 @@
     "treatments.face.vitamin.description": "A vitamin treatment is a biological skincare procedure aimed at nourishing the skin with essential vitamins. It is particularly recommended for skin requiring revitalization, such as dry, dehydrated skin showing signs of oxidative stress.",
     "validation.email": "Invalid e-mail",
     "validation.max-length": "Too many characters entered",
+    "validation.number": "The entered value must be a number",
     "validation.phone.pattern": "The phone must be in the format 06XXXXXXXXXXX or +XXXXXXXXXXXXXXXXXX",
     "validation.required": "This is a required field",
     "working-hours.friday": "Friday",

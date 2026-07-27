@@ -75,9 +75,9 @@ public class CalendarController(ICalendarRepository calendarRepository,
 
         await calendarRepository.UpdateEntry(id, MapToDomain(id, request));
 
-        if (timeChanged)
+        if (timeChanged && existing.AppointmentId is not null)
         {
-            var contact = await calendarRepository.GetAppointmentContact(existing.AppointmentId!.Value);
+            var contact = await calendarRepository.GetAppointmentContact(existing.AppointmentId.Value);
             if (contact is not null)
             {
                 await SendRescheduleEmail(existing, request, contact.Value.Email, contact.Value.Language);

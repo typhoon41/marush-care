@@ -3,10 +3,12 @@ import { ScreenSize } from '../../../../shared/services/screen-size';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
-import { slotIndexToTime, timeSlots, timeToSlotIndex } from '../calendar-time-slots';
+import { CalendarSelection } from '../calendar-selection';
+import { timeSlots } from '../calendar-time-slots';
 import { DayInfo } from '../day-info';
 import { formatMoney } from '../money-formatter';
 import { PublicAppointment } from '../public-appointment';
+import { TimeInterval } from '../time-interval';
 
 const unsetSlot = -1;
 
@@ -26,7 +28,7 @@ export class CalendarGrid {
     readonly notes = input<CalendarNote[]>([]);
 
     readonly entryClick = output<CalendarEntry>();
-    readonly dragComplete = output<{ date: string; startTime: string; endTime: string }>();
+    readonly dragComplete = output<CalendarSelection>();
     readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
     readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
 
@@ -69,10 +71,8 @@ export class CalendarGrid {
     protected readonly appointmentsForDay = (isoDate: string): PublicAppointment[] =>
         this.publicAppointments().filter(appointment => appointment.date === isoDate);
 
-    protected readonly getEntryTopSlot = (startTime: string): number => timeToSlotIndex(startTime);
-
-    protected readonly getEntrySpan = (startTime: string, endTime: string): number =>
-        timeToSlotIndex(endTime) - timeToSlotIndex(startTime);
+    protected readonly entryInterval = (startTime: string, endTime: string): TimeInterval =>
+        new TimeInterval(startTime, endTime);
 
     protected readonly onPointerDown = (event: PointerEvent, date: string, slot: number) => {
         if (this.getNonWorkingDay(date)) {
@@ -101,11 +101,9 @@ export class CalendarGrid {
         if (!range) {
             return;
         }
-        const date = range.date;
-        const startTime = slotIndexToTime(range.minSlot);
-        const endTime = slotIndexToTime(range.maxSlot + 1);
+        const selection = { date: range.date, interval: TimeInterval.fromSlots(range.minSlot, range.maxSlot + 1) };
         this.cancelDrag();
-        this.dragComplete.emit({ date, startTime, endTime });
+        this.dragComplete.emit(selection);
     };
 
     protected readonly cancelDrag = () => {

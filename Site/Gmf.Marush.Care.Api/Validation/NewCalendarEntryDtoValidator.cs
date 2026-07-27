@@ -9,6 +9,7 @@ public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDt
     // Notes are stored as the appointment description; must stay in sync with the client edit page limit.
     private const int NotesLength = 6000;
     private const int MaximumTreatments = 20;
+    private const int MaximumDurationInHours = 4;
     private static readonly TimeOnly CalendarStart = new(11, 0);
     private static readonly TimeOnly CalendarEnd = new(22, 0);
 
@@ -24,7 +25,9 @@ public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDt
             .Must((request, end) => end > request.StartTime)
             .WithMessage("Vreme kraja mora biti posle vremena početka.")
             .Must((request, end) => (end - request.StartTime).TotalMinutes % 15 == 0)
-            .WithMessage("Trajanje mora biti na 15 minuta.");
+            .WithMessage("Trajanje mora biti na 15 minuta.")
+            .Must((request, end) => (end - request.StartTime).TotalHours <= MaximumDurationInHours)
+            .WithMessage($"Termin ne može trajati duže od {MaximumDurationInHours} sata.");
         _ = RuleFor(x => x.StartTime)
             .Must(t => t.Minute % 15 == 0)
             .WithMessage("Vreme početka mora biti na 15 minuta.");

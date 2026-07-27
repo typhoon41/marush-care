@@ -165,6 +165,7 @@
     "treatments.face.vitamin.description": "Vitaminski tretman je biološka procedura nege kože koja ima za cilj da hrani kožu esencijalnim vitaminima. Preporučuje se za kožu kojoj je neophodno \"buđenje\", odnosno kožu koja je suva, dehidrirana koža koja pokazuje znake oksidativnog stresa.",
     "validation.email": "Neispravna mejl adresa",
     "validation.max-length": "Uneta vrednost je predugačka",
+    "validation.number": "Uneta vrednost mora biti broj",
     "validation.phone.pattern": "Telefon mora biti u formatu 06XXXXXXXX ili +XXXXXXXXXXXX",
     "validation.required": "Ovo je obavezno polje",
     "working-hours.friday": "Petak",

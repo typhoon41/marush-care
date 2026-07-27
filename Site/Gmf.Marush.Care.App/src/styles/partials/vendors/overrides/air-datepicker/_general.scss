@@ -8,6 +8,10 @@
 	box-shadow: none;
 	font-family: 'Overpass', sans-serif;
 	font-size: 16px;
+
+	&:not(.-active-) {
+		pointer-events: none;
+	}
 }
 
 .air-datepicker-nav {

@@ -1,6 +1,7 @@
 <marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'">
     <form slot="body" class="entry-form" [formGroup]="form">
-        <marush-input type="date" name="date" placeholder="Datum" [form]="form" [validation]="['required']" />
+        <marush-date-picker name="date" placeholder="Datum" [form]="form"
+                            [startDate]="pickerDate()" [selectedDate]="pickerDate()" />
         <div class="form-row time-row">
             <marush-combobox class="time-field" name="startTime" placeholder="Početak"
                              [formGroup]="form"
@@ -12,6 +13,13 @@
                              [(selectedItem)]="selectedEndTime" />
         </div>
 
+        @if (errors.timeOrder()) {
+            <p class="invalid-field-message" aria-live="polite">Vreme kraja mora biti posle vremena početka.</p>
+        }
+        @else if (errors.timeDuration()) {
+            <p class="invalid-field-message" aria-live="polite">Termin ne može trajati duže od 4 sata.</p>
+        }
+
         @if (showRescheduleWarning()) {
             <p class="reschedule-warning">
                 Klijent će dobiti email obaveštenje o promeni termina.
@@ -19,20 +27,29 @@
         }
 
         <marush-autocomplete id="client-search" name="query" placeholder="Pretraži klijenta"
-                             [form]="clientSearchForm" [search]="searchClients" [onSelected]="onClientSelected" />
+                             [form]="clientSelection.searchForm" [search]="clientSelection.search"
+                             [onSelected]="clientSelection.select" [onDismissed]="clientSelection.dismissed" />
+
+        @if (errors.client()) {
+            <p class="invalid-field-message" aria-live="polite">Izaberite postojećeg klijenta iz liste.</p>
+        }
 
         <marush-autocomplete id="treatment-search" name="query" placeholder="Pretraži tretmane"
-                             [form]="treatmentSearchForm" [search]="searchTreatments" [onSelected]="onTreatmentSelected" />
-        <marush-treatment-list [treatments]="selectedTreatmentDefinitions()" [showPrices]="false"
-                               (remove)="removeTreatment($event.name)" />
+                             [form]="treatmentSelection.searchForm" [search]="treatmentSelection.search" [onSelected]="treatmentSelection.select" />
+        <marush-treatment-list [treatments]="treatmentSelection.definitions()" [showPrices]="false"
+                               (remove)="treatmentSelection.remove($event.name)" />
 
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
-                      [form]="form"
-                      [validation]="[]" />
+                      customValidation="min"
+                      customValidationMessage="Iznos ne može biti negativan." [form]="form"
+                      [validation]="['min', 'number']" />
         <marush-input name="notes" placeholder="Napomene" [form]="form" [big]="true" [validation]="[]" />
     </form>
 
     <div slot="actions" class="dialog-actions">
+        @if (saveFailed()) {
+            <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
+        }
         @if (editingEntry()) {
             <button type="button" class="cancel-action"
                     [disabled]="isLoading()" (click)="onDelete()">

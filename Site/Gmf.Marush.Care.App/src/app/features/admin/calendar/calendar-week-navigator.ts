@@ -20,9 +20,13 @@ export const mondayOf = (date: Date): string => {
     return toLocalIsoDate(monday);
 };
 
-export const addDays = (isoDate: string, days: number): string => {
+export const parseIsoDate = (isoDate: string): Date => {
     const [year, month, day] = isoDate.split('-').map(Number);
-    const result = new Date(year, month - 1, day);
+    return new Date(year, month - 1, day);
+};
+
+export const addDays = (isoDate: string, days: number): string => {
+    const result = parseIsoDate(isoDate);
     result.setDate(result.getDate() + days);
     return toLocalIsoDate(result);
 };

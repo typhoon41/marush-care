@@ -4,6 +4,7 @@ import { Calendar } from './calendar';
 import { CalendarEntry } from './calendar-entry';
 import { CalendarNote } from './calendar-note';
 import { CalendarNoteType } from './calendar-note-type';
+import { CalendarSelection } from './calendar-selection';
 import { addDays, daysInWeek, mondayOf, toSerbianDate, workingDaysInWeek } from './calendar-week-navigator';
 import { DayInfo } from './day-info';
 import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
@@ -67,11 +68,11 @@ export class CalendarPage {
     protected readonly goToThisWeek = () => this.weekStart.set(mondayOf(new Date()));
 
     protected readonly onEntryClick = (entry: CalendarEntry) => {
-        this.entryDialog().open(undefined, undefined, undefined, entry);
+        this.entryDialog().open(undefined, entry);
     };
 
-    protected readonly onDragComplete = (drag: { date: string; startTime: string; endTime: string }) => {
-        this.entryDialog().open(drag.date, drag.startTime, drag.endTime);
+    protected readonly onDragComplete = (selection: CalendarSelection) => {
+        this.entryDialog().open(selection);
     };
 
     protected readonly onNoteClick = (event: { date: string; type: CalendarNoteType }) => {

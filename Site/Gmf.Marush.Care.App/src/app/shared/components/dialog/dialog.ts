@@ -39,7 +39,9 @@ export class Dialog {
         }
     };
 
-    protected readonly onDialogClick = (event: Event) => {
-        event.stopImmediatePropagation();
+    protected readonly onBackdropClick = (event: Event) => {
+        if (event.target === this.dialog()?.nativeElement) {
+            this.dismiss();
+        }
     };
 }

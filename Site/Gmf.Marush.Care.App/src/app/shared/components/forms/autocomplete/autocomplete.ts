@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, input, resource, signal, viewChild, viewChildren } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { isAction } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from '../combobox/item';
 import { Field } from '../field';
+import { commitOrClear } from './suggestion-commitment';
+import { SuggestionNavigation } from './suggestion-navigation';
 
 @Component({
   selector: 'marush-autocomplete',
@@ -24,6 +25,7 @@ export class Autocomplete extends Field {
   readonly search = input.required<(query: string) => Promise<IComboBoxItem[]>>();
   readonly minimumQueryLength = input<number>(Autocomplete.defaultMinimumQueryLength);
   readonly onSelected = input<((item: IComboBoxItem) => void) | undefined>(undefined);
+  readonly onDismissed = input<(() => void) | undefined>(undefined);
   readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('inputElement');
   readonly suggestionElements = viewChildren<ElementRef<HTMLLIElement>>('suggestion');
   private readonly query = signal('');
@@ -48,12 +50,12 @@ export class Autocomplete extends Field {
   protected readonly containerId = () => `${this.id()}-suggestions`;
 
   protected readonly select = (item: IComboBoxItem) => {
-    clearTimeout(this.debounceTimeout);
-    this.closeSuggestions();
-    this.resolvedControl.setValue(item.label);
-    this.onSelected()?.(item);
+    this.applySelection(item);
     this.inputElement()?.nativeElement.focus();
   };
+
+  protected readonly navigation = new SuggestionNavigation(
+    this.inputElement, this.suggestionElements, item => this.select(item), () => this.closeSuggestions());
 
   protected readonly onInput = (event: Event) => {
     const value = (event.target as HTMLInputElement).value.trim();
@@ -73,40 +75,33 @@ export class Autocomplete extends Field {
     }
   };
 
-  protected readonly onSuggestionKey = (item: IComboBoxItem, event: KeyboardEvent, index: number) => {
-    if (isAction(event)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      this.select(item);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      const previous = index === 0 ? this.inputElement() : this.suggestionElements()[index - 1];
-      previous?.nativeElement.focus();
-    } else if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.suggestionElements()[(index + 1) % this.suggestionElements().length]?.nativeElement.focus();
-    } else if (event.key === 'Escape') {
-      event.preventDefault();
-      this.closeSuggestions();
-      this.inputElement()?.nativeElement.focus();
-    }
-  };
-
   protected readonly onInputBlur = (event: FocusEvent) => {
-    if (!this.isSuggestionElement(event.relatedTarget as HTMLElement)) {
-      this.closeSuggestions();
+    if (!this.navigation.isSuggestionElement(event.relatedTarget as HTMLElement)) {
+      this.leaveField();
     }
   };
 
   protected readonly onSuggestionBlur = (event: FocusEvent) => {
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (relatedTarget !== this.inputElement()?.nativeElement && !this.isSuggestionElement(relatedTarget)) {
-      this.closeSuggestions();
+    if (relatedTarget !== this.inputElement()?.nativeElement && !this.navigation.isSuggestionElement(relatedTarget)) {
+      this.leaveField();
     }
   };
 
-  private readonly isSuggestionElement = (element: HTMLElement | null) =>
-    this.suggestionElements().some(ref => ref.nativeElement === element);
+  private readonly applySelection = (item: IComboBoxItem) => {
+    clearTimeout(this.debounceTimeout);
+    this.closeSuggestions();
+    this.resolvedControl.setValue(item.label);
+    this.resolvedControl.markAsPristine();
+    this.onSelected()?.(item);
+  };
+
+  private readonly leaveField = () => {
+    clearTimeout(this.debounceTimeout);
+    this.closeSuggestions();
+    commitOrClear(this.resolvedControl, this.suggestions(), this.applySelection);
+    this.onDismissed()?.();
+  };
 
   private readonly closeSuggestions = () => this.dismissed.set(true);
 }

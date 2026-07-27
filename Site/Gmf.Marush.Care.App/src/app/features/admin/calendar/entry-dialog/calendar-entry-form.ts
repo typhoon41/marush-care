@@ -3,8 +3,11 @@ import { FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@ang
 import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
+import { CalendarSelection } from '../calendar-selection';
 import { timeOptions } from '../calendar-time-slots';
-import { toSerbianDate } from '../calendar-week-navigator';
+import { parseIsoDate, toSerbianDate } from '../calendar-week-navigator';
+import { TimeInterval } from '../time-interval';
+import { validateClientSelection, validateTimeInterval } from './calendar-entry-validation';
 
 export type { IComboBoxItem };
 
@@ -37,13 +40,20 @@ export const buildEntryForm = (formBuilder: NonNullableFormBuilder): EntryForm =
     customerId: new FormControl('', { nonNullable: true }),
     appointmentId: new FormControl('', { nonNullable: true }),
     notes: new FormControl('', { nonNullable: true }),
-    money: new FormControl<number | null>(null)
-}, { updateOn: 'blur' });
+    money: new FormControl<number | null>(null, [Validators.min(0)])
+}, { updateOn: 'blur', validators: [validateTimeInterval, validateClientSelection] });
 
 export const buildSearchForm = (formBuilder: NonNullableFormBuilder): SearchForm =>
     formBuilder.group({
         query: new FormControl('', { nonNullable: true, updateOn: 'change' })
     });
+
+export const toPickerDate = (isoDate?: string): Date => {
+    if (!isoDate) {
+        return new Date();
+    }
+    return parseIsoDate(isoDate);
+};
 
 export const findTimeOption = (value?: string): IComboBoxItem | undefined => {
     if (!value) {
@@ -52,18 +62,21 @@ export const findTimeOption = (value?: string): IComboBoxItem | undefined => {
     return timeOptions.find(option => option.value === value);
 };
 
-export const buildFormValue = (date?: string, startTime?: string, endTime?: string, entry?: CalendarEntry): EntryFormValue => ({
-    date: date ?? entry?.date ?? '',
-    startTime: startTime ?? entry?.startTime ?? '',
-    endTime: endTime ?? entry?.endTime ?? '',
-    customerId: '',
-    appointmentId: entry?.appointmentId ?? '',
-    notes: entry?.notes ?? '',
-    money: entry?.money ?? null
-});
+export const buildFormValue = (selection?: CalendarSelection, entry?: CalendarEntry): EntryFormValue => {
+    const isoDate = selection?.date ?? entry?.date;
+    return {
+        date: isoDate ? toSerbianDate(isoDate) : '',
+        startTime: selection?.interval.startTime ?? entry?.startTime ?? '',
+        endTime: selection?.interval.endTime ?? entry?.endTime ?? '',
+        customerId: '',
+        appointmentId: entry?.appointmentId ?? '',
+        notes: entry?.notes ?? '',
+        money: entry?.money ?? null
+    };
+};
 
 export const buildEntryRequest = (formValue: EntryFormValue, treatments: string[]): CalendarEntryRequest => ({
-    date: toSerbianDate(formValue.date),
+    date: formValue.date,
     startTime: formValue.startTime,
     endTime: formValue.endTime,
     customerId: formValue.customerId || undefined,
@@ -82,5 +95,6 @@ export const buildRescheduleWarning = (
             return false;
         }
         const values = formValues();
-        return values.date !== entry.date || values.startTime !== entry.startTime || values.endTime !== entry.endTime;
+        const formInterval = new TimeInterval(values.startTime ?? '', values.endTime ?? '');
+        return values.date !== toSerbianDate(entry.date) || !formInterval.equals(new TimeInterval(entry.startTime, entry.endTime));
     });
