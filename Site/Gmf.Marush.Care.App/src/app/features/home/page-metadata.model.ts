@@ -5,9 +5,9 @@ import { ILanguage } from '@shared/models/language';
 import { Money } from '@shared/pipes/money';
 
 export const currentDiscounts = [
-    $localize`:@@discounts.1:<h3><strong>1.6. - 17.6.</strong></h3><p>Ultrazv. čišć. + Higij. tret. + Biol. tret.<br/><br/><s>9.000</s> 6.000</p>`,
-    $localize`:@@discounts.2:<h3><strong>1.6. - 17.6.</strong></h3><p>Ultrazv. čišć. + Azel. kis. + Neinv. mezo.<br/><br/><s>10.000</s> 6.500</p>`,
-    $localize`:@@discounts.3:<h3><strong>1.6. - 17.6.</strong></h3><p>Blagi piling + Nano mezo fuzija<br/><br/><s>9.500</s> 5.500</p>`
+    $localize`:@@discounts.1:<h3><strong>27.7. - 4.8.</strong></h3><p>Mikrod. + Klas. higij. tret.<br/><br/><s>6.000</s> 5.000</p>`,
+    $localize`:@@discounts.2:<h3><strong>27.7. - 4.8.</strong></h3><p>Prem. higij. tret. + Biol. tret.<br/><br/><s>7.000</s> 6.000</p>`,
+    $localize`:@@discounts.3:<h3><strong>27.7. - 4.8.</strong></h3><p>Prem. higij. tret. + Skeyndor hijal. tret.<br/><br/><s>10.500</s> 8.500</p>`
 ];
 
 export class HomePageMetadata extends PageMetadata {
@@ -24,14 +24,14 @@ export class HomePageMetadata extends PageMetadata {
             name: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             text: $localize`:@@discounts.contact:Kontaktirajte nas za više detalja!`,
             url: environment.url,
-            datePosted: '2026-06-01',
-            expires: '2026-06-17',
+            datePosted: '2026-07-27',
+            expires: '2026-08-04',
             category: $localize`:@@discounts.title:Ponuda ograničenog trajanja`,
             provider: this.marushSalon(),
             subjectOf: [
-                this.offer(currentDiscounts[0], '2026-06-17', '9000', '6000'),
-                this.offer(currentDiscounts[1], '2026-06-17', '10000', '6500'),
-                this.offer(currentDiscounts[2], '2026-06-17', '9500', '5500')
+                this.offer(currentDiscounts[0], '2026-08-04', '6000', '5000'),
+                this.offer(currentDiscounts[1], '2026-08-04', '7000', '6000'),
+                this.offer(currentDiscounts[2], '2026-08-04', '10500', '8500')
             ]
         };
 
