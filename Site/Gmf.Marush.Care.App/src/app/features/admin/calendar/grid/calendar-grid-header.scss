@@ -1,20 +1,17 @@
 @use 'breakpoints';
 @use 'variables';
-
-$header-row-height: 60px;
-
-$grid-border: 1px solid variables.$accent;
+@use './calendar-grid-variables' as grid;
 
 .day-header {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
 	min-width: 0;
-	min-height: $header-row-height;
+	min-height: grid.$header-row-height;
 	padding: 4px;
 	overflow: hidden;
-	border-top: $grid-border;
-	border-right: $grid-border;
+	border-top: grid.$grid-border;
+	border-right: grid.$grid-border;
 	background: variables.$primary;
 	gap: 2px;
 
@@ -45,10 +42,8 @@ $grid-border: 1px solid variables.$accent;
 }
 
 .day-label {
-	display: flex;
+	display: block;
 	flex: none;
-	flex-direction: column;
-	align-items: center;
 	order: 1;
 	width: 100%;
 	color: variables.$font-color;
@@ -58,26 +53,12 @@ $grid-border: 1px solid variables.$accent;
 	text-transform: capitalize;
 
 	@include breakpoints.apply-from-tablet() {
-		display: block;
 		flex: 1;
 		order: 0;
 		width: auto;
 		font-size: 12px;
 		text-align: left;
 	}
-}
-
-.day-short-name {
-	color: variables.$font-color;
-	font-size: 13px;
-	font-weight: 600;
-	text-transform: capitalize;
-}
-
-.day-date-label {
-	opacity: .7;
-	color: variables.$font-color;
-	font-size: 10px;
 }
 
 .day-note-content {

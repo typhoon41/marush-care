@@ -1,9 +1,6 @@
 @use 'breakpoints';
 @use 'variables';
-
-$slot-height: 36px;
-
-$grid-border: 1px solid variables.$accent;
+@use './calendar-grid-variables' as grid;
 
 .button-icon {
 	display: block;
@@ -15,7 +12,7 @@ $grid-border: 1px solid variables.$accent;
 	justify-content: center;
 	order: 3;
 	padding: 1px 2px;
-	border: $grid-border;
+	border: grid.$grid-border;
 	border-radius: 2px;
 	background: transparent;
 	text-transform: none;
@@ -40,7 +37,7 @@ $grid-border: 1px solid variables.$accent;
 	justify-content: center;
 	order: 2;
 	padding: 1px 2px;
-	border: $grid-border;
+	border: grid.$grid-border;
 	border-radius: 2px;
 	background: transparent;
 	text-transform: none;
@@ -78,9 +75,11 @@ $grid-border: 1px solid variables.$accent;
 
 .time-label {
 	display: flex;
+	box-sizing: border-box;
+	flex: none;
 	align-items: flex-start;
 	justify-content: flex-end;
-	height: $slot-height;
+	height: grid.$slot-height;
 	padding: 2px 4px 0;
 	opacity: .55;
 	color: variables.$font-color;

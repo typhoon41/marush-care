@@ -1,8 +1,6 @@
 @use 'variables';
 @use 'scss-solutions/src/modules/position/absolute';
-
-$slot-height: 36px;
-$slots: 44;
+@use './calendar-grid-variables' as grid;
 
 %entry-content {
 	line-height: 1.2;
@@ -14,14 +12,16 @@ $slots: 44;
 	z-index: 2;
 	box-sizing: border-box;
 	flex-direction: column;
-	padding: 3px 6px;
+	padding: 2px 5px;
 	overflow: hidden;
+	border: 1px solid currentcolor;
+	border-left-width: 3px;
 	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(variables.$font-color, .25);
 	gap: 1px;
 }
 
 .entry-cell {
-	border-left: 3px solid variables.$font-color;
 	background: variables.$accent;
 	color: variables.$font-color;
 
@@ -31,7 +31,6 @@ $slots: 44;
 }
 
 .public-appointment-cell {
-	border-left: 3px solid variables.$error-font-color;
 	background: variables.$error;
 	color: variables.$error-font-color;
 	cursor: default;
@@ -66,14 +65,14 @@ $slots: 44;
 	font-size: 7px;
 }
 
-@for $slot from 0 through $slots {
+@for $slot from 0 through grid.$slots-count {
 	.entry-top-#{$slot} {
-		top: $slot * $slot-height;
+		top: $slot * grid.$slot-height;
 	}
 }
 
-@for $span from 1 through $slots {
+@for $span from 1 through grid.$slots-count {
 	.entry-span-#{$span} {
-		height: $span * $slot-height;
+		height: $span * grid.$slot-height;
 	}
 }

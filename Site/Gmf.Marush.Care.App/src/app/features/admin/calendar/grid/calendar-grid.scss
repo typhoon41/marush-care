@@ -1,19 +1,11 @@
 @use 'breakpoints';
 @use 'variables';
-
-$time-col-width-mobile: 40px;
-$time-col-width: 60px;
-$header-row-height: 60px;
-$slot-height: 36px;
-$slots: 44;
-
-$grid-border: 1px solid variables.$accent;
-$slot-border: 1px solid variables.$primary;
+@use './calendar-grid-variables' as grid;
 
 .calendar-grid {
 	display: flex;
 	flex-direction: column;
-	border-right: $grid-border;
+	border-right: grid.$grid-border;
 	background: variables.$body-color;
 	user-select: none;
 
@@ -40,13 +32,13 @@ $slot-border: 1px solid variables.$primary;
 
 .grid-corner {
 	flex-shrink: 0;
-	width: $time-col-width-mobile;
-	min-height: $header-row-height;
-	border-right: $grid-border;
+	width: grid.$time-column-width-mobile;
+	min-height: grid.$header-row-height;
+	border-right: grid.$grid-border;
 	background: variables.$primary;
 
 	@include breakpoints.apply-from-tablet() {
-		width: $time-col-width;
+		width: grid.$time-column-width;
 	}
 }
 
@@ -54,11 +46,11 @@ $slot-border: 1px solid variables.$primary;
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0;
-	width: $time-col-width-mobile;
-	border-right: $grid-border;
+	width: grid.$time-column-width-mobile;
+	border-right: grid.$grid-border;
 
 	@include breakpoints.apply-from-tablet() {
-		width: $time-col-width;
+		width: grid.$time-column-width;
 	}
 }
 
@@ -68,8 +60,8 @@ $slot-border: 1px solid variables.$primary;
 	flex: 1;
 	flex-direction: column;
 	min-width: 40px;
-	border-right: $slot-border;
-	border-bottom: $grid-border;
+	border-right: grid.$slot-border;
+	border-bottom: grid.$grid-border;
 
 	@include breakpoints.apply-from-tablet() {
 		min-width: 80px;
@@ -87,8 +79,9 @@ $slot-border: 1px solid variables.$primary;
 
 .slot-cell {
 	box-sizing: border-box;
-	height: $slot-height;
-	border-bottom: $slot-border;
+	flex: none;
+	height: grid.$slot-height;
+	border-bottom: grid.$slot-border;
 	cursor: crosshair;
 	touch-action: none;
 

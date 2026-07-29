@@ -1,4 +1,3 @@
-export const slotHeight = 36;
 export const calendarStartHour = 11;
 export const calendarEndHour = 22;
 
@@ -25,7 +24,7 @@ export const timeSlots = Array.from({ length: slotsCount }, (_, slotIndex) => ({
     index: slotIndex,
     time: slotIndexToTime(slotIndex),
     label: slotIndex % slotsPerHour === 0 ? slotIndexToTime(slotIndex) : '',
-    isHour: slotIndex % slotsPerHour === 0
+    endsHour: (slotIndex + 1) % slotsPerHour === 0
 }));
 
 export const generateTimeOptions = (): { value: string; label: string }[] =>

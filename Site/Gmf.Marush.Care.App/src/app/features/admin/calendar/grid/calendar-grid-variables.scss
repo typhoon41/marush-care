@@ -1,0 +1,10 @@
+@use 'variables';
+
+$slot-height: 36px;
+$slots-count: 44;
+$header-row-height: 60px;
+$time-column-width-mobile: 40px;
+$time-column-width: 60px;
+
+$grid-border: 1px solid variables.$accent;
+$slot-border: 1px solid variables.$primary;
