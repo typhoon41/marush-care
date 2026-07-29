@@ -35,7 +35,7 @@
 	width: grid.$time-column-width-mobile;
 	min-height: grid.$header-row-height;
 	border-right: grid.$grid-border;
-	background: variables.$primary;
+	background: variables.$body-color;
 
 	@include breakpoints.apply-from-tablet() {
 		width: grid.$time-column-width;

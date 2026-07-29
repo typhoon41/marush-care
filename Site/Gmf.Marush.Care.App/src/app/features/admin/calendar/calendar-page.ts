@@ -60,7 +60,7 @@ export class CalendarPage {
     protected readonly formatMoney = formatMoney;
 
     constructor(title: Title) {
-        title.setTitle('Kalendar');
+        title.setTitle('Marush: Space of Care - kalendar');
     }
 
     protected readonly goToPrevWeek = () => this.weekStart.set(addDays(this.weekStart(), -daysInWeek));

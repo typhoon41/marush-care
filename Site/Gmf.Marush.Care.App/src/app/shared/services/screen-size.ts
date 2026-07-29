@@ -1,5 +1,6 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy, computed, signal } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
+import { DesktopSize } from '../models/screen-sizes/desktop';
 import { ScreenSizeFactory } from '../models/screen-sizes/factory';
 import { Size } from '../models/screen-sizes/size';
 
@@ -8,6 +9,8 @@ import { Size } from '../models/screen-sizes/size';
 })
 export class ScreenSize implements OnDestroy {
     readonly lastKnownSize = signal<Size | undefined>(undefined);
+    readonly isMobile = computed(() => this.lastKnownSize()?.supportsMenu === true);
+    readonly isDesktop = computed(() => this.lastKnownSize() instanceof DesktopSize);
 
     private readonly holderPseudoSelector = '::before';
     private readonly holderPropertyName: string = 'content';
