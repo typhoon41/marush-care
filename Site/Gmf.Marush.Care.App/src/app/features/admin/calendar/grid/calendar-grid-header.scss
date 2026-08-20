@@ -28,10 +28,6 @@
 }
 
 .day-header-top {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
 	gap: 2px;
 
 	@include breakpoints.apply-from-tablet() {
@@ -42,18 +38,19 @@
 }
 
 .day-label {
-	display: block;
-	flex: none;
+	justify-content: center;
 	order: 1;
-	width: 100%;
 	color: variables.$font-color;
-	font-size: 11px;
+	font-size: grid.$day-header-font-size-mobile;
 	font-weight: 600;
+	line-height: 1.2;
 	text-align: center;
 	text-transform: capitalize;
+	gap: 0 4px;
 
 	@include breakpoints.apply-from-tablet() {
 		flex: 1;
+		justify-content: flex-start;
 		order: 0;
 		width: auto;
 		font-size: 12px;
@@ -61,21 +58,27 @@
 	}
 }
 
-.day-note-content {
-	margin: 0;
-	overflow: hidden;
-	opacity: .85;
-	color: variables.$font-color;
-	font-size: 11px;
-	text-overflow: ellipsis;
+.day-name, .day-date {
 	white-space: nowrap;
 }
 
+.day-note-content {
+	margin: 0;
+	opacity: .85;
+	color: variables.$font-color;
+	font-size: grid.$day-header-font-size-mobile;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: grid.$day-header-font-size;
+	}
+}
+
 .day-total {
-	overflow: hidden;
 	opacity: .7;
 	color: variables.$font-color;
-	font-size: 11px;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	font-size: grid.$day-header-font-size-mobile;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: grid.$day-header-font-size;
+	}
 }

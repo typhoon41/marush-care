@@ -3,8 +3,11 @@
 $slot-height: 36px;
 $slots-count: 44;
 $header-row-height: 60px;
-$time-column-width-mobile: 40px;
+$time-column-width-mobile: 25px;
 $time-column-width: 60px;
+
+$day-header-font-size-mobile: 13px;
+$day-header-font-size: 11px;
 
 $grid-border: 1px solid variables.$accent;
 $slot-border: 1px solid variables.$primary;
