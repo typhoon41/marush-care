@@ -10,7 +10,7 @@
         @for (day of days(); track day.isoDate) {
             <div class="day-header" [class.non-working-day]="getNonWorkingDay(day.isoDate)">
                 <div class="day-header-top row aligned-centrally stretch-equally">
-                    <button class="non-working-button" type="button"
+                    <button class="day-action non-working-button" type="button"
                             title="Neradni dan"
                             [class.is-active]="getNonWorkingDay(day.isoDate)"
                             (click)="nonWorkingDayToggle.emit({date: day.isoDate, existing: getNonWorkingDay(day.isoDate)})">
@@ -21,7 +21,7 @@
                         <span class="day-date">{{ day.dayDate }}</span>
                     </span>
                     @if (!getNonWorkingDay(day.isoDate)) {
-                        <button class="note-button" type="button"
+                        <button class="day-action note-button" type="button"
                                 title="Dnevne napomene"
                                 [class.has-note]="getDailyNote(day.isoDate)"
                                 (click)="noteClick.emit({date: day.isoDate, type: 'Daily'})">

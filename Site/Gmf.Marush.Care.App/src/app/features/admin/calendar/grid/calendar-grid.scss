@@ -38,8 +38,12 @@
 	background: variables.$body-color;
 
 	@include breakpoints.apply-from-tablet() {
-		width: grid.$time-column-width;
+		width: grid.$time-column-width-tablet;
 		min-height: grid.$header-row-height;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		width: grid.$time-column-width;
 	}
 }
 
@@ -51,6 +55,10 @@
 	border-right: grid.$grid-border;
 
 	@include breakpoints.apply-from-tablet() {
+		width: grid.$time-column-width-tablet;
+	}
+
+	@include breakpoints.apply-from-desktop() {
 		width: grid.$time-column-width;
 	}
 }

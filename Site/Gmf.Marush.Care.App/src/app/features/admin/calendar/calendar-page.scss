@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use './calendar-variables' as calendar;
 
 .page-header {
 	display: flex;
@@ -26,15 +27,15 @@
 .week-label {
 	min-width: 160px;
 	color: v.$font-color;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 600;
 	text-align: center;
 }
 
 .navigation-button {
 	padding: 6px 14px;
-	border: 1px solid v.$accent;
-	border-radius: 2px;
+	border: calendar.$action-button-border;
+	border-radius: calendar.$action-button-radius;
 	background: transparent;
 	color: v.$font-color;
 	font-family: inherit;
@@ -42,7 +43,7 @@
 	cursor: pointer;
 
 	&:hover {
-		background: v.$primary;
+		background: v.$accent;
 	}
 
 	&.today-button {
@@ -65,7 +66,6 @@
 .weekly-note-content {
 	margin: 0;
 	color: v.$font-color;
-	font-size: 13px;
-	font-weight: 600;
+	font-size: 15px;
 	text-align: center;
 }
