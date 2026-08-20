@@ -2,12 +2,14 @@
 
 $slot-height: 36px;
 $slots-count: 44;
-$header-row-height: 60px;
+$header-row-height-mobile: 52px;
+$header-row-height: 32px;
 $time-column-width-mobile: 25px;
 $time-column-width: 60px;
 
 $day-header-font-size-mobile: 13px;
 $day-header-font-size: 11px;
+$day-header-gap: 6px;
 
 $grid-border: 1px solid variables.$accent;
 $slot-border: 1px solid variables.$primary;

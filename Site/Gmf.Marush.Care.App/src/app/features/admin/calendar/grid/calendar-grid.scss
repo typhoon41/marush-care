@@ -33,12 +33,13 @@
 .grid-corner {
 	flex-shrink: 0;
 	width: grid.$time-column-width-mobile;
-	min-height: grid.$header-row-height;
+	min-height: grid.$header-row-height-mobile;
 	border-right: grid.$grid-border;
 	background: variables.$body-color;
 
 	@include breakpoints.apply-from-tablet() {
 		width: grid.$time-column-width;
+		min-height: grid.$header-row-height;
 	}
 }
 

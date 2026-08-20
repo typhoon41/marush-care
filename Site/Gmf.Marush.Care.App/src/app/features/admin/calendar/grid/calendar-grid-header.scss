@@ -7,13 +7,13 @@
 	flex: 1;
 	flex-direction: column;
 	min-width: 0;
-	min-height: grid.$header-row-height;
-	padding: 4px;
+	min-height: grid.$header-row-height-mobile;
+	padding: grid.$day-header-gap 4px;
 	overflow: hidden;
 	border-top: grid.$grid-border;
 	border-right: grid.$grid-border;
 	background: variables.$primary;
-	gap: 2px;
+	gap: grid.$day-header-gap;
 
 	&:last-of-type {
 		border-right: none;
@@ -21,19 +21,18 @@
 
 	@include breakpoints.apply-from-tablet() {
 		min-width: 80px;
-		padding: 6px 8px;
+		min-height: grid.$header-row-height;
+		padding: grid.$day-header-gap 8px;
 		overflow: visible;
-		gap: 4px;
 	}
 }
 
 .day-header-top {
-	gap: 2px;
+	gap: grid.$day-header-gap;
 
 	@include breakpoints.apply-from-tablet() {
 		flex-wrap: nowrap;
 		justify-content: flex-start;
-		gap: 4px;
 	}
 }
 
