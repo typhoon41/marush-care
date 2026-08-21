@@ -7,6 +7,10 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 8px;
+
+	&.without-weekly-note {
+		margin-bottom: calendar.$header-to-grid-gap - calendar.$page-content-gap;
+	}
 }
 
 .header-row {
@@ -80,10 +84,15 @@
 	font-size: 14px;
 	font-weight: 600;
 	letter-spacing: .5px;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 18px;
+	}
 }
 
 .weekly-note-content {
 	margin: 0;
+	padding: 10px;
 	color: v.$font-color;
 	font-size: 15px;
 	text-align: center;

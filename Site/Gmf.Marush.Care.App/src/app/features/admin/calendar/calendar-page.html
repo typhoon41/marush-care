@@ -1,5 +1,5 @@
 
-<div class="page-header">
+<div class="page-header" [class.without-weekly-note]="!weeklyNote()">
     <div class="header-row">
         <button class="navigation-button" type="button"
                 [class.has-note]="weeklyNote()"
