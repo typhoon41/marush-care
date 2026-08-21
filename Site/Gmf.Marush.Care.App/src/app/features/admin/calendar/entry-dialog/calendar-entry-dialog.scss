@@ -1,12 +1,19 @@
 @use 'variables';
 
+$form-gap: 12px;
+$validation-gap: 5px;
+
 .entry-form {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: $form-gap;
 	max-width: 480px;
 	margin: 0 auto;
 	padding: 20px 0;
+
+	> .invalid-field-message {
+		margin-top: $validation-gap - $form-gap;
+	}
 }
 
 .form-row {
@@ -18,7 +25,7 @@
 
 .time-row {
 	flex-direction: row;
-	gap: 12px;
+	gap: $form-gap;
 
 	.time-field {
 		flex: 1;

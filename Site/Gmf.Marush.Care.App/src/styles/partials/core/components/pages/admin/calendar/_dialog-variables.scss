@@ -9,6 +9,9 @@ $dialog-divider: 1px solid color.adjust(variables.$accent, $alpha: -.6);
 $dialog-padding: 20px;
 $dialog-tablet-padding: 24px;
 $dialog-desktop-padding: 32px;
+$close-button-width: 26px;
+$close-button-padding: 6px 4px;
+$close-button-tablet-padding: 7px 4px;
 
 @mixin dialog-edge-spacing($properties...) {
 	@each $property in $properties {

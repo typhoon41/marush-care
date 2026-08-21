@@ -5,6 +5,7 @@
 
 $panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
 $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
+$treatment-gap: 6px;
 
 .treatment-list {
 	display: block;
@@ -23,16 +24,20 @@ $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 		@include headers.marush-header();
 	}
 
+	&.hidden {
+		display: none;
+	}
+
 	.treatment-container {
 		margin-bottom: 20px;
 		padding-left: 3px;
+		gap: $treatment-gap;
 
 		@include breakpoints.apply-from-tablet() {
 			padding-left: 12px;
 		}
 
 		.treatment {
-			margin-left: 6px;
 			letter-spacing: 1px;
 		}
 	}

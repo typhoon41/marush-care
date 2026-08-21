@@ -1,7 +1,7 @@
 @use 'variables';
 
 .field {
-	margin-bottom: 20px;
+	margin-bottom: variables.$field-spacing;
 
 	#{variables.$error-selector} {
 		margin-bottom: 0;
@@ -10,6 +10,6 @@
 
 .invalid-field-message {
 	margin-top: 5px;
-	margin-bottom: 20px;
+	margin-bottom: variables.$field-spacing;
 	color: variables.$error-font-color;
 }

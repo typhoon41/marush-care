@@ -1,5 +1,7 @@
 @use 'breakpoints';
+@use 'buttons';
 @use 'dialog-variables' as dialog;
+@use 'headers';
 
 .calendar-page {
 	.dialog-container {
@@ -29,15 +31,35 @@
 	}
 
 	.dialog-header {
+		display: flex;
 		flex: none;
+		align-items: center;
 		min-height: auto;
 		padding-top: 0;
 		padding-bottom: dialog.$dialog-gap;
 		border-bottom: dialog.$dialog-divider;
+		gap: dialog.$dialog-gap;
+
+		.title {
+			flex: 1;
+			padding-right: 0;
+			@include headers.marush-caption(true, false);
+
+			@include breakpoints.apply-from-tablet() {
+				@include headers.marush-header();
+			}
+		}
 
 		.close-button {
-			top: 0;
-			@include dialog.dialog-edge-spacing(right);
+			position: static;
+			flex: none;
+			padding: dialog.$close-button-padding;
+			@include buttons.line-button-size(dialog.$close-button-width);
+
+			@include breakpoints.apply-from-tablet() {
+				padding: dialog.$close-button-tablet-padding;
+				@include buttons.line-button-size();
+			}
 		}
 	}
 
@@ -45,6 +67,10 @@
 		flex: 1 1 auto;
 		min-height: 0;
 		overflow: auto;
+
+		.autocomplete, .field, .invalid-field-message {
+			margin-bottom: 0;
+		}
 	}
 
 	.dialog-footer {

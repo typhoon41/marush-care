@@ -4,6 +4,11 @@
 .autocomplete {
 	display: block;
 	position: relative;
+	margin-bottom: variables.$field-spacing;
+
+	.field, .invalid-field-message {
+		margin-bottom: 0;
+	}
 
 	.suggestions {
 		right: 0;

@@ -25,7 +25,7 @@
 
 %element {
 	box-sizing: border-box;
-	padding: 10px 30px 8px;
+	padding: 10px variables.$control-horizontal-padding 8px;
 	@include marush-control-frame(false);
 	color: variables.$font-color;
 	font-family: 'Overpass', sans-serif;
