@@ -1,3 +1,4 @@
+@use 'breakpoints';
 @use 'variables' as v;
 @use './calendar-variables' as calendar;
 
@@ -30,6 +31,10 @@
 	font-size: 15px;
 	font-weight: 600;
 	text-align: center;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 18px;
+	}
 }
 
 .navigation-button {
@@ -56,6 +61,17 @@
 	&.has-note {
 		background-color: v.$accent;
 		color: v.$body-color;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 12px 40px;
+		font-size: 18px;
+		line-height: calendar.$navigation-line-height-desktop;
+
+		.arrow-icon {
+			width: calendar.$navigation-icon-width-desktop;
+			height: calendar.$navigation-line-height-desktop;
+		}
 	}
 }
 
