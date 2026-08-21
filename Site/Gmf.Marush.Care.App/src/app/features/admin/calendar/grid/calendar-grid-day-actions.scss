@@ -80,4 +80,8 @@
 		padding: 2px 6px 0;
 		font-size: 12px;
 	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 13px;
+	}
 }
