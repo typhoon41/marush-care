@@ -33,26 +33,29 @@
 }
 
 .navigation-button {
-	padding: 6px 14px;
-	border: calendar.$action-button-border;
-	border-radius: calendar.$action-button-radius;
-	background: transparent;
-	color: v.$font-color;
-	font-family: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 24px;
 	font-size: 14px;
-	cursor: pointer;
+	line-height: calendar.$navigation-line-height;
 
 	&:hover {
-		background: v.$accent;
+		background-color: v.$accent;
+		color: v.$body-color;
 	}
 
-	&.today-button {
-		font-size: 12px;
-		letter-spacing: .5px;
+	.arrow-icon {
+		width: calendar.$navigation-icon-width;
+		height: calendar.$navigation-line-height;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
 	}
 
 	&.has-note {
-		background: v.$accent;
+		background-color: v.$accent;
+		color: v.$body-color;
 	}
 }
 

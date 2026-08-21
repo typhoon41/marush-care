@@ -7,7 +7,23 @@
 	display: block;
 	width: calendar.$action-icon-size;
 	height: calendar.$action-icon-size;
-	object-fit: contain;
+	background-color: variables.$font-color;
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
+
+	@include breakpoints.apply-from-desktop() {
+		width: calendar.$action-icon-size-desktop;
+		height: calendar.$action-icon-size-desktop;
+	}
+}
+
+.note-button .button-icon {
+	mask-image: url('/assets/images/actions/note.svg');
+}
+
+.non-working-button .button-icon {
+	mask-image: url('/assets/images/actions/non-working-day.svg');
 }
 
 .day-action {
@@ -17,19 +33,19 @@
 	padding: calendar.$action-button-padding;
 	border: calendar.$action-button-border;
 	border-radius: calendar.$action-button-radius;
-	background: transparent;
+	background: variables.$primary;
 
-	&:hover {
-		background: variables.$accent;
+	&:hover .button-icon, &.is-active .button-icon, &.has-note .button-icon {
+		background-color: variables.$accent;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: calendar.$action-button-padding-desktop;
 	}
 }
 
 .note-button {
 	order: 3;
-
-	&.has-note {
-		background: variables.$accent;
-	}
 
 	@include breakpoints.apply-from-tablet() {
 		order: 0;
@@ -38,19 +54,6 @@
 
 .non-working-button {
 	order: 2;
-
-	.button-icon {
-		opacity: .5;
-	}
-
-	&.is-active {
-		border-color: variables.$font-color;
-		background: variables.$accent;
-	}
-
-	&.is-active .button-icon, &:hover .button-icon {
-		opacity: 1;
-	}
 
 	@include breakpoints.apply-from-tablet() {
 		order: 0;

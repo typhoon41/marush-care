@@ -21,9 +21,13 @@
 
 	@include breakpoints.apply-from-tablet() {
 		min-width: 80px;
-		min-height: grid.$header-row-height;
+		min-height: grid.$header-row-height-tablet;
 		padding: grid.$day-header-gap 8px;
 		overflow: visible;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		min-height: grid.$header-row-height;
 	}
 }
 

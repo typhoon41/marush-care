@@ -5,10 +5,14 @@
                 [class.has-note]="weeklyNote()"
                 (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
         <div class="week-navigation">
-            <button class="navigation-button" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">&#8249;</button>
+            <button class="navigation-button main-action" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">
+                <span role="img" class="arrow-icon left"></span>
+            </button>
             <span class="week-label">{{ weekLabel() }}</span>
-            <button class="navigation-button" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">&#8250;</button>
-            <button class="navigation-button today-button" type="button"
+            <button class="navigation-button main-action" type="button" title="Sledeća nedelja" (click)="goToNextWeek()">
+                <span role="img" class="arrow-icon right"></span>
+            </button>
+            <button class="navigation-button" type="button"
                     (click)="goToThisWeek()">Ova nedelja</button>
         </div>
         @if (weeklyTotal() > 0) {

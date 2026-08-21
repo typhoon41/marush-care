@@ -39,11 +39,12 @@
 
 	@include breakpoints.apply-from-tablet() {
 		width: grid.$time-column-width-tablet;
-		min-height: grid.$header-row-height;
+		min-height: grid.$header-row-height-tablet;
 	}
 
 	@include breakpoints.apply-from-desktop() {
 		width: grid.$time-column-width;
+		min-height: grid.$header-row-height;
 	}
 }
 
