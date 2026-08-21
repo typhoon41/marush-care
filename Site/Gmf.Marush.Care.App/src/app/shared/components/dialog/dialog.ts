@@ -13,8 +13,8 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
 export class Dialog {
     readonly dialog = viewChild<ElementRef>('dialog');
     readonly title = input<string>();
-    readonly bodyClass = input<string>();
-    readonly footerClass = input<string>();
+    readonly bodyClass = input<string>('');
+    readonly footerClass = input<string>('');
 
     constructor() {
         afterNextRender(() => {

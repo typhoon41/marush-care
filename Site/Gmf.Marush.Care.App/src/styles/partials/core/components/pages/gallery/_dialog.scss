@@ -6,6 +6,7 @@
 	.gallery-dialog-body {
 		@include absolute.unset-position(0, unset, 0);
 		height: 100%;
+		overflow: hidden;
 	}
 
 	.gallery-dialog-footer {

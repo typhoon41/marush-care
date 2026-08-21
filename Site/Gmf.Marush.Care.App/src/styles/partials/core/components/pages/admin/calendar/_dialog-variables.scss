@@ -1,0 +1,29 @@
+@use 'sass:color';
+@use 'breakpoints';
+@use 'variables';
+
+$dialog-gap: 16px;
+$dialog-edge-gap: 16px;
+$dialog-mobile-size: calc(100% - #{$dialog-edge-gap * 2});
+$dialog-divider: 1px solid color.adjust(variables.$accent, $alpha: -.6);
+$dialog-padding: 20px;
+$dialog-tablet-padding: 24px;
+$dialog-desktop-padding: 32px;
+
+@mixin dialog-edge-spacing($properties...) {
+	@each $property in $properties {
+		#{$property}: $dialog-padding;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		@each $property in $properties {
+			#{$property}: $dialog-tablet-padding;
+		}
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@each $property in $properties {
+			#{$property}: $dialog-desktop-padding;
+		}
+	}
+}

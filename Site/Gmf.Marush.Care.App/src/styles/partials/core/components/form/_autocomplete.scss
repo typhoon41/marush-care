@@ -6,7 +6,6 @@
 	position: relative;
 
 	.suggestions {
-		z-index: 1;
 		right: 0;
 		left: 0;
 		@include elements.marush-dropdown-frame();
