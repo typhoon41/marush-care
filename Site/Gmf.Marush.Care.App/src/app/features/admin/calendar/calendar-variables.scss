@@ -1,0 +1,16 @@
+@use 'variables';
+
+$action-button-border: 1px solid variables.$accent;
+$action-button-radius: 4px;
+$action-button-padding: 2px;
+$action-button-padding-desktop: 5px;
+$action-icon-size: 14px;
+$action-icon-size-desktop: 18px;
+
+$page-content-gap: 16px;
+$header-to-grid-gap: 40px;
+
+$navigation-icon-width: 12px;
+$navigation-icon-width-desktop: 16px;
+$navigation-line-height: 20px;
+$navigation-line-height-desktop: 26px;

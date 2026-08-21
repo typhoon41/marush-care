@@ -1,4 +1,4 @@
-/* stylelint-disable selector-max-attribute, selector-no-qualifying-type */
+/* stylelint-disable selector-max-attribute, selector-no-qualifying-type, @stylistic/max-line-length */
 @use 'variables';
 @use 'elements';
 
@@ -8,7 +8,7 @@ input[type = 'checkbox'] {
 	border-radius: 6px;
 }
 
-textarea, input[type = 'text'], input[type = 'password'] {
+textarea, input[type = 'text'], input[type = 'password'], input[type = 'number'], input[type = 'date'], input[type = 'email'] {
 	@extend %element;
 
 	#{variables.$error-selector} {
@@ -20,4 +20,13 @@ textarea {
 	min-width: 200px;
 	min-height: 42px;
 	resize: vertical;
+}
+
+input[type = 'number'] {
+	appearance: textfield;
+
+	&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+		margin: 0;
+		appearance: none;
+	}
 }

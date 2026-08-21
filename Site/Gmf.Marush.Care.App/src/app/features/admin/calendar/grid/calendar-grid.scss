@@ -1,0 +1,106 @@
+@use 'breakpoints';
+@use 'variables';
+@use './calendar-grid-variables' as grid;
+
+.calendar-grid {
+	display: flex;
+	flex-direction: column;
+	border-right: grid.$grid-border;
+	background: variables.$body-color;
+	user-select: none;
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 620px;
+	}
+}
+
+.calendar-grid.is-dragging {
+	.entry-cell, .public-appointment-cell {
+		pointer-events: none;
+	}
+}
+
+.calendar-header {
+	display: flex;
+	flex-shrink: 0;
+	border-bottom: 2px solid variables.$accent;
+}
+
+.calendar-body {
+	display: flex;
+}
+
+.grid-corner {
+	flex-shrink: 0;
+	width: grid.$time-column-width-mobile;
+	min-height: grid.$header-row-height-mobile;
+	border-right: grid.$grid-border;
+	background: variables.$body-color;
+
+	@include breakpoints.apply-from-tablet() {
+		width: grid.$time-column-width-tablet;
+		min-height: grid.$header-row-height-tablet;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		width: grid.$time-column-width;
+		min-height: grid.$header-row-height;
+	}
+}
+
+.time-column {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: grid.$time-column-width-mobile;
+	border-right: grid.$grid-border;
+
+	@include breakpoints.apply-from-tablet() {
+		width: grid.$time-column-width-tablet;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		width: grid.$time-column-width;
+	}
+}
+
+.day-column {
+	display: flex;
+	position: relative;
+	flex: 1;
+	flex-direction: column;
+	min-width: 40px;
+	border-right: grid.$slot-border;
+	border-bottom: grid.$grid-border;
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 80px;
+	}
+
+	&:last-of-type {
+		border-right: none;
+	}
+}
+
+.day-column.non-working {
+	background: variables.$primary;
+	pointer-events: none;
+}
+
+.slot-cell {
+	box-sizing: border-box;
+	flex: none;
+	height: grid.$slot-height;
+	border-bottom: grid.$slot-border;
+	cursor: crosshair;
+	touch-action: none;
+
+	&.hour-boundary {
+		border-bottom-color: variables.$accent;
+	}
+
+	&.drag-selected {
+		opacity: .4;
+		background: variables.$accent;
+	}
+}

@@ -24,7 +24,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var customer = await customerRetievalRepository.GetByIdAsync(id);
+        var customer = await customerRetievalRepository.GetById(id);
         return customer is null ? NotFound() : Ok(customer);
     }
 
@@ -33,7 +33,7 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PaginatedResponse<CustomerListItemDto>>> GetAll(CustomerFilteredPagination data)
     {
-        var customers = await customerRetievalRepository.GetAllAsync(data.Filter, data);
+        var customers = await customerRetievalRepository.GetAll(data.Filter, data);
         var items = customers.Results.Select(customer => new CustomerListItemDto { Id = customer.Id, ContactNumber = customer.Phone, FullName = customer.FullName });
         return Ok(new PaginatedResponse<CustomerListItemDto>(data.PageSize)
         {
@@ -72,14 +72,14 @@ public class CustomerController(ICustomerModificationRepository customerModifica
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var deleted = await customerModificationRepository.DeleteAsync(id);
+        var deleted = await customerModificationRepository.Delete(id);
         return deleted ? NoContent() : NotFound();
     }
 
     private async Task Store(CustomerDetails customerDetails)
     {
         var userId = userService.GetUserIdFrom(Identity());
-        await customerModificationRepository.StoreAsync(customerDetails, userId);
+        await customerModificationRepository.Store(customerDetails, userId);
     }
 
     private static CustomerDetails MapToDomain(NewCustomerDto dto, Guid? id = null) => new(id, dto.Name, dto.Surname, dto.Phones, dto.Emails,

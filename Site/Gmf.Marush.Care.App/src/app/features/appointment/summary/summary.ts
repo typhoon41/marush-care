@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { TreatmentList } from '@shared/components/treatments/list/list';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { Money } from '@shared/pipes/money';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-appointment-summary',
-    imports: [ReactiveFormsModule, Money],
+    imports: [Money, TreatmentList],
     templateUrl: './summary.html',
     styleUrl: './summary.scss'
 })

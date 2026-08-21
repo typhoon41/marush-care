@@ -1,0 +1,86 @@
+@use 'breakpoints';
+@use 'variables';
+@use './calendar-grid-variables' as grid;
+
+.day-header {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+	min-height: grid.$header-row-height-mobile;
+	padding: grid.$day-header-gap 4px;
+	overflow: hidden;
+	border-top: grid.$grid-border;
+	border-right: grid.$grid-border;
+	background: variables.$primary;
+	gap: grid.$day-header-gap;
+
+	&:last-of-type {
+		border-right: none;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: 80px;
+		min-height: grid.$header-row-height-tablet;
+		padding: grid.$day-header-gap 8px;
+		overflow: visible;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		min-height: grid.$header-row-height;
+	}
+}
+
+.day-header-top {
+	gap: grid.$day-header-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+	}
+}
+
+.day-label {
+	justify-content: center;
+	order: 1;
+	color: variables.$font-color;
+	font-size: grid.$day-header-font-size-mobile;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-transform: capitalize;
+	gap: 0 4px;
+
+	@include breakpoints.apply-from-tablet() {
+		flex: 1;
+		justify-content: flex-start;
+		order: 0;
+		width: auto;
+		text-align: left;
+	}
+}
+
+.day-name, .day-date {
+	white-space: nowrap;
+}
+
+.day-note-content {
+	margin: 0;
+	opacity: .85;
+	color: variables.$font-color;
+	font-size: grid.$day-header-font-size-mobile;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: grid.$day-header-font-size;
+	}
+}
+
+.day-total {
+	opacity: .7;
+	color: variables.$font-color;
+	font-size: grid.$day-header-font-size-mobile;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: grid.$day-header-font-size;
+	}
+}

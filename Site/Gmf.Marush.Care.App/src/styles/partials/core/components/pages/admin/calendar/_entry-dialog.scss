@@ -1,0 +1,19 @@
+@use 'variables';
+
+$vertical-padding: 12px;
+$removal-side-padding: 8px;
+$text-side-padding: variables.$control-horizontal-padding;
+
+.calendar-page .treatment-list {
+	padding: $vertical-padding $removal-side-padding $vertical-padding $text-side-padding;
+
+	.treatment-container {
+		flex-direction: row-reverse;
+		margin-bottom: $vertical-padding;
+		padding-left: 0;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

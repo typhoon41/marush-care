@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Input } from '@shared/components/forms/input/input';
+import { Autocomplete } from '@shared/components/forms/autocomplete/autocomplete';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { PaginatedResponse, TableMetadata } from '@shared/components/pagination/table/table-metadata';
 import { TablePagination } from '@shared/components/pagination/table/table-pagination';
 import { Clients } from './clients';
@@ -11,7 +12,7 @@ import { Clients } from './clients';
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'marush-clients-page',
-    imports: [TablePagination, Input, ReactiveFormsModule, CommonModule],
+    imports: [TablePagination, Autocomplete, ReactiveFormsModule, CommonModule],
     templateUrl: './clients-page.html',
     styleUrl: './clients-page.scss',
     host: { class: 'clients-page' }
@@ -45,6 +46,12 @@ export class ClientsPage {
         }
 
     } as TableMetadata;
+
+    protected readonly searchClients = (query: string) => this.clients.searchByName(query);
+
+    protected readonly onClientSelected = (item: IComboBoxItem) => {
+        this.clients.data().filter.set(item.label);
+    };
 
     protected readonly onAdd = async() => {
         await this.router.navigate(['/admin/klijent']);

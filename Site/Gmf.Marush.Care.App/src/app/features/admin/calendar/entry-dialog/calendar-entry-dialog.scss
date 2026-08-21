@@ -1,0 +1,39 @@
+@use 'variables';
+
+.entry-form {
+	display: flex;
+	flex-direction: column;
+	gap: variables.$field-spacing;
+	max-width: 480px;
+	margin: 0 auto;
+	padding: 20px 0;
+
+	> .invalid-field-message {
+		margin-top: variables.$validation-spacing - variables.$field-spacing;
+	}
+}
+
+.form-row {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.time-row {
+	flex-direction: row;
+	gap: variables.$field-spacing;
+
+	.time-field {
+		flex: 1;
+	}
+}
+
+.reschedule-warning {
+	margin: 0;
+	padding: 8px 12px;
+	border-radius: 4px;
+	background: variables.$error;
+	color: variables.$error-font-color;
+	font-size: 13px;
+}

@@ -6,6 +6,15 @@
         [attr.name]="control() ? null : name()"  [placeholder]="placeholder()" [ariaLabel]="placeholder()"
         [attr.aria-required]="required ? 'true' : null"></textarea>
     }
+    @else if(type() === 'number')
+    {
+    <input type="number" class="column-12 field" [autocomplete]="autoComplete() ? 'on' : 'off'"
+        [formControl]="resolvedControl"
+        [attr.name]="control() ? null : name()" [placeholder]="placeholder()" [ariaLabel]="placeholder()"
+        [attr.aria-required]="required ? 'true' : null"
+        (input)="onNumberChanged($event)" (blur)="onNumberChanged($event)">
+    }
+
     @else {
     <input class="column-12 field" [type]="type()" [autocomplete]="autoComplete() ? 'on' : 'off'"
         [formControl]="resolvedControl"
@@ -26,6 +35,11 @@
     @else if(email)
     {
     <p class="invalid-field-message" i18n="@@validation.email" aria-live="polite">Neispravna mejl adresa</p>
+    }
+
+    @else if(invalidNumber)
+    {
+    <p class="invalid-field-message" i18n="@@validation.number" aria-live="polite">Uneta vrednost mora biti broj</p>
     }
 
     @else if(custom)

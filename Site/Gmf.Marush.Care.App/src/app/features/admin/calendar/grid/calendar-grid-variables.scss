@@ -1,0 +1,21 @@
+@use 'variables';
+
+$slot-height: 36px;
+$slots-count: 44;
+$header-row-height-mobile: 54px;
+$header-row-height-tablet: 32px;
+$header-row-height: 42px;
+$time-column-width-mobile: 25px;
+$time-column-width-tablet: 36px;
+$time-column-width: 60px;
+
+$day-header-font-size-mobile: 13px;
+$day-header-font-size: 14px;
+$day-header-gap: 6px;
+
+$time-size-mobile: 10px;
+$time-size-tablet: 12px;
+$time-size: 13px;
+
+$grid-border: 1px solid variables.$accent;
+$slot-border: 1px solid variables.$primary;

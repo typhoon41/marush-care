@@ -1,0 +1,37 @@
+@use 'sass:math';
+@use 'units';
+
+$line-button-width: 34px;
+
+@mixin line-button-size($button-width: $line-button-width) {
+	$button-height: $button-width * .75;
+	$line-thickness: math.ceil(math.div($button-height, 6));
+	$cross-height: math.sqrt(math.div(math.pow(units.strip($button-width), 2), 2));
+	$cross-horizontal-gap: math.round(($button-width - $cross-height) * .5);
+	$cross-vertical-gap: math.round(($button-height - $cross-height) * .5);
+	width: $button-width;
+	height: math.floor($button-height);
+
+	.line {
+		&.middle {
+			top: 2 * $line-thickness;
+		}
+
+		&.last {
+			top: 4 * $line-thickness;
+		}
+	}
+
+	/* stylelint-disable-next-line nesting-selector-no-missing-scoping-root */
+	&.crossed .line {
+		&.first {
+			top: -1px - $cross-vertical-gap;
+			left: $cross-horizontal-gap;
+		}
+
+		&.last {
+			top: -2px + math.floor($button-height) - $cross-vertical-gap;
+			left: $cross-horizontal-gap;
+		}
+	}
+}

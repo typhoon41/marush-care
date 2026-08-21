@@ -9,6 +9,10 @@
 .env.development
 app_offline.htm
 
+# Claude-specific files
+.claude/settings.local.json
+.tmp
+
 .vs
 bin
 obj

@@ -19,7 +19,7 @@ public class UserController(IUserService userService) : ControllerBase
     public async Task<IActionResult> Login([FromBody][Required] LoginRequest request)
     {
         var user = GetUserFrom(request);
-        var validationResult = await userService.ValidateAsync(user);
+        var validationResult = await userService.Validate(user);
 
         if (validationResult.Failure)
         {
@@ -37,7 +37,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create([FromBody][Required] LoginRequest request) =>
-        await userService.CreateAsync(GetUserFrom(request)) ? Ok() : BadRequest();
+        await userService.Create(GetUserFrom(request)) ? Ok() : BadRequest();
 #endif
 
     private User GetUserFrom(LoginRequest request) => new(request.Email, request.Password, GetUserRequestDetails());

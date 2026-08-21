@@ -13,8 +13,19 @@
 	}
 }
 
+@mixin marush-dropdown-frame() {
+	position: absolute;
+	z-index: 1;
+	box-sizing: border-box;
+	max-height: 300px;
+	margin-top: 7px;
+	overflow-y: auto;
+	@include marush-control-frame();
+}
+
 %element {
-	padding: 10px 30px 8px;
+	box-sizing: border-box;
+	padding: 10px variables.$control-horizontal-padding 8px;
 	@include marush-control-frame(false);
 	color: variables.$font-color;
 	font-family: 'Overpass', sans-serif;

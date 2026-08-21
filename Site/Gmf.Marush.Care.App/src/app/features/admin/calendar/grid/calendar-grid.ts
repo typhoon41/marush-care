@@ -1,0 +1,114 @@
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
+import { ScreenSize } from '../../../../shared/services/screen-size';
+import { CalendarEntry } from '../calendar-entry';
+import { CalendarNote } from '../calendar-note';
+import { CalendarNoteType } from '../calendar-note-type';
+import { CalendarSelection } from '../calendar-selection';
+import { timeSlots } from '../calendar-time-slots';
+import { DayInfo } from '../day-info';
+import { formatMoney } from '../money-formatter';
+import { PublicAppointment } from '../public-appointment';
+import { TimeInterval } from '../time-interval';
+
+const unsetSlot = -1;
+
+@Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'calendar-grid-container' },
+    selector: 'marush-calendar-grid',
+    imports: [],
+    templateUrl: './calendar-grid.html',
+    styleUrls: ['./calendar-grid.scss', './calendar-grid-header.scss', './calendar-grid-day-actions.scss', './calendar-grid-entries.scss']
+})
+export class CalendarGrid {
+    protected readonly screenSize = inject(ScreenSize);
+    readonly days = input.required<DayInfo[]>();
+    readonly entries = input<CalendarEntry[]>([]);
+    readonly publicAppointments = input<PublicAppointment[]>([]);
+    readonly notes = input<CalendarNote[]>([]);
+
+    readonly entryClick = output<CalendarEntry>();
+    readonly dragComplete = output<CalendarSelection>();
+    readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
+    readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
+
+    private readonly gridEl = viewChild.required<ElementRef<HTMLElement>>('gridEl');
+    protected readonly timeSlots = timeSlots;
+    protected readonly formatMoney = formatMoney;
+
+    private readonly dragAnchorDate = signal<string | null>(null);
+    private readonly dragAnchorSlot = signal(unsetSlot);
+    private readonly dragCurrentSlot = signal(unsetSlot);
+
+    protected readonly isDragging = computed(() => this.dragAnchorDate() !== null);
+    protected readonly dragRange = computed(() => {
+        const date = this.dragAnchorDate();
+        const anchor = this.dragAnchorSlot();
+        const current = this.dragCurrentSlot();
+        if (!date || anchor < 0 || current < 0) {
+            return null;
+        }
+        return { date, minSlot: Math.min(anchor, current), maxSlot: Math.max(anchor, current) };
+    });
+
+    protected readonly isSlotDragSelected = (date: string, slot: number): boolean => {
+        const range = this.dragRange();
+        if (range?.date !== date) {
+            return false;
+        }
+        return slot >= range.minSlot && slot <= range.maxSlot;
+    };
+
+    protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
+        this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
+
+    protected readonly getNonWorkingDay = (isoDate: string): CalendarNote | undefined =>
+        this.notes().find(note => note.date === isoDate && note.noteType === 'NonWorkingDay');
+
+    protected readonly entriesForDay = (isoDate: string): CalendarEntry[] =>
+        this.entries().filter(entry => entry.date === isoDate);
+
+    protected readonly appointmentsForDay = (isoDate: string): PublicAppointment[] =>
+        this.publicAppointments().filter(appointment => appointment.date === isoDate);
+
+    protected readonly entryInterval = (startTime: string, endTime: string): TimeInterval =>
+        new TimeInterval(startTime, endTime);
+
+    protected readonly onPointerDown = (event: PointerEvent, date: string, slot: number) => {
+        if (this.getNonWorkingDay(date)) {
+            return;
+        }
+        event.preventDefault();
+        this.gridEl().nativeElement.setPointerCapture(event.pointerId);
+        this.dragAnchorDate.set(date);
+        this.dragAnchorSlot.set(slot);
+        this.dragCurrentSlot.set(slot);
+    };
+
+    protected readonly onPointerMove = (event: PointerEvent) => {
+        if (!this.dragAnchorDate()) {
+            return;
+        }
+        const element = document.elementFromPoint(event.clientX, event.clientY);
+        const slotIndexString = element?.getAttribute('data-slot');
+        if (slotIndexString !== null && slotIndexString !== undefined) {
+            this.dragCurrentSlot.set(parseInt(slotIndexString, 10));
+        }
+    };
+
+    protected readonly onPointerUp = () => {
+        const range = this.dragRange();
+        if (!range) {
+            return;
+        }
+        const selection = { date: range.date, interval: TimeInterval.fromSlots(range.minSlot, range.maxSlot + 1) };
+        this.cancelDrag();
+        this.dragComplete.emit(selection);
+    };
+
+    protected readonly cancelDrag = () => {
+        this.dragAnchorDate.set(null);
+        this.dragAnchorSlot.set(unsetSlot);
+        this.dragCurrentSlot.set(unsetSlot);
+    };
+}

@@ -15,7 +15,7 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
 {
     private readonly PasswordHasher<ExistingUser> _passwordHasher = new();
 
-    public async Task<bool> CreateAsync(User user)
+    public async Task<bool> Create(User user)
     {
         try
         {
@@ -30,7 +30,7 @@ public class UserService(IStoreEvents integrationEvents, IUserRepository userRep
         }
     }
 
-    public async Task<(bool Failure, Guid UserId)> ValidateAsync(User given)
+    public async Task<(bool Failure, Guid UserId)> Validate(User given)
     {
         var existingUser = await userRepository.FindUserBy(given.Username);
         var validCredentials = existingUser != null &&

@@ -1,0 +1,99 @@
+@use 'breakpoints';
+@use 'variables' as v;
+@use './calendar-variables' as calendar;
+
+.page-header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+
+	&.without-weekly-note {
+		margin-bottom: calendar.$header-to-grid-gap - calendar.$page-content-gap;
+	}
+}
+
+.header-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+}
+
+.week-navigation {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.week-label {
+	min-width: 160px;
+	color: v.$font-color;
+	font-size: 15px;
+	font-weight: 600;
+	text-align: center;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 18px;
+	}
+}
+
+.navigation-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 24px;
+	font-size: 14px;
+	line-height: calendar.$navigation-line-height;
+
+	&:hover {
+		background-color: v.$accent;
+		color: v.$body-color;
+	}
+
+	.arrow-icon {
+		width: calendar.$navigation-icon-width;
+		height: calendar.$navigation-line-height;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&.has-note {
+		background-color: v.$accent;
+		color: v.$body-color;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: 12px 40px;
+		font-size: 18px;
+		line-height: calendar.$navigation-line-height-desktop;
+
+		.arrow-icon {
+			width: calendar.$navigation-icon-width-desktop;
+			height: calendar.$navigation-line-height-desktop;
+		}
+	}
+}
+
+.weekly-total {
+	color: v.$font-color;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: .5px;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 18px;
+	}
+}
+
+.weekly-note-content {
+	margin: 0;
+	padding: 10px;
+	color: v.$font-color;
+	font-size: 15px;
+	text-align: center;
+}

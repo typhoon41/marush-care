@@ -21,7 +21,7 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
         return entity?.MapToCustomer();
     }
 
-    public async Task<(IEnumerable<Customer> Results, int TotalCount)> GetAllAsync(string? byFullName, IPaginateRequest request)
+    public async Task<(IEnumerable<Customer> Results, int TotalCount)> GetAll(string? byFullName, IPaginateRequest request)
     {
         IQueryable<CustomerDto> entities = _customers.Include(c => c.Phones).Include(c => c.Emails)
                 .Include(c => c.Properties);
@@ -43,7 +43,7 @@ public class CustomerRetrievalRepository(DbContext context) : ICustomerRetrieval
         return (paginatedResult.Select(dto => dto.MapToCustomer()), entities.Count());
     }
 
-    public async Task<CustomerDetails?> GetByIdAsync(Guid id)
+    public async Task<CustomerDetails?> GetById(Guid id)
     {
         var customerFound = await _customers
             .Include(c => c.Emails)

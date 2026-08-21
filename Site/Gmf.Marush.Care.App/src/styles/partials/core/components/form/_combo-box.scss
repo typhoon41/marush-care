@@ -48,14 +48,9 @@
 	.dropdown {
 		display: block;
 		visibility: hidden;
-		position: absolute;
-		box-sizing: border-box;
-		max-height: 300px;
-		margin-top: 7px;
-		overflow-y: auto;
 		transition: opacity .2s;
 		opacity: 0;
-		@include elements.marush-control-frame();
+		@include elements.marush-dropdown-frame();
 
 		.control {
 			@include absolute.unset-position($left: 0);

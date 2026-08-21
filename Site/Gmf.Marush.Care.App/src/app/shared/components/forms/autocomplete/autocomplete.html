@@ -1,0 +1,38 @@
+<input #inputElement class="column-12 field" type="text"
+    autocomplete="off"
+    role="combobox"
+    aria-haspopup="listbox"
+    [id]="id()"
+    [formControl]="resolvedControl"
+    [attr.name]="control() ? null : name()"
+    [placeholder]="placeholder()"
+    [ariaLabel]="placeholder()"
+    [attr.aria-required]="required ? 'true' : null"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-controls]="containerId()"
+    (input)="onInput($event)"
+    (keydown)="onInputKey($event)"
+    (blur)="onInputBlur($event)">
+
+@if(isOpen()) {
+<ul role="listbox" class="suggestions" [id]="containerId()">
+    @for(item of suggestions(); track item.value) {
+    <li #suggestion role="option" aria-selected="false" class="suggestion"
+        [tabindex]="-1"
+        (mousedown)="$event.preventDefault()"
+        (click)="select(item)"
+        (keydown)="navigation.onKey(item, $event, $index)"
+        (blur)="onSuggestionBlur($event)">
+        {{item.label}}
+    </li>
+    }
+</ul>
+}
+
+@if(required) {
+<p class="invalid-field-message" i18n="@@validation.required" aria-live="polite">Ovo je obavezno polje</p>
+}
+
+@else if(maxLength) {
+<p class="invalid-field-message" i18n="@@validation.max-length" aria-live="polite">Uneta vrednost je predugačka</p>
+}

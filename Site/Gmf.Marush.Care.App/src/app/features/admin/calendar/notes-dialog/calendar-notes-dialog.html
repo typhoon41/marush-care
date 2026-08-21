@@ -1,0 +1,12 @@
+<marush-dialog bodyClass="notes-dialog-body" [title]="titleLabel()">
+    <marush-input slot="body" class="notes-input" name="content" placeholder="Unesite napomene..."
+                  [form]="noteForm" [big]="true" [validation]="[]" />
+    <div slot="actions" class="dialog-actions">
+        @if (existingNoteId()) {
+            <button type="button" class="cancel-action" [disabled]="isLoading()"
+                    (click)="onDelete()"><span>Obriši</span></button>
+        }
+        <button type="button" class="main-action"
+                [disabled]="isLoading()" (click)="onSave()"><span>Sačuvaj</span></button>
+    </div>
+</marush-dialog>

@@ -1,0 +1,90 @@
+@use 'breakpoints';
+@use 'buttons';
+@use 'dialog-variables' as dialog;
+@use 'headers';
+
+.calendar-page {
+	.dialog-container {
+		box-sizing: border-box;
+		width: dialog.$dialog-mobile-size;
+		max-width: dialog.$dialog-mobile-size;
+		height: fit-content;
+		max-height: dialog.$dialog-mobile-size;
+		@include dialog.dialog-vertical-spacing(padding-top, padding-bottom);
+
+		@include breakpoints.apply-from-tablet() {
+			width: fit-content;
+			min-width: 480px;
+			max-width: 70%;
+			max-height: 85%;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			max-width: 50%;
+			max-height: 80%;
+		}
+	}
+
+	.dialog-header, .dialog-body, .dialog-footer {
+		@include dialog.dialog-edge-spacing(padding-left, padding-right);
+	}
+
+	.dialog-header {
+		flex: none;
+		min-height: auto;
+		padding-top: 0;
+		padding-bottom: dialog.$header-gap;
+		border-bottom: dialog.$dialog-divider;
+		gap: dialog.$header-gap;
+
+		.title {
+			padding-right: 0;
+			@include headers.marush-caption(true, false);
+
+			@include breakpoints.apply-from-tablet() {
+				@include headers.marush-header();
+			}
+		}
+
+		.close-button {
+			position: static;
+			flex: none;
+			padding: dialog.$close-button-padding;
+			@include buttons.line-button-size(dialog.$close-button-width);
+
+			@include breakpoints.apply-from-tablet() {
+				padding: dialog.$close-button-tablet-padding;
+				@include buttons.line-button-size();
+			}
+		}
+	}
+
+	.dialog-body {
+		flex: 1 1 auto;
+		min-height: 0;
+		overflow: auto;
+
+		.autocomplete, .field, .invalid-field-message {
+			margin-bottom: 0;
+		}
+	}
+
+	.dialog-footer {
+		flex: none;
+		min-height: auto;
+		padding-top: dialog.$dialog-gap;
+		border-top: dialog.$dialog-divider;
+	}
+
+	.dialog-actions {
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: center;
+
+		@include breakpoints.apply-from-tablet() {
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-end;
+		}
+	}
+}

@@ -1,0 +1,13 @@
+<ng-content select="[slot=header]" />
+@for (treatment of treatments(); track treatment.name) {
+    <div class="row treatment-container aligned-centrally">
+        <button type="button" class="treatment-removal delete-action" aria-label="Ukloni izabranu uslugu" i18n-aria-label="@@treatment-list.remove-item" (click)="onRemove(treatment)">
+            <img class="icon" i18n-alt="@@treatment-list.remove-item" alt="Ukloni izabranu uslugu" src="/assets/images/actions/trash-can.svg">
+        </button>
+        <span class="treatment grow-nested-block">{{treatment.titleWithDuration()}}</span>
+        @if (showPrices()) {
+            <span class="price">{{treatment.formattedPrice()}}</span>
+        }
+    </div>
+}
+<ng-content />

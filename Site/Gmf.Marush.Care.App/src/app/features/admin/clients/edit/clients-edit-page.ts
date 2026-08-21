@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, input, Renderer2, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';

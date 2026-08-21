@@ -1,0 +1,87 @@
+@use 'breakpoints';
+@use 'variables';
+@use '../calendar-variables' as calendar;
+@use './calendar-grid-variables' as grid;
+
+.button-icon {
+	display: block;
+	width: calendar.$action-icon-size;
+	height: calendar.$action-icon-size;
+	background-color: variables.$font-color;
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
+
+	@include breakpoints.apply-from-desktop() {
+		width: calendar.$action-icon-size-desktop;
+		height: calendar.$action-icon-size-desktop;
+	}
+}
+
+.note-button .button-icon {
+	mask-image: url('/assets/images/actions/note.svg');
+}
+
+.non-working-button .button-icon {
+	mask-image: url('/assets/images/actions/non-working-day.svg');
+}
+
+.day-action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: calendar.$action-button-padding;
+	border: calendar.$action-button-border;
+	border-radius: calendar.$action-button-radius;
+	background: variables.$primary;
+
+	&:hover .button-icon, &.is-active .button-icon, &.has-note .button-icon {
+		background-color: variables.$accent;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: calendar.$action-button-padding-desktop;
+	}
+}
+
+.note-button {
+	order: 3;
+
+	@include breakpoints.apply-from-tablet() {
+		order: 0;
+	}
+}
+
+.non-working-button {
+	order: 2;
+
+	@include breakpoints.apply-from-tablet() {
+		order: 0;
+	}
+}
+
+.day-header.non-working-day {
+	background: rgba(variables.$accent, .3);
+}
+
+.time-label {
+	display: flex;
+	box-sizing: border-box;
+	flex: none;
+	align-items: flex-start;
+	justify-content: flex-end;
+	height: grid.$slot-height;
+	padding: 2px 4px 0;
+	opacity: .55;
+	color: variables.$font-color;
+	font-size: 9px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 2px 6px 0;
+		font-size: 12px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 13px;
+	}
+}

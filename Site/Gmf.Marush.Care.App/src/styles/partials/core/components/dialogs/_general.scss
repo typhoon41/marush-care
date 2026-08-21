@@ -13,6 +13,10 @@ $footer-height: 75px;
 	display: block;
 }
 
+.dialog-open {
+	overflow: hidden;
+}
+
 .dialog-container {
 	box-sizing: border-box;
 	width: calc(100% - 40px);
@@ -32,6 +36,8 @@ $footer-height: 75px;
 
 	/* stylelint-disable-next-line selector-max-attribute,selector-no-qualifying-type */
 	&[open] {
+		display: flex;
+		flex-direction: column;
 		/* stylelint-disable-next-line no-unknown-animations */
 		animation: fade .5s;
 	}
@@ -41,11 +47,12 @@ $footer-height: 75px;
 	position: relative;
 	z-index: 1;
 	box-sizing: border-box;
-	height: $header-height-mobile;
+	flex: none;
+	min-height: $header-height-mobile;
 	padding: 10px 0;
 
 	@include breakpoints.apply-from-desktop() {
-		height: $header-height;
+		min-height: $header-height;
 		padding: 20px 0;
 	}
 
@@ -67,17 +74,25 @@ $footer-height: 75px;
 }
 
 .dialog-body {
-	height: calc(100% - $header-height-mobile - $footer-height-mobile);
-
-	@include breakpoints.apply-from-desktop() {
-		height: calc(100% - $header-height - $footer-height);
-	}
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: auto;
 }
 
 .dialog-footer {
-	height: $footer-height-mobile;
+	box-sizing: border-box;
+	flex: none;
+	min-height: $footer-height-mobile;
 
 	@include breakpoints.apply-from-desktop() {
-		height: $footer-height;
+		min-height: $footer-height;
 	}
+}
+
+.dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	gap: 12px;
 }

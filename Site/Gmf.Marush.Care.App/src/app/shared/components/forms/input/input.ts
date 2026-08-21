@@ -32,4 +32,19 @@ export class Input extends Field {
     get custom() {
         return this.getFormState(this.customValidation());
     }
+
+    get invalidNumber() {
+        return this.getFormState('number');
+    }
+
+    protected readonly onNumberChanged = (event: Event) => {
+        const element = event.target as HTMLInputElement;
+        const control = this.resolvedControl;
+        if (element.validity.badInput) {
+            control.setErrors({ ...control.errors, number: true });
+            control.markAsTouched();
+        } else if (control.errors?.['number']) {
+            control.updateValueAndValidity();
+        }
+    };
 }

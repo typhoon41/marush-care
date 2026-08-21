@@ -239,5 +239,50 @@ namespace Gmf.Marush.Care.Api.Resources {
                 return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Marush: Space of Care - termin je promenjen.
+        /// </summary>
+        internal static string AppointmentRescheduledTitle {
+            get {
+                return ResourceManager.GetString("AppointmentRescheduledTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vaš termin je promenjen!.
+        /// </summary>
+        internal static string AppointmentRescheduledSubtitle {
+            get {
+                return ResourceManager.GetString("AppointmentRescheduledSubtitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Salon Marush: Space of Care je promenio vreme Vašeg termina. Molimo proverite novi termin ispod..
+        /// </summary>
+        internal static string AppointmentRescheduledText {
+            get {
+                return ResourceManager.GetString("AppointmentRescheduledText", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stari termin:.
+        /// </summary>
+        internal static string AppointmentRescheduledOldDate {
+            get {
+                return ResourceManager.GetString("AppointmentRescheduledOldDate", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Novi termin:.
+        /// </summary>
+        internal static string AppointmentRescheduledNewDate {
+            get {
+                return ResourceManager.GetString("AppointmentRescheduledNewDate", resourceCulture);
+            }
+        }
     }
 }

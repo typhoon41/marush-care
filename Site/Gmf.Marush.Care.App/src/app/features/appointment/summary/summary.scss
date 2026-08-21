@@ -5,17 +5,6 @@
 $panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
 $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 
-.summary {
-	padding: 6px $panel-gap-half 24px;
-	border-radius: 24px;
-	background-color: variables.$accent;
-	color: variables.$body-color;
-
-	@include breakpoints.apply-from-tablet() {
-		padding: 40px $panel-gap-bigger-half;
-	}
-}
-
 .medium-title {
 	padding-left: $panel-gap-half;
 	border-bottom: 1px solid variables.$body-color;
@@ -27,30 +16,12 @@ $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 	}
 }
 
-.service-container {
-	margin-bottom: 20px;
-	padding-left: 3px;
-
-	@include breakpoints.apply-from-tablet() {
-		padding-left: 12px;
-	}
-
-	.service {
-		margin-left: 6px;
-		letter-spacing: 1px;
-	}
-}
-
 .price {
 	display: block;
 	margin-left: 10px;
 	font-weight: 400;
 	letter-spacing: 1px;
 	text-align: right;
-}
-
-.service-removal {
-	background-color: transparent;
 }
 
 .disclaimer {

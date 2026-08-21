@@ -1,0 +1,23 @@
+@use 'breakpoints';
+@use 'variables';
+
+.calendar-page {
+	display: flex;
+	box-sizing: border-box;
+	flex-direction: column;
+	padding: 10px;
+	gap: 16px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: variables.$expansion-panel-gap;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: variables.$side-gaps;
+	}
+}
+
+.calendar-grid-container {
+	display: block;
+	overflow-x: auto;
+}
