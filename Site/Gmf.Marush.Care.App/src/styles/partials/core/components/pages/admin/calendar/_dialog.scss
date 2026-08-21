@@ -8,15 +8,14 @@
 		box-sizing: border-box;
 		width: dialog.$dialog-mobile-size;
 		max-width: dialog.$dialog-mobile-size;
-		height: dialog.$dialog-mobile-size;
+		height: fit-content;
 		max-height: dialog.$dialog-mobile-size;
-		@include dialog.dialog-edge-spacing(padding-top, padding-bottom);
+		@include dialog.dialog-vertical-spacing(padding-top, padding-bottom);
 
 		@include breakpoints.apply-from-tablet() {
 			width: fit-content;
 			min-width: 480px;
 			max-width: 70%;
-			height: fit-content;
 			max-height: 85%;
 		}
 
@@ -31,17 +30,14 @@
 	}
 
 	.dialog-header {
-		display: flex;
 		flex: none;
-		align-items: center;
 		min-height: auto;
 		padding-top: 0;
-		padding-bottom: dialog.$dialog-gap;
+		padding-bottom: dialog.$header-gap;
 		border-bottom: dialog.$dialog-divider;
-		gap: dialog.$dialog-gap;
+		gap: dialog.$header-gap;
 
 		.title {
-			flex: 1;
 			padding-right: 0;
 			@include headers.marush-caption(true, false);
 

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, effect, input, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { isCancel } from '@shared/functions/keyboard-event';
 import Language from '@shared/models/language';
 import AirDatepicker, { AirDatepickerOptions } from 'air-datepicker';
 import { Field } from '../field';
@@ -40,6 +41,14 @@ export class DatePicker extends Field {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.datePicker.set(new AirDatepicker(this.date()!.nativeElement, this.datePickerOptions()));
             this.datePicker()?.show();
+        }
+    };
+
+    protected readonly onKey = (event: KeyboardEvent) => {
+        const picker = this.datePicker();
+        if (isCancel(event) && picker?.visible) {
+            event.preventDefault();
+            picker.hide();
         }
     };
 

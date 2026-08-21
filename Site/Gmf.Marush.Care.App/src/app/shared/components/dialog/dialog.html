@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <dialog #dialog class="dialog-container" tabindex="-1" (click)="onBackdropClick($event)">
-    <header class="dialog-header" aria-labelledby="dialog-header">
-        <h2 id="dialog-header" class="title header-centered">{{title()}}</h2>
+    <header class="dialog-header aligned-centrally" aria-labelledby="dialog-header">
+        <h2 id="dialog-header" class="title header-centered grow-nested-block">{{title()}}</h2>
         <button class="line-button crossed close-button" title="Zatvori" aria-label="Zatvori" type="button"
             i18n-title="@@close" i18n-aria-label="@@close" (click)="close()" (keydown)="close($event)">
             <div class="line-placeholder stretch">

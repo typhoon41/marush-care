@@ -1,5 +1,5 @@
 import { ElementRef, Signal } from '@angular/core';
-import { isAction } from '@shared/functions/keyboard-event';
+import { isAction, isCancel } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from '../combobox/item';
 
 export class SuggestionNavigation {
@@ -21,7 +21,7 @@ export class SuggestionNavigation {
         } else if (event.key === 'ArrowDown') {
             event.preventDefault();
             this.suggestionElements()[(index + 1) % this.suggestionElements().length]?.nativeElement.focus();
-        } else if (event.key === 'Escape') {
+        } else if (isCancel(event)) {
             event.preventDefault();
             this.close();
             this.inputElement()?.nativeElement.focus();

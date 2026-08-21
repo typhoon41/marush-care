@@ -9,24 +9,40 @@ $dialog-divider: 1px solid color.adjust(variables.$accent, $alpha: -.6);
 $dialog-padding: 20px;
 $dialog-tablet-padding: 24px;
 $dialog-desktop-padding: 32px;
+$dialog-vertical-padding: 14px;
+$dialog-vertical-tablet-padding: 16px;
+$dialog-vertical-desktop-padding: 22px;
 $close-button-width: 26px;
-$close-button-padding: 6px 4px;
-$close-button-tablet-padding: 7px 4px;
+$close-button-padding: 3px 4px;
+$close-button-tablet-padding: 4px 4px;
+$header-gap: 12px;
+
+@mixin -spacing($properties, $value) {
+	@each $property in $properties {
+		#{$property}: $value;
+	}
+}
 
 @mixin dialog-edge-spacing($properties...) {
-	@each $property in $properties {
-		#{$property}: $dialog-padding;
-	}
+	@include -spacing($properties, $dialog-padding);
 
 	@include breakpoints.apply-from-tablet() {
-		@each $property in $properties {
-			#{$property}: $dialog-tablet-padding;
-		}
+		@include -spacing($properties, $dialog-tablet-padding);
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		@each $property in $properties {
-			#{$property}: $dialog-desktop-padding;
-		}
+		@include -spacing($properties, $dialog-desktop-padding);
+	}
+}
+
+@mixin dialog-vertical-spacing($properties...) {
+	@include -spacing($properties, $dialog-vertical-padding);
+
+	@include breakpoints.apply-from-tablet() {
+		@include -spacing($properties, $dialog-vertical-tablet-padding);
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		@include -spacing($properties, $dialog-vertical-desktop-padding);
 	}
 }

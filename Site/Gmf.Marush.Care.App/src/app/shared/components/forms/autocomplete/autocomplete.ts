@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, input, resource, signal, viewChild, viewChildren } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { isCancel } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from '../combobox/item';
 import { Field } from '../field';
 import { commitOrClear } from './suggestion-commitment';
@@ -70,7 +71,8 @@ export class Autocomplete extends Field {
     if (event.key === 'ArrowDown' && this.isOpen()) {
       event.preventDefault();
       this.suggestionElements()[0]?.nativeElement.focus();
-    } else if (event.key === 'Escape') {
+    } else if (isCancel(event) && this.isOpen()) {
+      event.preventDefault();
       this.closeSuggestions();
     }
   };

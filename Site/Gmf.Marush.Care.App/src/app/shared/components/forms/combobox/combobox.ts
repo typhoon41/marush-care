@@ -1,8 +1,7 @@
-
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, input, model, viewChild, viewChildren } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { isAction } from '@shared/functions/keyboard-event';
+import { isAction, isCancel } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from './item';
 
 @Component({
@@ -73,14 +72,14 @@ export class ComboBox {
     if (this.mainActionTriggeredBy(event)) {
       event.preventDefault();
       this.toggleDropdown();
-    } else if (this.cancelActionTriggeredBy(event)) {
-      this.hideDropdown();
+    } else if (isCancel(event)) {
+      this.dismissDropdown(event);
     }
   };
 
   protected readonly onOptionsKey = (event: KeyboardEvent) => {
-    if (this.cancelActionTriggeredBy(event)) {
-      this.hideDropdown();
+    if (isCancel(event)) {
+      this.dismissDropdown(event);
     }
   };
 
@@ -96,9 +95,17 @@ export class ComboBox {
     }
   };
 
+  private readonly dismissDropdown = (event: KeyboardEvent) => {
+    if (!this.collapsed) {
+      return;
+    }
+
+    event.preventDefault();
+    this.hideDropdown();
+  };
+
   private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
   private readonly mainActionTriggeredBy = (event: KeyboardEvent) => isAction(event);
-  private readonly cancelActionTriggeredBy = (event: KeyboardEvent) => event.key === 'Escape';
   private readonly previousElementFrom = (index: number) => this.options()[(index - 1 + this.options().length) % this.options().length];
   private readonly nextElementFrom = (index: number) => this.options()[(index + 1) % this.options().length];
   private readonly getSelectedOption = () => this.options().filter(option =>

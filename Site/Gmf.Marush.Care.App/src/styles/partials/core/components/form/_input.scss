@@ -9,7 +9,7 @@
 }
 
 .invalid-field-message {
-	margin-top: 5px;
+	margin-top: variables.$validation-spacing;
 	margin-bottom: variables.$field-spacing;
 	color: variables.$error-font-color;
 }
