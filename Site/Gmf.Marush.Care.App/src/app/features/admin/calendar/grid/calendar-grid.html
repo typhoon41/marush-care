@@ -64,7 +64,7 @@
                     </div>
                 }
                 @for (entry of entriesForDay(day.isoDate); track entry.id) {
-                    <div [class]="'entry-cell clickable entry-top-' + entryInterval(entry.startTime, entry.endTime).startSlot() + ' entry-span-' + entryInterval(entry.startTime, entry.endTime).slotSpan()"
+                    <div [class]="'entry-cell clickable entry-top-' + entryInterval(entry.startTime, entry.endTime).startSlot() + ' entry-span-' + entryInterval(entry.startTime, entry.endTime).renderedSpan()"
                          [title]="entry.clientName + '\n' + entry.treatmentTitles.join('\n')"
                          (click)="entryClick.emit(entry)">
                         <div class="entry-time">{{ entry.startTime }}-{{ entry.endTime }}</div>
@@ -83,7 +83,7 @@
                     </div>
                 }
                 @for (appointment of appointmentsForDay(day.isoDate); track appointment.id) {
-                    <div [class]="'public-appointment-cell entry-top-' + entryInterval(appointment.startTime, appointment.endTime).startSlot() + ' entry-span-' + entryInterval(appointment.startTime, appointment.endTime).slotSpan()">
+                    <div [class]="'public-appointment-cell entry-top-' + entryInterval(appointment.startTime, appointment.endTime).startSlot() + ' entry-span-' + entryInterval(appointment.startTime, appointment.endTime).renderedSpan()">
                         <div class="entry-time">{{ appointment.startTime }}-{{ appointment.endTime }}</div>
                         <div class="entry-client ellipsis">{{ appointment.clientName }}</div>
                     </div>

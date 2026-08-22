@@ -1,12 +1,12 @@
 using System.Globalization;
 using Gmf.Mail.Common.Contracts;
-using Gmf.Mail.Common.Models;
 using Gmf.Marush.Care.Api.Models.Calendar;
 using Gmf.Marush.Care.Api.Models.Templates;
 using Gmf.Marush.Care.Api.Resources;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
 using Gmf.Net.Core.Common.Initialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Authorize]
 public class CalendarController(ICalendarRepository calendarRepository,
     ISendEmailTemplate emailService,
-    SmtpSettings smtpSettings,
+    ContactSettings contactSettings,
     CultureResolver cultureResolver) : ControllerBase
 {
     private const int SundayDayOfWeek = 0;
@@ -136,7 +136,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
         var culture = CultureInfo.CurrentCulture;
         var oldDateTime = $"{old.Date.ToString("d", culture)} {old.StartTime.ToString("t", culture)}–{old.EndTime.ToString("t", culture)}";
         var newDateTime = $"{updated.Date.ToString("d", culture)} {updated.StartTime.ToString("t", culture)}–{updated.EndTime.ToString("t", culture)}";
-        var template = new AppointmentRescheduledTemplate(smtpSettings.Username, oldDateTime, newDateTime);
+        var template = new AppointmentRescheduledTemplate(contactSettings.PhoneNumber, oldDateTime, newDateTime);
         await emailService.Send(email, template, Labels.AppointmentRescheduledTitle);
     }
 }

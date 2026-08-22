@@ -11,6 +11,9 @@ namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
 
 public class CalendarRepository(DbContext context) : ICalendarRepository
 {
+    private static readonly Guid[] AppointmentStatusesVisibleInCalendar =
+        [AppointmentStatus.Requested.Value, AppointmentStatus.Approved.Value];
+
     private readonly DbSet<CalendarEntryDto> _entries = context.Set<CalendarEntryDto>();
     private readonly DbSet<CalendarNoteDto> _notes = context.Set<CalendarNoteDto>();
 
@@ -41,6 +44,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             ? await context.Set<AppointmentDto>().FindAsync(entry.AppointmentId.Value)
                 ?? throw new InvalidOperationException("Appointment not found.")
             : await CreateAppointment(entry);
+        ApplySchedule(appointment, entry);
         if (!string.IsNullOrWhiteSpace(entry.Notes))
         {
             appointment.Description = entry.Notes;
@@ -66,8 +70,8 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
             .SingleOrDefaultAsync(entry => entry.Id == id)
             ?? throw new InvalidOperationException($"Calendar entry {id} not found.");
 
-        dto.Appointment.ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero);
-        dto.Appointment.ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero);
+        await ReassignCustomer(dto.Appointment, entry.CustomerId);
+        ApplySchedule(dto.Appointment, entry);
         dto.Appointment.Description = entry.Notes ?? string.Empty;
         dto.Money = entry.Money;
         UpdateTreatments(dto, entry);
@@ -90,11 +94,15 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
     public async Task<bool> DeleteEntry(Guid id)
     {
-        var dto = await _entries.FindAsync(id);
-        if (dto is null) {
+        var dto = await _entries
+            .Include(entry => entry.Appointment)
+            .SingleOrDefaultAsync(entry => entry.Id == id);
+        if (dto is null)
+        {
             return false;
         }
         _ = _entries.Remove(dto);
+        _ = context.Set<AppointmentDto>().Remove(dto.Appointment);
         return true;
     }
 
@@ -115,7 +123,8 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task<bool> DeleteNote(Guid id)
     {
         var dto = await _notes.FindAsync(id);
-        if (dto is null) {
+        if (dto is null)
+        {
             return false;
         }
         _ = _notes.Remove(dto);
@@ -126,8 +135,7 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     {
         var weekEnd = weekStart.AddDays(CalendarEntryConfiguration.WorkingDaysInWeek - 1);
         var dtos = await _notes
-            .Where(note => note.Date >= weekStart && note.Date <= weekEnd ||
-                           note.Date == weekStart && note.NoteType == CalendarNoteType.Weekly.Value)
+            .Where(note => note.Date >= weekStart && note.Date <= weekEnd)
             .ToListAsync();
         return dtos.Select(note => note.ToDomain());
     }
@@ -135,13 +143,12 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
     public async Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeek(DateOnly weekStart)
     {
         var (weekStartDto, weekEndDto) = WeekRange(weekStart);
-        var rejectedId = AppointmentStatus.Rejected.Value;
 
         var dtos = await context.Set<AppointmentDto>()
             .Include(appointment => appointment.Customer)
             .Include(appointment => appointment.Status)
             .Where(appointment => appointment.ScheduledFor >= weekStartDto && appointment.ScheduledFor <= weekEndDto
-                                  && appointment.Status.Id != rejectedId
+                                  && AppointmentStatusesVisibleInCalendar.Contains(appointment.Status.Id)
                                   && !context.Set<CalendarEntryDto>().Any(entry => entry.AppointmentId == appointment.Id))
             .OrderBy(appointment => appointment.ScheduledFor)
             .ToListAsync();
@@ -169,33 +176,55 @@ public class CalendarRepository(DbContext context) : ICalendarRepository
 
     private async Task<AppointmentDto> CreateAppointment(CalendarEntry entry)
     {
-        var customer = await context.Set<CustomerDto>()
-            .Include(customerDto => customerDto.Phones)
-            .Include(customerDto => customerDto.Emails)
-            .SingleOrDefaultAsync(customerDto => customerDto.Id == entry.CustomerId)
-            ?? throw new InvalidOperationException("Customer not found.");
-
-        var phone = customer.Phones.First();
-        var email = customer.Emails.FirstOrDefault();
+        var customer = await FindCustomer(entry.CustomerId);
         var approvedStatus = await context.Set<AppointmentStatusDto>().FindAsync(AppointmentStatus.Approved.Value)
             ?? throw new InvalidOperationException("Appointment status not found.");
 
         var appointment = new AppointmentDto
         {
-            CustomerId = customer.Id,
-            Customer = customer,
-            ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero),
-            ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero),
-            Phone = phone.PhoneNumber ?? string.Empty,
-            Email = email?.Email,
             Language = "sr",
             Description = string.Empty,
-            Status = approvedStatus,
-            CustomerPhone = phone,
-            CustomerEmail = email
+            Status = approvedStatus
         };
+        AssignCustomer(appointment, customer);
+        ApplySchedule(appointment, entry);
         _ = await context.Set<AppointmentDto>().AddAsync(appointment);
         return appointment;
+    }
+
+    private async Task ReassignCustomer(AppointmentDto appointment, Guid customerId)
+    {
+        if (customerId == Guid.Empty || customerId == appointment.CustomerId)
+        {
+            return;
+        }
+
+        AssignCustomer(appointment, await FindCustomer(customerId));
+    }
+
+    private async Task<CustomerDto> FindCustomer(Guid customerId) =>
+        await context.Set<CustomerDto>()
+            .Include(customer => customer.Phones)
+            .Include(customer => customer.Emails)
+            .SingleOrDefaultAsync(customer => customer.Id == customerId)
+            ?? throw new InvalidOperationException("Customer not found.");
+
+    private static void AssignCustomer(AppointmentDto appointment, CustomerDto customer)
+    {
+        var phone = customer.Phones.First();
+        var email = customer.Emails.FirstOrDefault();
+        appointment.CustomerId = customer.Id;
+        appointment.Customer = customer;
+        appointment.Phone = phone.PhoneNumber ?? string.Empty;
+        appointment.Email = email?.Email;
+        appointment.CustomerPhone = phone;
+        appointment.CustomerEmail = email;
+    }
+
+    private static void ApplySchedule(AppointmentDto appointment, CalendarEntry entry)
+    {
+        appointment.ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero);
+        appointment.ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero);
     }
 
     private static (DateTimeOffset start, DateTimeOffset end) WeekRange(DateOnly weekStart) => (

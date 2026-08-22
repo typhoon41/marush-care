@@ -1,13 +1,17 @@
 import { Signal, computed } from '@angular/core';
-import { slotIndexToTime, timeToSlotIndex } from './calendar-time-slots';
+import { slotIndexToTime, slotsCount, timeToSlotIndex } from './calendar-time-slots';
 
 const slotsInFourHours = 16;
+const minimalRenderedSpan = 1;
+
+const clampToGrid = (slotIndex: number): number => Math.min(Math.max(slotIndex, 0), slotsCount);
 
 export class TimeInterval {
     readonly isComplete: Signal<boolean> = computed(() => !!this.startTime && !!this.endTime);
-    readonly startSlot: Signal<number> = computed(() => timeToSlotIndex(this.startTime));
-    readonly endSlot: Signal<number> = computed(() => timeToSlotIndex(this.endTime));
+    readonly startSlot: Signal<number> = computed(() => clampToGrid(timeToSlotIndex(this.startTime)));
+    readonly endSlot: Signal<number> = computed(() => clampToGrid(timeToSlotIndex(this.endTime)));
     readonly slotSpan: Signal<number> = computed(() => this.endSlot() - this.startSlot());
+    readonly renderedSpan: Signal<number> = computed(() => Math.max(this.slotSpan(), minimalRenderedSpan));
     readonly hasOrderViolation: Signal<boolean> = computed(() => this.isComplete() && this.slotSpan() <= 0);
     readonly hasDurationViolation: Signal<boolean> = computed(() => this.isComplete() && this.slotSpan() > slotsInFourHours);
 
