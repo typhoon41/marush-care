@@ -2,35 +2,6 @@
 @use 'variables';
 @use './calendar-grid-variables' as grid;
 
-.day-header {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	min-width: 0;
-	min-height: grid.$header-row-height-mobile;
-	padding: grid.$day-header-gap 4px;
-	overflow: hidden;
-	border-top: grid.$grid-border;
-	border-right: grid.$grid-border;
-	background: variables.$primary;
-	gap: grid.$day-header-gap;
-
-	&:last-of-type {
-		border-right: none;
-	}
-
-	@include breakpoints.apply-from-tablet() {
-		min-width: 80px;
-		min-height: grid.$header-row-height-tablet;
-		padding: grid.$day-header-gap 8px;
-		overflow: visible;
-	}
-
-	@include breakpoints.apply-from-desktop() {
-		min-height: grid.$header-row-height;
-	}
-}
-
 .day-header-top {
 	gap: grid.$day-header-gap;
 

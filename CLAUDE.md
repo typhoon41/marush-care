@@ -76,6 +76,9 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **No abbreviations** — write every identifier in full. Accepted acronyms: `Id`, `Url`, `Http`, `Api`, `Dto` (as Infrastructure persistence-record suffix only).
 - **One file per type** — each class, record, interface, or enum in its own file, named after the type.
 - **Braces required** — every control-flow body has explicit `{ }` in 1tbs style, both C# and TypeScript.
+- **~120 lines is a split trigger** — a file approaching 120 lines is holding more than one responsibility. Split it into the abstractions it hides.
+- **No grab-bag files** — every file holds one named abstraction. A file accumulating unrelated exports must be split by responsibility; prefer a class over a pile of loose `export const` / `export function`.
+- **Thin controllers** — controllers bind, delegate to a service, and return a status code. Mapping, orchestration and notification decisions live in `Services/`.
 - **No "utils" naming** — files or modules named `*-utils`, `*Utils`, `helpers`, or any other catch-all label are banned. Every abstraction must be named for what it does, not that it is a collection (e.g., `CalendarSlotCalculator`, not `calendar-utils`).
 
 ---
@@ -83,6 +86,8 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 ## Frontend Conventions (Angular / SCSS)
 
 - **No viewport units** — never use `vh`/`vw`/`vmin`/`vmax`; they are buggy on iOS Safari (the dynamic toolbar resizes the viewport). Use `%` instead. For modal `<dialog>`/overlays, `%` resolves against the viewport, so `max-width: 50%` / `max-height: 80%` behave like `vw`/`vh` without the bug.
+- **No conditional expressions in templates** — no ternaries, comparisons or non-null assertions inside a binding or interpolation. Move them into a `computed()` or onto the model. `@if` / `@for` on a boolean signal or collection is control flow and stays.
+- **Never style a library-generated class** — `.row`, `.column-N`, `.ellipsis` and friends are applied in HTML, never used as selectors in app SCSS. Add a semantic class and style that.
 - **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
 
 ---

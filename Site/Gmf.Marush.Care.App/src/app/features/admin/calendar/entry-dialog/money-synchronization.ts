@@ -1,5 +1,5 @@
 import { Signal, effect, signal } from '@angular/core';
-import { EntryForm } from './calendar-entry-form';
+import { EntryForm } from './entry-form';
 
 export class MoneySynchronization {
     private readonly enabled = signal(true);
@@ -20,6 +20,6 @@ export class MoneySynchronization {
     }
 
     readonly reset = (entryMoney?: number) => {
-        this.enabled.set(!entryMoney || entryMoney === this.priceTotal());
+        this.enabled.set(entryMoney === undefined || entryMoney === this.priceTotal());
     };
 }

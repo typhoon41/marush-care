@@ -1,0 +1,62 @@
+@use 'breakpoints';
+@use 'variables';
+@use '../../../../../../../app/features/admin/calendar/grid/calendar-grid-variables' as grid;
+
+.calendar-page {
+	.day-header {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		min-width: 0;
+		min-height: grid.$header-row-height-mobile;
+		padding: grid.$day-header-gap 4px;
+		overflow: hidden;
+		border-top: grid.$grid-border;
+		border-right: grid.$grid-border;
+		background: variables.$primary;
+		gap: grid.$day-header-gap;
+
+		&:last-of-type {
+			border-right: none;
+		}
+
+		@include breakpoints.apply-from-tablet() {
+			min-width: 80px;
+			min-height: grid.$header-row-height-tablet;
+			padding: grid.$day-header-gap 8px;
+			overflow: visible;
+		}
+
+		@include breakpoints.apply-from-desktop() {
+			min-height: grid.$header-row-height;
+		}
+	}
+
+	.day-header.non-working-day {
+		background: grid.$non-working-tint;
+	}
+
+	.day-column {
+		display: flex;
+		position: relative;
+		flex: 1;
+		flex-direction: column;
+		min-width: 40px;
+		border-right: grid.$slot-border;
+		border-bottom: grid.$grid-border;
+
+		@include breakpoints.apply-from-tablet() {
+			min-width: 80px;
+		}
+
+		&:last-of-type {
+			border-right: none;
+		}
+	}
+
+	.day-column.non-working {
+		// $primary against $body-color is imperceptible; the header tint carries the meaning.
+		background: grid.$non-working-tint;
+		pointer-events: none;
+	}
+}

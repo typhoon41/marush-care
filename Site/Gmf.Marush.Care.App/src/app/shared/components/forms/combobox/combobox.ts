@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, input, model, viewChild, viewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef,
+  ElementRef, inject, input, model, viewChild, viewChildren
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isAction, isCancel } from '@shared/functions/keyboard-event';
+import { ComboBoxDropdown } from './combobox-dropdown';
 import { IComboBoxItem } from './item';
 
 @Component({
@@ -19,16 +23,21 @@ export class ComboBox {
   readonly id = input<string>('combo-box');
   readonly placeholder = input<string>('');
   readonly autoComplete = input<boolean>(false);
-  readonly combo = viewChild<ElementRef>('combo');
+  readonly combo = viewChild<ElementRef<HTMLElement>>('combo');
   readonly options = viewChildren<ElementRef<HTMLLIElement>>('option');
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   readonly onValueChanged = input<(item: IComboBoxItem) => void>(() => { });
-  protected collapsed = false;
 
-  constructor(private readonly cdr: ChangeDetectorRef) { }
+  protected readonly dropdown = new ComboBoxDropdown(
+    inject(ElementRef<HTMLElement>).nativeElement, this.options, () => this.cdr.detectChanges());
+
+  constructor(private readonly cdr: ChangeDetectorRef) {
+    inject(DestroyRef).onDestroy(this.dropdown.release);
+  }
 
   protected readonly containerId = () => `${this.id()}-container`;
   protected readonly buttonId = () => `${this.id()}-button`;
+
   get invalid() {
     const control = this.formGroup().get(this.name());
     return control?.invalid && (control?.touched || control?.dirty);
@@ -43,33 +52,32 @@ export class ComboBox {
   };
 
   protected readonly toggleDropdown = () => {
-    const shouldCollapse = !this.collapsed;
-    if (shouldCollapse) {
-      this.collapsed = shouldCollapse;
-      this.cdr.detectChanges();
-      this.giveFocusTo(this.getSelectedOption());
+    if (this.dropdown.expanded) {
+      this.hideDropdown();
       return;
     }
 
-    this.hideDropdown();
+    this.dropdown.expand();
+    this.cdr.detectChanges();
+    this.dropdown.focusSelected(this.selectedItem()?.value);
   };
 
   protected readonly hideDropdown = () => {
-    this.collapsed = false;
-    this.giveFocusTo(this.combo());
+    this.dropdown.collapse();
+    this.combo()?.nativeElement.focus();
   };
 
   protected readonly onBlur = (event: FocusEvent) => {
     const newTarget = event.relatedTarget as HTMLElement;
-    const newTargetParent = newTarget?.parentElement;
-    if (newTargetParent?.id !== this.containerId() && newTargetParent?.parentElement?.id !== this.containerId()
-      && newTarget?.id !== this.id() && newTarget?.id !== this.buttonId() && newTarget?.id !== this.containerId()) {
+    // Touch browsers report no related target right after focus moves into the dropdown,
+    // Which used to collapse it before the tap landed. Taps outside close it instead.
+    if (newTarget && !this.dropdown.holdsFocusOn(newTarget, [this.id(), this.buttonId(), this.containerId()])) {
       this.hideDropdown();
     }
   };
 
   protected readonly onKey = (event: KeyboardEvent) => {
-    if (this.mainActionTriggeredBy(event)) {
+    if (isAction(event)) {
       event.preventDefault();
       this.toggleDropdown();
     } else if (isCancel(event)) {
@@ -85,29 +93,22 @@ export class ComboBox {
 
   protected readonly onOptionKey = (item: IComboBoxItem, event: KeyboardEvent, index: number) => {
     event.preventDefault();
-    if (this.mainActionTriggeredBy(event)) {
+    if (isAction(event)) {
       event.stopImmediatePropagation();
       this.select(item);
     } else if (event.key === 'ArrowUp') {
-      this.giveFocusTo(this.previousElementFrom(index));
+      this.dropdown.focusPrevious(index);
     } else if (event.key === 'ArrowDown') {
-      this.giveFocusTo(this.nextElementFrom(index));
+      this.dropdown.focusNext(index);
     }
   };
 
   private readonly dismissDropdown = (event: KeyboardEvent) => {
-    if (!this.collapsed) {
+    if (!this.dropdown.expanded) {
       return;
     }
 
     event.preventDefault();
     this.hideDropdown();
   };
-
-  private readonly giveFocusTo = (element: ElementRef | undefined) => (element?.nativeElement as HTMLElement)?.focus();
-  private readonly mainActionTriggeredBy = (event: KeyboardEvent) => isAction(event);
-  private readonly previousElementFrom = (index: number) => this.options()[(index - 1 + this.options().length) % this.options().length];
-  private readonly nextElementFrom = (index: number) => this.options()[(index + 1) % this.options().length];
-  private readonly getSelectedOption = () => this.options().filter(option =>
-    (option.nativeElement.lastChild as HTMLElement).getAttribute('value') === this.selectedItem()?.value)[0] ?? this.options()[0];
 }

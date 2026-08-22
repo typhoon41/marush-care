@@ -14,4 +14,6 @@ public class CalendarEntry(Guid id, Guid? appointmentId, Guid customerId,
     public decimal? Money { get; } = money;
     public IReadOnlyCollection<string> Treatments { get; } = treatments;
     public string ClientName { get; } = clientName;
+
+    public CalendarPeriod Period => new(Date, StartTime, EndTime);
 }

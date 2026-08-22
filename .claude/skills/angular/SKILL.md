@@ -28,6 +28,40 @@ Accepted acronyms only: `Id`, `Url`, `Http`, `Api`.
 ### One file per type
 Each class, interface, type alias, or enum lives in its own `.ts` file (or `.ts` + `.html` + `.scss` trio for components). Never group multiple types in one file.
 
+### No grab-bag modules
+A `.ts` file holds **one named abstraction**. A file that accumulates unrelated exports — a form builder next to a date formatter next to a request mapper — is a bag, not a module, and must be split by responsibility. The file name has to describe the abstraction, never that it is a collection.
+
+Prefer a class over a pile of `export const` / `export function`. When several functions share a subject, that subject is the abstraction:
+
+```ts
+// Wrong - calendar-week-navigator.ts
+export const mondayOf = (date: Date) => ...;
+export const addDays = (isoDate: string, days: number) => ...;
+export const toSerbianDate = (isoDate: string) => ...;
+export const fromSerbianDate = (serbian: string) => ...;
+
+// Right - calendar-date.ts
+export class CalendarDate {
+    static mondayOf(date: Date): CalendarDate { ... }
+    static fromSerbian(serbian: string): CalendarDate { ... }
+    get serbian(): string { ... }
+    addDays(days: number): CalendarDate { ... }
+}
+```
+
+### Rich models, not anemic ones
+A model owns the values derived from its own data. Do not ship a bare data class plus a folder of functions that operate on it, and do not compute those values in the template.
+
+```ts
+// Wrong - the template decides
+{{ day.isPast ? 'Zarada' : 'Očekivana zarada' }}
+
+// Right - the model answers
+get earningsLabel(): string {
+    return this.isPast ? pastEarningsLabel : expectedEarningsLabel;
+}
+```
+
 ## Components
 
 ### Always standalone with OnPush
@@ -89,6 +123,28 @@ if (!entry) {
     return;
 }
 ```
+
+### No conditional expressions in templates
+A template renders; it does not decide. No ternaries, no `&&` / `||`, no comparisons, no non-null assertions inside a binding or interpolation. Move the expression into a `computed()` or onto the model and bind the result.
+
+```html
+<!-- Wrong -->
+<marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'">
+@if (weeklyTotal() > 0) { ... }
+<p>{{ weeklyNote()!.content }}</p>
+
+<!-- Right -->
+<marush-dialog [title]="title()">
+@if (hasWeeklyTotal()) { ... }
+<p>{{ weeklyNoteContent() }}</p>
+```
+
+`@if` / `@for` on a boolean signal or a collection is control flow, and stays.
+
+### Extract duplicated dialog actions
+When `onSave` and `onDelete` (or any pair of dialog actions) share their loading, error and dismissal handling, that shared body goes into a private method. If it carries state — a loading flag, a failure flag — give it its own abstraction (`DialogOperation`) rather than repeating the `try`/`catch`/`finally` in each.
+
+Every awaited call in a dialog action needs a `catch`. A `try`/`finally` with no `catch` leaves an unhandled rejection, an open dialog and no feedback to the user.
 
 ## State management — no NgRx
 
@@ -215,6 +271,10 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] Imports use `@shared/` or `@features/` aliases, not deep relative paths
 - [ ] New admin component uses plain string literals, not `$localize`
 - [ ] New i18n key added to both locale files; removed key deleted from both
+- [ ] No conditional expressions in templates — ternaries and comparisons moved to `computed()` or the model
+- [ ] Each `.ts` file holds one named abstraction; no grab-bag of unrelated exports
+- [ ] Derived values live on the model, not in the template or a companion function
+- [ ] Dialog actions share their loading/error handling via a private method or a dedicated abstraction, and every one has a `catch`
 - [ ] No abbreviations in any identifier; no `SCREAMING_SNAKE_CASE`
 - [ ] All control-flow bodies have braces
 - [ ] Native `<input>` / `<select>` / `<textarea>` / `<dialog>` not used where a `marush-*` component exists

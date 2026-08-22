@@ -1,0 +1,26 @@
+<div class="day-header-top row aligned-centrally stretch-equally">
+    <button class="day-action non-working-button aligned-centrally center-content" type="button"
+            title="Neradni dan"
+            [class.is-active]="isNonWorkingDay()"
+            (click)="nonWorkingDayToggle.emit(nonWorkingDay())">
+        <span class="button-icon" aria-hidden="true"></span>
+    </button>
+    <span class="day-label row column-12">
+        <span class="day-name">{{ displayName() }}</span>
+        <span class="day-date">{{ day().dayDate }}</span>
+    </span>
+    @if (isWorkingDay()) {
+        <button class="day-action note-button aligned-centrally center-content" type="button"
+                title="Dnevne napomene"
+                [class.has-note]="hasNote()"
+                (click)="noteClick.emit(day().isoDate)">
+            <span class="button-icon" aria-hidden="true"></span>
+        </button>
+    }
+</div>
+@if (hasNote()) {
+    <p class="day-note-content ellipsis">{{ noteContent() }}</p>
+}
+@if (day().hasEarnings) {
+    <span class="day-total ellipsis">{{ earningsCaption() }}</span>
+}

@@ -2,7 +2,6 @@
     <marush-autocomplete class="search-input" id="client-name-search" name="name" placeholder="Ime i(li) Prezime"
         [form]="form" [validation]="['maxlength']"
         [search]="searchClients" [onSelected]="onClientSelected" />
-    <button type="submit" class="main-action"><span>Pretraži</span></button>
     <button type="button" class="main-action add-action" (click)="onAdd()">
         <img class="icon" src="/assets/images/actions/plus-sign.svg" alt="Dodaj klijenta">
         <span>Dodaj</span>

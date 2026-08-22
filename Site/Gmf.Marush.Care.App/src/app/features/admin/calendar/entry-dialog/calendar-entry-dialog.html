@@ -1,63 +1,67 @@
-<marush-dialog [title]="editingEntry() ? 'Termin' : 'Novi termin'">
-    <form slot="body" class="entry-form" [formGroup]="form">
-        <marush-date-picker name="date" placeholder="Datum" [form]="form"
-                            [startDate]="pickerDate()" [selectedDate]="pickerDate()" />
+<marush-dialog [title]="title()">
+    <form slot="body" class="entry-form" [formGroup]="entryForm.group">
+        <marush-date-picker name="date" placeholder="Datum" [form]="entryForm.group"
+                            [startDate]="entryForm.pickerDate()" [selectedDate]="entryForm.pickerDate()" />
         <div class="form-row time-row">
             <marush-combobox class="time-field" name="startTime" placeholder="Početak"
-                             [formGroup]="form"
-                             [items]="timeOptions"
-                             [(selectedItem)]="selectedStartTime" />
+                             [formGroup]="entryForm.group"
+                             [items]="entryForm.startTimeOptions"
+                             [(selectedItem)]="entryForm.selectedStartTime" />
             <marush-combobox class="time-field" name="endTime" placeholder="Kraj"
-                             [formGroup]="form"
-                             [items]="timeOptions"
-                             [(selectedItem)]="selectedEndTime" />
+                             [formGroup]="entryForm.group"
+                             [items]="entryForm.endTimeOptions"
+                             [(selectedItem)]="entryForm.selectedEndTime" />
         </div>
 
-        @if (errors.timeOrder()) {
+        @if (entryForm.errors.timeOrder()) {
             <p class="invalid-field-message" aria-live="polite">Vreme kraja mora biti posle vremena početka.</p>
         }
-        @else if (errors.timeDuration()) {
+        @else if (entryForm.errors.timeDuration()) {
             <p class="invalid-field-message" aria-live="polite">Termin ne može trajati duže od 4 sata.</p>
         }
 
-        @if (showRescheduleWarning()) {
+        @if (entryForm.rescheduleWarning.isVisible()) {
             <p class="reschedule-warning">
                 Klijent će dobiti email obaveštenje o promeni termina.
             </p>
         }
 
         <marush-autocomplete id="client-search" name="query" placeholder="Pretraži klijenta"
-                             [form]="clientSelection.searchForm" [search]="clientSelection.search"
-                             [onSelected]="clientSelection.select" [onDismissed]="clientSelection.dismissed" />
+                             [form]="entryForm.clientSelection.searchForm"
+                             [search]="entryForm.clientSelection.search"
+                             [onSelected]="entryForm.clientSelection.select"
+                             [onDismissed]="entryForm.clientSelection.dismissed" />
 
-        @if (errors.client()) {
+        @if (entryForm.errors.client()) {
             <p class="invalid-field-message" aria-live="polite">Izaberite postojećeg klijenta iz liste.</p>
         }
 
         <marush-autocomplete id="treatment-search" name="query" placeholder="Pretraži tretmane"
-                             [form]="treatmentSelection.searchForm" [search]="treatmentSelection.search" [onSelected]="treatmentSelection.select" />
-        <marush-treatment-list [treatments]="treatmentSelection.definitions()" [showPrices]="false"
-                               (remove)="treatmentSelection.remove($event.name)" />
+                             [form]="entryForm.treatmentSelection.searchForm"
+                             [search]="entryForm.treatmentSelection.search"
+                             [onSelected]="entryForm.treatmentSelection.select" />
+        <marush-treatment-list [treatments]="entryForm.treatmentSelection.definitions()" [showPrices]="false"
+                               (remove)="entryForm.treatmentSelection.remove($event.name)" />
 
         <marush-input name="money" type="number" placeholder="Iznos (RSD)"
                       customValidation="min"
-                      customValidationMessage="Iznos ne može biti negativan." [form]="form"
+                      customValidationMessage="Iznos ne može biti negativan." [form]="entryForm.group"
                       [validation]="['min', 'number']" />
-        <marush-input name="notes" placeholder="Napomene" [form]="form" [big]="true" [validation]="[]" />
+        <marush-input name="notes" placeholder="Napomene" [form]="entryForm.group" [big]="true" [validation]="[]" />
     </form>
 
     <div slot="actions" class="dialog-actions">
-        @if (saveFailed()) {
+        @if (operation.failed()) {
             <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
         }
-        @if (editingEntry()) {
+        @if (isEditing()) {
             <button type="button" class="cancel-action"
-                    [disabled]="isLoading()" (click)="onDelete()">
+                    [disabled]="operation.isLoading()" (click)="onDelete()">
                 <span>Obriši termin</span>
             </button>
         }
         <button type="button" class="main-action"
-                [disabled]="isLoading()" (click)="onSave()">
+                [disabled]="operation.isLoading()" (click)="onSave()">
             <span>Sačuvaj</span>
         </button>
     </div>

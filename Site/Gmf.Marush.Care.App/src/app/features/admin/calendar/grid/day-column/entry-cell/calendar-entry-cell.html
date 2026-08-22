@@ -1,0 +1,15 @@
+<button type="button" class="entry-cell clickable stretch" [title]="tooltip()" (click)="entrySelected.emit(entry())">
+    <span class="entry-time">{{ timeRange() }}</span>
+    @if (hasClientName()) {
+        <span class="entry-client ellipsis">{{ entry().clientName }}</span>
+    }
+    @for (title of entry().treatmentTitles; track title) {
+        <span class="entry-treatment ellipsis">{{ title }}</span>
+    }
+    @if (hasMoney()) {
+        <span class="entry-money">{{ money() }}</span>
+    }
+    @if (hasNotes()) {
+        <span class="entry-notes-dot" [title]="notes()">&#9679;</span>
+    }
+</button>
