@@ -27,10 +27,13 @@ export const timeSlots = Array.from({ length: slotsCount }, (_, slotIndex) => ({
     endsHour: (slotIndex + 1) % slotsPerHour === 0
 }));
 
-export const generateTimeOptions = (): { value: string; label: string }[] =>
-    Array.from({ length: slotsCount + 1 }, (_, slotIndex) => {
-        const time = slotIndexToTime(Math.min(slotIndex, slotsCount));
-        return { value: time, label: time };
-    });
+const toTimeOption = (slotIndex: number): { value: string; label: string } => {
+    const time = slotIndexToTime(slotIndex);
+    return { value: time, label: time };
+};
 
-export const timeOptions = generateTimeOptions();
+export const timeOptions = Array.from({ length: slotsCount + 1 }, (_, slotIndex) => toTimeOption(slotIndex));
+
+// The last slot is a valid end but never a valid start, and the first is the reverse.
+export const startTimeOptions = timeOptions.slice(0, slotsCount);
+export const endTimeOptions = timeOptions.slice(1);

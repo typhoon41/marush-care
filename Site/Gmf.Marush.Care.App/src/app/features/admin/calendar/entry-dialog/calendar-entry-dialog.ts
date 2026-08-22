@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild }
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
+import { DialogOperation } from '@shared/components/dialog/dialog-operation';
 import { Autocomplete } from '@shared/components/forms/autocomplete/autocomplete';
 import { ComboBox } from '@shared/components/forms/combobox/combobox';
 import { DatePicker } from '@shared/components/forms/date-picker/date-picker';
@@ -11,7 +12,7 @@ import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarSelection } from '../calendar-selection';
-import { timeOptions } from '../calendar-time-slots';
+import { endTimeOptions, startTimeOptions } from '../calendar-time-slots';
 import { buildEntryErrors } from './calendar-entry-errors';
 import {
     IComboBoxItem, buildEntryForm, buildEntryRequest, buildFormValue,
@@ -34,13 +35,13 @@ export class CalendarEntryDialog {
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
     private readonly formBuilder = inject(NonNullableFormBuilder);
-    protected readonly timeOptions = timeOptions;
+    protected readonly startTimeOptions = startTimeOptions;
+    protected readonly endTimeOptions = endTimeOptions;
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly selectedStartTime = signal<IComboBoxItem | undefined>(undefined);
     protected readonly selectedEndTime = signal<IComboBoxItem | undefined>(undefined);
-    protected readonly isLoading = signal(false);
+    protected readonly operation = new DialogOperation();
     protected readonly saveAttempted = signal(false);
-    protected readonly saveFailed = signal(false);
     protected readonly pickerDate = signal<Date | undefined>(undefined);
     protected readonly form = buildEntryForm(this.formBuilder);
     protected readonly clientSelection = new ClientSelection(this.formBuilder, inject(Clients), this.form);
@@ -59,29 +60,20 @@ export class CalendarEntryDialog {
         this.selectedEndTime.set(findTimeOption(selection?.interval.endTime ?? entry?.endTime));
         this.pickerDate.set(toPickerDate(selection?.date ?? entry?.date));
         this.saveAttempted.set(false);
-        this.saveFailed.set(false);
+        this.operation.reset();
         this.moneySynchronization.reset(entry?.money);
         this.dialog().open();
     };
 
     protected readonly onSave = async() => {
         this.saveAttempted.set(true);
-        this.saveFailed.set(false);
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
-        this.isLoading.set(true);
-        try {
-            const request = buildEntryRequest(this.form.getRawValue(), this.treatmentSelection.selectedNames());
-            const entry = this.editingEntry();
-            await (entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request));
+        if (await this.operation.run(() => this.persist())) {
             this.dialog().dismiss();
             this.saved.emit();
-        } catch {
-            this.saveFailed.set(true);
-        } finally {
-            this.isLoading.set(false);
         }
     };
 
@@ -90,13 +82,15 @@ export class CalendarEntryDialog {
         if (!entry) {
             return;
         }
-        this.isLoading.set(true);
-        try {
-            await this.calendarService.deleteEntry(entry.id);
+        if (await this.operation.run(() => this.calendarService.deleteEntry(entry.id))) {
             this.dialog().dismiss();
             this.deleted.emit();
-        } finally {
-            this.isLoading.set(false);
         }
+    };
+
+    private readonly persist = (): Promise<void> => {
+        const request = buildEntryRequest(this.form.getRawValue(), this.treatmentSelection.selectedNames());
+        const entry = this.editingEntry();
+        return entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request);
     };
 }

@@ -30,6 +30,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-width: calendar.$action-button-minimum-size;
+	min-height: calendar.$action-button-minimum-size;
 	padding: calendar.$action-button-padding;
 	border: calendar.$action-button-border;
 	border-radius: calendar.$action-button-radius;
@@ -61,7 +63,7 @@
 }
 
 .day-header.non-working-day {
-	background: rgba(variables.$accent, .3);
+	background: grid.$non-working-tint;
 }
 
 .time-label {

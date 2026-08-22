@@ -62,7 +62,9 @@ export class ClientsPage {
             return;
         }
 
-        const name = this.form.get('name')?.value as string;
-        this.clients.data().filter.set(name ?? '');
+        const name = this.form.get('name');
+        this.clients.data().filter.set((name?.value as string) ?? '');
+        // Keeps the autocomplete's blur handler from wiping a committed partial name.
+        name?.markAsPristine();
     };
 }

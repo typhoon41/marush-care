@@ -1,9 +1,9 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus, @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/cyclomatic-complexity -->
-<div #gridEl class="calendar-grid"
-     [class.is-dragging]="isDragging()"
+<div #gridElement class="calendar-grid"
+     [class.is-dragging]="drag.isActive()"
      (pointermove)="onPointerMove($event)"
      (pointerup)="onPointerUp()"
-     (pointercancel)="cancelDrag()">
+     (pointercancel)="drag.cancel()">
 
     <div class="calendar-header">
         <div class="grid-corner"></div>
@@ -56,7 +56,8 @@
             <div class="day-column" [class.non-working]="getNonWorkingDay(day.isoDate)">
                 @for (slot of timeSlots; track slot.index) {
                     <div class="slot-cell"
-                         [class.drag-selected]="isSlotDragSelected(day.isoDate, slot.index)"
+                         [class.drag-selected]="drag.covers(day.isoDate, slot.index)"
+                         [class.drag-anchor]="drag.startedAt(day.isoDate, slot.index)"
                          [class.hour-boundary]="slot.endsHour"
                          [attr.data-date]="day.isoDate"
                          [attr.data-slot]="slot.index"

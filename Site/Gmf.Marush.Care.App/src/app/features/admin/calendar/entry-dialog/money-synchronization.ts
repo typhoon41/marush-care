@@ -20,6 +20,6 @@ export class MoneySynchronization {
     }
 
     readonly reset = (entryMoney?: number) => {
-        this.enabled.set(!entryMoney || entryMoney === this.priceTotal());
+        this.enabled.set(entryMoney === undefined || entryMoney === this.priceTotal());
     };
 }

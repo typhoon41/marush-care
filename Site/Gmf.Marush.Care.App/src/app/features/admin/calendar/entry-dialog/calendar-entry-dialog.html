@@ -5,11 +5,11 @@
         <div class="form-row time-row">
             <marush-combobox class="time-field" name="startTime" placeholder="Početak"
                              [formGroup]="form"
-                             [items]="timeOptions"
+                             [items]="startTimeOptions"
                              [(selectedItem)]="selectedStartTime" />
             <marush-combobox class="time-field" name="endTime" placeholder="Kraj"
                              [formGroup]="form"
-                             [items]="timeOptions"
+                             [items]="endTimeOptions"
                              [(selectedItem)]="selectedEndTime" />
         </div>
 
@@ -47,17 +47,17 @@
     </form>
 
     <div slot="actions" class="dialog-actions">
-        @if (saveFailed()) {
+        @if (operation.failed()) {
             <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
         }
         @if (editingEntry()) {
             <button type="button" class="cancel-action"
-                    [disabled]="isLoading()" (click)="onDelete()">
+                    [disabled]="operation.isLoading()" (click)="onDelete()">
                 <span>Obriši termin</span>
             </button>
         }
         <button type="button" class="main-action"
-                [disabled]="isLoading()" (click)="onSave()">
+                [disabled]="operation.isLoading()" (click)="onSave()">
             <span>Sačuvaj</span>
         </button>
     </div>
