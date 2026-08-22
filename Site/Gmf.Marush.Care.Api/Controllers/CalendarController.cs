@@ -1,13 +1,5 @@
-using System.Globalization;
-using Gmf.Mail.Common.Contracts;
 using Gmf.Marush.Care.Api.Models.Calendar;
-using Gmf.Marush.Care.Api.Models.Templates;
-using Gmf.Marush.Care.Api.Resources;
-using Gmf.Marush.Care.Domain.Contracts.Repositories;
-using Gmf.Marush.Care.Domain.Enumerations;
-using Gmf.Marush.Care.Domain.Models;
-using Gmf.Marush.Care.Infrastructure.Injection.Configuration;
-using Gmf.Net.Core.Common.Initialization;
+using Gmf.Marush.Care.Domain.Contracts.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,34 +9,14 @@ namespace Gmf.Marush.Care.Api.Controllers;
 [Produces("application/json")]
 [Consumes("application/json")]
 [Authorize]
-public class CalendarController(ICalendarRepository calendarRepository,
-    ISendEmailTemplate emailService,
-    ContactSettings contactSettings,
-    CultureResolver cultureResolver) : ControllerBase
+public class CalendarController(ICalendarService calendarService) : ControllerBase
 {
-    private const int SundayDayOfWeek = 0;
-    private const int DaysFromSundayToMonday = 6;
-
     [HttpGet("week")]
     [ProducesResponseType(typeof(CalendarWeekDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetWeek([FromQuery] DateOnly weekStart)
-    {
-        var monday = MondayOf(weekStart);
-        var entries = await calendarRepository.GetEntriesForWeek(monday);
-        var publicAppointments = await calendarRepository.GetPublicAppointmentsForWeek(monday);
-        var notes = await calendarRepository.GetNotesForWeek(monday);
-
-        var response = new CalendarWeekDto(
-            monday,
-            entries.Select(entry => new CalendarEntryDto(entry.Id, entry.AppointmentId!.Value, entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money, entry.Treatments, entry.ClientName)),
-            publicAppointments.Select(appointment => new PublicAppointmentDto(appointment.Id, appointment.Date, appointment.StartTime, appointment.EndTime,
-                appointment.ClientName, appointment.Phone, appointment.Email, appointment.Status, appointment.Description)),
-            notes.Select(note => new CalendarNoteDto(note.Id, note.Date, note.Type.DisplayName, note.Content)));
-
-        return Ok(response);
-    }
+    public async Task<IActionResult> GetWeek([FromQuery] DateOnly weekStart) =>
+        Ok(CalendarWeekDto.MapFrom(await calendarService.GetWeek(weekStart)));
 
     [HttpPost("entry")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -52,8 +24,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request)
     {
-        var entry = MapToDomain(Guid.NewGuid(), request);
-        await calendarRepository.AddEntry(entry);
+        await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()));
         return Created();
     }
 
@@ -62,40 +33,15 @@ public class CalendarController(ICalendarRepository calendarRepository,
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request)
-    {
-        var existing = await calendarRepository.GetEntryById(id);
-        if (existing is null) {
-            return NotFound();
-        }
-
-        var timeChanged = existing.Date != request.Date
-            || existing.StartTime != request.StartTime
-            || existing.EndTime != request.EndTime;
-
-        await calendarRepository.UpdateEntry(id, MapToDomain(id, request));
-
-        if (timeChanged && existing.AppointmentId is not null)
-        {
-            var contact = await calendarRepository.GetAppointmentContact(existing.AppointmentId.Value);
-            if (contact is not null)
-            {
-                await SendRescheduleEmail(existing, request, contact.Value.Email, contact.Value.Language);
-            }
-        }
-
-        return NoContent();
-    }
+    public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
+        await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
 
     [HttpDelete("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteEntry(Guid id)
-    {
-        var deleted = await calendarRepository.DeleteEntry(id);
-        return deleted ? NoContent() : NotFound();
-    }
+    public async Task<IActionResult> DeleteEntry(Guid id) =>
+        await calendarService.DeleteEntry(id) ? NoContent() : NotFound();
 
     [HttpPost("note")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -103,8 +49,7 @@ public class CalendarController(ICalendarRepository calendarRepository,
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> UpsertNote(NewCalendarNoteDto request)
     {
-        var note = new CalendarNote(Guid.Empty, request.Date, CalendarNoteType.From(request.NoteType), request.Content);
-        await calendarRepository.UpsertNote(note);
+        await calendarService.UpsertNote(request.ToDomain());
         return NoContent();
     }
 
@@ -112,31 +57,6 @@ public class CalendarController(ICalendarRepository calendarRepository,
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteNote(Guid id)
-    {
-        var deleted = await calendarRepository.DeleteNote(id);
-        return deleted ? NoContent() : NotFound();
-    }
-
-    private static DateOnly MondayOf(DateOnly date)
-    {
-        var dayOfWeek = (int)date.DayOfWeek;
-        var daysFromMonday = dayOfWeek == SundayDayOfWeek ? DaysFromSundayToMonday : dayOfWeek - 1;
-        return date.AddDays(-daysFromMonday);
-    }
-
-    private static CalendarEntry MapToDomain(Guid id, NewCalendarEntryDto request) =>
-        new(id, request.AppointmentId, request.CustomerId ?? Guid.Empty,
-            request.Date, request.StartTime, request.EndTime,
-            request.Notes, request.Money, [.. request.Treatments], string.Empty);
-
-    private async Task SendRescheduleEmail(CalendarEntry old, NewCalendarEntryDto updated, string email, string language)
-    {
-        cultureResolver.SetCulture(language);
-        var culture = CultureInfo.CurrentCulture;
-        var oldDateTime = $"{old.Date.ToString("d", culture)} {old.StartTime.ToString("t", culture)}–{old.EndTime.ToString("t", culture)}";
-        var newDateTime = $"{updated.Date.ToString("d", culture)} {updated.StartTime.ToString("t", culture)}–{updated.EndTime.ToString("t", culture)}";
-        var template = new AppointmentRescheduledTemplate(contactSettings.PhoneNumber, oldDateTime, newDateTime);
-        await emailService.Send(email, template, Labels.AppointmentRescheduledTitle);
-    }
+    public async Task<IActionResult> DeleteNote(Guid id) =>
+        await calendarService.DeleteNote(id) ? NoContent() : NotFound();
 }

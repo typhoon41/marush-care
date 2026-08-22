@@ -2,6 +2,7 @@
 using Gmf.Marush.Care.Infrastructure.Services;
 using Gmf.Marush.Care.Services.Domain;
 using Gmf.Marush.Care.Services.Domain.Appointment;
+using Gmf.Marush.Care.Services.Domain.Calendar;
 using Gmf.Net.Core.Common.Initialization;
 using Gmf.Net.Core.Common.Initialization.Injection;
 using Gmf.Net.Core.Common.Persistence.Handlers;
@@ -15,9 +16,10 @@ public class ServiceModule : Module
         ArgumentNullException.ThrowIfNull(builder);
 
         _ = builder.Register(context => new CultureResolver(["sr", "en", "ru"])).InstancePerLifetimeScope();
-        builder.DefaultInterfaceRegistration<AuditEventsHandler>();
+        builder.RegisterSelfLifetimeScope<AuditEventsHandler>();
         builder.DefaultInterfaceRegistration<AppointmentNotificationService>();
         builder.DefaultInterfaceRegistration<Service>();
         builder.DefaultInterfaceRegistration<UserService>();
+        builder.DefaultInterfaceRegistration<CalendarService>();
     }
 }
