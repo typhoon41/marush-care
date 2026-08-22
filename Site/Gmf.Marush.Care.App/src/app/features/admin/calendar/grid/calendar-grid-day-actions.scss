@@ -27,9 +27,6 @@
 }
 
 .day-action {
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	min-width: calendar.$action-button-minimum-size;
 	min-height: calendar.$action-button-minimum-size;
 	padding: calendar.$action-button-padding;
@@ -60,10 +57,6 @@
 	@include breakpoints.apply-from-tablet() {
 		order: 0;
 	}
-}
-
-.day-header.non-working-day {
-	background: grid.$non-working-tint;
 }
 
 .time-label {

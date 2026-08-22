@@ -1,29 +1,24 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output, viewChild } from '@angular/core';
-import { ScreenSize } from '../../../../shared/services/screen-size';
+import { ChangeDetectionStrategy, Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
 import { CalendarSelection } from '../calendar-selection';
-import { timeSlots } from '../calendar-time-slots';
+import { CalendarTimeSlots } from '../calendar-time-slots';
 import { DayInfo } from '../day-info';
-import { formatMoney } from '../money-formatter';
 import { PublicAppointment } from '../public-appointment';
-import { TimeInterval } from '../time-interval';
+import { CalendarDayColumn } from './day-column/calendar-day-column';
+import { CalendarDayHeader } from './day-header/calendar-day-header';
 import { SlotDrag } from './slot-drag';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: { class: 'calendar-grid-container' },
     selector: 'marush-calendar-grid',
-    imports: [],
+    imports: [CalendarDayColumn, CalendarDayHeader],
     templateUrl: './calendar-grid.html',
-    styleUrls: [
-        './calendar-grid.scss', './calendar-grid-slots.scss', './calendar-grid-header.scss',
-        './calendar-grid-day-actions.scss', './calendar-grid-entries.scss'
-    ]
+    styleUrl: './calendar-grid.scss'
 })
 export class CalendarGrid {
-    protected readonly screenSize = inject(ScreenSize);
     readonly days = input.required<DayInfo[]>();
     readonly entries = input<CalendarEntry[]>([]);
     readonly publicAppointments = input<PublicAppointment[]>([]);
@@ -35,33 +30,36 @@ export class CalendarGrid {
     readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
 
     private readonly gridElement = viewChild.required<ElementRef<HTMLElement>>('gridElement');
-    protected readonly timeSlots = timeSlots;
-    protected readonly formatMoney = formatMoney;
+    protected readonly timeSlots = CalendarTimeSlots.all;
     protected readonly drag = new SlotDrag();
 
-    protected readonly getDailyNote = (isoDate: string): CalendarNote | undefined =>
-        this.notes().find(note => note.date === isoDate && note.noteType === 'Daily');
+    protected readonly dailyNoteOn = (isoDate: string): CalendarNote | undefined =>
+        this.noteOn(isoDate, 'Daily');
 
-    protected readonly getNonWorkingDay = (isoDate: string): CalendarNote | undefined =>
-        this.notes().find(note => note.date === isoDate && note.noteType === 'NonWorkingDay');
+    protected readonly nonWorkingDayOn = (isoDate: string): CalendarNote | undefined =>
+        this.noteOn(isoDate, 'NonWorkingDay');
 
-    protected readonly entriesForDay = (isoDate: string): CalendarEntry[] =>
+    protected readonly isNonWorkingDay = (isoDate: string): boolean => this.nonWorkingDayOn(isoDate) !== undefined;
+
+    protected readonly entriesOn = (isoDate: string): CalendarEntry[] =>
         this.entries().filter(entry => entry.date === isoDate);
 
-    protected readonly appointmentsForDay = (isoDate: string): PublicAppointment[] =>
+    protected readonly appointmentsOn = (isoDate: string): PublicAppointment[] =>
         this.publicAppointments().filter(appointment => appointment.date === isoDate);
 
-    protected readonly entryInterval = (startTime: string, endTime: string): TimeInterval =>
-        new TimeInterval(startTime, endTime);
+    protected readonly onDailyNoteClick = (isoDate: string) => this.noteClick.emit({ date: isoDate, type: 'Daily' });
 
-    protected readonly onPointerDown = (event: PointerEvent, date: string, slot: number) => {
-        if (this.getNonWorkingDay(date)) {
+    protected readonly onNonWorkingDayToggle = (isoDate: string, existing: CalendarNote | undefined) =>
+        this.nonWorkingDayToggle.emit({ date: isoDate, existing });
+
+    protected readonly onSlotPointerDown = (isoDate: string, request: { event: PointerEvent; slot: number }) => {
+        if (this.isNonWorkingDay(isoDate)) {
             return;
         }
 
-        event.preventDefault();
-        this.gridElement().nativeElement.setPointerCapture(event.pointerId);
-        this.drag.start(date, slot);
+        request.event.preventDefault();
+        this.gridElement().nativeElement.setPointerCapture(request.event.pointerId);
+        this.drag.start(isoDate, request.slot);
     };
 
     protected readonly onPointerMove = (event: PointerEvent) => {
@@ -82,4 +80,7 @@ export class CalendarGrid {
             this.dragComplete.emit(selection);
         }
     };
+
+    private readonly noteOn = (isoDate: string, type: CalendarNoteType): CalendarNote | undefined =>
+        this.notes().find(note => note.date === isoDate && note.noteType === type);
 }

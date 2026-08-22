@@ -1,5 +1,5 @@
 import { Signal, effect, signal } from '@angular/core';
-import { EntryForm } from './calendar-entry-form';
+import { EntryForm } from './entry-form';
 
 export class MoneySynchronization {
     private readonly enabled = signal(true);

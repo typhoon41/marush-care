@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isCancel } from '@shared/functions/keyboard-event';
 import { IComboBoxItem } from '../combobox/item';
 import { Field } from '../field';
-import { commitOrClear } from './suggestion-commitment';
+import { SuggestionCommitment } from './suggestion-commitment';
 import { SuggestionNavigation } from './suggestion-navigation';
 
 @Component({
@@ -58,6 +58,9 @@ export class Autocomplete extends Field {
   protected readonly navigation = new SuggestionNavigation(
     this.inputElement, this.suggestionElements, item => this.select(item), () => this.closeSuggestions());
 
+  private readonly commitment = new SuggestionCommitment(
+    () => this.resolvedControl, this.suggestions, item => this.applySelection(item));
+
   protected readonly onInput = (event: Event) => {
     const value = (event.target as HTMLInputElement).value.trim();
     clearTimeout(this.debounceTimeout);
@@ -101,7 +104,7 @@ export class Autocomplete extends Field {
   private readonly leaveField = () => {
     clearTimeout(this.debounceTimeout);
     this.closeSuggestions();
-    commitOrClear(this.resolvedControl, this.suggestions(), this.applySelection);
+    this.commitment.settle();
     this.onDismissed()?.();
   };
 

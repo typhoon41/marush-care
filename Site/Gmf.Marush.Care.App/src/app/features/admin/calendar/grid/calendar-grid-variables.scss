@@ -18,8 +18,6 @@ $time-size-tablet: 12px;
 $time-size: 13px;
 
 $non-working-tint: rgba(variables.$accent, .3);
-$non-working-stripe: 6px;
-$non-working-pattern: repeating-linear-gradient(45deg, $non-working-tint 0, $non-working-tint $non-working-stripe, transparent $non-working-stripe, transparent $non-working-stripe * 2);
 $drag-selected-tint: rgba(variables.$accent, .55);
 $slot-press-tint: rgba(variables.$accent, .35);
 

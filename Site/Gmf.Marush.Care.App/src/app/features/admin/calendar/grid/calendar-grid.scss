@@ -63,27 +63,3 @@
 		width: grid.$time-column-width;
 	}
 }
-
-.day-column {
-	display: flex;
-	position: relative;
-	flex: 1;
-	flex-direction: column;
-	min-width: 40px;
-	border-right: grid.$slot-border;
-	border-bottom: grid.$grid-border;
-
-	@include breakpoints.apply-from-tablet() {
-		min-width: 80px;
-	}
-
-	&:last-of-type {
-		border-right: none;
-	}
-}
-
-.day-column.non-working {
-	// $primary against $body-color is imperceptible, so the stripes carry the meaning.
-	background: grid.$non-working-pattern, variables.$primary;
-	pointer-events: none;
-}

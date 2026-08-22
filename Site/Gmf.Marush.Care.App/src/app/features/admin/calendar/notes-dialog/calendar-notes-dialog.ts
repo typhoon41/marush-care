@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { DialogOperation } from '@shared/components/dialog/dialog-operation';
 import { Input } from '@shared/components/forms/input/input';
 import { Calendar } from '../calendar';
+import { CalendarDate } from '../calendar-date';
 import { CalendarNote } from '../calendar-note';
 import { CalendarNoteType } from '../calendar-note-type';
-import { toSerbianDate } from '../calendar-week-navigator';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,12 +39,12 @@ export class CalendarNotesDialog {
         this.dialog().open();
     };
 
-    protected readonly titleLabel = () =>
-        this.noteType() === 'Daily' ? 'Dnevne napomene' : 'Nedeljne napomene';
+    protected readonly titleLabel = computed(() =>
+        this.noteType() === 'Daily' ? 'Dnevne napomene' : 'Nedeljne napomene');
 
     protected readonly onSave = async() => {
         await this.complete(() => this.calendarService.upsertNote({
-            date: toSerbianDate(this.noteDate()),
+            date: CalendarDate.fromIso(this.noteDate()).serbian,
             noteType: this.noteType(),
             content: this.noteForm.getRawValue().content
         }));

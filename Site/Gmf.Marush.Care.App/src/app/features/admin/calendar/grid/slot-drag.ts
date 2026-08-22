@@ -51,11 +51,21 @@ export class SlotDrag {
         return selection;
     };
 
-    readonly covers = (date: string, slot: number): boolean => {
+    readonly selectedSlotsOn = (date: string): number[] => {
         const range = this.range();
-        return range?.date === date && slot >= range.minimumSlot && slot <= range.maximumSlot;
+        if (range?.date !== date) {
+            return [];
+        }
+
+        const length = range.maximumSlot - range.minimumSlot + 1;
+        return Array.from({ length }, (_, offset) => range.minimumSlot + offset);
     };
 
-    readonly startedAt = (date: string, slot: number): boolean =>
-        this.anchorDate() === date && this.anchorSlot() === slot;
+    anchorSlotOn(date: string): number {
+        if (this.anchorDate() !== date) {
+            return unsetSlot;
+        }
+
+        return this.anchorSlot();
+    }
 }
