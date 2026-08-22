@@ -1,8 +1,8 @@
 import { environment } from '@env';
 
 class MarushDetails {
-    readonly phoneNumber = '060/522-95-93';
-    readonly phoneNumberAction = 'tel:+381605229593';
+    readonly phoneNumber = '064/922-95-93';
+    readonly phoneNumberAction = 'tel:+381649229593';
     readonly email = 'office@marushcare.com';
     readonly emailAction = 'mailto:office@marushcare.com';
     readonly name = 'Marush: Space of Care';
