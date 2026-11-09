@@ -88,6 +88,10 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **No viewport units** — never use `vh`/`vw`/`vmin`/`vmax`; they are buggy on iOS Safari (the dynamic toolbar resizes the viewport). Use `%` instead. For modal `<dialog>`/overlays, `%` resolves against the viewport, so `max-width: 50%` / `max-height: 80%` behave like `vw`/`vh` without the bug.
 - **No conditional expressions in templates** — no ternaries, comparisons or non-null assertions inside a binding or interpolation. Move them into a `computed()` or onto the model. `@if` / `@for` on a boolean signal or collection is control flow and stays.
 - **Never style a library-generated class** — `.row`, `.column-N`, `.ellipsis` and friends are applied in HTML, never used as selectors in app SCSS. Add a semantic class and style that.
+- **Signals, never getters** — derived state on any class is a `computed()` signal invoked with `()`; never a `get` accessor.
+- **Functions are arrow-function properties** — `readonly name = (...) => ...` (`static readonly` for statics); no method declarations beside the constructor and lifecycle hooks, and never both styles in one class.
+- **No `ChangeDetectorRef`** — the app is zoneless; state a template reads is a signal, and DOM work that needs the rendered view uses `afterNextRender`. Never `detectChanges()` / `markForCheck()`.
+- **Search before you add** — a constant, factory or rule that already exists in the feature is reused, not redeclared.
 - **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
 
 ---
