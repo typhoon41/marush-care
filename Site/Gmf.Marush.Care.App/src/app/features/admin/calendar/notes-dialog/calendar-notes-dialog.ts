@@ -25,7 +25,7 @@ export class CalendarNotesDialog {
     protected readonly noteType = signal<CalendarNoteType>('Daily');
     protected readonly noteDate = signal('');
     protected readonly existingNoteId = signal<string | null>(null);
-    protected readonly operation = new DialogOperation();
+    protected readonly operation = new DialogOperation(this.dialog);
     protected readonly noteForm = this.formBuilder.group({
         content: new FormControl('', { nonNullable: true })
     });
@@ -44,7 +44,7 @@ export class CalendarNotesDialog {
 
     protected readonly onSave = async() => {
         await this.complete(() => this.calendarService.upsertNote({
-            date: CalendarDate.fromIso(this.noteDate()).serbian,
+            date: CalendarDate.fromIso(this.noteDate()).serbian(),
             noteType: this.noteType(),
             content: this.noteForm.getRawValue().content
         }));
@@ -60,7 +60,6 @@ export class CalendarNotesDialog {
 
     private readonly complete = async(action: () => Promise<void>) => {
         if (await this.operation.run(action)) {
-            this.dialog().dismiss();
             this.saved.emit();
         }
     };

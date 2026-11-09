@@ -5,6 +5,13 @@ const slotsInFourHours = 16;
 const minimalRenderedSpan = 1;
 
 export class TimeInterval {
+    static readonly of = (span: { startTime?: string; endTime?: string }): TimeInterval =>
+        new TimeInterval(span.startTime ?? '', span.endTime ?? '');
+
+    static readonly fromSlots = (startSlot: number, endSlotExclusive: number): TimeInterval =>
+        new TimeInterval(CalendarTimeSlots.toTime(startSlot), CalendarTimeSlots.toTime(endSlotExclusive));
+
+    readonly range: Signal<string> = computed(() => `${this.startTime}-${this.endTime}`);
     readonly isComplete: Signal<boolean> = computed(() => !!this.startTime && !!this.endTime);
     readonly startSlot: Signal<number> = computed(() =>
         CalendarTimeSlots.clampToGrid(CalendarTimeSlots.toSlotIndex(this.startTime)));
@@ -22,10 +29,6 @@ export class TimeInterval {
 
     constructor(readonly startTime: string, readonly endTime: string) { }
 
-    static fromSlots = (startSlot: number, endSlotExclusive: number): TimeInterval =>
-        new TimeInterval(CalendarTimeSlots.toTime(startSlot), CalendarTimeSlots.toTime(endSlotExclusive));
-
-    equals(other: TimeInterval): boolean {
-        return this.startTime === other.startTime && this.endTime === other.endTime;
-    }
+    readonly equals = (other: TimeInterval): boolean =>
+        this.startTime === other.startTime && this.endTime === other.endTime;
 }

@@ -1,16 +1,8 @@
 import { EntryFormValue } from './entry-dialog/entry-form-value';
 
 export class CalendarEntryRequest {
-    date: string = '';
-    startTime: string = '';
-    endTime: string = '';
-    customerId?: string;
-    appointmentId?: string;
-    notes?: string;
-    money?: number;
-    treatments: string[] = [];
-
-    static from = (formValue: EntryFormValue, treatments: string[]): CalendarEntryRequest => Object.assign(new CalendarEntryRequest(), {
+    static readonly from = (formValue: EntryFormValue, treatments: string[]): CalendarEntryRequest =>
+        Object.assign(new CalendarEntryRequest(), {
             date: formValue.date,
             startTime: formValue.startTime,
             endTime: formValue.endTime,
@@ -20,4 +12,13 @@ export class CalendarEntryRequest {
             money: formValue.money ?? undefined,
             treatments
         });
+
+    date: string = '';
+    startTime: string = '';
+    endTime: string = '';
+    customerId?: string;
+    appointmentId?: string;
+    notes?: string;
+    money?: number;
+    treatments: string[] = [];
 }

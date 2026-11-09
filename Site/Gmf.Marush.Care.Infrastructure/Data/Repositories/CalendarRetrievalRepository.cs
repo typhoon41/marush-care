@@ -15,12 +15,14 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
     private readonly DbSet<CalendarEntryDto> _entries = context.Set<CalendarEntryDto>();
     private readonly DbSet<CalendarNoteDto> _notes = context.Set<CalendarNoteDto>();
 
+    private IQueryable<CalendarEntryDto> EntriesWithDetails => _entries
+        .Include(entry => entry.Appointment.Customer)
+        .Include(entry => entry.Treatments);
+
     public async Task<IEnumerable<CalendarEntry>> GetEntriesForWeek(DateOnly weekStart)
     {
         var week = CalendarWeekRange.For(weekStart);
-        var dtos = await _entries
-            .Include(entry => entry.Appointment.Customer)
-            .Include(entry => entry.Treatments)
+        var dtos = await EntriesWithDetails
             .Where(entry => entry.Appointment.ScheduledFor >= week.Start && entry.Appointment.ScheduledFor <= week.End)
             .OrderBy(entry => entry.Appointment.ScheduledFor)
             .ToListAsync();
@@ -29,10 +31,7 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
 
     public async Task<CalendarEntry?> GetEntryById(Guid id)
     {
-        var dto = await _entries
-            .Include(entry => entry.Appointment.Customer)
-            .Include(entry => entry.Treatments)
-            .SingleOrDefaultAsync(entry => entry.Id == id);
+        var dto = await EntriesWithDetails.SingleOrDefaultAsync(entry => entry.Id == id);
         return dto?.ToDomain();
     }
 
@@ -53,7 +52,7 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
             .Include(appointment => appointment.Status)
             .Where(appointment => appointment.ScheduledFor >= week.Start && appointment.ScheduledFor <= week.End
                                   && StatusesVisibleInCalendar.Contains(appointment.Status.Id)
-                                  && !context.Set<CalendarEntryDto>().Any(entry => entry.AppointmentId == appointment.Id))
+                                  && !_entries.Any(entry => entry.AppointmentId == appointment.Id))
             .OrderBy(appointment => appointment.ScheduledFor)
             .ToListAsync();
 

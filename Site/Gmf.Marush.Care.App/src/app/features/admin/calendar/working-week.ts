@@ -1,3 +1,4 @@
+import { Signal, computed } from '@angular/core';
 import { CalendarDate } from './calendar-date';
 
 const shortDateFormat: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' };
@@ -7,27 +8,21 @@ export class WorkingWeek {
     static readonly totalDays = 7;
     static readonly workingDays = 6;
 
+    static readonly containing = (date: Date): WorkingWeek => new WorkingWeek(CalendarDate.mondayOf(date));
+
+    readonly lastDay: Signal<CalendarDate> = computed(() => this.start.addDays(WorkingWeek.workingDays - 1));
+
+    readonly days: Signal<CalendarDate[]> = computed(() =>
+        Array.from({ length: WorkingWeek.workingDays }, (_, dayIndex) => this.start.addDays(dayIndex)));
+
+    readonly label: Signal<string> = computed(() =>
+        `${this.start.format(shortDateFormat)} – ${this.lastDay().format(shortDateFormat)}`);
+
     constructor(readonly start: CalendarDate) { }
 
-    static containing = (date: Date): WorkingWeek => new WorkingWeek(CalendarDate.mondayOf(date));
+    readonly previous = (): WorkingWeek => this.shiftedBy(-WorkingWeek.totalDays);
 
-    get lastDay(): CalendarDate {
-        return this.start.addDays(WorkingWeek.workingDays - 1);
-    }
+    readonly next = (): WorkingWeek => this.shiftedBy(WorkingWeek.totalDays);
 
-    get days(): CalendarDate[] {
-        return Array.from({ length: WorkingWeek.workingDays }, (_, dayIndex) => this.start.addDays(dayIndex));
-    }
-
-    get label(): string {
-        return `${this.start.format(shortDateFormat)} – ${this.lastDay.format(shortDateFormat)}`;
-    }
-
-    previous(): WorkingWeek {
-        return new WorkingWeek(this.start.addDays(-WorkingWeek.totalDays));
-    }
-
-    next(): WorkingWeek {
-        return new WorkingWeek(this.start.addDays(WorkingWeek.totalDays));
-    }
+    private readonly shiftedBy = (days: number): WorkingWeek => new WorkingWeek(this.start.addDays(days));
 }

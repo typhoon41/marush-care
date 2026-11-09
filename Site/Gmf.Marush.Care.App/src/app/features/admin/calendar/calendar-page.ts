@@ -28,7 +28,7 @@ export class CalendarPage {
 
     protected readonly week = signal(WorkingWeek.containing(new Date()));
     protected readonly weekStart = computed(() => this.week().start.iso);
-    protected readonly weekLabel = computed(() => this.week().label);
+    protected readonly weekLabel = computed(() => this.week().label());
     protected readonly weekData = this.calendarService.getWeek(this.weekStart);
 
     protected readonly entries = computed(() => this.weekData.value()?.entries ?? []);
@@ -37,7 +37,8 @@ export class CalendarPage {
 
     protected readonly days = computed((): DayInfo[] => {
         const entries = this.entries();
-        return this.week().days.map(day => new DayInfo(day, entries));
+        return this.week().days()
+.map(day => new DayInfo(day, entries));
     });
 
     protected readonly weeklyTotal = computed(() =>
@@ -86,7 +87,7 @@ export class CalendarPage {
             await this.calendarService.deleteNote(event.existing.id);
         } else {
             await this.calendarService.upsertNote({
-                date: CalendarDate.fromIso(event.date).serbian,
+                date: CalendarDate.fromIso(event.date).serbian(),
                 noteType: 'NonWorkingDay',
                 content: ''
             });

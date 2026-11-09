@@ -31,10 +31,7 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
             Appointment = appointment,
             Money = entry.Money
         };
-        foreach (var name in entry.Treatments)
-        {
-            dto.Treatments.Add(new CalendarEntryTreatmentDto { Name = name, CalendarEntry = dto });
-        }
+        AddTreatments(dto, entry.Treatments);
 
         _ = await _entries.AddAsync(dto);
     }
@@ -103,12 +100,18 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
         }
 
         var existingNames = dto.Treatments.Select(existing => existing.Name).ToHashSet();
-        foreach (var name in entry.Treatments.Where(name => !existingNames.Contains(name)))
+        AddTreatments(dto, entry.Treatments.Where(name => !existingNames.Contains(name)));
+    }
+
+    private static void AddTreatments(CalendarEntryDto dto, IEnumerable<string> names)
+    {
+        foreach (var name in names)
         {
             dto.Treatments.Add(new CalendarEntryTreatmentDto { CalendarEntryId = dto.Id, CalendarEntry = dto, Name = name });
         }
     }
 
+    // The caller applies the schedule, as it does for an appointment that already exists.
     private async Task<AppointmentDto> CreateAppointment(CalendarEntry entry)
     {
         var customer = await FindCustomer(entry.CustomerId);
@@ -122,7 +125,6 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
             Status = approvedStatus
         };
         AssignCustomer(appointment, customer);
-        ApplySchedule(appointment, entry);
         _ = await context.Set<AppointmentDto>().AddAsync(appointment);
         return appointment;
     }

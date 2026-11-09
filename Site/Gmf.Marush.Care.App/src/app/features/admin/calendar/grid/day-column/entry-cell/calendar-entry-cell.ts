@@ -15,7 +15,9 @@ export class CalendarEntryCell {
     readonly entry = input.required<CalendarEntry>();
     readonly entrySelected = output<CalendarEntry>();
 
-    protected readonly timeRange = computed(() => `${this.entry().startTime}-${this.entry().endTime}`);
+    private readonly interval = computed(() => TimeInterval.of(this.entry()));
+
+    protected readonly timeRange = computed(() => this.interval().range());
     protected readonly tooltip = computed(() => [this.entry().clientName, ...this.entry().treatmentTitles].join('\n'));
     protected readonly hasClientName = computed(() => this.entry().clientName.length > 0);
     protected readonly hasMoney = computed(() => this.entry().money !== undefined);
@@ -23,6 +25,5 @@ export class CalendarEntryCell {
     protected readonly notes = computed(() => this.entry().notes ?? '');
     protected readonly hasNotes = computed(() => this.notes().length > 0);
 
-    readonly positionClasses = computed(() =>
-        `entry-cell-container ${new TimeInterval(this.entry().startTime, this.entry().endTime).positionClasses()}`);
+    readonly positionClasses = computed(() => `entry-cell-container ${this.interval().positionClasses()}`);
 }

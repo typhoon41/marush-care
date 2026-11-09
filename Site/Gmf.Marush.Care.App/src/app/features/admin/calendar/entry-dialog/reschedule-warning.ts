@@ -16,9 +16,8 @@ export class RescheduleWarning {
             }
 
             const values = formValues();
-            const formInterval = new TimeInterval(values.startTime ?? '', values.endTime ?? '');
-            return values.date !== CalendarDate.fromIso(entry.date).serbian
-                || !formInterval.equals(new TimeInterval(entry.startTime, entry.endTime));
+            return values.date !== CalendarDate.fromIso(entry.date).serbian()
+                || !TimeInterval.of(values).equals(TimeInterval.of(entry));
         });
     }
 }

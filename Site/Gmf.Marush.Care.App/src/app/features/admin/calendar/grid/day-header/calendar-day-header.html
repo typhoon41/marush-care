@@ -21,6 +21,6 @@
 @if (hasNote()) {
     <p class="day-note-content ellipsis">{{ noteContent() }}</p>
 }
-@if (day().hasEarnings) {
+@if (day().hasEarnings()) {
     <span class="day-total ellipsis">{{ earningsCaption() }}</span>
 }

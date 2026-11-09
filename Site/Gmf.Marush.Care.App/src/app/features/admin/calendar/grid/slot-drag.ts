@@ -1,14 +1,13 @@
 import { computed, signal } from '@angular/core';
 import { CalendarSelection } from '../calendar-selection';
+import { CalendarTimeSlots } from '../calendar-time-slots';
 import { TimeInterval } from '../time-interval';
-
-const unsetSlot = -1;
 
 /** Pointer drag across the slot cells of a single day column. */
 export class SlotDrag {
     private readonly anchorDate = signal<string | null>(null);
-    private readonly anchorSlot = signal(unsetSlot);
-    private readonly currentSlot = signal(unsetSlot);
+    private readonly anchorSlot = signal(CalendarTimeSlots.unset);
+    private readonly currentSlot = signal(CalendarTimeSlots.unset);
 
     readonly isActive = computed(() => this.anchorDate() !== null);
 
@@ -33,8 +32,8 @@ export class SlotDrag {
 
     readonly cancel = () => {
         this.anchorDate.set(null);
-        this.anchorSlot.set(unsetSlot);
-        this.currentSlot.set(unsetSlot);
+        this.anchorSlot.set(CalendarTimeSlots.unset);
+        this.currentSlot.set(CalendarTimeSlots.unset);
     };
 
     readonly complete = (): CalendarSelection | null => {
@@ -61,11 +60,11 @@ export class SlotDrag {
         return Array.from({ length }, (_, offset) => range.minimumSlot + offset);
     };
 
-    anchorSlotOn(date: string): number {
+    readonly anchorSlotOn = (date: string): number => {
         if (this.anchorDate() !== date) {
-            return unsetSlot;
+            return CalendarTimeSlots.unset;
         }
 
         return this.anchorSlot();
-    }
+    };
 }

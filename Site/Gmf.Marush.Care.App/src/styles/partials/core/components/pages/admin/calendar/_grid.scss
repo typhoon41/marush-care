@@ -4,9 +4,6 @@
 
 .calendar-page {
 	.day-header {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
 		min-width: 0;
 		min-height: grid.$header-row-height-mobile;
 		padding: grid.$day-header-gap 4px;
@@ -16,12 +13,7 @@
 		background: variables.$primary;
 		gap: grid.$day-header-gap;
 
-		&:last-of-type {
-			border-right: none;
-		}
-
 		@include breakpoints.apply-from-tablet() {
-			min-width: 80px;
 			min-height: grid.$header-row-height-tablet;
 			padding: grid.$day-header-gap 8px;
 			overflow: visible;
@@ -32,31 +24,35 @@
 		}
 	}
 
-	.day-header.non-working-day {
-		background: grid.$non-working-tint;
-	}
-
 	.day-column {
-		display: flex;
 		position: relative;
-		flex: 1;
-		flex-direction: column;
-		min-width: 40px;
+		min-width: grid.$day-minimum-width-mobile;
 		border-right: grid.$slot-border;
 		border-bottom: grid.$grid-border;
+	}
 
-		@include breakpoints.apply-from-tablet() {
-			min-width: 80px;
-		}
+	// A day's header cell and its slot column sit on the same horizontal track.
+	// Declared after both so the shared overrides win the cascade.
+	.day-header, .day-column {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
 
 		&:last-of-type {
 			border-right: none;
 		}
+
+		@include breakpoints.apply-from-tablet() {
+			min-width: grid.$day-minimum-width-tablet;
+		}
+	}
+
+	// $primary against $body-color is imperceptible; the tint carries the meaning.
+	.day-header.non-working-day, .day-column.non-working {
+		background: grid.$non-working-tint;
 	}
 
 	.day-column.non-working {
-		// $primary against $body-color is imperceptible; the header tint carries the meaning.
-		background: grid.$non-working-tint;
 		pointer-events: none;
 	}
 }

@@ -1,4 +1,6 @@
-const padToTwoDigits = 2;
+import { Signal, computed } from '@angular/core';
+import { TwoDigits } from './two-digits';
+
 const daysInWeek = 7;
 const mondayIndex = 1;
 const sundayIndex = 0;
@@ -6,25 +8,17 @@ const serbianLocale = 'sr-Latn-RS';
 
 /** A calendar day, and every conversion this feature needs between its ISO and Serbian forms. */
 export class CalendarDate {
-    private constructor(readonly iso: string) { }
+    static readonly fromIso = (iso: string): CalendarDate => new CalendarDate(iso);
 
-    static fromIso = (iso: string): CalendarDate => new CalendarDate(iso);
+    static readonly fromDate = (date: Date): CalendarDate =>
+        CalendarDate.fromParts(date.getFullYear(), date.getMonth() + 1, date.getDate());
 
-    static fromDate = (date: Date): CalendarDate => {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString()
-            .padStart(padToTwoDigits, '0');
-        const day = date.getDate().toString()
-            .padStart(padToTwoDigits, '0');
-        return new CalendarDate(`${year}-${month}-${day}`);
+    static readonly fromSerbian = (serbian: string): CalendarDate => {
+        const [day, month, year] = serbian.split('.').map(Number);
+        return CalendarDate.fromParts(year, month, day);
     };
 
-    static fromSerbian = (serbian: string): CalendarDate => {
-        const [day, month, year] = serbian.split('.');
-        return new CalendarDate(`${year}-${month.padStart(padToTwoDigits, '0')}-${day.padStart(padToTwoDigits, '0')}`);
-    };
-
-    static mondayOf = (date: Date): CalendarDate => {
+    static readonly mondayOf = (date: Date): CalendarDate => {
         const monday = new Date(date);
         const dayOfWeek = monday.getDay();
         const daysFromMonday = dayOfWeek === sundayIndex ? daysInWeek - mondayIndex : dayOfWeek - mondayIndex;
@@ -32,27 +26,31 @@ export class CalendarDate {
         return CalendarDate.fromDate(monday);
     };
 
-    get serbian(): string {
-        const [year, month, day] = this.iso.split('-');
-        return `${parseInt(day, 10)}.${parseInt(month, 10)}.${year}.`;
-    }
+    private static readonly fromParts = (year: number, month: number, day: number): CalendarDate =>
+        new CalendarDate(`${year}-${TwoDigits.of(month)}-${TwoDigits.of(day)}`);
 
-    addDays(days: number): CalendarDate {
+    private readonly parts: Signal<number[]> = computed(() => this.iso.split('-').map(Number));
+
+    readonly serbian: Signal<string> = computed(() => {
+        const [year, month, day] = this.parts();
+        return `${day}.${month}.${year}.`;
+    });
+
+    private constructor(readonly iso: string) { }
+
+    readonly toDate = (): Date => {
+        const [year, month, day] = this.parts();
+        return new Date(year, month - 1, day);
+    };
+
+    readonly addDays = (days: number): CalendarDate => {
         const shifted = this.toDate();
         shifted.setDate(shifted.getDate() + days);
         return CalendarDate.fromDate(shifted);
-    }
+    };
 
-    toDate(): Date {
-        const [year, month, day] = this.iso.split('-').map(Number);
-        return new Date(year, month - 1, day);
-    }
+    readonly format = (options: Intl.DateTimeFormatOptions): string =>
+        this.toDate().toLocaleDateString(serbianLocale, options);
 
-    format(options: Intl.DateTimeFormatOptions): string {
-        return this.toDate().toLocaleDateString(serbianLocale, options);
-    }
-
-    isBefore(other: Date): boolean {
-        return this.toDate() < other;
-    }
+    readonly isBefore = (other: Date): boolean => this.toDate() < other;
 }

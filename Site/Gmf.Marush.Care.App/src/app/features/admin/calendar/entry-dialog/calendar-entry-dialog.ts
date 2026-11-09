@@ -33,7 +33,7 @@ export class CalendarEntryDialog {
     protected readonly editingEntry = signal<CalendarEntry | null>(null);
     protected readonly isEditing = computed(() => this.editingEntry() !== null);
     protected readonly title = computed(() => this.isEditing() ? existingEntryTitle : newEntryTitle);
-    protected readonly operation = new DialogOperation();
+    protected readonly operation = new DialogOperation(this.dialog);
     protected readonly entryForm = new EntryDialogForm(
         inject(NonNullableFormBuilder), inject(Clients), this.editingEntry);
 
@@ -45,24 +45,14 @@ export class CalendarEntryDialog {
     };
 
     protected readonly onSave = async() => {
-        if (!this.entryForm.acceptsSave()) {
-            return;
-        }
-
-        if (await this.operation.run(() => this.persist())) {
-            this.dialog().dismiss();
+        if (this.entryForm.acceptsSave() && await this.operation.run(this.persist)) {
             this.saved.emit();
         }
     };
 
     protected readonly onDelete = async() => {
         const entry = this.editingEntry();
-        if (!entry) {
-            return;
-        }
-
-        if (await this.operation.run(() => this.calendarService.deleteEntry(entry.id))) {
-            this.dialog().dismiss();
+        if (entry && await this.operation.run(() => this.calendarService.deleteEntry(entry.id))) {
             this.deleted.emit();
         }
     };

@@ -18,6 +18,14 @@ import { TreatmentSelection } from './treatment-selection';
 
 /** Everything the entry dialog binds to: the form itself and the selections that feed it. */
 export class EntryDialogForm {
+    private static readonly toPickerDate = (serbianDate: string): Date => {
+        if (!serbianDate) {
+            return new Date();
+        }
+
+        return CalendarDate.fromSerbian(serbianDate).toDate();
+    };
+
     readonly startTimeOptions = CalendarTimeSlots.startOptions;
     readonly endTimeOptions = CalendarTimeSlots.endOptions;
     readonly selectedStartTime = signal<IComboBoxItem | undefined>(undefined);
@@ -44,12 +52,13 @@ export class EntryDialogForm {
     }
 
     readonly reset = (selection?: CalendarSelection, entry?: CalendarEntry) => {
-        this.group.reset(EntryFormValue.for(selection, entry));
+        const value = EntryFormValue.for(selection, entry);
+        this.group.reset(value);
         this.clientSelection.reset(entry?.clientName);
         this.treatmentSelection.reset(entry?.treatments ?? []);
-        this.selectedStartTime.set(CalendarTimeSlots.findOption(selection?.interval.startTime ?? entry?.startTime));
-        this.selectedEndTime.set(CalendarTimeSlots.findOption(selection?.interval.endTime ?? entry?.endTime));
-        this.pickerDate.set(EntryDialogForm.toPickerDate(selection?.date ?? entry?.date));
+        this.selectedStartTime.set(CalendarTimeSlots.findOption(value.startTime));
+        this.selectedEndTime.set(CalendarTimeSlots.findOption(value.endTime));
+        this.pickerDate.set(EntryDialogForm.toPickerDate(value.date));
         this.saveAttempted.set(false);
         this.moneySynchronization.reset(entry?.money);
     };
@@ -66,12 +75,4 @@ export class EntryDialogForm {
 
     readonly toRequest = (): CalendarEntryRequest =>
         CalendarEntryRequest.from(this.group.getRawValue(), this.treatmentSelection.selectedNames());
-
-    static toPickerDate = (isoDate?: string): Date => {
-        if (!isoDate) {
-            return new Date();
-        }
-
-        return CalendarDate.fromIso(isoDate).toDate();
-    };
 }

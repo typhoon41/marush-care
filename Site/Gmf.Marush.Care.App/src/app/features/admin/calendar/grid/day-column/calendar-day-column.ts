@@ -5,8 +5,6 @@ import { PublicAppointment } from '../../public-appointment';
 import { CalendarAppointmentCell } from './appointment-cell/calendar-appointment-cell';
 import { CalendarEntryCell } from './entry-cell/calendar-entry-cell';
 
-const unsetSlot = -1;
-
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: { class: 'day-column', '[class.non-working]': 'nonWorking()' },
@@ -21,7 +19,7 @@ export class CalendarDayColumn {
     readonly appointments = input<PublicAppointment[]>([]);
     readonly nonWorking = input(false);
     readonly selectedSlots = input<readonly number[]>([]);
-    readonly anchorSlot = input(unsetSlot);
+    readonly anchorSlot = input(CalendarTimeSlots.unset);
 
     readonly slotPointerDown = output<{ event: PointerEvent; slot: number }>();
     readonly entryClick = output<CalendarEntry>();

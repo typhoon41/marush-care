@@ -9,11 +9,13 @@ const catalog: TreatmentDefinition[] = supportedTreatments
 
 /** Look-ups over the treatment catalogue the calendar offers. */
 export class TreatmentCatalog {
-    static findByName = (name: string): TreatmentDefinition | undefined => catalog.find(treatment => treatment.name === name);
+    static readonly findByName = (name: string): TreatmentDefinition | undefined =>
+        catalog.find(treatment => treatment.name === name);
 
-    static titleOf = (name: string): string => TreatmentCatalog.findByName(name)?.title ?? name;
+    static readonly titleOf = (name: string): string => TreatmentCatalog.findByName(name)?.title ?? name;
 
-    static searchExcluding = (selectedTreatments: Signal<string[]>): (query: string) => Promise<IComboBoxItem[]> => (query: string) => {
+    static readonly searchExcluding = (selectedTreatments: Signal<string[]>) =>
+        (query: string): Promise<IComboBoxItem[]> => {
             const normalizedQuery = query.toLowerCase();
             return Promise.resolve(catalog
                 .filter(treatment => !selectedTreatments().includes(treatment.name) &&

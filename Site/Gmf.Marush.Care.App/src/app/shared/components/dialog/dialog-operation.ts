@@ -1,9 +1,12 @@
-import { signal } from '@angular/core';
+import { Signal, signal } from '@angular/core';
+import { Dialog } from './dialog';
 
-/** Runs a single dialog action, exposing its progress and failure to the template. */
+/** Runs a single dialog action, exposing its progress and failure to the template and closing the dialog on success. */
 export class DialogOperation {
     readonly isLoading = signal(false);
     readonly failed = signal(false);
+
+    constructor(private readonly dialog: Signal<Dialog>) { }
 
     readonly reset = () => this.failed.set(false);
 
@@ -12,6 +15,7 @@ export class DialogOperation {
         this.isLoading.set(true);
         try {
             await action();
+            this.dialog().dismiss();
             return true;
         } catch {
             this.failed.set(true);

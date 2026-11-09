@@ -1,10 +1,11 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { TimeInterval } from '../time-interval';
+import { EntryFormValue } from './entry-form-value';
 
 /** Cross-field rules the entry form enforces before a save is attempted. */
 export class EntryFormValidation {
     static readonly timeInterval = (group: AbstractControl): ValidationErrors | null => {
-        const interval = new TimeInterval(group.get('startTime')?.value ?? '', group.get('endTime')?.value ?? '');
+        const interval = TimeInterval.of(EntryFormValidation.valueOf(group));
         if (interval.hasOrderViolation()) {
             return { timeIntervalOrder: true };
         }
@@ -17,8 +18,13 @@ export class EntryFormValidation {
     };
 
     static readonly clientSelection = (group: AbstractControl): ValidationErrors | null => {
-        const customerId = group.get('customerId')?.value;
-        const appointmentId = group.get('appointmentId')?.value;
-        return !customerId && !appointmentId ? { clientRequired: true } : null;
+        if (EntryFormValue.lacksClient(EntryFormValidation.valueOf(group))) {
+            return { clientRequired: true };
+        }
+
+        return null;
     };
+
+    private static readonly valueOf = (group: AbstractControl): Partial<EntryFormValue> =>
+        group.getRawValue() as Partial<EntryFormValue>;
 }

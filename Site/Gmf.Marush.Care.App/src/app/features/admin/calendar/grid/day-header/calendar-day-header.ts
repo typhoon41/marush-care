@@ -29,5 +29,5 @@ export class CalendarDayHeader {
     protected readonly displayName = computed(() => this.day().nameFor(this.screenSize.isDesktop()));
     protected readonly earnings = computed(() => `${formatMoney(this.day().dailyTotal)} RSD`);
     protected readonly earningsCaption = computed(() =>
-        this.screenSize.isMobile() ? this.earnings() : `${this.day().earningsLabel}: ${this.earnings()}`);
+        this.screenSize.isMobile() ? this.earnings() : `${this.day().earningsLabel()}: ${this.earnings()}`);
 }

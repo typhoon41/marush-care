@@ -10,16 +10,11 @@ export class EntryErrors {
 
     constructor(saveAttempted: Signal<boolean>, clientInteracted: Signal<boolean>,
         formValues: Signal<Partial<EntryFormValue>>) {
-        const interval = computed(() => {
-            const { startTime, endTime } = formValues();
-            return new TimeInterval(startTime ?? '', endTime ?? '');
-        });
+        const interval = computed(() => TimeInterval.of(formValues()));
 
         this.timeOrder = computed(() => interval().hasOrderViolation());
         this.timeDuration = computed(() => interval().hasDurationViolation());
-        this.client = computed(() => {
-            const { customerId, appointmentId } = formValues();
-            return (saveAttempted() || clientInteracted()) && !customerId && !appointmentId;
-        });
+        this.client = computed(() =>
+            (saveAttempted() || clientInteracted()) && EntryFormValue.lacksClient(formValues()));
     }
 }

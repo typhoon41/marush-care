@@ -7,34 +7,36 @@ import { TreatmentCatalog } from './treatment-catalog-search';
 
 const displayTimeLength = 'HH:mm'.length;
 
-const toDisplayTime = (time: string): string => time.substring(0, displayTimeLength);
-
-const toIsoDate = (serbian: string): string => CalendarDate.fromSerbian(serbian).iso;
-
 /** Turns the Serbian-formatted week payload from the API into the models the page renders. */
 export class CalendarWeekParser {
-    static parse = (raw: unknown): CalendarWeek => {
+    static readonly parse = (raw: unknown): CalendarWeek => {
         const week = raw as CalendarWeek;
         return Object.assign(new CalendarWeek(), week, {
-            weekStart: toIsoDate(week.weekStart),
+            weekStart: CalendarWeekParser.toIsoDate(week.weekStart),
             entries: week.entries.map(CalendarWeekParser.parseEntry),
             publicAppointments: week.publicAppointments.map(CalendarWeekParser.parseAppointment),
             notes: week.notes.map(CalendarWeekParser.parseNote)
         });
     };
 
-    static parseEntry = (entry: CalendarEntry): CalendarEntry => Object.assign(new CalendarEntry(), entry, {
-            date: toIsoDate(entry.date),
-            startTime: toDisplayTime(entry.startTime),
-            endTime: toDisplayTime(entry.endTime),
+    static readonly parseEntry = (entry: CalendarEntry): CalendarEntry =>
+        Object.assign(new CalendarEntry(), entry, CalendarWeekParser.scheduleOf(entry), {
             treatmentTitles: entry.treatments.map(TreatmentCatalog.titleOf)
         });
 
-    static parseAppointment = (appointment: PublicAppointment): PublicAppointment => Object.assign(new PublicAppointment(), appointment, {
-            date: toIsoDate(appointment.date),
-            startTime: toDisplayTime(appointment.startTime),
-            endTime: toDisplayTime(appointment.endTime)
-        });
+    static readonly parseAppointment = (appointment: PublicAppointment): PublicAppointment =>
+        Object.assign(new PublicAppointment(), appointment, CalendarWeekParser.scheduleOf(appointment));
 
-    static parseNote = (note: CalendarNote): CalendarNote => Object.assign(new CalendarNote(), note, { date: toIsoDate(note.date) });
+    static readonly parseNote = (note: CalendarNote): CalendarNote =>
+        Object.assign(new CalendarNote(), note, { date: CalendarWeekParser.toIsoDate(note.date) });
+
+    private static readonly scheduleOf = (scheduled: { date: string; startTime: string; endTime: string }) => ({
+        date: CalendarWeekParser.toIsoDate(scheduled.date),
+        startTime: CalendarWeekParser.toDisplayTime(scheduled.startTime),
+        endTime: CalendarWeekParser.toDisplayTime(scheduled.endTime)
+    });
+
+    private static readonly toIsoDate = (serbian: string): string => CalendarDate.fromSerbian(serbian).iso;
+
+    private static readonly toDisplayTime = (time: string): string => time.substring(0, displayTimeLength);
 }

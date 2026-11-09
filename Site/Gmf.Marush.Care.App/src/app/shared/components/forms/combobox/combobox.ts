@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef,
-  ElementRef, inject, input, model, viewChild, viewChildren
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef,
+  Injector, inject, input, model, viewChild, viewChildren
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { isAction, isCancel } from '@shared/functions/keyboard-event';
@@ -29,9 +29,9 @@ export class ComboBox {
   readonly onValueChanged = input<(item: IComboBoxItem) => void>(() => { });
 
   protected readonly dropdown = new ComboBoxDropdown(
-    inject(ElementRef<HTMLElement>).nativeElement, this.options, () => this.cdr.detectChanges());
+    inject(ElementRef<HTMLElement>).nativeElement, this.options, inject(Injector));
 
-  constructor(private readonly cdr: ChangeDetectorRef) {
+  constructor() {
     inject(DestroyRef).onDestroy(this.dropdown.release);
   }
 
@@ -52,14 +52,12 @@ export class ComboBox {
   };
 
   protected readonly toggleDropdown = () => {
-    if (this.dropdown.expanded) {
+    if (this.dropdown.expanded()) {
       this.hideDropdown();
       return;
     }
 
-    this.dropdown.expand();
-    this.cdr.detectChanges();
-    this.dropdown.focusSelected(this.selectedItem()?.value);
+    this.dropdown.expand(this.selectedItem()?.value);
   };
 
   protected readonly hideDropdown = () => {
@@ -104,7 +102,7 @@ export class ComboBox {
   };
 
   private readonly dismissDropdown = (event: KeyboardEvent) => {
-    if (!this.dropdown.expanded) {
+    if (this.dropdown.hidden()) {
       return;
     }
 

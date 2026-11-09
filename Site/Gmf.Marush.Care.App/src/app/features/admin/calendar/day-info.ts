@@ -1,3 +1,4 @@
+import { Signal, computed } from '@angular/core';
 import { CalendarDate } from './calendar-date';
 import { CalendarEntry } from './calendar-entry';
 
@@ -13,6 +14,9 @@ export class DayInfo {
     readonly dailyTotal: number;
     readonly isPast: boolean;
 
+    readonly hasEarnings: Signal<boolean> = computed(() => this.dailyTotal > 0);
+    readonly earningsLabel: Signal<string> = computed(() => this.isPast ? pastEarningsLabel : expectedEarningsLabel);
+
     constructor(date: CalendarDate, entries: CalendarEntry[]) {
         this.isoDate = date.iso;
         this.dayName = date.format({ weekday: 'short' });
@@ -27,15 +31,11 @@ export class DayInfo {
         this.isPast = date.isBefore(today);
     }
 
-    get hasEarnings(): boolean {
-        return this.dailyTotal > 0;
-    }
+    readonly nameFor = (isDesktop: boolean): string => {
+        if (isDesktop) {
+            return this.fullDayName;
+        }
 
-    get earningsLabel(): string {
-        return this.isPast ? pastEarningsLabel : expectedEarningsLabel;
-    }
-
-    nameFor(isDesktop: boolean): string {
-        return isDesktop ? this.fullDayName : this.dayName;
-    }
+        return this.dayName;
+    };
 }

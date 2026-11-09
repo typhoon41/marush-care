@@ -13,8 +13,9 @@ import { TimeInterval } from '../../../time-interval';
 export class CalendarAppointmentCell {
     readonly appointment = input.required<PublicAppointment>();
 
-    protected readonly timeRange = computed(() => `${this.appointment().startTime}-${this.appointment().endTime}`);
+    private readonly interval = computed(() => TimeInterval.of(this.appointment()));
 
-    readonly positionClasses = computed(() =>
-        `public-appointment-cell ${new TimeInterval(this.appointment().startTime, this.appointment().endTime).positionClasses()}`);
+    protected readonly timeRange = computed(() => this.interval().range());
+
+    readonly positionClasses = computed(() => `public-appointment-cell ${this.interval().positionClasses()}`);
 }
