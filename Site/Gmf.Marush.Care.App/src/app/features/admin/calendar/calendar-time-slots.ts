@@ -1,36 +1,51 @@
-export const calendarStartHour = 11;
-export const calendarEndHour = 22;
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
+import { TwoDigits } from './two-digits';
 
 const slotsPerHour = 4;
 const minutesPerSlot = 15;
 const minutesPerHour = 60;
-const zeroPad = 2;
+const startHour = 11;
+const endHour = 22;
 
-export const slotsCount = (calendarEndHour - calendarStartHour) * slotsPerHour;
+/** The quarter-hour grid the calendar is laid out on, and the times it accepts. */
+export class CalendarTimeSlots {
+    static readonly count = (endHour - startHour) * slotsPerHour;
 
-export const timeToSlotIndex = (time: string): number => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return (hours - calendarStartHour) * slotsPerHour + Math.floor(minutes / minutesPerSlot);
-};
+    /** The slot index used when no slot is chosen; typed wide so signals holding it accept real indexes. */
+    static readonly unset: number = -1;
 
-export const slotIndexToTime = (slotIndex: number): string => {
-    const totalMinutes = calendarStartHour * minutesPerHour + slotIndex * minutesPerSlot;
-    const hours = Math.floor(totalMinutes / minutesPerHour);
-    const minutes = totalMinutes % minutesPerHour;
-    return `${hours.toString().padStart(zeroPad, '0')}:${minutes.toString().padStart(zeroPad, '0')}`;
-};
+    static readonly toTime = (slotIndex: number): string => {
+        const totalMinutes = startHour * minutesPerHour + slotIndex * minutesPerSlot;
+        const hours = Math.floor(totalMinutes / minutesPerHour);
+        const minutes = totalMinutes % minutesPerHour;
+        return `${TwoDigits.of(hours)}:${TwoDigits.of(minutes)}`;
+    };
 
-export const timeSlots = Array.from({ length: slotsCount }, (_, slotIndex) => ({
-    index: slotIndex,
-    time: slotIndexToTime(slotIndex),
-    label: slotIndex % slotsPerHour === 0 ? slotIndexToTime(slotIndex) : '',
-    endsHour: (slotIndex + 1) % slotsPerHour === 0
-}));
+    static readonly toSlotIndex = (time: string): number => {
+        const [hours, minutes] = time.split(':').map(Number);
+        return (hours - startHour) * slotsPerHour + Math.floor(minutes / minutesPerSlot);
+    };
 
-export const generateTimeOptions = (): { value: string; label: string }[] =>
-    Array.from({ length: slotsCount + 1 }, (_, slotIndex) => {
-        const time = slotIndexToTime(Math.min(slotIndex, slotsCount));
-        return { value: time, label: time };
-    });
+    static readonly clampToGrid = (slotIndex: number): number =>
+        Math.min(Math.max(slotIndex, 0), CalendarTimeSlots.count);
 
-export const timeOptions = generateTimeOptions();
+    static readonly findOption = (value?: string): IComboBoxItem | undefined =>
+        CalendarTimeSlots.options.find(option => option.value === value);
+
+    // One time per slot boundary, so one more than there are slots.
+    private static readonly times = Array.from({ length: CalendarTimeSlots.count + 1 },
+        (_, slotIndex) => CalendarTimeSlots.toTime(slotIndex));
+
+    private static readonly options: IComboBoxItem[] = CalendarTimeSlots.times.map(time => ({ value: time, label: time }));
+
+    static readonly all = CalendarTimeSlots.times.slice(0, CalendarTimeSlots.count).map((time, slotIndex) => ({
+        index: slotIndex,
+        time,
+        label: slotIndex % slotsPerHour === 0 ? time : '',
+        endsHour: (slotIndex + 1) % slotsPerHour === 0
+    }));
+
+    // The last slot is a valid end but never a valid start, and the first is the reverse.
+    static readonly startOptions = CalendarTimeSlots.options.slice(0, CalendarTimeSlots.count);
+    static readonly endOptions = CalendarTimeSlots.options.slice(1);
+}

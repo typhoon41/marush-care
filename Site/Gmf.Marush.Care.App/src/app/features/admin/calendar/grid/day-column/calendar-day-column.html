@@ -1,0 +1,16 @@
+@for (slot of timeSlots; track slot.index) {
+    <div class="slot-cell"
+         [class.drag-selected]="isSelected(slot.index)"
+         [class.drag-anchor]="isAnchor(slot.index)"
+         [class.hour-boundary]="slot.endsHour"
+         [attr.data-date]="isoDate()"
+         [attr.data-slot]="slot.index"
+         (pointerdown)="slotPointerDown.emit({ event: $event, slot: slot.index })">
+    </div>
+}
+@for (entry of entries(); track entry.id) {
+    <marush-calendar-entry-cell [entry]="entry" (entrySelected)="entryClick.emit($event)" />
+}
+@for (appointment of appointments(); track appointment.id) {
+    <marush-calendar-appointment-cell [appointment]="appointment" />
+}

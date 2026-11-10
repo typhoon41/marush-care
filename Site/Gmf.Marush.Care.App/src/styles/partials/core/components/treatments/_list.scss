@@ -6,6 +6,17 @@
 $panel-gap-half: math.div(variables.$expansion-panel-gap, 2);
 $panel-gap-bigger-half: math.div(variables.$expansion-panel-gap-bigger, 2);
 $treatment-gap: 6px;
+$treatment-spacing: 1px;
+$container-spacing: 20px;
+$container-indent: 3px;
+$container-indent-tablet: 12px;
+$price-gap: 10px;
+
+// Desktop switches the list to the header scale, which carries a wider tracking than the
+// treatment rows want, so they keep their own.
+%treatment-text {
+	letter-spacing: $treatment-spacing;
+}
 
 .treatment-list {
 	display: block;
@@ -29,24 +40,23 @@ $treatment-gap: 6px;
 	}
 
 	.treatment-container {
-		margin-bottom: 20px;
-		padding-left: 3px;
+		margin-bottom: $container-spacing;
+		padding-left: $container-indent;
 		gap: $treatment-gap;
 
 		@include breakpoints.apply-from-tablet() {
-			padding-left: 12px;
+			padding-left: $container-indent-tablet;
 		}
 
 		.treatment {
-			letter-spacing: 1px;
+			@extend %treatment-text;
 		}
 	}
 
 	.price {
-		display: block;
-		margin-left: 10px;
+		@extend %treatment-text;
+		margin-left: $price-gap;
 		font-weight: 400;
-		letter-spacing: 1px;
 		text-align: right;
 	}
 

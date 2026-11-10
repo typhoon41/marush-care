@@ -2,11 +2,14 @@
     <marush-input slot="body" class="notes-input" name="content" placeholder="Unesite napomene..."
                   [form]="noteForm" [big]="true" [validation]="[]" />
     <div slot="actions" class="dialog-actions">
+        @if (operation.failed()) {
+            <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
+        }
         @if (existingNoteId()) {
-            <button type="button" class="cancel-action" [disabled]="isLoading()"
+            <button type="button" class="cancel-action" [disabled]="operation.isLoading()"
                     (click)="onDelete()"><span>Obriši</span></button>
         }
         <button type="button" class="main-action"
-                [disabled]="isLoading()" (click)="onSave()"><span>Sačuvaj</span></button>
+                [disabled]="operation.isLoading()" (click)="onSave()"><span>Sačuvaj</span></button>
     </div>
 </marush-dialog>

@@ -1,11 +1,11 @@
 
-<div class="page-header" [class.without-weekly-note]="!weeklyNote()">
-    <div class="header-row">
+<div class="page-header aligned-centrally vertical-stack" [class.without-weekly-note]="hasNoWeeklyNote()">
+    <div class="header-row row aligned-centrally">
         <button class="navigation-button" type="button"
-                [class.has-note]="weeklyNote()"
+                [class.has-note]="hasWeeklyNote()"
                 (click)="onWeeklyNoteClick()">Nedeljne napomene</button>
-        <div class="week-navigation">
-            <button class="navigation-button main-action" type="button" title="Prethodna nedelja" (click)="goToPrevWeek()">
+        <div class="week-navigation row aligned-centrally">
+            <button class="navigation-button main-action" type="button" title="Prethodna nedelja" (click)="goToPreviousWeek()">
                 <span role="img" class="arrow-icon left"></span>
             </button>
             <span class="week-label">{{ weekLabel() }}</span>
@@ -15,14 +15,14 @@
             <button class="navigation-button" type="button"
                     (click)="goToThisWeek()">Ova nedelja</button>
         </div>
-        @if (weeklyTotal() > 0) {
+        @if (hasWeeklyTotal()) {
             <span class="weekly-total">
                 {{ formatMoney(weeklyTotal()) }} RSD
             </span>
         }
     </div>
-    @if (weeklyNote()) {
-        <p class="weekly-note-content">{{ weeklyNote()!.content }}</p>
+    @if (hasWeeklyNote()) {
+        <p class="weekly-note-content">{{ weeklyNoteContent() }}</p>
     }
 </div>
 

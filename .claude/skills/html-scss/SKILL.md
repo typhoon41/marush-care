@@ -247,8 +247,28 @@ Available modules and their namespaces:
 | `elements` | `@extend %element` / `@include elements.marush-control-frame()` | Form control frames |
 | `scss-solutions/src/modules/position/absolute` | `@include absolute.unset-position()` / `absolute.zero-position()` | Absolute positioning |
 
+### Never style a library-generated class
+Classes produced by scss-solutions — `.row`, `.column-N`, `.offset-N`, `.ellipsis`, `.clickable`, `.aligned-centrally` — are applied in HTML and never used as selectors in app SCSS. Targeting one couples your styles to the library's grid and breaks the moment the markup stops needing that column width.
+
+Add a class that says what the element *is* and style that instead:
+
+```html
+<!-- Right — semantic class alongside the layout one -->
+<div class="field-container column-12">…</div>
+```
+
+```scss
+// Wrong
+.notes-input .column-12 { flex: 1 1 auto; }
+
+// Right
+.notes-input .field-container { flex: 1 1 auto; }
+```
+
 ### Always use existing variables
 Never hardcode a color or spacing value that a variable already covers.
+
+Go further: check every literal against the variables already in scope. If a value is *consequentially correlated* with an existing variable — the same radius as the action buttons, the same gap as the fields, a value derived from one — use the variable so the two move together. If the value is shared between rules but has no variable yet, introduce a named one rather than repeating the literal.
 
 ### Responsive styles — always use breakpoint mixins
 Never write bare `@media` queries:
@@ -289,6 +309,8 @@ left: 0;
 - [ ] Host element class declared in decorator, styled in global partials (not in `:host`)
 - [ ] State-driven style changes (pointer-events, visibility, colour) use `[class.state-name]` + SCSS
 - [ ] `@use` imports use the module's natural name — no `as v` or other aliases
+- [ ] No library-generated class (`.row`, `.column-N`, `.ellipsis`, …) used as a selector in app SCSS
+- [ ] Literals checked against the variables in scope; correlated values use the variable, shared values get a named one
 - [ ] No hardcoded colors or spacing — use `variables.$xxx`
 - [ ] Responsive rules use `@include breakpoints.apply-from-tablet/desktop()` — no bare `@media`
 - [ ] `position: absolute` with edge values uses `@include absolute.unset-position()` or `absolute.zero-position()`

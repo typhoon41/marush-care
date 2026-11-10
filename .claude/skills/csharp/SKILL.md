@@ -31,6 +31,9 @@ All local variables and parameters use camelCase. Never `SCREAMING_SNAKE_CASE` f
 ### One file per type
 Each class, record, interface, or enum lives in its own `.cs` file named after the type. Never group multiple types in one file, even tiny helpers.
 
+### ~120 lines is a split trigger
+A `.cs` file approaching **120 lines** is a signal that it holds more than one responsibility. Split it into the abstractions it is hiding rather than letting it grow — for repositories that usually means the retrieval/modification pair below, for services a collaborator that owns one step.
+
 ### Braces required (1tbs)
 Every `if`, `for`, `foreach`, `while`, and `switch` body must have explicit `{ }` braces. Opening `{` on the same line as the keyword.
 
@@ -46,6 +49,31 @@ if (x is null) {
 ```
 
 ## Architecture
+
+### Thin controllers
+A controller binds the request, calls one service method, and maps the result to a status code. Nothing else.
+
+Never put on a controller: mapping helpers, date arithmetic, change detection between an old and a new value, decisions about which notification to send, or any multi-step orchestration. That work belongs in `Services/`, behind an `I{Aggregate}Service` contract in `Domain/Contracts/Services/`. Request-model to domain-model mapping belongs on the request model itself (`ToDomain()`), the way persistence records own theirs.
+
+```csharp
+// Wrong - the controller decides, formats and notifies
+public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request)
+{
+    var existing = await repository.GetEntryById(id);
+    if (existing is null) { return NotFound(); }
+    var timeChanged = existing.Date != request.Date || existing.StartTime != request.StartTime;
+    await repository.UpdateEntry(id, MapToDomain(id, request));
+    if (timeChanged) { await SendRescheduleEmail(existing, request); }
+    return NoContent();
+}
+
+// Right
+public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
+    await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
+```
+
+### Never notify before the unit of work commits
+`TransactionFilter` calls `SaveChangesAsync` only *after* the action returns, so anything sent from inside an action goes out whether or not the commit succeeds. Raise an integration event with `IStoreEvents.Add(...)` instead: `BaseDbContext.SaveChangesAsync` publishes those after `base.SaveChangesAsync`, so they fire only on a successful commit.
 
 ### Repository split pattern
 Every aggregate has exactly two repository interfaces in `Domain/Contracts/Repositories/`:
@@ -102,6 +130,9 @@ RuleFor(x => x.Name).NotEmpty().WithMessage("Ime je obavezno");
 
 ## Final checklist before every C# edit
 
+- [ ] Controller actions only bind, delegate and return - no mapping or orchestration
+- [ ] Emails and other outward-facing effects raised as integration events, never sent inside the action
+- [ ] No file left near or above ~120 lines without splitting it
 - [ ] No `Async` suffix on any new or renamed method (except framework overrides)
 - [ ] No abbreviations in any identifier
 - [ ] Each new type in its own file

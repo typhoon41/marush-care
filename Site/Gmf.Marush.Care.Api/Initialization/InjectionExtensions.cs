@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Gmf.Mail.Common.Injection.Modules;
+using Gmf.Marush.Care.Api.Services;
 using Gmf.Marush.Care.Infrastructure.Data;
 using Gmf.Marush.Care.Infrastructure.Injection.Modules;
 using Gmf.Net.Core.Common.Initialization.Injection;
@@ -22,6 +23,7 @@ internal static class InjectionExtensions
         _ = builder.RegisterModule<RepositoryModule>();
         _ = builder.RegisterModule(new EmailModule(true));
         _ = builder.RegisterModule<ServiceModule>();
-
+        builder.RegisterSelfLifetimeScope<AppointmentRescheduledHandler>();
+        builder.DefaultInterfaceRegistration<DomainEventsHandler>();
     }
 }

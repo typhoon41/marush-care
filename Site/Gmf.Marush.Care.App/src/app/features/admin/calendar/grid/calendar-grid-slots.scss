@@ -1,0 +1,28 @@
+@use 'variables';
+@use './calendar-grid-variables' as grid;
+
+.slot-cell {
+	box-sizing: border-box;
+	flex: none;
+	height: grid.$slot-height;
+	border-bottom: grid.$slot-border;
+	cursor: crosshair;
+	touch-action: none;
+
+	&.hour-boundary {
+		border-bottom-color: variables.$accent;
+	}
+
+	&:active {
+		background: grid.$slot-press-tint;
+	}
+
+	&.drag-selected {
+		background: grid.$drag-selected-tint;
+	}
+
+	&.drag-anchor {
+		background: variables.$accent;
+		box-shadow: inset 0 0 0 2px variables.$font-color;
+	}
+}

@@ -8,6 +8,8 @@ $header-row-height: 42px;
 $time-column-width-mobile: 25px;
 $time-column-width-tablet: 36px;
 $time-column-width: 60px;
+$day-minimum-width-mobile: 40px;
+$day-minimum-width-tablet: 80px;
 
 $day-header-font-size-mobile: 13px;
 $day-header-font-size: 14px;
@@ -16,6 +18,10 @@ $day-header-gap: 6px;
 $time-size-mobile: 10px;
 $time-size-tablet: 12px;
 $time-size: 13px;
+
+$non-working-tint: rgba(variables.$accent, .3);
+$drag-selected-tint: rgba(variables.$accent, .55);
+$slot-press-tint: rgba(variables.$accent, .35);
 
 $grid-border: 1px solid variables.$accent;
 $slot-border: 1px solid variables.$primary;

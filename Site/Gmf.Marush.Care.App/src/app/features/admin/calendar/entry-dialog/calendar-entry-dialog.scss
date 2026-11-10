@@ -1,12 +1,19 @@
 @use 'variables';
+@use '../calendar-variables' as calendar;
+
+$form-width: 480px;
+$form-vertical-padding: 20px;
+$row-gap: 4px;
+$warning-padding: 8px 12px;
+$warning-font-size: 13px;
 
 .entry-form {
 	display: flex;
 	flex-direction: column;
 	gap: variables.$field-spacing;
-	max-width: 480px;
+	max-width: $form-width;
 	margin: 0 auto;
-	padding: 20px 0;
+	padding: $form-vertical-padding 0;
 
 	> .invalid-field-message {
 		margin-top: variables.$validation-spacing - variables.$field-spacing;
@@ -17,7 +24,7 @@
 	display: flex;
 	position: relative;
 	flex-direction: column;
-	gap: 4px;
+	gap: $row-gap;
 }
 
 .time-row {
@@ -31,9 +38,9 @@
 
 .reschedule-warning {
 	margin: 0;
-	padding: 8px 12px;
-	border-radius: 4px;
+	padding: $warning-padding;
+	border-radius: calendar.$action-button-radius;
 	background: variables.$error;
 	color: variables.$error-font-color;
-	font-size: 13px;
+	font-size: $warning-font-size;
 }

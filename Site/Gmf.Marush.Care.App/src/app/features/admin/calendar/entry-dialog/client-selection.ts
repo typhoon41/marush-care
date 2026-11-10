@@ -1,8 +1,10 @@
 import { Signal, effect, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { Clients } from '../../clients/clients';
-import { EntryForm, IComboBoxItem, SearchForm, buildSearchForm } from './calendar-entry-form';
+import { EntryForm } from './entry-form';
+import { SearchForm, buildSearchForm } from './search-form';
 
 export class ClientSelection {
     readonly searchForm: SearchForm;

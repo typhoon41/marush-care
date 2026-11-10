@@ -1,16 +1,17 @@
 import { computed, signal } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { IComboBoxItem } from '@shared/components/forms/combobox/item';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
-import { buildTreatmentSearch, findTreatmentByName } from '../treatment-catalog-search';
-import { IComboBoxItem, SearchForm, buildSearchForm } from './calendar-entry-form';
+import { TreatmentCatalog } from '../treatment-catalog-search';
+import { SearchForm, buildSearchForm } from './search-form';
 
 export class TreatmentSelection {
     readonly searchForm: SearchForm;
     readonly selectedNames = signal<string[]>([]);
-    readonly search = buildTreatmentSearch(this.selectedNames);
+    readonly search = TreatmentCatalog.searchExcluding(this.selectedNames);
     readonly definitions = computed(() =>
         this.selectedNames().map(name =>
-            findTreatmentByName(name) ?? new TreatmentDefinition({ title: name, name, duration: 0, price: 0 })));
+            TreatmentCatalog.findByName(name) ?? new TreatmentDefinition({ title: name, name, duration: 0, price: 0 })));
 
     readonly priceTotal = computed(() =>
         this.definitions().reduce((sum, { price }) => sum + price, 0));

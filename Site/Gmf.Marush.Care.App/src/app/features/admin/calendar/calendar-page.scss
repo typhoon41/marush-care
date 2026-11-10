@@ -1,12 +1,19 @@
 @use 'breakpoints';
-@use 'variables' as v;
+@use 'variables';
 @use './calendar-variables' as calendar;
 
+%header-emphasis {
+	color: variables.$font-color;
+	font-size: calendar.$header-font-size;
+	font-weight: 600;
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: calendar.$header-font-size-desktop;
+	}
+}
+
 .page-header {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 8px;
+	gap: calendar.$header-gap;
 
 	&.without-weekly-note {
 		margin-bottom: calendar.$header-to-grid-gap - calendar.$page-content-gap;
@@ -14,44 +21,32 @@
 }
 
 .header-row {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
 	justify-content: center;
-	gap: 12px;
+	gap: calendar.$header-row-gap;
 }
 
 .week-navigation {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
 	justify-content: center;
-	gap: 8px;
+	gap: calendar.$header-gap;
 }
 
 .week-label {
-	min-width: 160px;
-	color: v.$font-color;
-	font-size: 15px;
-	font-weight: 600;
+	@extend %header-emphasis;
+	min-width: calendar.$week-label-width;
 	text-align: center;
-
-	@include breakpoints.apply-from-desktop() {
-		font-size: 18px;
-	}
 }
 
 .navigation-button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 8px 24px;
-	font-size: 14px;
+	padding: calendar.$navigation-padding;
+	font-size: calendar.$navigation-font-size;
 	line-height: calendar.$navigation-line-height;
 
-	&:hover {
-		background-color: v.$accent;
-		color: v.$body-color;
+	&:hover, &.has-note {
+		background-color: variables.$accent;
+		color: variables.$body-color;
 	}
 
 	.arrow-icon {
@@ -62,14 +57,9 @@
 		background-size: contain;
 	}
 
-	&.has-note {
-		background-color: v.$accent;
-		color: v.$body-color;
-	}
-
 	@include breakpoints.apply-from-desktop() {
-		padding: 12px 40px;
-		font-size: 18px;
+		padding: calendar.$navigation-padding-desktop;
+		font-size: calendar.$header-font-size-desktop;
 		line-height: calendar.$navigation-line-height-desktop;
 
 		.arrow-icon {
@@ -80,20 +70,15 @@
 }
 
 .weekly-total {
-	color: v.$font-color;
-	font-size: 14px;
-	font-weight: 600;
-	letter-spacing: .5px;
-
-	@include breakpoints.apply-from-desktop() {
-		font-size: 18px;
-	}
+	@extend %header-emphasis;
+	font-size: calendar.$navigation-font-size;
+	letter-spacing: calendar.$header-letter-spacing;
 }
 
 .weekly-note-content {
+	@extend %header-emphasis;
 	margin: 0;
-	padding: 10px;
-	color: v.$font-color;
-	font-size: 15px;
+	padding: calendar.$weekly-note-padding;
+	font-weight: 400;
 	text-align: center;
 }

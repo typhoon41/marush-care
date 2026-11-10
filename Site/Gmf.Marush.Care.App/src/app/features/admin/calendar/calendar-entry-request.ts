@@ -1,4 +1,18 @@
+import { EntryFormValue } from './entry-dialog/entry-form-value';
+
 export class CalendarEntryRequest {
+    static readonly from = (formValue: EntryFormValue, treatments: string[]): CalendarEntryRequest =>
+        Object.assign(new CalendarEntryRequest(), {
+            date: formValue.date,
+            startTime: formValue.startTime,
+            endTime: formValue.endTime,
+            customerId: formValue.customerId || undefined,
+            appointmentId: formValue.appointmentId || undefined,
+            notes: formValue.notes || undefined,
+            money: formValue.money ?? undefined,
+            treatments
+        });
+
     date: string = '';
     startTime: string = '';
     endTime: string = '';

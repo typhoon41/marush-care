@@ -6,7 +6,7 @@ import { lastValueFrom } from 'rxjs';
 import { CalendarEntryRequest } from './calendar-entry-request';
 import { CalendarNoteRequest } from './calendar-note-request';
 import { CalendarWeek } from './calendar-week';
-import { parseCalendarWeek } from './calendar-week-parser';
+import { CalendarWeekParser } from './calendar-week-parser';
 
 @Injectable({ providedIn: 'root' })
 export class Calendar {
@@ -19,7 +19,7 @@ export class Calendar {
         method: 'GET',
         params: { weekStart: weekStart() },
         headers: this.headers()
-    }), { parse: parseCalendarWeek });
+    }), { parse: CalendarWeekParser.parse });
 
     readonly createEntry = (request: CalendarEntryRequest) =>
         lastValueFrom(this.http.post<void>(`${Calendar.endpoint}/entry`, request, { headers: this.headers() }));
