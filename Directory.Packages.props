@@ -3,7 +3,7 @@
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
         <AspireVersion>13.4.6</AspireVersion>
-        <DotnetVersion>10.0.10</DotnetVersion>
+        <DotnetVersion>10.0.14</DotnetVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
@@ -37,6 +37,8 @@
         <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
 		<!-- Try removing packages below this line next time you upgrade packages. Pinned here only due to security issues, but not needed -->
         <PackageVersion Include="OpenTelemetry.Api" Version="1.15.3" />        
+        <PackageVersion Include="MessagePack" Version="2.5.307" />
+        <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="$(DotnetVersion)" />
 		<PackageVersion Include="System.Security.Cryptography.Xml" Version="$(DotnetVersion)" />
     </ItemGroup>
 </Project>
