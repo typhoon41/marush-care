@@ -14,12 +14,6 @@
 	}
 }
 
-.calendar-grid.is-dragging {
-	.entry-cell, .public-appointment-cell {
-		pointer-events: none;
-	}
-}
-
 .calendar-header {
 	display: flex;
 	flex-shrink: 0;
@@ -61,5 +55,27 @@
 
 	@include breakpoints.apply-from-desktop() {
 		width: grid.$time-column-width;
+	}
+}
+
+.time-label {
+	display: flex;
+	box-sizing: border-box;
+	flex: none;
+	align-items: flex-start;
+	justify-content: flex-end;
+	height: grid.$slot-height;
+	padding: 2px 4px 0;
+	opacity: .55;
+	color: variables.$font-color;
+	font-size: 9px;
+
+	@include breakpoints.apply-from-tablet() {
+		padding: 2px 6px 0;
+		font-size: 12px;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		font-size: 13px;
 	}
 }
