@@ -155,7 +155,7 @@ Use `model<T>()` only when the parent needs two-way binding.
 })
 ```
 
-Style the host class in the **global partials tree** under `src/styles/partials/`, not in the component's own stylesheet.
+Style the host class in the stylesheet of the **component whose template renders the element** — the host carries that parent's encapsulation attribute, so the parent's styles match it and stay in its lazy bundle. Only routed page components, which have no parent template, are styled in the global partials under `src/styles/partials/`. Never in the component's own stylesheet.
 
 ### Braces required (1tbs)
 Every `if`, `for`, `while`, `switch` body must have explicit `{ }` braces. Opening `{` on the same line as the keyword; the body and closing `}` each on their own line. Never write the body on the same line as the braces.
@@ -326,7 +326,7 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] Component is standalone with `ChangeDetectionStrategy.OnPush`
 - [ ] Inputs use `input()` / `input.required()` — no `@Input()` decorators
 - [ ] Templates use `@if` / `@for` — no `*ngIf` / `*ngFor`
-- [ ] No `:host` in stylesheets — host class declared in decorator, styled in global partials
+- [ ] No `:host` in stylesheets — host class declared in decorator, styled by the stylesheet of the template that renders it (global partials only for routed pages)
 - [ ] State uses signals (`signal`, `computed`, `linkedSignal`, `effect`) — no NgRx
 - [ ] Data reads use `httpResource()`, mutations use `lastValueFrom()`
 - [ ] Programmatic navigation goes through `RoutingDefinition`
