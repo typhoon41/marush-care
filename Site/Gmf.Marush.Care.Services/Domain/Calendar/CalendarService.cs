@@ -19,19 +19,33 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
             await retrievalRepository.GetNotesForWeek(monday));
     }
 
-    public async Task CreateEntry(CalendarEntry entry) => await modificationRepository.AddEntry(entry);
+    public async Task<CalendarEntrySaveOutcome> CreateEntry(CalendarEntry entry)
+    {
+        if (await OverlapsExistingEntry(entry))
+        {
+            return CalendarEntrySaveOutcome.Overlapping;
+        }
 
-    public async Task<bool> UpdateEntry(Guid id, CalendarEntry entry)
+        await modificationRepository.AddEntry(entry);
+        return CalendarEntrySaveOutcome.Saved;
+    }
+
+    public async Task<CalendarEntrySaveOutcome> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var existing = await retrievalRepository.GetEntryById(id);
         if (existing is null)
         {
-            return false;
+            return CalendarEntrySaveOutcome.NotFound;
+        }
+
+        if (await OverlapsExistingEntry(entry))
+        {
+            return CalendarEntrySaveOutcome.Overlapping;
         }
 
         await modificationRepository.UpdateEntry(id, entry);
         await AnnounceRescheduling(existing, entry);
-        return true;
+        return CalendarEntrySaveOutcome.Saved;
     }
 
     public async Task<bool> DeleteEntry(Guid id) => await modificationRepository.DeleteEntry(id);
@@ -39,6 +53,11 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
     public async Task UpsertNote(CalendarNote note) => await modificationRepository.UpsertNote(note);
 
     public async Task<bool> DeleteNote(Guid id) => await modificationRepository.DeleteNote(id);
+
+    // The entry being saved is excluded, so an update never conflicts with its own stored period.
+    private async Task<bool> OverlapsExistingEntry(CalendarEntry entry) =>
+        (await retrievalRepository.GetEntriesOn(entry.Date))
+            .Any(other => other.Id != entry.Id && other.Period.Overlaps(entry.Period));
 
     private async Task AnnounceRescheduling(CalendarEntry existing, CalendarEntry updated)
     {

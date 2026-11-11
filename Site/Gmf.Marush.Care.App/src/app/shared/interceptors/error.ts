@@ -13,6 +13,11 @@ export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Obser
     loader.startLoading();
     return next(request).pipe(finalize(() => loader.stopLoading()),
         catchError(async(errorFound: HttpErrorResponse) => {
+            // A conflict is a rejection the caller explains to the user, so it reaches the caller as is.
+            if (errorFound.status === HttpStatusCode.Conflict) {
+                throw errorFound;
+            }
+
             if (errorFound.status === HttpStatusCode.Unauthorized) {
                 authentication.logout();
                 await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.unauthorized:nemate-pristup`)]);

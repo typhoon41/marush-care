@@ -5,7 +5,6 @@
 
 // The entry and public appointment cells are rendered by the day column's template, so their host
 // elements are placed on the column from the column's own stylesheet.
-
 .grid-entry-placeholder {
 	@include absolute.unset-position(unset, 2px, unset, 2px);
 	z-index: 2;

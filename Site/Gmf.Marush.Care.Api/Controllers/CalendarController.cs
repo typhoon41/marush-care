@@ -1,5 +1,6 @@
 using Gmf.Marush.Care.Api.Models.Calendar;
 using Gmf.Marush.Care.Domain.Contracts.Services;
+using Gmf.Marush.Care.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,19 +23,30 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request)
-    {
-        await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()));
-        return Created();
-    }
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request) =>
+        (await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()))) switch
+        {
+            CalendarEntrySaveOutcome.Saved => Created(),
+            CalendarEntrySaveOutcome.NotFound => NotFound(),
+            CalendarEntrySaveOutcome.Overlapping => Conflict(),
+            _ => throw new InvalidOperationException("Nepoznat ishod čuvanja termina.")
+        };
 
     [HttpPut("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
-        await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
+        (await calendarService.UpdateEntry(id, request.ToDomain(id))) switch
+        {
+            CalendarEntrySaveOutcome.Saved => NoContent(),
+            CalendarEntrySaveOutcome.NotFound => NotFound(),
+            CalendarEntrySaveOutcome.Overlapping => Conflict(),
+            _ => throw new InvalidOperationException("Nepoznat ishod čuvanja termina.")
+        };
 
     [HttpDelete("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

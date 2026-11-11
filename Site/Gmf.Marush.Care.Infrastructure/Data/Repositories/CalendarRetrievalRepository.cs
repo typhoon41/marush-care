@@ -29,6 +29,15 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
         return dtos.Select(entry => entry.ToDomain());
     }
 
+    public async Task<IEnumerable<CalendarEntry>> GetEntriesOn(DateOnly day)
+    {
+        var range = new CalendarDayRange(day);
+        var dtos = await EntriesWithDetails
+            .Where(entry => entry.Appointment.ScheduledFor >= range.Start && entry.Appointment.ScheduledFor <= range.End)
+            .ToListAsync();
+        return dtos.Select(entry => entry.ToDomain());
+    }
+
     public async Task<CalendarEntry?> GetEntryById(Guid id)
     {
         var dto = await EntriesWithDetails.SingleOrDefaultAsync(entry => entry.Id == id);

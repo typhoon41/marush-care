@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
@@ -37,7 +38,10 @@ export class CalendarEntryDialog {
     protected readonly entryForm = new EntryDialogForm(
         inject(NonNullableFormBuilder), inject(Clients), this.editingEntry);
 
+    protected readonly overlapRejected = signal(false);
+
     readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
+        this.overlapRejected.set(false);
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
         this.operation.reset();
@@ -45,6 +49,7 @@ export class CalendarEntryDialog {
     };
 
     protected readonly onSave = async() => {
+        this.overlapRejected.set(false);
         if (this.entryForm.acceptsSave() && await this.operation.run(this.persist)) {
             this.saved.emit();
         }
@@ -57,9 +62,14 @@ export class CalendarEntryDialog {
         }
     };
 
-    private readonly persist = (): Promise<void> => {
+    private readonly persist = async(): Promise<void> => {
         const request = this.entryForm.toRequest();
         const entry = this.editingEntry();
-        return entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request);
+        try {
+            await (entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request));
+        } catch(rejection) {
+            this.overlapRejected.set(rejection instanceof HttpErrorResponse && rejection.status === HttpStatusCode.Conflict);
+            throw rejection;
+        }
     };
 }
