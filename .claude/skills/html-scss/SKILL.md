@@ -234,17 +234,23 @@ $slot-border: 1px solid variables.$primary;
 
 ## SCSS module conventions
 
-### Module imports — no aliases
-Use `@use` with the module's natural name. Never shorten with `as`:
+### Module imports — aliases are full words
+Use `@use` with the module's natural name when it reads well. An alias (`as`) is allowed when it is a full word that names the module's role — typically to drop a long feature prefix. Abbreviated aliases stay banned, as every abbreviation is:
 
 ```scss
-// Wrong
+// Wrong — an abbreviation
 @use 'variables' as v;  // then: v.$font-color
 
-// Right
+// Right — natural names
 @use 'variables';       // then: variables.$font-color
 @use 'breakpoints';     // then: @include breakpoints.apply-from-tablet()
+
+// Right — a full-word alias for a long module name
+@use './calendar-grid-variables' as grid;   // then: grid.$slot-height
+@use '../calendar-variables' as calendar;   // then: calendar.$action-icon-size
 ```
+
+Use the same alias for a module everywhere it is imported.
 
 Available modules and their namespaces:
 
@@ -317,7 +323,7 @@ left: 0;
 - [ ] No unnecessary div wrappers — consider using the host element or merging into an existing parent
 - [ ] Host element class declared in decorator, styled in the stylesheet of the template that renders it — global partials only for routed pages — never in `:host`
 - [ ] State-driven style changes (pointer-events, visibility, colour) use `[class.state-name]` + SCSS
-- [ ] `@use` imports use the module's natural name — no `as v` or other aliases
+- [ ] `@use` imports use the module's natural name or a full-word alias (`as grid`) — never an abbreviation (`as v`)
 - [ ] No library-generated class (`.row`, `.column-N`, `.ellipsis`, …) used as a selector in app SCSS
 - [ ] Literals checked against the variables in scope; correlated values use the variable, shared values get a named one
 - [ ] No hardcoded colors or spacing — use `variables.$xxx`
