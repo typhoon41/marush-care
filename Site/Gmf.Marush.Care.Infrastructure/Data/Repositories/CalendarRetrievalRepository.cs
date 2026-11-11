@@ -3,6 +3,7 @@ using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Repositories;
@@ -29,14 +30,25 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
         return dtos.Select(entry => entry.ToDomain());
     }
 
-    public async Task<IEnumerable<CalendarEntry>> GetEntriesOn(DateOnly day)
+    // Occupied by anything the calendar draws: an entry, or an online request that has no entry yet.
+    // Back-to-back periods do not count, and neither does the appointment the caller is saving.
+    public async Task<bool> IsOccupied(CalendarPeriod period, Guid? ownAppointmentId)
     {
-        var range = new CalendarDayRange(day);
-        var dtos = await EntriesWithDetails
-            .Where(entry => entry.Appointment.ScheduledFor >= range.Start && entry.Appointment.ScheduledFor <= range.End)
-            .ToListAsync();
-        return dtos.Select(entry => entry.ToDomain());
+        var start = new DateTimeOffset(period.Date.ToDateTime(period.StartTime), TimeSpan.Zero);
+        var end = new DateTimeOffset(period.Date.ToDateTime(period.EndTime), TimeSpan.Zero);
+        return await context.Set<AppointmentDto>()
+            .AsNoTracking()
+            .Where(appointment => appointment.Id != ownAppointmentId && appointment.ScheduledFor < end
+                                  && (appointment.ExpectedEndTime ?? appointment.ScheduledFor.AddHours(1)) > start)
+            .AnyAsync(appointment => _entries.Any(entry => entry.AppointmentId == appointment.Id)
+                                     || StatusesVisibleInCalendar.Contains(appointment.Status.Id));
     }
+
+    public async Task<bool> AppointmentExists(Guid appointmentId) =>
+        await context.Set<AppointmentDto>().AnyAsync(appointment => appointment.Id == appointmentId);
+
+    public async Task<bool> CustomerExists(Guid customerId) =>
+        await context.Set<CustomerDto>().AnyAsync(customer => customer.Id == customerId);
 
     public async Task<CalendarEntry?> GetEntryById(Guid id)
     {

@@ -21,7 +21,16 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
 
     public async Task<CalendarEntrySaveOutcome> CreateEntry(CalendarEntry entry)
     {
-        if (await OverlapsExistingEntry(entry))
+        // An entry is created from an online request, or for a chosen customer when there is none.
+        var sourceExists = entry.AppointmentId.HasValue
+            ? await retrievalRepository.AppointmentExists(entry.AppointmentId.Value)
+            : await retrievalRepository.CustomerExists(entry.CustomerId);
+        if (!sourceExists)
+        {
+            return CalendarEntrySaveOutcome.NotFound;
+        }
+
+        if (await retrievalRepository.IsOccupied(entry.Period, entry.AppointmentId))
         {
             return CalendarEntrySaveOutcome.Overlapping;
         }
@@ -33,12 +42,14 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
     public async Task<CalendarEntrySaveOutcome> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var existing = await retrievalRepository.GetEntryById(id);
-        if (existing is null)
+        var customerMissing = entry.CustomerId != Guid.Empty && !await retrievalRepository.CustomerExists(entry.CustomerId);
+        if (existing is null || customerMissing)
         {
             return CalendarEntrySaveOutcome.NotFound;
         }
 
-        if (await OverlapsExistingEntry(entry))
+        // Only a move is checked, so entries that already overlap stay editable in every other way.
+        if (existing.Period != entry.Period && await retrievalRepository.IsOccupied(entry.Period, existing.AppointmentId))
         {
             return CalendarEntrySaveOutcome.Overlapping;
         }
@@ -53,11 +64,6 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
     public async Task UpsertNote(CalendarNote note) => await modificationRepository.UpsertNote(note);
 
     public async Task<bool> DeleteNote(Guid id) => await modificationRepository.DeleteNote(id);
-
-    // The entry being saved is excluded, so an update never conflicts with its own stored period.
-    private async Task<bool> OverlapsExistingEntry(CalendarEntry entry) =>
-        (await retrievalRepository.GetEntriesOn(entry.Date))
-            .Any(other => other.Id != entry.Id && other.Period.Overlaps(entry.Period));
 
     private async Task AnnounceRescheduling(CalendarEntry existing, CalendarEntry updated)
     {

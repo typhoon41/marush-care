@@ -23,15 +23,10 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request) =>
-        (await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()))) switch
-        {
-            CalendarEntrySaveOutcome.Saved => Created(),
-            CalendarEntrySaveOutcome.NotFound => NotFound(),
-            CalendarEntrySaveOutcome.Overlapping => Conflict(),
-            _ => throw new InvalidOperationException("Nepoznat ishod čuvanja termina.")
-        };
+        (await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()))).ToActionResult(Created());
 
     [HttpPut("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -40,13 +35,7 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
-        (await calendarService.UpdateEntry(id, request.ToDomain(id))) switch
-        {
-            CalendarEntrySaveOutcome.Saved => NoContent(),
-            CalendarEntrySaveOutcome.NotFound => NotFound(),
-            CalendarEntrySaveOutcome.Overlapping => Conflict(),
-            _ => throw new InvalidOperationException("Nepoznat ishod čuvanja termina.")
-        };
+        (await calendarService.UpdateEntry(id, request.ToDomain(id))).ToActionResult(NoContent());
 
     [HttpDelete("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
