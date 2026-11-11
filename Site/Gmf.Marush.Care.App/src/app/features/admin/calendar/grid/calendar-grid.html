@@ -1,5 +1,4 @@
 <div #gridElement class="calendar-grid"
-     [class.is-dragging]="drag.isActive()"
      (pointermove)="onPointerMove($event)"
      (pointerup)="onPointerUp()"
      (pointercancel)="drag.cancel()">
@@ -29,6 +28,7 @@
                 [entries]="entriesOn(day.isoDate)"
                 [appointments]="appointmentsOn(day.isoDate)"
                 [nonWorking]="isNonWorkingDay(day.isoDate)"
+                [isDragging]="drag.isActive()"
                 [selectedSlots]="drag.selectedSlotsOn(day.isoDate)"
                 [anchorSlot]="drag.anchorSlotOn(day.isoDate)"
                 (slotPointerDown)="onSlotPointerDown(day.isoDate, $event)"
