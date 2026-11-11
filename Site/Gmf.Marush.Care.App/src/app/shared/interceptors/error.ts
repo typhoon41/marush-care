@@ -5,6 +5,7 @@ import { RoutingDefinition } from '@shared/routes/routes';
 import { Authentication } from '@shared/services/authentication';
 import { GlobalLoader } from '@shared/services/global-loader';
 import { Observable, catchError, finalize } from 'rxjs';
+import { callerHandledStatuses } from './caller-handled-statuses';
 
 export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const router = inject(Router);
@@ -13,8 +14,7 @@ export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Obser
     loader.startLoading();
     return next(request).pipe(finalize(() => loader.stopLoading()),
         catchError(async(errorFound: HttpErrorResponse) => {
-            // A conflict is a rejection the caller explains to the user, so it reaches the caller as is.
-            if (errorFound.status === HttpStatusCode.Conflict) {
+            if (request.context.get(callerHandledStatuses).includes(errorFound.status)) {
                 throw errorFound;
             }
 

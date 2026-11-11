@@ -1,5 +1,6 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { DialogOperation } from '@shared/components/dialog/dialog-operation';
@@ -38,10 +39,14 @@ export class CalendarEntryDialog {
     protected readonly entryForm = new EntryDialogForm(
         inject(NonNullableFormBuilder), inject(Clients), this.editingEntry);
 
-    protected readonly overlapRejected = signal(false);
+    protected readonly overlapRejected = computed(() => this.operation.failureStatus() === HttpStatusCode.Conflict);
+
+    constructor() {
+        // A failure message describes the values that were sent, so it goes once they are edited.
+        this.entryForm.group.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => this.operation.reset());
+    }
 
     readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
-        this.overlapRejected.set(false);
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
         this.operation.reset();
@@ -49,7 +54,6 @@ export class CalendarEntryDialog {
     };
 
     protected readonly onSave = async() => {
-        this.overlapRejected.set(false);
         if (this.entryForm.acceptsSave() && await this.operation.run(this.persist)) {
             this.saved.emit();
         }
@@ -62,14 +66,9 @@ export class CalendarEntryDialog {
         }
     };
 
-    private readonly persist = async(): Promise<void> => {
+    private readonly persist = (): Promise<void> => {
         const request = this.entryForm.toRequest();
         const entry = this.editingEntry();
-        try {
-            await (entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request));
-        } catch(rejection) {
-            this.overlapRejected.set(rejection instanceof HttpErrorResponse && rejection.status === HttpStatusCode.Conflict);
-            throw rejection;
-        }
+        return entry ? this.calendarService.updateEntry(entry.id, request) : this.calendarService.createEntry(request);
     };
 }
