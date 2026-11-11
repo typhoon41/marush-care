@@ -29,6 +29,9 @@ export class CalendarEntryDialog {
     readonly saved = output<void>();
     readonly deleted = output<void>();
 
+    /** A save was rejected because the time is taken, so the week on screen is out of date. */
+    readonly conflicted = output<void>();
+
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
 
@@ -54,8 +57,14 @@ export class CalendarEntryDialog {
     };
 
     protected readonly onSave = async() => {
-        if (this.entryForm.acceptsSave() && await this.operation.run(this.persist)) {
+        if (!this.entryForm.acceptsSave()) {
+            return;
+        }
+
+        if (await this.operation.run(this.persist)) {
             this.saved.emit();
+        } else if (this.overlapRejected()) {
+            this.conflicted.emit();
         }
     };
 

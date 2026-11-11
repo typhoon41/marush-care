@@ -95,7 +95,7 @@ export class CalendarPage {
         this.weekData.reload();
     };
 
-    protected readonly onSaved = () => {
+    protected readonly reloadWeek = () => {
         this.weekData.reload();
     };
 }

@@ -37,8 +37,9 @@
     (nonWorkingDayToggle)="onNonWorkingDayToggle($event)" />
 
 <marush-calendar-entry-dialog
-    (saved)="onSaved()"
-    (deleted)="onSaved()" />
+    (saved)="reloadWeek()"
+    (deleted)="reloadWeek()"
+    (conflicted)="reloadWeek()" />
 
 <marush-calendar-notes-dialog
-    (saved)="onSaved()" />
+    (saved)="reloadWeek()" />
