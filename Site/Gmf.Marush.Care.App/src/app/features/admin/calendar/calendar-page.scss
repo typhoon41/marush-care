@@ -82,3 +82,9 @@
 	font-weight: 400;
 	text-align: center;
 }
+
+// The grid host is rendered by this page's template. It scrolls sideways when the week is wider than the page.
+.calendar-grid-container {
+	display: block;
+	overflow-x: auto;
+}
