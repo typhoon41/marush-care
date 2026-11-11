@@ -28,7 +28,14 @@ export class SlotDrag {
         this.currentSlot.set(slot);
     };
 
-    readonly moveTo = (slot: number) => this.currentSlot.set(slot);
+    /** A slot of another day column is ignored, so the selection stays at the last slot reached in the anchor day. */
+    readonly moveTo = (date: string, slot: number) => {
+        if (date !== this.anchorDate()) {
+            return;
+        }
+
+        this.currentSlot.set(slot);
+    };
 
     readonly cancel = () => {
         this.anchorDate.set(null);
