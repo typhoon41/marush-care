@@ -68,10 +68,9 @@ export class CalendarGrid {
         }
 
         const element = document.elementFromPoint(event.clientX, event.clientY);
-        const date = element?.getAttribute('data-date');
         const slotIndex = element?.getAttribute('data-slot');
-        if (date && slotIndex) {
-            this.drag.moveTo(date, parseInt(slotIndex, 10));
+        if (slotIndex !== null && slotIndex !== undefined) {
+            this.drag.moveTo(parseInt(slotIndex, 10));
         }
     };
 
