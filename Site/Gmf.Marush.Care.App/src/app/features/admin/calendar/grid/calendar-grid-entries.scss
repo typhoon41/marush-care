@@ -1,27 +1,26 @@
+@use 'buttons';
 @use 'variables';
-@use './calendar-grid-entry-box' as entry-box;
+@use './calendar-grid-entry-box';
 
-// Only what the cell components render themselves. Their host elements carry the position on the
-// grid, and a component stylesheet cannot reach its own host, so that part lives in the global
-// partial styles/partials/core/components/pages/admin/calendar/_grid-entries.scss.
+// Only what the cell components render themselves. Their host elements are placed on the day column
+// by the day column's own stylesheet, calendar-grid-entry-placement.scss.
 
 %entry-content {
 	line-height: 1.2;
 }
 
+// The cell is a button for keyboard access but reads as a calendar block, not a call to action.
 .entry-cell {
-	@include entry-box.appearance();
-	@include entry-box.text-size();
+	@include buttons.plain-button();
+	@include calendar-grid-entry-box.appearance();
 	background: variables.$accent;
 	color: variables.$font-color;
-	// The cell is a button for keyboard access but reads as a calendar block, not a call to action.
-	letter-spacing: normal;
-	text-align: left;
-	text-transform: none;
 
 	&:hover {
 		opacity: .9;
 	}
+
+	@include calendar-grid-entry-box.text-size();
 }
 
 .entry-time {

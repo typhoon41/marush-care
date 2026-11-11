@@ -68,14 +68,14 @@
 	padding: 2px 4px 0;
 	opacity: .55;
 	color: variables.$font-color;
-	font-size: 9px;
+	font-size: grid.$time-label-size-mobile;
 
 	@include breakpoints.apply-from-tablet() {
 		padding: 2px 6px 0;
-		font-size: 12px;
+		font-size: grid.$time-size-tablet;
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		font-size: 13px;
+		font-size: grid.$time-size;
 	}
 }
