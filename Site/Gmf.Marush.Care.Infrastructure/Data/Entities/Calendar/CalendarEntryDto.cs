@@ -16,9 +16,7 @@ public record CalendarEntryDto : EntityDto
         Appointment.CustomerId,
         DateOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
         TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
-        Appointment.ExpectedEndTime.HasValue
-            ? TimeOnly.FromDateTime(Appointment.ExpectedEndTime.Value.DateTime)
-            : TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime).AddHours(1),
+        TimeOnly.FromDateTime(CalendarSchedule.EndOf(Appointment).DateTime),
         string.IsNullOrWhiteSpace(Appointment.Description) ? null : Appointment.Description,
         Money,
         [.. Treatments.Select(treatment => treatment.Name)],

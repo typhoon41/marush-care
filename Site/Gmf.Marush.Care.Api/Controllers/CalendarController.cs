@@ -1,6 +1,5 @@
 using Gmf.Marush.Care.Api.Models.Calendar;
 using Gmf.Marush.Care.Domain.Contracts.Services;
-using Gmf.Marush.Care.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

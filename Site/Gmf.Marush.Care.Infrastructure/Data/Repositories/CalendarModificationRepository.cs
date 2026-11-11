@@ -13,12 +13,17 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
     private readonly DbSet<CalendarEntryDto> _entries = context.Set<CalendarEntryDto>();
     private readonly DbSet<CalendarNoteDto> _notes = context.Set<CalendarNoteDto>();
 
-    public async Task AddEntry(CalendarEntry entry)
+    // False when the online request or the customer the entry is for does not exist; nothing is changed then.
+    public async Task<bool> AddEntry(CalendarEntry entry)
     {
         var appointment = entry.AppointmentId.HasValue
             ? await context.Set<AppointmentDto>().FindAsync(entry.AppointmentId.Value)
-                ?? throw new InvalidOperationException("Appointment not found.")
             : await CreateAppointment(entry);
+        if (appointment is null)
+        {
+            return false;
+        }
+
         ApplySchedule(appointment, entry);
         if (!string.IsNullOrWhiteSpace(entry.Notes))
         {
@@ -34,21 +39,26 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
         AddTreatments(dto, entry.Treatments);
 
         _ = await _entries.AddAsync(dto);
+        return true;
     }
 
-    public async Task UpdateEntry(Guid id, CalendarEntry entry)
+    // False when the entry or its new customer does not exist; nothing is changed then.
+    public async Task<bool> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var dto = await _entries
             .Include(existing => existing.Appointment)
             .Include(existing => existing.Treatments)
-            .SingleOrDefaultAsync(existing => existing.Id == id)
-            ?? throw new InvalidOperationException($"Calendar entry {id} not found.");
+            .SingleOrDefaultAsync(existing => existing.Id == id);
+        if (dto is null || !await ReassignCustomer(dto.Appointment, entry.CustomerId))
+        {
+            return false;
+        }
 
-        await ReassignCustomer(dto.Appointment, entry.CustomerId);
         ApplySchedule(dto.Appointment, entry);
         dto.Appointment.Description = entry.Notes ?? string.Empty;
         dto.Money = entry.Money;
         UpdateTreatments(dto, entry);
+        return true;
     }
 
     public async Task<bool> DeleteEntry(Guid id)
@@ -112,9 +122,14 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
     }
 
     // The caller applies the schedule, as it does for an appointment that already exists.
-    private async Task<AppointmentDto> CreateAppointment(CalendarEntry entry)
+    private async Task<AppointmentDto?> CreateAppointment(CalendarEntry entry)
     {
         var customer = await FindCustomer(entry.CustomerId);
+        if (customer is null)
+        {
+            return null;
+        }
+
         var approvedStatus = await context.Set<AppointmentStatusDto>().FindAsync(AppointmentStatus.Approved.Value)
             ?? throw new InvalidOperationException("Appointment status not found.");
 
@@ -129,22 +144,28 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
         return appointment;
     }
 
-    private async Task ReassignCustomer(AppointmentDto appointment, Guid customerId)
+    private async Task<bool> ReassignCustomer(AppointmentDto appointment, Guid customerId)
     {
         if (customerId == Guid.Empty || customerId == appointment.CustomerId)
         {
-            return;
+            return true;
         }
 
-        AssignCustomer(appointment, await FindCustomer(customerId));
+        var customer = await FindCustomer(customerId);
+        if (customer is null)
+        {
+            return false;
+        }
+
+        AssignCustomer(appointment, customer);
+        return true;
     }
 
-    private async Task<CustomerDto> FindCustomer(Guid customerId) =>
+    private async Task<CustomerDto?> FindCustomer(Guid customerId) =>
         await context.Set<CustomerDto>()
             .Include(customer => customer.Phones)
             .Include(customer => customer.Emails)
-            .SingleOrDefaultAsync(customer => customer.Id == customerId)
-            ?? throw new InvalidOperationException("Customer not found.");
+            .SingleOrDefaultAsync(customer => customer.Id == customerId);
 
     private static void AssignCustomer(AppointmentDto appointment, CustomerDto customer)
     {
@@ -160,7 +181,7 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
 
     private static void ApplySchedule(AppointmentDto appointment, CalendarEntry entry)
     {
-        appointment.ScheduledFor = new DateTimeOffset(entry.Date.ToDateTime(entry.StartTime), TimeSpan.Zero);
-        appointment.ExpectedEndTime = new DateTimeOffset(entry.Date.ToDateTime(entry.EndTime), TimeSpan.Zero);
+        appointment.ScheduledFor = CalendarSchedule.At(entry.Date, entry.StartTime);
+        appointment.ExpectedEndTime = CalendarSchedule.At(entry.Date, entry.EndTime);
     }
 }

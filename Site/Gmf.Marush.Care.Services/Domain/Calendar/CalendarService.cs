@@ -21,29 +21,18 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
 
     public async Task<CalendarEntrySaveOutcome> CreateEntry(CalendarEntry entry)
     {
-        // An entry is created from an online request, or for a chosen customer when there is none.
-        var sourceExists = entry.AppointmentId.HasValue
-            ? await retrievalRepository.AppointmentExists(entry.AppointmentId.Value)
-            : await retrievalRepository.CustomerExists(entry.CustomerId);
-        if (!sourceExists)
-        {
-            return CalendarEntrySaveOutcome.NotFound;
-        }
-
         if (await retrievalRepository.IsOccupied(entry.Period, entry.AppointmentId))
         {
             return CalendarEntrySaveOutcome.Overlapping;
         }
 
-        await modificationRepository.AddEntry(entry);
-        return CalendarEntrySaveOutcome.Saved;
+        return await modificationRepository.AddEntry(entry) ? CalendarEntrySaveOutcome.Saved : CalendarEntrySaveOutcome.NotFound;
     }
 
     public async Task<CalendarEntrySaveOutcome> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var existing = await retrievalRepository.GetEntryById(id);
-        var customerMissing = entry.CustomerId != Guid.Empty && !await retrievalRepository.CustomerExists(entry.CustomerId);
-        if (existing is null || customerMissing)
+        if (existing is null)
         {
             return CalendarEntrySaveOutcome.NotFound;
         }
@@ -54,7 +43,11 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
             return CalendarEntrySaveOutcome.Overlapping;
         }
 
-        await modificationRepository.UpdateEntry(id, entry);
+        if (!await modificationRepository.UpdateEntry(id, entry))
+        {
+            return CalendarEntrySaveOutcome.NotFound;
+        }
+
         await AnnounceRescheduling(existing, entry);
         return CalendarEntrySaveOutcome.Saved;
     }
