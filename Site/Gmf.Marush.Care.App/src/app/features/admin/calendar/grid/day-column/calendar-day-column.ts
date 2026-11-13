@@ -24,6 +24,7 @@ export class CalendarDayColumn {
 
     readonly slotPointerDown = output<{ event: PointerEvent; slot: number }>();
     readonly entryClick = output<CalendarEntry>();
+    readonly appointmentClick = output<PublicAppointment>();
 
     protected readonly timeSlots = CalendarTimeSlots.all;
 

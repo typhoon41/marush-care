@@ -12,5 +12,6 @@
     <marush-calendar-entry-cell [entry]="entry" [class.is-passive]="isDragging()" (entrySelected)="entryClick.emit($event)" />
 }
 @for (appointment of appointments(); track appointment.id) {
-    <marush-calendar-appointment-cell [appointment]="appointment" [class.is-passive]="isDragging()" />
+    <marush-calendar-appointment-cell [appointment]="appointment" [class.is-passive]="isDragging()"
+                                      (appointmentSelected)="appointmentClick.emit($event)" />
 }

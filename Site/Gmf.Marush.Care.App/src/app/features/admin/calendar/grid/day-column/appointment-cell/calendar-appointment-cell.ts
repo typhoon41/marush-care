@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { PublicAppointment } from '../../../public-appointment';
 import { TimeInterval } from '../../../time-interval';
 
@@ -12,10 +12,12 @@ import { TimeInterval } from '../../../time-interval';
 })
 export class CalendarAppointmentCell {
     readonly appointment = input.required<PublicAppointment>();
+    readonly appointmentSelected = output<PublicAppointment>();
 
     private readonly interval = computed(() => TimeInterval.of(this.appointment()));
 
     protected readonly timeRange = computed(() => this.interval().range());
+    protected readonly tooltip = computed(() => `Onlajn zahtev: ${this.appointment().clientName}`);
 
-    readonly positionClasses = computed(() => `grid-entry-placeholder public-appointment-cell ${this.interval().positionClasses()}`);
+    readonly positionClasses = computed(() => `grid-entry-placeholder ${this.interval().positionClasses()}`);
 }

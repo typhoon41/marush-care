@@ -13,6 +13,7 @@ import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarSelection } from '../calendar-selection';
+import { PublicAppointment } from '../public-appointment';
 import { EntryDialogForm } from './entry-dialog-form';
 
 const newEntryTitle = 'Novi termin';
@@ -52,6 +53,14 @@ export class CalendarEntryDialog {
     readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
+        this.operation.reset();
+        this.dialog().open();
+    };
+
+    /** Opens a new entry for an online request, at the time and for the client it asked for. */
+    readonly openForRequest = (request: PublicAppointment) => {
+        this.editingEntry.set(null);
+        this.entryForm.resetForRequest(request);
         this.operation.reset();
         this.dialog().open();
     };

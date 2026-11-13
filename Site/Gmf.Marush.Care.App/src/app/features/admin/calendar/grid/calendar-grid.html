@@ -32,7 +32,8 @@
                 [selectedSlots]="drag.selectedSlotsOn(day.isoDate)"
                 [anchorSlot]="drag.anchorSlotOn(day.isoDate)"
                 (slotPointerDown)="onSlotPointerDown(day.isoDate, $event)"
-                (entryClick)="entryClick.emit($event)" />
+                (entryClick)="entryClick.emit($event)"
+                (appointmentClick)="appointmentClick.emit($event)" />
         }
     </div>
 </div>

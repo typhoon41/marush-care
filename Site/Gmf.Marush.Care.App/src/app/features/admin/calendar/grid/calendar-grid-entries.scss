@@ -9,18 +9,25 @@
 	line-height: 1.2;
 }
 
-// The cell is a button for keyboard access but reads as a calendar block, not a call to action.
-.entry-cell {
+// A cell is a button for keyboard access but reads as a calendar block, not a call to action.
+@mixin cell-button($background, $color) {
 	@include buttons.plain-button();
 	@include calendar-grid-entry-box.appearance();
-	background: variables.$accent;
-	color: variables.$font-color;
-
-	&:hover {
-		opacity: .9;
-	}
-
+	background: $background;
+	color: $color;
 	@include calendar-grid-entry-box.text-size();
+}
+
+.entry-cell {
+	@include cell-button(variables.$accent, variables.$font-color);
+}
+
+.public-appointment-cell {
+	@include cell-button(variables.$error, variables.$error-font-color);
+}
+
+.entry-cell:hover, .public-appointment-cell:hover {
+	opacity: .9;
 }
 
 .entry-time {

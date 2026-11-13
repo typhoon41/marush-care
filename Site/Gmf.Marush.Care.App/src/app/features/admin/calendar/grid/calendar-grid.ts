@@ -25,6 +25,7 @@ export class CalendarGrid {
     readonly notes = input<CalendarNote[]>([]);
 
     readonly entryClick = output<CalendarEntry>();
+    readonly appointmentClick = output<PublicAppointment>();
     readonly dragComplete = output<CalendarSelection>();
     readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
     readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();
