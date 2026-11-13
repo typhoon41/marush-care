@@ -92,7 +92,7 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **Functions are arrow-function properties** — `readonly name = (...) => ...` (`static readonly` for statics); no method declarations beside the constructor and lifecycle hooks, and never both styles in one class.
 - **No `ChangeDetectorRef`** — the app is zoneless; state a template reads is a signal, and DOM work that needs the rendered view uses `afterNextRender`. Never `detectChanges()` / `markForCheck()`.
 - **Search before you add** — a constant, factory or rule that already exists in the feature is reused, not redeclared.
-- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
+- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's host element (`host: { class: ... }`, never `:host`) or an existing element. Style a host class in the stylesheet of the component whose template renders it; global partials only for routed pages. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
 
 ---
 

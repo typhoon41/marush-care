@@ -28,6 +28,10 @@ export class SlotDrag {
         this.currentSlot.set(slot);
     };
 
+    /**
+     * The day is fixed by the anchor on purpose: only the row under the pointer is followed, so a
+     * drag that drifts sideways into a neighbouring column keeps growing in the day it started in.
+     */
     readonly moveTo = (slot: number) => this.currentSlot.set(slot);
 
     readonly cancel = () => {

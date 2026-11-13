@@ -5,7 +5,7 @@ import { TimeInterval } from '../../../time-interval';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'entry-cell-container', '[class]': 'positionClasses()' },
+    host: { '[class]': 'positionClasses()' },
     selector: 'marush-calendar-entry-cell',
     imports: [],
     templateUrl: './calendar-entry-cell.html',
@@ -25,5 +25,5 @@ export class CalendarEntryCell {
     protected readonly notes = computed(() => this.entry().notes ?? '');
     protected readonly hasNotes = computed(() => this.notes().length > 0);
 
-    readonly positionClasses = computed(() => `entry-cell-container ${this.interval().positionClasses()}`);
+    readonly positionClasses = computed(() => `grid-entry-placeholder ${this.interval().positionClasses()}`);
 }

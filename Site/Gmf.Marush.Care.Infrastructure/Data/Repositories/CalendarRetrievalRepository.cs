@@ -29,6 +29,32 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
         return dtos.Select(entry => entry.ToDomain());
     }
 
+    // Occupied by anything the calendar draws: an entry, or an online request that has no entry yet.
+    // Back-to-back periods do not count, and neither does the appointment the caller is saving.
+    // An entry and a request store their times differently (see CalendarSchedule), so each is compared
+    // against the period expressed its own way.
+    public async Task<bool> IsOccupied(CalendarPeriod period, Guid? ownAppointmentId)
+    {
+        var start = CalendarSchedule.At(period.Date, period.StartTime);
+        var end = CalendarSchedule.At(period.Date, period.EndTime);
+        var requestedStart = CalendarSchedule.RequestedAt(period.Date, period.StartTime);
+        var requestedEnd = CalendarSchedule.RequestedAt(period.Date, period.EndTime);
+        var defaultHours = CalendarSchedule.DefaultDuration.TotalHours;
+        return await context.Set<AppointmentDto>()
+            .AsNoTracking()
+            .Where(appointment => appointment.Id != ownAppointmentId)
+            .Select(appointment => new
+            {
+                appointment.ScheduledFor,
+                End = appointment.ExpectedEndTime ?? appointment.ScheduledFor.AddHours(defaultHours),
+                HasEntry = _entries.Any(entry => entry.AppointmentId == appointment.Id),
+                IsVisibleRequest = StatusesVisibleInCalendar.Contains(appointment.Status.Id)
+            })
+            .AnyAsync(slot => (slot.HasEntry && slot.ScheduledFor < end && slot.End > start)
+                              || (!slot.HasEntry && slot.IsVisibleRequest
+                                  && slot.ScheduledFor < requestedEnd && slot.End > requestedStart));
+    }
+
     public async Task<CalendarEntry?> GetEntryById(Guid id)
     {
         var dto = await EntriesWithDetails.SingleOrDefaultAsync(entry => entry.Id == id);
@@ -56,7 +82,7 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
             .OrderBy(appointment => appointment.ScheduledFor)
             .ToListAsync();
 
-        return dtos.Select(ToDomain);
+        return dtos.Select(appointment => appointment.MapToCalendarAppointment());
     }
 
     public async Task<(string Email, string Language)?> GetAppointmentContact(Guid appointmentId)
@@ -66,24 +92,5 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
             .Select(appointment => new { appointment.Email, appointment.Language })
             .SingleOrDefaultAsync();
         return string.IsNullOrWhiteSpace(result?.Email) ? null : (result!.Email!, result.Language ?? "sr");
-    }
-
-    private static CalendarAppointment ToDomain(AppointmentDto appointment)
-    {
-        var start = TimeOnly.FromDateTime(appointment.ScheduledFor.DateTime);
-        var end = appointment.ExpectedEndTime.HasValue
-            ? TimeOnly.FromDateTime(appointment.ExpectedEndTime.Value.DateTime)
-            : start.AddHours(1);
-
-        return new CalendarAppointment(
-            appointment.Id,
-            DateOnly.FromDateTime(appointment.ScheduledFor.DateTime),
-            start,
-            end,
-            $"{appointment.Customer.Name} {appointment.Customer.Surname}".Trim(),
-            appointment.Phone,
-            appointment.Email ?? string.Empty,
-            appointment.Status.Name,
-            appointment.Description);
     }
 }

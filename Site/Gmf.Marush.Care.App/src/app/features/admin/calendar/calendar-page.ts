@@ -11,6 +11,7 @@ import { CalendarEntryDialog } from './entry-dialog/calendar-entry-dialog';
 import { CalendarGrid } from './grid/calendar-grid';
 import { formatMoney } from './money-formatter';
 import { CalendarNotesDialog } from './notes-dialog/calendar-notes-dialog';
+import { PublicAppointment } from './public-appointment';
 import { WorkingWeek } from './working-week';
 
 @Component({
@@ -69,6 +70,10 @@ export class CalendarPage {
         this.entryDialog().open(undefined, entry);
     };
 
+    protected readonly onAppointmentClick = (appointment: PublicAppointment) => {
+        this.entryDialog().openForRequest(appointment);
+    };
+
     protected readonly onDragComplete = (selection: CalendarSelection) => {
         this.entryDialog().open(selection);
     };
@@ -95,7 +100,7 @@ export class CalendarPage {
         this.weekData.reload();
     };
 
-    protected readonly onSaved = () => {
+    protected readonly reloadWeek = () => {
         this.weekData.reload();
     };
 }

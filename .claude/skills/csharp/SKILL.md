@@ -67,9 +67,9 @@ public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto reques
     return NoContent();
 }
 
-// Right
+// Right - the service returns an outcome, and a mapping outside the controller turns it into a status
 public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
-    await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
+    (await calendarService.UpdateEntry(id, request.ToDomain(id))).ToActionResult(NoContent());
 ```
 
 ### Never notify before the unit of work commits

@@ -11,18 +11,20 @@ import { CalendarEntryCell } from './entry-cell/calendar-entry-cell';
     selector: 'marush-calendar-day-column',
     imports: [CalendarAppointmentCell, CalendarEntryCell],
     templateUrl: './calendar-day-column.html',
-    styleUrl: '../calendar-grid-slots.scss'
+    styleUrls: ['../calendar-grid-slots.scss', '../calendar-grid-entry-placement.scss']
 })
 export class CalendarDayColumn {
     readonly isoDate = input.required<string>();
     readonly entries = input<CalendarEntry[]>([]);
     readonly appointments = input<PublicAppointment[]>([]);
     readonly nonWorking = input(false);
+    readonly isDragging = input(false);
     readonly selectedSlots = input<readonly number[]>([]);
     readonly anchorSlot = input(CalendarTimeSlots.unset);
 
     readonly slotPointerDown = output<{ event: PointerEvent; slot: number }>();
     readonly entryClick = output<CalendarEntry>();
+    readonly appointmentClick = output<PublicAppointment>();
 
     protected readonly timeSlots = CalendarTimeSlots.all;
 

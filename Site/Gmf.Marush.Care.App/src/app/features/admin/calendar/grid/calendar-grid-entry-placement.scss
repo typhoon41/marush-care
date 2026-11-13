@@ -1,0 +1,26 @@
+@use 'scss-solutions/src/modules/position/absolute';
+@use './calendar-grid-variables' as grid;
+
+// The entry and public appointment cells are rendered by the day column's template, so their host
+// elements are placed on the column from the column's own stylesheet.
+.grid-entry-placeholder {
+	@include absolute.unset-position(unset, 2px, unset, 2px);
+	z-index: 2;
+
+	// A drag has to read the slot underneath a cell, so cells stop intercepting the pointer.
+	&.is-passive {
+		pointer-events: none;
+	}
+}
+
+@for $slot from 0 through grid.$slots-count {
+	.entry-top-#{$slot} {
+		top: $slot * grid.$slot-height;
+	}
+}
+
+@for $span from 1 through grid.$slots-count {
+	.entry-span-#{$span} {
+		height: $span * grid.$slot-height;
+	}
+}

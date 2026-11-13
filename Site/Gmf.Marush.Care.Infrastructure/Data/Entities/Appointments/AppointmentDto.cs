@@ -1,6 +1,7 @@
 ﻿using Gmf.DDD.Common.Persistance;
 using Gmf.Marush.Care.Domain.Enumerations;
 using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar;
 using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 
 namespace Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
@@ -19,6 +20,33 @@ public record AppointmentDto : EntityDto
     public CustomerEmailDto? CustomerEmail { get; set; } = new CustomerEmailDto();
 
     public AppointmentStatus MapToStatus() => new(Status.Id, Status.Name);
+
+    // An online request is read back through the server's time zone, the way it was stored.
+    public CalendarAppointment MapToCalendarAppointment()
+    {
+        var start = ScheduledFor.ToLocalTime().DateTime;
+        var end = CalendarSchedule.EndOf(this).ToLocalTime().DateTime;
+        return new CalendarAppointment(Id, DateOnly.FromDateTime(start), TimeOnly.FromDateTime(start), TimeOnly.FromDateTime(end),
+            $"{Customer.Name} {Customer.Surname}".Trim(), Phone, Email ?? string.Empty, Status.Name, Description);
+    }
+
+    public void AssignCustomer(CustomerDto customer)
+    {
+        var phone = customer.Phones.First();
+        var email = customer.Emails.FirstOrDefault();
+        CustomerId = customer.Id;
+        Customer = customer;
+        Phone = phone.PhoneNumber ?? string.Empty;
+        Email = email?.Email;
+        CustomerPhone = phone;
+        CustomerEmail = email;
+    }
+
+    public void Schedule(CalendarPeriod period)
+    {
+        ScheduledFor = CalendarSchedule.At(period.Date, period.StartTime);
+        ExpectedEndTime = CalendarSchedule.At(period.Date, period.EndTime);
+    }
 
     public static AppointmentDto MapFrom(CustomerDetails customer, CustomerAppointment appointment, AppointmentStatusDto status, CustomerDto entity) => new()
     {

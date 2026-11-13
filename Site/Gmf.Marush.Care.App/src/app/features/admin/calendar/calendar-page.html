@@ -32,13 +32,15 @@
     [publicAppointments]="publicAppointments()"
     [notes]="notes()"
     (entryClick)="onEntryClick($event)"
+    (appointmentClick)="onAppointmentClick($event)"
     (dragComplete)="onDragComplete($event)"
     (noteClick)="onNoteClick($event)"
     (nonWorkingDayToggle)="onNonWorkingDayToggle($event)" />
 
 <marush-calendar-entry-dialog
-    (saved)="onSaved()"
-    (deleted)="onSaved()" />
+    (saved)="reloadWeek()"
+    (deleted)="reloadWeek()"
+    (conflicted)="reloadWeek()" />
 
 <marush-calendar-notes-dialog
-    (saved)="onSaved()" />
+    (saved)="reloadWeek()" />

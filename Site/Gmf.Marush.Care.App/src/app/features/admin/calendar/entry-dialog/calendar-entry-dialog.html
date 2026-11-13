@@ -51,7 +51,10 @@
     </form>
 
     <div slot="actions" class="dialog-actions">
-        @if (operation.failed()) {
+        @if (overlapRejected()) {
+            <p class="invalid-field-message" aria-live="polite">Termin se preklapa sa postojećim terminom. Izaberite drugo vreme.</p>
+        }
+        @else if (operation.failed()) {
             <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
         }
         @if (isEditing()) {
