@@ -30,6 +30,24 @@ public record AppointmentDto : EntityDto
             $"{Customer.Name} {Customer.Surname}".Trim(), Phone, Email ?? string.Empty, Status.Name, Description);
     }
 
+    public void AssignCustomer(CustomerDto customer)
+    {
+        var phone = customer.Phones.First();
+        var email = customer.Emails.FirstOrDefault();
+        CustomerId = customer.Id;
+        Customer = customer;
+        Phone = phone.PhoneNumber ?? string.Empty;
+        Email = email?.Email;
+        CustomerPhone = phone;
+        CustomerEmail = email;
+    }
+
+    public void Schedule(CalendarPeriod period)
+    {
+        ScheduledFor = CalendarSchedule.At(period.Date, period.StartTime);
+        ExpectedEndTime = CalendarSchedule.At(period.Date, period.EndTime);
+    }
+
     public static AppointmentDto MapFrom(CustomerDetails customer, CustomerAppointment appointment, AppointmentStatusDto status, CustomerDto entity) => new()
     {
         Language = "sr",

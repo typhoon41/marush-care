@@ -10,6 +10,21 @@ public record CalendarEntryDto : EntityDto
     public decimal? Money { get; set; }
     public IList<CalendarEntryTreatmentDto> Treatments { get; } = [];
 
+    // Keeps the treatments that are still named, so their rows are not deleted and inserted again.
+    public void ReplaceTreatments(IReadOnlyCollection<string> names)
+    {
+        foreach (var removed in Treatments.Where(existing => !names.Contains(existing.Name)).ToList())
+        {
+            _ = Treatments.Remove(removed);
+        }
+
+        var kept = Treatments.Select(existing => existing.Name).ToHashSet();
+        foreach (var name in names.Where(name => !kept.Contains(name)))
+        {
+            Treatments.Add(new CalendarEntryTreatmentDto { CalendarEntryId = Id, CalendarEntry = this, Name = name });
+        }
+    }
+
     public CalendarEntry ToDomain() => new(
         Id,
         AppointmentId,
