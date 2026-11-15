@@ -9,6 +9,7 @@ public class FiltersModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
+        builder.RegisterSelfLifetimeScope<DomainConflictFilter>();
         builder.RegisterSelfLifetimeScope<RollbackTransactionFilter>();
         builder.RegisterSelfLifetimeScope<TransactionFilter>();
     }

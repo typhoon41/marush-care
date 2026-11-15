@@ -1,7 +1,6 @@
 using Gmf.DDD.Common.Contracts;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Contracts.Services;
-using Gmf.Marush.Care.Domain.Events.Calendar;
 using Gmf.Marush.Care.Domain.Models;
 
 namespace Gmf.Marush.Care.Services.Domain.Calendar;
@@ -19,37 +18,29 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
             await retrievalRepository.GetNotesForWeek(monday));
     }
 
-    public async Task<CalendarEntrySaveOutcome> CreateEntry(CalendarEntry entry)
+    public async Task<bool> CreateEntry(CalendarEntry entry)
     {
-        if (await retrievalRepository.IsOccupied(entry.Period, entry.AppointmentId))
-        {
-            return CalendarEntrySaveOutcome.Overlapping;
-        }
-
-        return await modificationRepository.AddEntry(entry) ? CalendarEntrySaveOutcome.Saved : CalendarEntrySaveOutcome.NotFound;
+        await Claim(new CalendarBooking(entry));
+        return await modificationRepository.AddEntry(entry);
     }
 
-    public async Task<CalendarEntrySaveOutcome> UpdateEntry(Guid id, CalendarEntry entry)
+    public async Task<bool> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var existing = await retrievalRepository.GetEntryById(id);
         if (existing is null)
         {
-            return CalendarEntrySaveOutcome.NotFound;
+            return false;
         }
 
-        // Only a move is checked, so entries that already overlap stay editable in every other way.
-        if (existing.Period != entry.Period && await retrievalRepository.IsOccupied(entry.Period, existing.AppointmentId))
-        {
-            return CalendarEntrySaveOutcome.Overlapping;
-        }
-
+        var booking = new CalendarBooking(entry, existing);
+        await Claim(booking);
         if (!await modificationRepository.UpdateEntry(id, entry))
         {
-            return CalendarEntrySaveOutcome.NotFound;
+            return false;
         }
 
-        await AnnounceRescheduling(existing, entry);
-        return CalendarEntrySaveOutcome.Saved;
+        await AnnounceRescheduling(booking);
+        return true;
     }
 
     public async Task<bool> DeleteEntry(Guid id) => await modificationRepository.DeleteEntry(id);
@@ -58,20 +49,23 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
 
     public async Task<bool> DeleteNote(Guid id) => await modificationRepository.DeleteNote(id);
 
-    private async Task AnnounceRescheduling(CalendarEntry existing, CalendarEntry updated)
+    // The slot is looked up only for a booking that claims one.
+    private async Task Claim(CalendarBooking booking) =>
+        booking.Claim(booking.ClaimsSlot && await retrievalRepository.IsOccupied(booking));
+
+    private async Task AnnounceRescheduling(CalendarBooking booking)
     {
-        if (existing.Period == updated.Period || existing.AppointmentId is null)
+        if (booking.MovedAppointmentId is not { } appointmentId)
         {
             return;
         }
 
-        var contact = await retrievalRepository.GetAppointmentContact(existing.AppointmentId.Value);
+        var contact = await retrievalRepository.GetAppointmentContact(appointmentId);
         if (contact is null)
         {
             return;
         }
 
-        integrationEvents.Add(new AppointmentRescheduled(contact.Value.Email, contact.Value.Language,
-            existing.Period, updated.Period));
+        integrationEvents.Add(booking.Rescheduled(contact.Value.Email, contact.Value.Language));
     }
 }

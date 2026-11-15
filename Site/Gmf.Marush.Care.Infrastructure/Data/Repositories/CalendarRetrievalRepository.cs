@@ -31,18 +31,15 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
 
     // Occupied by anything the calendar draws: an entry, or an online request that has no entry yet.
     // Back-to-back periods do not count, and neither does the appointment the caller is saving.
-    // An entry and a request store their times differently (see CalendarSchedule), so each is compared
-    // against the period expressed its own way.
-    public async Task<bool> IsOccupied(CalendarPeriod period, Guid? ownAppointmentId)
+    // An entry and a request store their times differently, so each is compared against the form of
+    // the slot that matches it.
+    public async Task<bool> IsOccupied(CalendarBooking booking)
     {
-        var start = CalendarSchedule.At(period.Date, period.StartTime);
-        var end = CalendarSchedule.At(period.Date, period.EndTime);
-        var requestedStart = CalendarSchedule.RequestedAt(period.Date, period.StartTime);
-        var requestedEnd = CalendarSchedule.RequestedAt(period.Date, period.EndTime);
-        var defaultHours = CalendarSchedule.DefaultDuration.TotalHours;
+        var slot = CalendarSlot.Of(booking.Period);
+        var defaultHours = AppointmentDto.DefaultDuration.TotalHours;
         return await context.Set<AppointmentDto>()
             .AsNoTracking()
-            .Where(appointment => appointment.Id != ownAppointmentId)
+            .Where(appointment => appointment.Id != booking.HeldAppointmentId)
             .Select(appointment => new
             {
                 appointment.ScheduledFor,
@@ -50,9 +47,9 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
                 HasEntry = _entries.Any(entry => entry.AppointmentId == appointment.Id),
                 IsVisibleRequest = StatusesVisibleInCalendar.Contains(appointment.Status.Id)
             })
-            .AnyAsync(slot => (slot.HasEntry && slot.ScheduledFor < end && slot.End > start)
-                              || (!slot.HasEntry && slot.IsVisibleRequest
-                                  && slot.ScheduledFor < requestedEnd && slot.End > requestedStart));
+            .AnyAsync(taken => (taken.HasEntry && taken.ScheduledFor < slot.End && taken.End > slot.Start)
+                               || (!taken.HasEntry && taken.IsVisibleRequest
+                                   && taken.ScheduledFor < slot.RequestedEnd && taken.End > slot.RequestedStart));
     }
 
     public async Task<CalendarEntry?> GetEntryById(Guid id)

@@ -31,7 +31,7 @@ public record CalendarEntryDto : EntityDto
         Appointment.CustomerId,
         DateOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
         TimeOnly.FromDateTime(Appointment.ScheduledFor.DateTime),
-        TimeOnly.FromDateTime(CalendarSchedule.EndOf(Appointment).DateTime),
+        TimeOnly.FromDateTime(Appointment.End().DateTime),
         string.IsNullOrWhiteSpace(Appointment.Description) ? null : Appointment.Description,
         Money,
         [.. Treatments.Select(treatment => treatment.Name)],

@@ -7,6 +7,8 @@ using Gmf.Marush.Care.Infrastructure.Data.Entities.Customers;
 namespace Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments;
 public record AppointmentDto : EntityDto
 {
+    public static readonly TimeSpan DefaultDuration = TimeSpan.FromHours(1);
+
     public Guid CustomerId { get; set; }
     public string? Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
@@ -21,11 +23,13 @@ public record AppointmentDto : EntityDto
 
     public AppointmentStatus MapToStatus() => new(Status.Id, Status.Name);
 
+    public DateTimeOffset End() => ExpectedEndTime ?? ScheduledFor.Add(DefaultDuration);
+
     // An online request is read back through the server's time zone, the way it was stored.
     public CalendarAppointment MapToCalendarAppointment()
     {
         var start = ScheduledFor.ToLocalTime().DateTime;
-        var end = CalendarSchedule.EndOf(this).ToLocalTime().DateTime;
+        var end = End().ToLocalTime().DateTime;
         return new CalendarAppointment(Id, DateOnly.FromDateTime(start), TimeOnly.FromDateTime(start), TimeOnly.FromDateTime(end),
             $"{Customer.Name} {Customer.Surname}".Trim(), Phone, Email ?? string.Empty, Status.Name, Description);
     }
@@ -44,8 +48,9 @@ public record AppointmentDto : EntityDto
 
     public void Schedule(CalendarPeriod period)
     {
-        ScheduledFor = CalendarSchedule.At(period.Date, period.StartTime);
-        ExpectedEndTime = CalendarSchedule.At(period.Date, period.EndTime);
+        var slot = CalendarSlot.Of(period);
+        ScheduledFor = slot.Start;
+        ExpectedEndTime = slot.End;
     }
 
     public static AppointmentDto MapFrom(CustomerDetails customer, CustomerAppointment appointment, AppointmentStatusDto status, CustomerDto entity) => new()

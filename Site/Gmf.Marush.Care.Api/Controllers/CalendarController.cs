@@ -25,7 +25,7 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request) =>
-        (await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()))).ToActionResult(Created());
+        await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid())) ? Created() : NotFound();
 
     [HttpPut("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -34,7 +34,7 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
-        (await calendarService.UpdateEntry(id, request.ToDomain(id))).ToActionResult(NoContent());
+        await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
 
     [HttpDelete("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

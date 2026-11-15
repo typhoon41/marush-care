@@ -4,7 +4,7 @@ namespace Gmf.Marush.Care.Domain.Contracts.Repositories;
 public interface ICalendarRetrievalRepository
 {
     Task<IEnumerable<CalendarEntry>> GetEntriesForWeek(DateOnly weekStart);
-    Task<bool> IsOccupied(CalendarPeriod period, Guid? ownAppointmentId);
+    Task<bool> IsOccupied(CalendarBooking booking);
     Task<CalendarEntry?> GetEntryById(Guid id);
     Task<IEnumerable<CalendarNote>> GetNotesForWeek(DateOnly weekStart);
     Task<IEnumerable<CalendarAppointment>> GetPublicAppointmentsForWeek(DateOnly weekStart);
