@@ -17,14 +17,15 @@ export class EntryFormValue {
         });
     };
 
-    /** A new entry for an online request: the time it asked for, its id and its description. */
+    /** A new entry for an online request: the time it asked for, its id, its description and what it costs. */
     static readonly forRequest = (request: PublicAppointment): EntryFormValue =>
         Object.assign(new EntryFormValue(), {
             date: CalendarDate.fromIso(request.date).serbian(),
             startTime: request.startTime,
             endTime: request.endTime,
             appointmentId: request.id,
-            notes: request.description ?? ''
+            notes: request.description ?? '',
+            money: request.money ?? null
         });
 
     /** An entry needs either a chosen client or the public appointment it was created from. */

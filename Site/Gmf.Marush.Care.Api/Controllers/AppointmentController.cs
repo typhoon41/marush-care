@@ -26,7 +26,7 @@ public class AppointmentController(IAppointmentService appointmentService, Conta
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody][Required] AppointmentRequest data)
     {
-        var appointmentId = await _appointmentService.Schedule(data.Customer, data.Period());
+        var appointmentId = await _appointmentService.Schedule(data.Customer, data.Period(), data.Selection);
         var notificationDetails = new NotificationDetails
         {
             PrimaryTemplate = CustomerTemplateFrom(data),

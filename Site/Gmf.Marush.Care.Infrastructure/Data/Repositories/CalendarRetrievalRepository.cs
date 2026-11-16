@@ -17,7 +17,7 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
 
     private IQueryable<CalendarEntryDto> EntriesWithDetails => _entries
         .Include(entry => entry.Appointment.Customer)
-        .Include(entry => entry.Treatments);
+        .Include(entry => entry.Appointment.Treatments);
 
     public async Task<IEnumerable<CalendarEntry>> GetEntriesForWeek(DateOnly weekStart)
     {
@@ -73,6 +73,7 @@ public class CalendarRetrievalRepository(DbContext context) : ICalendarRetrieval
         var dtos = await context.Set<AppointmentDto>()
             .Include(appointment => appointment.Customer)
             .Include(appointment => appointment.Status)
+            .Include(appointment => appointment.Treatments)
             .Where(appointment => appointment.ScheduledFor >= week.Start && appointment.ScheduledFor <= week.End
                                   && StatusesVisibleInCalendar.Contains(appointment.Status.Id)
                                   && !_entries.Any(entry => entry.AppointmentId == appointment.Id))

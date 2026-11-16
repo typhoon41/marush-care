@@ -1,14 +1,15 @@
 using FluentValidation;
 using Gmf.Marush.Care.Api.Models.Calendar;
+using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Data.Configurations.Appointments;
 
 namespace Gmf.Marush.Care.Api.Validation;
 public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDto>
 {
-    // Must stay in sync with CalendarEntryTreatmentConfiguration.NameLength in Infrastructure.
-    private const int TreatmentNameLength = 200;
+    private const int TreatmentNameLength = AppointmentTreatmentConfiguration.NameLength;
     // Notes are stored as the appointment description; must stay in sync with the client edit page limit.
     private const int NotesLength = 6000;
-    private const int MaximumTreatments = 20;
+    private const int MaximumTreatments = TreatmentSelection.MaximumTreatments;
     private const int MaximumDurationInHours = 4;
     private static readonly TimeOnly CalendarStart = new(11, 0);
     private static readonly TimeOnly CalendarEnd = new(22, 0);

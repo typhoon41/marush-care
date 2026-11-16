@@ -13,11 +13,14 @@ public class CalendarEntryAppointments(DbContext context)
 
     /// <summary>
     /// The online request the entry is created from, or a new approved appointment for its customer.
-    /// Null when that request or customer does not exist.
+    /// Null when that request or customer does not exist. A request comes with the treatments it was booked for,
+    /// so replacing them keeps the ones still chosen.
     /// </summary>
     public async Task<AppointmentDto?> For(CalendarEntry entry) =>
         entry.AppointmentId.HasValue
-            ? await _appointments.FindAsync(entry.AppointmentId.Value)
+            ? await _appointments
+                .Include(appointment => appointment.Treatments)
+                .SingleOrDefaultAsync(appointment => appointment.Id == entry.AppointmentId.Value)
             : await CreateFor(entry.CustomerId);
 
     /// <summary>False when the customer does not exist; the appointment is left as it was.</summary>

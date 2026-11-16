@@ -3,6 +3,7 @@ using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Resources;
 using Gmf.Marush.Care.Domain.Models;
+using Gmf.Marush.Care.Infrastructure.Data.Configurations.Appointments;
 using Gmf.Marush.Care.Infrastructure.Data.Configurations.Customers;
 
 namespace Gmf.Marush.Care.Api.Validation;
@@ -39,5 +40,14 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
+        _ = RuleFor(request => request.Sum).GreaterThanOrEqualTo(0);
+        _ = RuleForEach(request => request.SerbianTreatments)
+            .NotEmpty()
+            .WithMessage(Labels.ValidationRequired)
+            .MaximumLength(AppointmentTreatmentConfiguration.NameLength)
+            .WithMessage(Labels.ValidationLength);
+        _ = RuleFor(request => request.SerbianTreatments)
+            .Must(treatments => treatments.Count() <= TreatmentSelection.MaximumTreatments)
+            .WithMessage(Labels.ValidationLength);
     }
 }

@@ -26,13 +26,14 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
             appointment.Description = entry.Notes;
         }
 
+        appointment.Money = entry.Money;
+        appointment.ReplaceTreatments(entry.Treatments);
+
         var dto = new CalendarEntryDto
         {
             AppointmentId = appointment.Id,
-            Appointment = appointment,
-            Money = entry.Money
+            Appointment = appointment
         };
-        dto.ReplaceTreatments(entry.Treatments);
 
         _ = await _entries.AddAsync(dto);
         return true;
@@ -42,8 +43,7 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
     public async Task<bool> UpdateEntry(Guid id, CalendarEntry entry)
     {
         var dto = await _entries
-            .Include(existing => existing.Appointment)
-            .Include(existing => existing.Treatments)
+            .Include(existing => existing.Appointment.Treatments)
             .SingleOrDefaultAsync(existing => existing.Id == id);
         if (dto is null || !await _appointments.Reassign(dto.Appointment, entry.CustomerId))
         {
@@ -52,8 +52,8 @@ public class CalendarModificationRepository(DbContext context) : ICalendarModifi
 
         dto.Appointment.Schedule(entry.Period);
         dto.Appointment.Description = entry.Notes ?? string.Empty;
-        dto.Money = entry.Money;
-        dto.ReplaceTreatments(entry.Treatments);
+        dto.Appointment.Money = entry.Money;
+        dto.Appointment.ReplaceTreatments(entry.Treatments);
         return true;
     }
 

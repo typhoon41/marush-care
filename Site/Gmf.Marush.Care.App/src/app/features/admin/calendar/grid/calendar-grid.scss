@@ -63,9 +63,9 @@
 	box-sizing: border-box;
 	flex: none;
 	align-items: flex-start;
-	justify-content: flex-end;
+	justify-content: safe flex-end;
 	height: grid.$slot-height;
-	padding: 2px 4px 0;
+	padding: 2px 2px 0;
 	opacity: .55;
 	color: variables.$font-color;
 	font-size: grid.$time-label-size-mobile;

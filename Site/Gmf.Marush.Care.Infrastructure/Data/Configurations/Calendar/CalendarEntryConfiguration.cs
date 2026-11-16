@@ -15,15 +15,12 @@ public class CalendarEntryConfiguration : IEntityTypeConfiguration<CalendarEntry
     {
         _ = builder.ToTable("CalendarEntries");
         _ = builder.Property(x => x.Id).ValueGeneratedOnAdd();
-        _ = builder.Property(x => x.Money).HasPrecision(10, 2);
         _ = builder.HasOne<AppointmentDto>(x => x.Appointment)
             .WithOne()
             .HasForeignKey<CalendarEntryDto>(x => x.AppointmentId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
         _ = builder.Navigation(x => x.Appointment)
-            .UsePropertyAccessMode(PropertyAccessMode.Property);
-        _ = builder.Navigation(x => x.Treatments)
             .UsePropertyAccessMode(PropertyAccessMode.Property);
     }
 }

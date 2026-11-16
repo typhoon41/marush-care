@@ -28,7 +28,7 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
         return (appointment.Email ?? string.Empty, appointment.Language ?? string.Empty);
     }
 
-    public async Task<Guid> ScheduleNew(Customer customer, Period appointment)
+    public async Task<Guid> ScheduleNew(Customer customer, Period appointment, TreatmentSelection treatments)
     {
         var statusRequested = GetStatus();
         var newCustomer = new CustomerDto
@@ -37,10 +37,10 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
             Surname = customer.Surname
         };
 
-        return await Create(customer, appointment, statusRequested, newCustomer);
+        return await Create(customer, appointment, treatments, statusRequested, newCustomer);
     }
 
-    public async Task<Guid> ScheduleExisting(ExistingCustomer customer, Period appointment)
+    public async Task<Guid> ScheduleExisting(ExistingCustomer customer, Period appointment, TreatmentSelection treatments)
     {
         var statusRequested = GetStatus();
         var oldCustomerEntity = GetFetchedEntity<CustomerDto>(x => x.Id == customer.Id)!;
@@ -49,10 +49,11 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
         var previouslyUsedPhone = oldCustomerEntity.Phones.FirstOrDefault(p => p.PhoneNumber == customer.GivenPhone)
             ?? GetFetchedEntity<CustomerPhoneDto>(p => p.CustomerId == customer.Id && p.PhoneNumber == customer.GivenPhone);
 
-        return await Create(customer, appointment, statusRequested, oldCustomerEntity, previouslyUsedEmail, previouslyUsedPhone);
+        return await Create(customer, appointment, treatments, statusRequested, oldCustomerEntity, previouslyUsedEmail, previouslyUsedPhone);
     }
 
-    private async Task<Guid> Create(Customer customer, Period appointment, AppointmentStatusDto statusRequested, CustomerDto newCustomer,
+    private async Task<Guid> Create(Customer customer, Period appointment, TreatmentSelection treatments,
+        AppointmentStatusDto statusRequested, CustomerDto newCustomer,
         CustomerEmailDto? previouslyUsedEmail = null, CustomerPhoneDto? previouslyUsedPhone = null)
     {
         var newAppointment = new AppointmentDto
@@ -71,8 +72,10 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
                 Customer = newCustomer,
                 Email = customer.Email
             },
-            Status = statusRequested
+            Status = statusRequested,
+            Money = treatments.Money
         };
+        newAppointment.ReplaceTreatments(treatments.Treatments);
 
         _ = await _appointments.AddAsync(newAppointment);
         return newAppointment.Id;

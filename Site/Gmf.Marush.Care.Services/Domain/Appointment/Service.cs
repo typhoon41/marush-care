@@ -9,16 +9,16 @@ public class Service(IAppointmentRepository appointmentRepository, ICustomerRetr
     private readonly IAppointmentRepository _appointmentRepository = appointmentRepository;
     private readonly ICustomerRetrievalRepository _customerRepository = customerRepository;
 
-    public async Task<Guid> Schedule(Customer customer, Period appointment)
+    public async Task<Guid> Schedule(Customer customer, Period appointment, TreatmentSelection treatments)
     {
         var existingCustomer = _customerRepository.FindCustomerBy(customer.Email, customer.Phone);
 
         if (existingCustomer != null)
         {
             var customerFound = new ExistingCustomer(existingCustomer, customer.Email, customer.Phone);
-            return await _appointmentRepository.ScheduleExisting(customerFound, appointment);
+            return await _appointmentRepository.ScheduleExisting(customerFound, appointment, treatments);
         }
 
-        return await _appointmentRepository.ScheduleNew(customer, appointment);
+        return await _appointmentRepository.ScheduleNew(customer, appointment, treatments);
     }
 }

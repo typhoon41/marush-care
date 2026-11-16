@@ -8,4 +8,7 @@ export class PublicAppointment {
     email: string = '';
     status: string = '';
     description?: string;
+    money?: number;
+    treatments: string[] = [];
+    treatmentTitles: string[] = [];
 }
