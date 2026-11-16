@@ -40,13 +40,18 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
             .WithMessage(Labels.ValidationRequired)
             .EmailAddress()
             .WithMessage(Labels.ValidationEmail);
-        _ = RuleFor(request => request.Sum).GreaterThanOrEqualTo(0);
+        _ = RuleFor(request => request.Sum)
+            .Must(sum => sum is >= 0 and <= (int)AppointmentConfiguration.MaximumMoney)
+            .WithMessage(Labels.ValidationLength);
         _ = RuleForEach(request => request.SerbianTreatments)
             .NotEmpty()
             .WithMessage(Labels.ValidationRequired)
             .MaximumLength(AppointmentTreatmentConfiguration.NameLength)
             .WithMessage(Labels.ValidationLength);
         _ = RuleFor(request => request.SerbianTreatments)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
+            .WithMessage(Labels.ValidationRequired)
             .Must(treatments => treatments.Count() <= TreatmentSelection.MaximumTreatments)
             .WithMessage(Labels.ValidationLength);
     }

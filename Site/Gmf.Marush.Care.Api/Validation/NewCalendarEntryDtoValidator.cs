@@ -34,10 +34,15 @@ public class NewCalendarEntryDtoValidator : AbstractValidator<NewCalendarEntryDt
             .WithMessage("Vreme početka mora biti na 15 minuta.");
         _ = RuleFor(x => x.CustomerId).NotEmpty().When(x => !x.AppointmentId.HasValue);
         _ = RuleFor(x => x.Notes).MaximumLength(NotesLength);
-        _ = RuleFor(x => x.Money).GreaterThanOrEqualTo(0).When(x => x.Money.HasValue);
+        _ = RuleFor(x => x.Money)
+            .InclusiveBetween(0, AppointmentConfiguration.MaximumMoney)
+            .When(x => x.Money.HasValue)
+            .WithMessage($"Iznos mora biti između 0 i {AppointmentConfiguration.MaximumMoney:N2} RSD.");
         _ = RuleForEach(x => x.Treatments).NotEmpty().MaximumLength(TreatmentNameLength)
             .WithMessage($"Naziv tretmana mora imati između 1 i {TreatmentNameLength} karaktera.");
         _ = RuleFor(x => x.Treatments)
+            .Cascade(CascadeMode.Stop)
+            .NotNull()
             .Must(treatments => treatments.Count() <= MaximumTreatments)
             .WithMessage($"Najviše {MaximumTreatments} tretmana po terminu.");
     }
