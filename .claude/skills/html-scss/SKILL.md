@@ -93,7 +93,7 @@ The suffix "wrapper" is banned. Choose the suffix that describes the element's h
 
 Do not add a div solely to attach one layout class when a better host already exists.
 
-**Prefer the component host element.** If a component needs scroll, display, or layout behaviour, add `host: { class: 'component-name-container' }` to the component decorator and style that class in the global partials tree (`src/styles/partials/`). This eliminates the wrapper in the parent template entirely.
+**Prefer the component host element.** If a component needs scroll, display, or layout behaviour, add `host: { class: 'component-name-container' }` to the component decorator and style that class where the host element is rendered (see "Host element styling" below). This eliminates the wrapper in the parent template entirely.
 
 ```ts
 // Right — host carries the scroll role
@@ -119,7 +119,16 @@ Do not add a div solely to attach one layout class when a better host already ex
 The host element must never be styled via `:host` in the component's own stylesheet — that selector is deprecated in this codebase. Instead:
 
 1. Declare the host class in the component decorator: `host: { class: 'my-component' }`
-2. Style `.my-component` in the global partials under `src/styles/partials/`
+2. Style `.my-component` in the stylesheet of the **component whose template renders the element**. The host element is in the parent's template, so it carries the parent's encapsulation attribute and the parent's styles match it. The rules then stay in the parent's lazy-loaded bundle.
+3. Only a host with no parent template — a routed page component rendered by `<router-outlet>` — is styled in the global partials under `src/styles/partials/`.
+
+```ts
+// Parent renders <marush-calendar-entry-cell>, so the parent's stylesheet places it
+@Component({
+    selector: 'marush-calendar-day-column',
+    styleUrls: ['../calendar-grid-slots.scss', '../calendar-grid-entry-placement.scss']
+})
+```
 
 Component-specific internal structure goes in the component's own `.scss` file.
 
@@ -225,17 +234,23 @@ $slot-border: 1px solid variables.$primary;
 
 ## SCSS module conventions
 
-### Module imports — no aliases
-Use `@use` with the module's natural name. Never shorten with `as`:
+### Module imports — aliases are full words
+Use `@use` with the module's natural name when it reads well. An alias (`as`) is allowed when it is a full word that names the module's role — typically to drop a long feature prefix. Abbreviated aliases stay banned, as every abbreviation is:
 
 ```scss
-// Wrong
+// Wrong — an abbreviation
 @use 'variables' as v;  // then: v.$font-color
 
-// Right
+// Right — natural names
 @use 'variables';       // then: variables.$font-color
 @use 'breakpoints';     // then: @include breakpoints.apply-from-tablet()
+
+// Right — a full-word alias for a long module name
+@use './calendar-grid-variables' as grid;   // then: grid.$slot-height
+@use '../calendar-variables' as calendar;   // then: calendar.$action-icon-size
 ```
+
+Use the same alias for a module everywhere it is imported.
 
 Available modules and their namespaces:
 
@@ -306,9 +321,9 @@ left: 0;
 - [ ] Dynamic layout positions (grid-column, grid-row) use `@for`-generated utility classes, not style bindings
 - [ ] No "wrapper" suffix — use "container" (dynamic height) or "placeholder" (predetermined height)
 - [ ] No unnecessary div wrappers — consider using the host element or merging into an existing parent
-- [ ] Host element class declared in decorator, styled in global partials (not in `:host`)
+- [ ] Host element class declared in decorator, styled in the stylesheet of the template that renders it — global partials only for routed pages — never in `:host`
 - [ ] State-driven style changes (pointer-events, visibility, colour) use `[class.state-name]` + SCSS
-- [ ] `@use` imports use the module's natural name — no `as v` or other aliases
+- [ ] `@use` imports use the module's natural name or a full-word alias (`as grid`) — never an abbreviation (`as v`)
 - [ ] No library-generated class (`.row`, `.column-N`, `.ellipsis`, …) used as a selector in app SCSS
 - [ ] Literals checked against the variables in scope; correlated values use the variable, shared values get a named one
 - [ ] No hardcoded colors or spacing — use `variables.$xxx`

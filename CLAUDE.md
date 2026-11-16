@@ -74,7 +74,10 @@ DI uses **Autofac**; JWT auth + Swagger configured in `Site/Gmf.Marush.Care.Api/
 These apply to every file in every stack. Skills carry the full detail; this is the cross-cutting reminder.
 
 - **No abbreviations** — write every identifier in full. Accepted acronyms: `Id`, `Url`, `Http`, `Api`, `Dto` (as Infrastructure persistence-record suffix only).
-- **One file per type** — each class, record, interface, or enum in its own file, named after the type.
+- **One file per type** — each class, record or interface in its own file, named after the type.
+- **No enums** — the `enum` keyword is banned in both stacks. An enum of outcomes or states is a missing abstraction: put the rule on a rich domain model, express found/not found as `bool`/`null`, a broken invariant as a domain exception (`DomainConflictException` → 409), and a fixed set of persisted values as an `Enumeration<T>` class.
+- **Rich models, thin services** — a model owns the rules and values derived from its own data; a service orchestrates and holds none.
+- **Build one object, then ask it** — when several values derive from one input, create one object through a single factory and read its members. Never call a static helper once per value (`Helper.A(x)`, `Helper.B(x)`).
 - **Braces required** — every control-flow body has explicit `{ }` in 1tbs style, both C# and TypeScript.
 - **~120 lines is a split trigger** — a file approaching 120 lines is holding more than one responsibility. Split it into the abstractions it hides.
 - **No grab-bag files** — every file holds one named abstraction. A file accumulating unrelated exports must be split by responsibility; prefer a class over a pile of loose `export const` / `export function`.
@@ -92,7 +95,7 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **Functions are arrow-function properties** — `readonly name = (...) => ...` (`static readonly` for statics); no method declarations beside the constructor and lifecycle hooks, and never both styles in one class.
 - **No `ChangeDetectorRef`** — the app is zoneless; state a template reads is a signal, and DOM work that needs the rendered view uses `afterNextRender`. Never `detectChanges()` / `markForCheck()`.
 - **Search before you add** — a constant, factory or rule that already exists in the feature is reused, not redeclared.
-- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
+- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's host element (`host: { class: ... }`, never `:host`) or an existing element. Style a host class in the stylesheet of the component whose template renders it; global partials only for routed pages. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
 
 ---
 

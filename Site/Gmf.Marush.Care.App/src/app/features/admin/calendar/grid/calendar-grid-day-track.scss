@@ -1,0 +1,58 @@
+@use 'breakpoints';
+@use 'variables';
+@use './calendar-grid-variables' as grid;
+
+// The day header and day column are rendered by the grid's template, so their host elements are
+// laid out on the grid from the grid's own stylesheet.
+.day-header {
+	min-width: 0;
+	min-height: grid.$header-row-height-mobile;
+	padding: grid.$day-header-gap 4px;
+	overflow: hidden;
+	border-top: grid.$grid-border;
+	border-right: grid.$grid-border;
+	background: variables.$primary;
+	gap: grid.$day-header-gap;
+
+	@include breakpoints.apply-from-tablet() {
+		min-height: grid.$header-row-height-tablet;
+		padding: grid.$day-header-gap 8px;
+		overflow: visible;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		min-height: grid.$header-row-height;
+	}
+}
+
+.day-column {
+	position: relative;
+	min-width: grid.$day-minimum-width-mobile;
+	border-right: grid.$slot-border;
+	border-bottom: grid.$grid-border;
+}
+
+// A day's header cell and its slot column sit on the same horizontal track.
+// Declared after both so the shared overrides win the cascade.
+.day-header, .day-column {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+
+	&:last-of-type {
+		border-right: none;
+	}
+
+	@include breakpoints.apply-from-tablet() {
+		min-width: grid.$day-minimum-width-tablet;
+	}
+}
+
+// $primary against $body-color is imperceptible; the tint carries the meaning.
+.day-header.non-working-day, .day-column.non-working {
+	background: grid.$non-working-tint;
+}
+
+.day-column.non-working {
+	pointer-events: none;
+}

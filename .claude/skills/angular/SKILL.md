@@ -28,7 +28,7 @@ Accepted acronyms only: `Id`, `Url`, `Http`, `Api`.
 This covers injected dependencies and constructor parameters as much as locals: `changeDetector`, never `cdr`; `elementReference`, never `elRef`. An abbreviation already sitting in a file you are editing is not grandfathered - rename it in the same change.
 
 ### One file per type
-Each class, interface, type alias, or enum lives in its own `.ts` file (or `.ts` + `.html` + `.scss` trio for components). Never group multiple types in one file.
+Each class, interface or type alias lives in its own `.ts` file (or `.ts` + `.html` + `.scss` trio for components). Never group multiple types in one file.
 
 ### No grab-bag modules
 A `.ts` file holds **one named abstraction**. A file that accumulates unrelated exports — a form builder next to a date formatter next to a request mapper — is a bag, not a module, and must be split by responsibility. The file name has to describe the abstraction, never that it is a collection.
@@ -61,6 +61,22 @@ A model owns the values derived from its own data. Do not ship a bare data class
 // Right - the model answers, as a signal
 readonly earningsLabel: Signal<string> = computed(() => this.isPast ? pastEarningsLabel : expectedEarningsLabel);
 ```
+
+### Build one object, then ask it
+When several values derive from the same input, build one object from it through a single factory and read its members. Never call a static helper once per value, and never make the caller assemble pieces that belong together.
+
+```ts
+// Wrong - the caller assembles the pieces
+const startSlot = CalendarTimeSlots.toSlotIndex(entry.startTime);
+const endSlot = CalendarTimeSlots.toSlotIndex(entry.endTime);
+const span = endSlot - startSlot;
+
+// Right - one object that knows all of it
+const interval = TimeInterval.of(entry);
+// interval.startSlot(), interval.endSlot(), interval.slotSpan()
+```
+
+The same goes for outcomes: do not return a string union or an `enum` for a caller to switch on. Put the rule on the model and let it answer.
 
 ### Signals, never getters
 Derived state on any class - component, model or immutable value object - is a `computed()` signal. Never write a `get` accessor.
@@ -155,7 +171,7 @@ Use `model<T>()` only when the parent needs two-way binding.
 })
 ```
 
-Style the host class in the **global partials tree** under `src/styles/partials/`, not in the component's own stylesheet.
+Style the host class in the stylesheet of the **component whose template renders the element** — the host carries that parent's encapsulation attribute, so the parent's styles match it and stay in its lazy bundle. Only routed page components, which have no parent template, are styled in the global partials under `src/styles/partials/`. Never in the component's own stylesheet.
 
 ### Braces required (1tbs)
 Every `if`, `for`, `while`, `switch` body must have explicit `{ }` braces. Opening `{` on the same line as the keyword; the body and closing `}` each on their own line. Never write the body on the same line as the braces.
@@ -326,7 +342,7 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] Component is standalone with `ChangeDetectionStrategy.OnPush`
 - [ ] Inputs use `input()` / `input.required()` — no `@Input()` decorators
 - [ ] Templates use `@if` / `@for` — no `*ngIf` / `*ngFor`
-- [ ] No `:host` in stylesheets — host class declared in decorator, styled in global partials
+- [ ] No `:host` in stylesheets — host class declared in decorator, styled by the stylesheet of the template that renders it (global partials only for routed pages)
 - [ ] State uses signals (`signal`, `computed`, `linkedSignal`, `effect`) — no NgRx
 - [ ] Data reads use `httpResource()`, mutations use `lastValueFrom()`
 - [ ] Programmatic navigation goes through `RoutingDefinition`
@@ -343,4 +359,5 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 - [ ] Dialog actions share their loading/error handling via a private function property or a dedicated abstraction, and every one has a `catch`
 - [ ] No abbreviations in any identifier, including injected dependencies and names already in the file; no `SCREAMING_SNAKE_CASE`
 - [ ] All control-flow bodies have braces
+- [ ] Values derived from one input come from one object built once, not from repeated static helper calls; no `enum` or string union returned for a caller to switch on
 - [ ] Native `<input>` / `<select>` / `<textarea>` / `<dialog>` not used where a `marush-*` component exists

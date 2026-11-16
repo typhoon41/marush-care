@@ -5,6 +5,7 @@ import { RoutingDefinition } from '@shared/routes/routes';
 import { Authentication } from '@shared/services/authentication';
 import { GlobalLoader } from '@shared/services/global-loader';
 import { Observable, catchError, finalize } from 'rxjs';
+import { callerHandledStatuses } from './caller-handled-statuses';
 
 export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
     const router = inject(Router);
@@ -13,6 +14,10 @@ export const error = (request: HttpRequest<unknown>, next: HttpHandlerFn): Obser
     loader.startLoading();
     return next(request).pipe(finalize(() => loader.stopLoading()),
         catchError(async(errorFound: HttpErrorResponse) => {
+            if (request.context.get(callerHandledStatuses).includes(errorFound.status)) {
+                throw errorFound;
+            }
+
             if (errorFound.status === HttpStatusCode.Unauthorized) {
                 authentication.logout();
                 await router.navigate([new RoutingDefinition().error($localize`:@@routes.error.unauthorized:nemate-pristup`)]);

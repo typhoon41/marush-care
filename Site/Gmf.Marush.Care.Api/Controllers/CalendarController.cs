@@ -22,17 +22,17 @@ public class CalendarController(ICalendarService calendarService) : ControllerBa
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request)
-    {
-        await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid()));
-        return Created();
-    }
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> CreateEntry(NewCalendarEntryDto request) =>
+        await calendarService.CreateEntry(request.ToDomain(Guid.NewGuid())) ? Created() : NotFound();
 
     [HttpPut("entry/{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateEntry(Guid id, NewCalendarEntryDto request) =>
         await calendarService.UpdateEntry(id, request.ToDomain(id)) ? NoContent() : NotFound();
 

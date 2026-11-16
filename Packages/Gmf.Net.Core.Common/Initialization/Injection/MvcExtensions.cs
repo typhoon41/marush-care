@@ -13,6 +13,7 @@ namespace Gmf.Net.Core.Common.Initialization.Injection;
 public static class MvcExtensions
 {
     private static readonly IEnumerable<Func<FilterCollection, IFilterMetadata>> DefaultFilters = [
+        filters => filters.Add<DomainConflictFilter>(),
         filters => filters.Add<RollbackTransactionFilter>(),
         filters => filters.Add<TransactionFilter>()
     ];

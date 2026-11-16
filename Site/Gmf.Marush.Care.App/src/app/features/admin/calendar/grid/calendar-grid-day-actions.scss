@@ -1,7 +1,6 @@
 @use 'breakpoints';
 @use 'variables';
 @use '../calendar-variables' as calendar;
-@use './calendar-grid-variables' as grid;
 
 .button-icon {
 	display: block;
@@ -56,27 +55,5 @@
 
 	@include breakpoints.apply-from-tablet() {
 		order: 0;
-	}
-}
-
-.time-label {
-	display: flex;
-	box-sizing: border-box;
-	flex: none;
-	align-items: flex-start;
-	justify-content: flex-end;
-	height: grid.$slot-height;
-	padding: 2px 4px 0;
-	opacity: .55;
-	color: variables.$font-color;
-	font-size: 9px;
-
-	@include breakpoints.apply-from-tablet() {
-		padding: 2px 6px 0;
-		font-size: 12px;
-	}
-
-	@include breakpoints.apply-from-desktop() {
-		font-size: 13px;
 	}
 }

@@ -35,3 +35,17 @@ $line-button-width: 34px;
 		}
 	}
 }
+
+// Clears the call-to-action look the global `button` element rule applies, for a button that has to
+// read as part of its surroundings. Declarations only, so it can be included before anything else.
+@mixin plain-button() {
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	background: none;
+	font: inherit;
+	letter-spacing: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	text-transform: none;
+}

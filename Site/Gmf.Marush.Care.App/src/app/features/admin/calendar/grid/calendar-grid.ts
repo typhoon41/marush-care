@@ -16,7 +16,7 @@ import { SlotDrag } from './slot-drag';
     selector: 'marush-calendar-grid',
     imports: [CalendarDayColumn, CalendarDayHeader],
     templateUrl: './calendar-grid.html',
-    styleUrl: './calendar-grid.scss'
+    styleUrls: ['./calendar-grid.scss', './calendar-grid-day-track.scss']
 })
 export class CalendarGrid {
     readonly days = input.required<DayInfo[]>();
@@ -25,6 +25,7 @@ export class CalendarGrid {
     readonly notes = input<CalendarNote[]>([]);
 
     readonly entryClick = output<CalendarEntry>();
+    readonly appointmentClick = output<PublicAppointment>();
     readonly dragComplete = output<CalendarSelection>();
     readonly noteClick = output<{ date: string; type: CalendarNoteType }>();
     readonly nonWorkingDayToggle = output<{ date: string; existing: CalendarNote | undefined }>();

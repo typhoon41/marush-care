@@ -1,6 +1,7 @@
-import { HttpClient, httpResource } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpStatusCode, httpResource } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { environment } from '@env';
+import { callerHandledStatuses } from '@shared/interceptors/caller-handled-statuses';
 import { Authentication } from '@shared/services/authentication';
 import { lastValueFrom } from 'rxjs';
 import { CalendarEntryRequest } from './calendar-entry-request';
@@ -22,10 +23,10 @@ export class Calendar {
     }), { parse: CalendarWeekParser.parse });
 
     readonly createEntry = (request: CalendarEntryRequest) =>
-        lastValueFrom(this.http.post<void>(`${Calendar.endpoint}/entry`, request, { headers: this.headers() }));
+        lastValueFrom(this.http.post<void>(`${Calendar.endpoint}/entry`, request, this.entrySaveOptions()));
 
     readonly updateEntry = (id: string, request: CalendarEntryRequest) =>
-        lastValueFrom(this.http.put<void>(`${Calendar.endpoint}/entry/${id}`, request, { headers: this.headers() }));
+        lastValueFrom(this.http.put<void>(`${Calendar.endpoint}/entry/${id}`, request, this.entrySaveOptions()));
 
     readonly deleteEntry = (id: string) =>
         lastValueFrom(this.http.delete<void>(`${Calendar.endpoint}/entry/${id}`, { headers: this.headers() }));
@@ -35,6 +36,12 @@ export class Calendar {
 
     readonly deleteNote = (id: string) =>
         lastValueFrom(this.http.delete<void>(`${Calendar.endpoint}/note/${id}`, { headers: this.headers() }));
+
+    // The entry dialog tells the admin about an overlap itself, so a conflict comes back to it.
+    private readonly entrySaveOptions = () => ({
+        headers: this.headers(),
+        context: new HttpContext().set(callerHandledStatuses, [HttpStatusCode.Conflict])
+    });
 
     private readonly headers = () => ({
         Authorization: `Bearer ${this.authentication.getToken()}`,

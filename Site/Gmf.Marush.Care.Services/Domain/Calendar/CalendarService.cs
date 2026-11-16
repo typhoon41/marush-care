@@ -1,7 +1,6 @@
 using Gmf.DDD.Common.Contracts;
 using Gmf.Marush.Care.Domain.Contracts.Repositories;
 using Gmf.Marush.Care.Domain.Contracts.Services;
-using Gmf.Marush.Care.Domain.Events.Calendar;
 using Gmf.Marush.Care.Domain.Models;
 
 namespace Gmf.Marush.Care.Services.Domain.Calendar;
@@ -19,7 +18,11 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
             await retrievalRepository.GetNotesForWeek(monday));
     }
 
-    public async Task CreateEntry(CalendarEntry entry) => await modificationRepository.AddEntry(entry);
+    public async Task<bool> CreateEntry(CalendarEntry entry)
+    {
+        await Claim(new CalendarBooking(entry));
+        return await modificationRepository.AddEntry(entry);
+    }
 
     public async Task<bool> UpdateEntry(Guid id, CalendarEntry entry)
     {
@@ -29,8 +32,14 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
             return false;
         }
 
-        await modificationRepository.UpdateEntry(id, entry);
-        await AnnounceRescheduling(existing, entry);
+        var booking = new CalendarBooking(entry, existing);
+        await Claim(booking);
+        if (!await modificationRepository.UpdateEntry(id, entry))
+        {
+            return false;
+        }
+
+        await AnnounceRescheduling(booking);
         return true;
     }
 
@@ -40,20 +49,23 @@ public class CalendarService(ICalendarRetrievalRepository retrievalRepository,
 
     public async Task<bool> DeleteNote(Guid id) => await modificationRepository.DeleteNote(id);
 
-    private async Task AnnounceRescheduling(CalendarEntry existing, CalendarEntry updated)
+    // The slot is looked up only for a booking that claims one.
+    private async Task Claim(CalendarBooking booking) =>
+        booking.Claim(booking.ClaimsSlot && await retrievalRepository.IsOccupied(booking));
+
+    private async Task AnnounceRescheduling(CalendarBooking booking)
     {
-        if (existing.Period == updated.Period || existing.AppointmentId is null)
+        if (booking.MovedAppointmentId is not { } appointmentId)
         {
             return;
         }
 
-        var contact = await retrievalRepository.GetAppointmentContact(existing.AppointmentId.Value);
+        var contact = await retrievalRepository.GetAppointmentContact(appointmentId);
         if (contact is null)
         {
             return;
         }
 
-        integrationEvents.Add(new AppointmentRescheduled(contact.Value.Email, contact.Value.Language,
-            existing.Period, updated.Period));
+        integrationEvents.Add(booking.Rescheduled(contact.Value.Email, contact.Value.Language));
     }
 }

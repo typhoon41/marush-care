@@ -8,6 +8,7 @@ import { CalendarEntry } from '../calendar-entry';
 import { CalendarEntryRequest } from '../calendar-entry-request';
 import { CalendarSelection } from '../calendar-selection';
 import { CalendarTimeSlots } from '../calendar-time-slots';
+import { PublicAppointment } from '../public-appointment';
 import { ClientSelection } from './client-selection';
 import { EntryErrors } from './entry-errors';
 import { EntryForm, buildEntryForm } from './entry-form';
@@ -51,17 +52,11 @@ export class EntryDialogForm {
         this.errors = new EntryErrors(this.saveAttempted, this.clientSelection.interacted, values);
     }
 
-    readonly reset = (selection?: CalendarSelection, entry?: CalendarEntry) => {
-        const value = EntryFormValue.for(selection, entry);
-        this.group.reset(value);
-        this.clientSelection.reset(entry?.clientName);
-        this.treatmentSelection.reset(entry?.treatments ?? []);
-        this.selectedStartTime.set(CalendarTimeSlots.findOption(value.startTime));
-        this.selectedEndTime.set(CalendarTimeSlots.findOption(value.endTime));
-        this.pickerDate.set(EntryDialogForm.toPickerDate(value.date));
-        this.saveAttempted.set(false);
-        this.moneySynchronization.reset(entry?.money);
-    };
+    readonly reset = (selection?: CalendarSelection, entry?: CalendarEntry) =>
+        this.show(EntryFormValue.for(selection, entry), entry?.clientName, entry?.treatments, entry?.money);
+
+    readonly resetForRequest = (request: PublicAppointment) =>
+        this.show(EntryFormValue.forRequest(request), request.clientName);
 
     readonly acceptsSave = (): boolean => {
         this.saveAttempted.set(true);
@@ -75,4 +70,15 @@ export class EntryDialogForm {
 
     readonly toRequest = (): CalendarEntryRequest =>
         CalendarEntryRequest.from(this.group.getRawValue(), this.treatmentSelection.selectedNames());
+
+    private readonly show = (value: EntryFormValue, clientName?: string, treatments: string[] = [], money?: number) => {
+        this.group.reset(value);
+        this.clientSelection.reset(clientName);
+        this.treatmentSelection.reset(treatments);
+        this.selectedStartTime.set(CalendarTimeSlots.findOption(value.startTime));
+        this.selectedEndTime.set(CalendarTimeSlots.findOption(value.endTime));
+        this.pickerDate.set(EntryDialogForm.toPickerDate(value.date));
+        this.saveAttempted.set(false);
+        this.moneySynchronization.reset(money);
+    };
 }

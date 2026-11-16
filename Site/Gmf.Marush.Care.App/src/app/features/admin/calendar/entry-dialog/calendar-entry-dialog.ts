@@ -1,4 +1,6 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from '@shared/components/dialog/dialog';
 import { DialogOperation } from '@shared/components/dialog/dialog-operation';
@@ -11,6 +13,7 @@ import { Clients } from '../../clients/clients';
 import { Calendar } from '../calendar';
 import { CalendarEntry } from '../calendar-entry';
 import { CalendarSelection } from '../calendar-selection';
+import { PublicAppointment } from '../public-appointment';
 import { EntryDialogForm } from './entry-dialog-form';
 
 const newEntryTitle = 'Novi termin';
@@ -27,6 +30,9 @@ export class CalendarEntryDialog {
     readonly saved = output<void>();
     readonly deleted = output<void>();
 
+    /** A save was rejected because the time is taken, so the week on screen is out of date. */
+    readonly conflicted = output<void>();
+
     private readonly dialog = viewChild.required(Dialog);
     private readonly calendarService = inject(Calendar);
 
@@ -37,6 +43,13 @@ export class CalendarEntryDialog {
     protected readonly entryForm = new EntryDialogForm(
         inject(NonNullableFormBuilder), inject(Clients), this.editingEntry);
 
+    protected readonly overlapRejected = computed(() => this.operation.failureStatus() === HttpStatusCode.Conflict);
+
+    constructor() {
+        // A failure message describes the values that were sent, so it goes once they are edited.
+        this.entryForm.group.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => this.operation.reset());
+    }
+
     readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
@@ -44,9 +57,23 @@ export class CalendarEntryDialog {
         this.dialog().open();
     };
 
+    /** Opens a new entry for an online request, at the time and for the client it asked for. */
+    readonly openForRequest = (request: PublicAppointment) => {
+        this.editingEntry.set(null);
+        this.entryForm.resetForRequest(request);
+        this.operation.reset();
+        this.dialog().open();
+    };
+
     protected readonly onSave = async() => {
-        if (this.entryForm.acceptsSave() && await this.operation.run(this.persist)) {
+        if (!this.entryForm.acceptsSave()) {
+            return;
+        }
+
+        if (await this.operation.run(this.persist)) {
             this.saved.emit();
+        } else if (this.overlapRejected()) {
+            this.conflicted.emit();
         }
     };
 

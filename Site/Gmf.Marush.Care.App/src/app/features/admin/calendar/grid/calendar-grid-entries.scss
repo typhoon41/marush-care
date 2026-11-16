@@ -1,49 +1,33 @@
+@use 'buttons';
 @use 'variables';
-@use 'breakpoints';
-@use 'scss-solutions/src/modules/position/absolute';
-@use './calendar-grid-variables' as grid;
+@use './calendar-grid-entry-box';
+
+// Only what the cell components render themselves. Their host elements are placed on the day column
+// by the day column's own stylesheet, calendar-grid-entry-placement.scss.
 
 %entry-content {
 	line-height: 1.2;
 }
 
-.entry-cell, .public-appointment-cell {
-	@include absolute.unset-position(unset, 2px, unset, 2px);
-	display: flex;
-	z-index: 2;
-	box-sizing: border-box;
-	flex-direction: column;
-	padding: 2px 5px;
-	overflow: hidden;
-	border: 1px solid currentcolor;
-	border-left-width: 3px;
-	border-radius: 3px;
-	box-shadow: 0 1px 2px rgba(variables.$font-color, .25);
-	gap: 1px;
+// A cell is a button for keyboard access but reads as a calendar block, not a call to action.
+@mixin cell-button($background, $color) {
+	@include buttons.plain-button();
+	@include calendar-grid-entry-box.appearance();
+	background: $background;
+	color: $color;
+	@include calendar-grid-entry-box.text-size();
 }
 
 .entry-cell {
-	background: variables.$accent;
-	color: variables.$font-color;
-	font-size: grid.$time-size-mobile;
-
-	&:hover {
-		opacity: .9;
-	}
-
-	@include breakpoints.apply-from-tablet() {
-		font-size: grid.$time-size-tablet;
-	}
-
-	@include breakpoints.apply-from-desktop() {
-		font-size: grid.$time-size;
-	}
+	@include cell-button(variables.$accent, variables.$font-color);
 }
 
 .public-appointment-cell {
-	background: variables.$error;
-	color: variables.$error-font-color;
-	cursor: default;
+	@include cell-button(variables.$error, variables.$error-font-color);
+}
+
+.entry-cell:hover, .public-appointment-cell:hover {
+	opacity: .9;
 }
 
 .entry-time {
@@ -69,16 +53,4 @@
 	@extend %entry-content;
 	opacity: .7;
 	font-size: 7px;
-}
-
-@for $slot from 0 through grid.$slots-count {
-	.entry-top-#{$slot} {
-		top: $slot * grid.$slot-height;
-	}
-}
-
-@for $span from 1 through grid.$slots-count {
-	.entry-span-#{$span} {
-		height: $span * grid.$slot-height;
-	}
 }

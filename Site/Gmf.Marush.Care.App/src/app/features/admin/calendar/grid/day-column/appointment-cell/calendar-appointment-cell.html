@@ -1,2 +1,5 @@
-<span class="entry-time">{{ timeRange() }}</span>
-<span class="entry-client ellipsis">{{ appointment().clientName }}</span>
+<button type="button" class="public-appointment-cell clickable stretch" [title]="tooltip()"
+        (click)="appointmentSelected.emit(appointment())">
+    <span class="entry-time">{{ timeRange() }}</span>
+    <span class="entry-client ellipsis">{{ appointment().clientName }}</span>
+</button>
