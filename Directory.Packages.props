@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-        <AspireVersion>13.4.6</AspireVersion>
+        <AspireVersion>13.6.5</AspireVersion>
         <DotnetVersion>10.0.14</DotnetVersion>
     </PropertyGroup>
     <ItemGroup>
@@ -24,8 +24,8 @@
         <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
         <PackageVersion Include="MailKit" Version="4.16.0" />
         <PackageVersion Include="MimeKit" Version="4.16.0" />
-        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
-        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.3" />
+        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.17.0" />
+        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.17.0" />
         <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.2" />
         <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.1" />
         <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.1" />
@@ -36,7 +36,7 @@
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
         <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
 		<!-- Try removing packages below this line next time you upgrade packages. Pinned here only due to security issues, but not needed -->
-        <PackageVersion Include="OpenTelemetry.Api" Version="1.15.3" />        
+        <PackageVersion Include="OpenTelemetry.Api" Version="1.17.0" />        
         <PackageVersion Include="MessagePack" Version="2.5.307" />
         <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="$(DotnetVersion)" />
 		<PackageVersion Include="System.Security.Cryptography.Xml" Version="$(DotnetVersion)" />
