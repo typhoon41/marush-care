@@ -10,8 +10,10 @@ public record CalendarEntryDto(
     string? Notes,
     decimal? Money,
     IEnumerable<string> Treatments,
-    string ClientName)
+    string ClientName,
+    bool BookedOnline)
 {
     public static CalendarEntryDto MapFrom(CalendarEntry entry) => new(entry.Id, entry.AppointmentId!.Value,
-        entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money, entry.Treatments, entry.ClientName);
+        entry.Date, entry.StartTime, entry.EndTime, entry.Notes, entry.Money, entry.Treatments, entry.ClientName,
+        entry.BookedOnline);
 }

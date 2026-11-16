@@ -17,6 +17,7 @@ public record AppointmentDto : EntityDto
     public DateTimeOffset? ExpectedEndTime { get; set; }
     public string Description { get; set; } = string.Empty;
     public decimal? Money { get; set; }
+    public bool BookedOnline { get; set; }
     public IList<AppointmentTreatmentDto> Treatments { get; } = [];
     public CustomerDto Customer { get; set; } = new CustomerDto();
     public AppointmentStatusDto Status { get; set; } = new AppointmentStatusDto();
