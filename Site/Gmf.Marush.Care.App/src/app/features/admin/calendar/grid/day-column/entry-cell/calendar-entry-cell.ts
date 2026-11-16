@@ -1,29 +1,24 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { CalendarCellSummary } from '../../../calendar-cell-summary';
 import { CalendarEntry } from '../../../calendar-entry';
-import { formatMoney } from '../../../money-formatter';
-import { TimeInterval } from '../../../time-interval';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: { '[class]': 'positionClasses()' },
     selector: 'marush-calendar-entry-cell',
     imports: [],
-    templateUrl: './calendar-entry-cell.html',
+    templateUrl: '../calendar-booking-cell.html',
     styleUrl: '../../calendar-grid-entries.scss'
 })
 export class CalendarEntryCell {
     readonly entry = input.required<CalendarEntry>();
     readonly entrySelected = output<CalendarEntry>();
 
-    private readonly interval = computed(() => TimeInterval.of(this.entry()));
+    protected readonly cellClass = 'entry-cell clickable stretch';
+    protected readonly summary = computed(() => CalendarCellSummary.ofEntry(this.entry()));
+    protected readonly tooltip = computed(() => this.summary().tooltip());
 
-    protected readonly timeRange = computed(() => this.interval().range());
-    protected readonly tooltip = computed(() => [this.entry().clientName, ...this.entry().treatmentTitles].join('\n'));
-    protected readonly hasClientName = computed(() => this.entry().clientName.length > 0);
-    protected readonly hasMoney = computed(() => this.entry().money !== undefined);
-    protected readonly money = computed(() => `${formatMoney(this.entry().money ?? 0)} RSD`);
-    protected readonly notes = computed(() => this.entry().notes ?? '');
-    protected readonly hasNotes = computed(() => this.notes().length > 0);
+    readonly positionClasses = computed(() => this.summary().positionClasses());
 
-    readonly positionClasses = computed(() => `grid-entry-placeholder ${this.interval().positionClasses()}`);
+    protected readonly select = () => this.entrySelected.emit(this.entry());
 }

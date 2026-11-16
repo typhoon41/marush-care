@@ -4,5 +4,5 @@ using Gmf.Marush.Care.Domain.Models;
 namespace Gmf.Marush.Care.Domain.Contracts.Services;
 public interface IAppointmentService
 {
-    Task<Guid> Schedule(Customer customer, Period appointment);
+    Task<Guid> Schedule(Customer customer, Period appointment, TreatmentSelection treatments);
 }

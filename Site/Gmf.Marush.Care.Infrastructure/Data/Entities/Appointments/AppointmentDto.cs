@@ -16,6 +16,8 @@ public record AppointmentDto : EntityDto
     public DateTimeOffset ScheduledFor { get; set; }
     public DateTimeOffset? ExpectedEndTime { get; set; }
     public string Description { get; set; } = string.Empty;
+    public decimal? Money { get; set; }
+    public IList<AppointmentTreatmentDto> Treatments { get; } = [];
     public CustomerDto Customer { get; set; } = new CustomerDto();
     public AppointmentStatusDto Status { get; set; } = new AppointmentStatusDto();
     public CustomerPhoneDto CustomerPhone { get; set; } = new CustomerPhoneDto();
@@ -31,7 +33,25 @@ public record AppointmentDto : EntityDto
         var start = ScheduledFor.ToLocalTime().DateTime;
         var end = End().ToLocalTime().DateTime;
         return new CalendarAppointment(Id, DateOnly.FromDateTime(start), TimeOnly.FromDateTime(start), TimeOnly.FromDateTime(end),
-            $"{Customer.Name} {Customer.Surname}".Trim(), Phone, Email ?? string.Empty, Status.Name, Description);
+            $"{Customer.Name} {Customer.Surname}".Trim(), Phone, Email ?? string.Empty, Status.Name, Description,
+            Money, TreatmentNames());
+    }
+
+    public IReadOnlyCollection<string> TreatmentNames() => [.. Treatments.Select(treatment => treatment.Name)];
+
+    // Keeps the treatments that are still named, so their rows are not deleted and inserted again.
+    public void ReplaceTreatments(IReadOnlyCollection<string> names)
+    {
+        foreach (var removed in Treatments.Where(existing => !names.Contains(existing.Name)).ToList())
+        {
+            _ = Treatments.Remove(removed);
+        }
+
+        var kept = Treatments.Select(existing => existing.Name).ToHashSet();
+        foreach (var name in names.Where(name => !kept.Contains(name)).Distinct())
+        {
+            Treatments.Add(new AppointmentTreatmentDto { AppointmentId = Id, Appointment = this, Name = name });
+        }
     }
 
     public void AssignCustomer(CustomerDto customer)

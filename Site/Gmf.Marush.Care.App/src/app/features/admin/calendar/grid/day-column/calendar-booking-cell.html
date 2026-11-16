@@ -1,0 +1,15 @@
+<button type="button" [class]="cellClass" [title]="tooltip()" (click)="select()">
+    <span class="entry-time">{{ summary().timeRange() }}</span>
+    @if (summary().hasClientName()) {
+        <span class="entry-client ellipsis">{{ summary().clientName() }}</span>
+    }
+    @for (title of summary().treatmentTitles(); track title) {
+        <span class="entry-treatment ellipsis">{{ title }}</span>
+    }
+    @if (summary().hasMoney()) {
+        <span class="entry-money">{{ summary().money() }}</span>
+    }
+    @if (summary().hasNotes()) {
+        <span class="entry-notes-dot" [title]="summary().notes">&#9679;</span>
+    }
+</button>

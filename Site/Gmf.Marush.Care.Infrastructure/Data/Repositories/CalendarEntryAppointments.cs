@@ -12,13 +12,22 @@ public class CalendarEntryAppointments(DbContext context)
     private readonly DbSet<AppointmentDto> _appointments = context.Set<AppointmentDto>();
 
     /// <summary>
-    /// The online request the entry is created from, or a new approved appointment for its customer.
-    /// Null when that request or customer does not exist.
+    /// The online request the entry is created from, moved to the client chosen for the entry if one was,
+    /// or a new approved appointment for its customer. Null when that request or customer does not exist.
+    /// A request comes with the treatments it was booked for, so replacing them keeps the ones still chosen.
     /// </summary>
-    public async Task<AppointmentDto?> For(CalendarEntry entry) =>
-        entry.AppointmentId.HasValue
-            ? await _appointments.FindAsync(entry.AppointmentId.Value)
-            : await CreateFor(entry.CustomerId);
+    public async Task<AppointmentDto?> For(CalendarEntry entry)
+    {
+        if (entry.AppointmentId is not { } requestId)
+        {
+            return await CreateFor(entry.CustomerId);
+        }
+
+        var request = await _appointments
+            .Include(appointment => appointment.Treatments)
+            .SingleOrDefaultAsync(appointment => appointment.Id == requestId);
+        return request is not null && await Reassign(request, entry.CustomerId) ? request : null;
+    }
 
     /// <summary>False when the customer does not exist; the appointment is left as it was.</summary>
     public async Task<bool> Reassign(AppointmentDto appointment, Guid customerId)

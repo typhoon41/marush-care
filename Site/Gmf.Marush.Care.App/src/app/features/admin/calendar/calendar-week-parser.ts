@@ -25,7 +25,11 @@ export class CalendarWeekParser {
         });
 
     static readonly parseAppointment = (appointment: PublicAppointment): PublicAppointment =>
-        Object.assign(new PublicAppointment(), appointment, CalendarWeekParser.scheduleOf(appointment));
+        Object.assign(new PublicAppointment(), appointment, CalendarWeekParser.scheduleOf(appointment), {
+            // Requests made before treatments were stored have no money; undefined keeps it following the treatments.
+            money: appointment.money ?? undefined,
+            treatmentTitles: appointment.treatments.map(TreatmentCatalog.titleOf)
+        });
 
     static readonly parseNote = (note: CalendarNote): CalendarNote =>
         Object.assign(new CalendarNote(), note, { date: CalendarWeekParser.toIsoDate(note.date) });

@@ -56,7 +56,7 @@ export class EntryDialogForm {
         this.show(EntryFormValue.for(selection, entry), entry?.clientName, entry?.treatments, entry?.money);
 
     readonly resetForRequest = (request: PublicAppointment) =>
-        this.show(EntryFormValue.forRequest(request), request.clientName);
+        this.show(EntryFormValue.forRequest(request), request.clientName, request.treatments, request.money);
 
     readonly acceptsSave = (): boolean => {
         this.saveAttempted.set(true);

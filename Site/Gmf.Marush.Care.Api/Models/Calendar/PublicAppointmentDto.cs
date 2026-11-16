@@ -10,9 +10,12 @@ public record PublicAppointmentDto(
     string Phone,
     string Email,
     string Status,
-    string? Description)
+    string? Description,
+    decimal? Money,
+    IReadOnlyCollection<string> Treatments)
 {
     public static PublicAppointmentDto MapFrom(CalendarAppointment appointment) => new(appointment.Id,
         appointment.Date, appointment.StartTime, appointment.EndTime, appointment.ClientName,
-        appointment.Phone, appointment.Email, appointment.Status, appointment.Description);
+        appointment.Phone, appointment.Email, appointment.Status, appointment.Description,
+        appointment.Money, appointment.Treatments);
 }

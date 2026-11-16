@@ -18,6 +18,7 @@ public record AppointmentRequest
     public int Duration { get; set; }
 
     internal Customer Customer => new(Guid.Empty, Name, Surname, Email, Phone);
+    internal TreatmentSelection Selection => new([.. SerbianTreatments], Sum);
     internal string FullName => $"{Name} {Surname}";
     internal string FormattedAppointmentStart => LocalTime.ToString("g", CultureInfo.CurrentCulture);
     internal string SerbianAppointmentStart => LocalTime.ToString("g", new CultureInfo("sr"));
