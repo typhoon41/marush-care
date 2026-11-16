@@ -73,7 +73,8 @@ public class AppointmentRepository(DbContext context) : IAppointmentRepository
                 Email = customer.Email
             },
             Status = statusRequested,
-            Money = treatments.Money
+            Money = treatments.Money,
+            BookedOnline = true
         };
         newAppointment.ReplaceTreatments(treatments.Treatments);
 

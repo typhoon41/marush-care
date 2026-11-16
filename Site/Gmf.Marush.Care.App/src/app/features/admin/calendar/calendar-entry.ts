@@ -9,4 +9,5 @@ export class CalendarEntry {
     treatments: string[] = [];
     clientName: string = '';
     treatmentTitles: string[] = [];
+    bookedOnline = false;
 }

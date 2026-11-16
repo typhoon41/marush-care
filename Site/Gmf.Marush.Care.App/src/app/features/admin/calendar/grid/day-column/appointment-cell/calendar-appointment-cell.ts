@@ -14,7 +14,7 @@ export class CalendarAppointmentCell {
     readonly appointment = input.required<PublicAppointment>();
     readonly appointmentSelected = output<PublicAppointment>();
 
-    protected readonly cellClass = 'public-appointment-cell clickable stretch';
+    protected readonly cellClass = computed(() => 'public-appointment-cell clickable stretch');
     protected readonly summary = computed(() => CalendarCellSummary.ofRequest(this.appointment()));
     protected readonly tooltip = computed(() => `Onlajn zahtev: ${this.summary().tooltip()}`);
 

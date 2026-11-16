@@ -18,5 +18,6 @@ public record CalendarEntryDto : EntityDto
         string.IsNullOrWhiteSpace(Appointment.Description) ? null : Appointment.Description,
         Appointment.Money,
         Appointment.TreatmentNames(),
-        $"{Appointment.Customer.Name} {Appointment.Customer.Surname}".Trim());
+        $"{Appointment.Customer.Name} {Appointment.Customer.Surname}".Trim(),
+        Appointment.BookedOnline);
 }

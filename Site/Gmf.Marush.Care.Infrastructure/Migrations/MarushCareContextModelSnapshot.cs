@@ -28,6 +28,9 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("BookedOnline")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 

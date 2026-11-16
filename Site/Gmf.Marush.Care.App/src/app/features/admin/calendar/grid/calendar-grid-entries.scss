@@ -26,6 +26,11 @@
 	@include cell-button(variables.$error, variables.$error-font-color);
 }
 
+// An entry that started as an online request keeps the request's colour on its left stripe.
+.entry-cell.booked-online {
+	border-left-color: variables.$error-font-color;
+}
+
 .entry-cell:hover, .public-appointment-cell:hover {
 	opacity: .9;
 }
