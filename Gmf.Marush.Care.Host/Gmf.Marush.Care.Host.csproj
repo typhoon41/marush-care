@@ -1,10 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Sdk Name="Aspire.AppHost.Sdk" Version="13.1.0" />
+    <Sdk Name="Aspire.AppHost.Sdk" Version="13.6.5" />
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <IsAspireHost>true</IsAspireHost>
         <UserSecretsId>addbbcc0-67f8-40c3-bfab-b5bdfc827200</UserSecretsId>
         <SuppressCheckGrpcNetClientFactoryVersion>true</SuppressCheckGrpcNetClientFactoryVersion>
+    </PropertyGroup>
+    <!-- Local builds use the Aspire CLI bundle (downloaded once into ~/.aspire). Azure Pipelines (TF_BUILD)
+         never runs the AppHost, so it skips the ~360 MB per-run bundle setup and its ASPIRE010 notice. -->
+    <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+        <AspireUseCliBundle>true</AspireUseCliBundle>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+        <AspireUseCliBundle>false</AspireUseCliBundle>
+        <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);ASPIRE010</MSBuildWarningsAsMessages>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="appsettings.json" />
