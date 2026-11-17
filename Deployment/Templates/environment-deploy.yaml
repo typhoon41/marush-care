@@ -86,6 +86,9 @@ jobs:
               archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
             retryCountOnTaskFailure: 3
 
+          - ${{ if parameters.shouldBackUpDatabase }}:
+            - template: backup-database.yaml
+
           - script: |
               msdeploy.exe -source:contentPath="$(Pipeline.Workspace)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' -verb:sync -disablerule:BackupRule
             displayName: 'Put App Offline page'
@@ -95,7 +98,6 @@ jobs:
             parameters:
               dbContextName: ${{ parameters.dbContextName }}
               artifactName: ${{ parameters.artifactName }}
-              shouldBackUpDatabase: ${{ parameters.shouldBackUpDatabase }}
 
           - task: IISWebAppDeploymentOnMachineGroup@0
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
