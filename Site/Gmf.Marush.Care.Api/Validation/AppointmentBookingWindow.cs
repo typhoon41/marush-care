@@ -1,22 +1,20 @@
 namespace Gmf.Marush.Care.Api.Validation;
 
 /// <summary>
-/// The range of calendar days a customer may book: from today up to <see cref="DaysAhead"/> days ahead,
-/// where "today" is the salon's day in Belgrade, independent of the server's time zone.
+/// The calendar days a customer may book, matching the customer date picker:
+/// weekdays from today up to the same day next month. The server runs in the salon's (Belgrade) time zone.
 /// </summary>
 public sealed class AppointmentBookingWindow
 {
-    private const int DaysAhead = 32;
-    private static readonly TimeZoneInfo SalonTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Belgrade");
-
     private readonly DateOnly _firstDay;
     private readonly DateOnly _lastDay;
 
-    public AppointmentBookingWindow(DateTimeOffset now)
+    public AppointmentBookingWindow(DateOnly today)
     {
-        _firstDay = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(now, SalonTimeZone).DateTime);
-        _lastDay = _firstDay.AddDays(DaysAhead);
+        _firstDay = today;
+        _lastDay = today.AddMonths(1);
     }
 
-    public bool Contains(DateOnly date) => date >= _firstDay && date <= _lastDay;
+    public bool Contains(DateOnly date) =>
+        date >= _firstDay && date <= _lastDay && date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
 }

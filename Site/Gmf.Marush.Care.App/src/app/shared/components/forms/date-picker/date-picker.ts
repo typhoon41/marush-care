@@ -54,7 +54,10 @@ export class DatePicker extends Field {
 
     private readonly datePickerOptions = (): AirDatepickerOptions => {
         const today = new Date();
-        const nextMonth = new Date(new Date().setMonth(today.getMonth() + 1));
+        // Same day next month, clamped to that month's last day (Jan 31 -> Feb 28), matching the API's AddMonths(1).
+        const nextMonthIndex = today.getMonth() + 1;
+        const daysInNextMonth = new Date(today.getFullYear(), nextMonthIndex + 1, 0).getDate();
+        const nextMonth = new Date(today.getFullYear(), nextMonthIndex, Math.min(today.getDate(), daysInNextMonth));
         const initiallySelectedDate = this.selectedDate();
         return {
             locale: new Language().predefined().datePickerLocale,

@@ -23,7 +23,7 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
         _ = RuleFor(request => request.Date)
             .NotNull()
             .WithMessage(Labels.ValidationRequired)
-            .Must(date => new AppointmentBookingWindow(DateTimeOffset.UtcNow).Contains(date))
+            .Must(date => new AppointmentBookingWindow(DateOnly.FromDateTime(DateTime.Now)).Contains(date))
             .WithMessage(Labels.ValidationInterval);
         _ = RuleFor(request => request.Time)
             .NotNull()
