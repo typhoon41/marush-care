@@ -9,55 +9,52 @@ schedules:
     - main
   always: false
 
+pool:
+  vmImage: windows-latest
+
+variables:
+  solution: 'MarushCare.slnx'
+
 steps:
+  - checkout: self
+    fetchDepth: 0 # SonarQube needs history for new-code detection and blame
+
+  - task: UseDotNet@2
+    displayName: 'Set .Net version'
+    inputs:
+      version: 10.0.x
+
   - task: DotNetCoreCLI@2
-    displayName: 'Restore Packages'
+    displayName: 'Restore Packages'
     inputs:
       command: 'restore'
-      projects: '**/*.sln'
-  - task: SonarQubePrepare@5
+      projects: $(solution)
+
+  - task: SonarQubePrepare@7
     displayName: 'Prepare SonarQube analysis'
     inputs:
       SonarQube: 'SonarQube'
-      scannerMode: 'MSBuild'
+      scannerMode: 'dotnet'
       projectKey: 'Marush'
       projectName: 'Marush'
-      extraProperties: 'sonar.coverageReportPaths=coveragereport/SonarQube.xml'
+
   - task: DotNetCoreCLI@2
     displayName: 'Build'
     inputs:
       command: 'build'
-      projects: '**/*.sln'
+      projects: $(solution)
+      arguments: '--no-restore'
 
+  # SonarQube Community Edition has no branch analysis; drop the branch name so results land on the main project.
   - powershell: |
       $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w,/,-]*"\,?'
       Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
     displayName: 'Fixing Sonar Branch'
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Run Tests'
-    inputs:
-      command: 'test'
-      projects: '**/*.Tests.csproj'
-      arguments: '--no-build --collect "XPlat Code Coverage"'
+  - task: SonarQubeAnalyze@7
+    displayName: 'Run SonarQube analysis'
 
-  - task: ReportGenerator@5
-    displayName: 'Generate Reports'
-    inputs:
-      reports: 'tests/**/coverage.cobertura.xml;$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-      targetdir: 'coveragereport'
-      reporttypes: 'HtmlInline_AzurePipelines;Cobertura;SonarQube'
-
-  - task: PublishCodeCoverageResults@1
-    displayName: 'Publish Results'
-    inputs:
-      codeCoverageTool: 'Cobertura'
-      summaryFileLocation: 'coveragereport/Cobertura.xml'
-
-  - task: SonarQubeAnalyze@5
-    displayName: 'Run SonarQube analysis'
-
-  - task: SonarQubePublish@5
-    displayName: 'Publish SonarQube analysis'
+  - task: SonarQubePublish@7
+    displayName: 'Publish SonarQube analysis'
     inputs:
       pollingTimeoutSec: '300'
