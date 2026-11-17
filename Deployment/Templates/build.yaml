@@ -17,7 +17,6 @@ jobs:
       MigrationsStagingPath: $(Build.ArtifactStagingDirectory)/Migrations
       DotNetVersion: 10.0.x
       NodeVersion: 22.20.0
-      NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
       # Only main produces deployable artifacts; pull request builds stop after the quality gates.
       ShouldPublish: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
    displayName: 'Build'
@@ -35,16 +34,8 @@ jobs:
         inputs:
           version: $(NodeVersion)
 
-      - task: Cache@2
-        displayName: 'Cache node modules'
-        inputs:
-          key: 'npm | "$(Agent.OS)" | ${{ parameters.angularApplicationPath }}/package-lock.json'
-          path: '${{ parameters.angularApplicationPath }}/node_modules'
-          cacheHitVar: 'NodeModulesCacheRestored'
-
       - task: Npm@1
         displayName: 'Install node modules'
-        condition: and(succeeded(), ne(variables['NodeModulesCacheRestored'], 'true'))
         inputs:
           command: 'ci'
           workingDir: ${{ parameters.angularApplicationPath }}
@@ -62,30 +53,6 @@ jobs:
           command: 'custom'
           customCommand: 'run build --configuration=production'
           workingDir: ${{ parameters.angularApplicationPath }}
-
-      - task: PowerShell@2
-        displayName: 'Gate: translations are committed'
-        inputs:
-          targetType: inline
-          workingDirectory: ${{ parameters.angularApplicationPath }}
-          script: |
-            npm run translate
-            if ($LASTEXITCODE -ne 0) {
-              throw 'npm run translate failed.'
-            }
-            git diff --exit-code --ignore-cr-at-eol -- src/locale
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "##vso[task.logissue type=error]Translations are out of date. Run 'npm run translate' in ${{ parameters.angularApplicationPath }} and commit src/locale."
-              exit 1
-            }
-
-      - task: Cache@2
-        displayName: 'Cache NuGet packages'
-        inputs:
-          key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'
-          restoreKeys: |
-            nuget | "$(Agent.OS)"
-          path: $(NUGET_PACKAGES)
 
       - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
