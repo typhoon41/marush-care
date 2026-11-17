@@ -119,6 +119,39 @@ jobs:
             retryCountOnTaskFailure: 3
 
           - task: PowerShell@2
+            displayName: 'Start application'
+            inputs:
+              targetType: inline
+              script: |
+                # Page routes are proxied to the Node SSR server, which the ASP.NET Core app starts.
+                # IIS starts that app only for a request it handles itself, so request robots.txt first, then wait for SSR.
+                # Probe SSR once beforehand: a 200 here means web.config's applicationInitialization already started Node,
+                # and this step can be removed.
+                try {
+                  $null = Invoke-WebRequest -Uri "$(applicationUrl)/sr/" -UseBasicParsing -TimeoutSec 30
+                  Write-Host "##[section]SSR was already up: IIS warm-up started Node on its own"
+                } catch {
+                  Write-Host "##[warning]SSR was not up yet ($($_.Exception.Message)): IIS warm-up did not start Node"
+                }
+                $urls = @("$(applicationUrl)/robots.txt", "$(applicationUrl)/sr/")
+                foreach ($url in $urls) {
+                  $isUp = $false
+                  for ($attempt = 1; $attempt -le 24 -and -not $isUp; $attempt++) {
+                    try {
+                      $null = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+                      $isUp = $true
+                      Write-Host "$url responded on attempt $attempt"
+                    } catch {
+                      Write-Host "Attempt $attempt for $url failed: $($_.Exception.Message)"
+                      Start-Sleep -Seconds 5
+                    }
+                  }
+                  if (-not $isUp) {
+                    throw "$url did not respond after deploy"
+                  }
+                }
+
+          - task: PowerShell@2
             displayName: 'Clean up deployment files'
             condition: always()
             inputs:
