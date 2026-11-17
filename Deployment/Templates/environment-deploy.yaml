@@ -2,10 +2,12 @@ parameters:
 - name: deploymentName
 - name: destinationWebsiteName
 - name: environment
+- name: dbContextName
+- name: shouldBackUpDatabase
+  type: boolean
+  default: false
 - name: projectName
   default: 'Marush'
-- name: approvalJobName
-  default: ''
 - name: resourceName
   default: VMI1461179
 - name: archiveFile
@@ -16,13 +18,10 @@ parameters:
 jobs:
   - deployment: ${{ parameters.deploymentName }}
     displayName: 'Executing ${{ parameters.deploymentName }} '
-    ${{ if ne(parameters.approvalJobName, '') }}:
-      dependsOn: ${{ parameters.approvalJobName }}
-    condition: or(eq('${{ parameters.approvalJobName }}', ''), succeeded('${{ parameters.approvalJobName }}'))
     variables:
     - name: environment
       value: ${{ parameters.environment }}
-    environment: 
+    environment:
       name: ${{ parameters.environment }}
       resourceName: ${{ parameters.resourceName }}
       resourceType: virtualMachine
@@ -40,33 +39,33 @@ jobs:
           - task: ExtractFiles@1
             displayName: 'Extract ${{ parameters.projectName }} Artifacts'
             inputs:
-              archiveFilePatterns: '$(Agent.BuildDirectory)/${{ parameters.projectName }}-$(Build.BuildNumber)/${{ parameters.archiveFile }}'
-              destinationFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
+              archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.projectName }}-$(Build.BuildNumber)/${{ parameters.archiveFile }}'
+              destinationFolder: '$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App'
             retryCountOnTaskFailure: 3
 
           - task: PowerShell@2
             displayName: 'Copy Robots.txt'
             inputs:
                 targetType: inline
-                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/robots.txt"
+                script: Copy-Item -Path "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/Properties/Robots.$(environment).txt" -Destination "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/dist/browser/robots.txt"
 
           - task: PowerShell@2
             displayName: 'Copy Sitemaps'
             condition: eq(variables['environment'], 'Production')
             inputs:
                 targetType: inline
-                script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/sitemap.xml" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/dist/browser/sitemap.xml"
+                script: Copy-Item -Path "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/Properties/sitemap.xml" -Destination "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/dist/browser/sitemap.xml"
 
           - task: PowerShell@2
             displayName: 'Copy app_offline'
             inputs:
               targetType: inline
-              script: Copy-Item -Path "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/Properties/app_offline_template.htm" -Destination "$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App/app_offline.htm" -Force
+              script: Copy-Item -Path "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/Properties/app_offline_template.htm" -Destination "$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App/app_offline.htm" -Force
 
           - task: qetza.replacetokens.replacetokens-task.replacetokens@6
             displayName: 'Tokens replacement'
             inputs:
-              root: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
+              root: '$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp'
               sources: |
                 **/dist/**/*.js
                 **/dist/**/*.mjs
@@ -82,15 +81,23 @@ jobs:
           - task: ArchiveFiles@2
             displayName: 'Pack ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
             inputs:
-              rootFolderOrFile: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp/App'
+              rootFolderOrFile: '$(Pipeline.Workspace)/${{ parameters.projectName }}/Temp/App'
               includeRootFolder: false
               archiveFile: '$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}'
-              retryCountOnTaskFailure: 3
+            retryCountOnTaskFailure: 3
+
+          - ${{ if parameters.shouldBackUpDatabase }}:
+            - template: backup-database.yaml
 
           - script: |
-              msdeploy.exe -source:contentPath="$(Agent.BuildDirectory)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' –verb:sync -disablerule:BackupRule
+              msdeploy.exe -source:contentPath="$(Pipeline.Workspace)\${{ parameters.projectName }}\Temp\App\Properties\app_offline_template.htm" -dest:contentPath='${{ parameters.destinationWebsiteName }}\app_offline.htm' -verb:sync -disablerule:BackupRule
             displayName: 'Put App Offline page'
             retryCountOnTaskFailure: 3
+
+          - template: update-database.yaml
+            parameters:
+              dbContextName: ${{ parameters.dbContextName }}
+              artifactName: ${{ parameters.artifactName }}
 
           - task: IISWebAppDeploymentOnMachineGroup@0
             displayName: 'Trigger built-in backup & Deploy ${{ parameters.projectName }} ${{ parameters.deploymentName }}'
@@ -100,21 +107,55 @@ jobs:
               RemoveAdditionalFilesFlag: true
               AdditionalArguments: >
                 -skip:skipaction=Delete,objectName=file,absolutePath='${{ parameters.destinationWebsiteName }}\app_offline.htm'
-              retryCountOnTaskFailure: 3
+            retryCountOnTaskFailure: 3
 
           - script: |
-              msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' –verb:delete -disablerule:BackupRule
+              msdeploy.exe -dest:contentPath='${{ parameters.destinationWebsiteName }}/app_offline.htm' -verb:delete -disablerule:BackupRule
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
             failOnStderr: true
             displayName: 'Remove App Offline pages'
+            # Runs even when database preparation or deployment fails, so a failed release never leaves the site offline.
+            condition: always()
             retryCountOnTaskFailure: 3
+
+          - task: PowerShell@2
+            displayName: 'Clean up deployment files'
+            condition: always()
+            inputs:
+              targetType: inline
+              script: |
+                $paths = @(
+                  "$(Pipeline.Workspace)/${{ parameters.projectName }}",
+                  "$(Pipeline.Workspace)/${{ parameters.projectName }}-$(Build.BuildNumber)",
+                  "$(Pipeline.Workspace)/Migrations",
+                  "$(Build.ArtifactStagingDirectory)/${{ parameters.archiveFile }}"
+                )
+                foreach ($path in $paths) {
+                  if (Test-Path $path) {
+                    Write-Host "Removing $path"
+                    Remove-Item -Path $path -Recurse -Force
+                  }
+                }
+
+  - job: smoke_test
+    displayName: 'Smoke test ${{ parameters.environment }}'
+    dependsOn: ${{ parameters.deploymentName }}
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - checkout: none
+    - script: curl --fail --silent --show-error --location --retry 5 --retry-delay 10 --retry-all-errors --output /dev/null "$(applicationUrl)"
+      displayName: 'Request $(applicationUrl)'
 
   - job: git_tag
     displayName: Create Git tag
-    dependsOn: ${{ parameters.deploymentName }}
+    dependsOn: smoke_test
+    pool:
+      vmImage: ubuntu-latest
     steps:
     - checkout: self
       displayName: 'Checkout current repo'
+      fetchDepth: 1
       persistCredentials: true
     - task: Bash@3
       displayName: Create Git tag
@@ -123,15 +164,3 @@ jobs:
         script: |
           git tag ${{ parameters.environment }}-$(Build.BuildNumber)
           git push origin ${{ parameters.environment }}-$(Build.BuildNumber)
-
-  - job: 'CleanUp${{ parameters.deploymentName }}'
-    displayName: 'Clean up ${{ parameters.deploymentName }}'
-    dependsOn: ${{ parameters.deploymentName }}
-    steps:
-      - task: DeleteFiles@1
-        displayName: 'Delete files from Temp'
-        inputs:
-          SourceFolder: '$(Agent.BuildDirectory)/${{ parameters.projectName }}/Temp'
-          Contents: Gmf
-          RemoveSourceFolder: true
-        retryCountOnTaskFailure: 3

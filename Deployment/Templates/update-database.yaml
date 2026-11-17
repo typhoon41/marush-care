@@ -1,30 +1,18 @@
 parameters:
 - name: dbContextName
-- name: migrationConnectionString
 - name: artifactName
   default: 'Marush'
-- name: environment
-- name: resourceName
-  default: VMI1461179
-- name: approvalJobName
-  default: ''
 
-jobs:
-- job: 'update_databases'
-  ${{ if ne(parameters.approvalJobName, '') }}:
-    dependsOn: ${{ parameters.approvalJobName }}
-    condition: or(eq('${{ parameters.approvalJobName }}', ''), succeeded('${{ parameters.approvalJobName }}'))
-  displayName: 'Update Database'
-  pool: ${{ parameters.environment }}
-  steps:
-    - checkout: none
-    - download: none # https://github.com/microsoft/azure-pipelines-tasks/issues/17207
-    - task: DownloadPipelineArtifact@2
-      displayName: Download migrations artifact
-      inputs:
-        artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
-        targetPath: '$(Pipeline.Workspace)'
-    - task: CmdLine@2
-      displayName: Execute migrations
-      inputs:
-        script: $(Pipeline.Workspace)\${{ parameters.dbContextName }}-efbundle.exe --connection "${{ parameters.migrationConnectionString }}"
+steps:
+- task: DownloadPipelineArtifact@2
+  displayName: Download migrations artifact
+  inputs:
+    artifactName: '${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)'
+    targetPath: '$(Pipeline.Workspace)/Migrations'
+
+- task: CmdLine@2
+  displayName: Execute migrations
+  env:
+    MIGRATION_CONNECTION: $(DatabaseConnectionString)
+  inputs:
+    script: '"$(Pipeline.Workspace)\Migrations\${{ parameters.dbContextName }}-efbundle.exe" --connection "%MIGRATION_CONNECTION%"'

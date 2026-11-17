@@ -1,11 +1,20 @@
 trigger:
-- main
+  batch: true
+  branches:
+    include:
+    - main
+
+pr:
+  branches:
+    include:
+    - main
 
 pool:
   vmImage: windows-latest
 
 variables:
   applicationVersion: 0.9
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
 
 name: $(applicationVersion).$(Rev:r)
 
@@ -22,7 +31,7 @@ stages:
 - stage: 'DeployToTest'
   displayName: 'Deploy to Test'
   dependsOn: 'Build'
-  condition:  succeeded()
+  condition: and(succeeded(), eq(variables['isMain'], 'True'))
   variables:
   - template: Variables/variables.test.yaml
   jobs:
@@ -32,40 +41,20 @@ stages:
       deploymentName: 'Api'
       destinationWebsiteName: MarushTest
       archiveFile: 'Gmf.Marush.Care.Api.zip'
-  - template: 'Templates/update-database.yaml'
-    parameters:
       dbContextName: MarushCareContext
-      migrationConnectionString: $(DatabaseConnectionString)
-      environment: 'Test'
+# Production approval is an "Approvals and checks" rule on the Production environment in Azure DevOps.
 - stage: 'DeployToProduction'
   displayName: 'Deploy to Production'
   dependsOn: 'DeployToTest'
-  condition:  succeeded()
+  condition: and(succeeded(), eq(variables['isMain'], 'True'))
   variables:
   - template: Variables/variables.production.yaml
   jobs:
-  - job: WaitForValidation
-    displayName: Wait for approval
-    pool: server
-    timeoutInMinutes: 21600 # job times out in 15 days, can't be a variable
-    steps:
-    - task: ManualValidation@0
-      timeoutInMinutes: 21600 # job times out in 15 days, can't be a variable
-      inputs:
-        notifyUsers: |
-          nizzotyphoon41@hotmail.com
-        instructions: 'Please approve production deploy so it could be executed'
-        onTimeout: reject
   - template: 'Templates/environment-deploy.yaml'
     parameters:
       environment: 'Production'
       deploymentName: 'ProductionApi'
       destinationWebsiteName: Marush
-      approvalJobName: 'WaitForValidation'
       archiveFile: 'Gmf.Marush.Care.Api.zip'
-  - template: 'Templates/update-database.yaml'
-    parameters:
       dbContextName: MarushCareContext
-      approvalJobName: 'WaitForValidation'
-      migrationConnectionString: $(DatabaseConnectionString)
-      environment: 'Production'
+      shouldBackUpDatabase: true

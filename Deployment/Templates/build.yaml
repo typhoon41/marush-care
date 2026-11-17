@@ -12,22 +12,28 @@ jobs:
  - job: 'Build'
    variables:
       BuildParameters: -p:Version=${{ parameters.applicationVersion }} -p:FileVersion=$(Build.BuildNumber) -p:MarushRuntime=win-x64 --no-self-contained
-      MigrationsArtifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
       FullAppPath: Site/${{ parameters.apiApplicationPath }}
+      ApplicationStagingPath: $(Build.ArtifactStagingDirectory)/App
+      MigrationsStagingPath: $(Build.ArtifactStagingDirectory)/Migrations
       DotNetVersion: 10.0.x
       NodeVersion: 22.20.0
+      # Only main produces deployable artifacts; pull request builds stop after the quality gates.
+      ShouldPublish: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
    displayName: 'Build'
    steps:
+      - checkout: self
+        fetchDepth: 1
+
       - task: UseDotNet@2
         displayName: 'Set .Net version'
         inputs:
           version: $(DotNetVersion)
-          
+
       - task: UseNode@1
         displayName: 'Set Node version'
         inputs:
           version: $(NodeVersion)
-          
+
       - task: Npm@1
         displayName: 'Install node modules'
         inputs:
@@ -38,7 +44,7 @@ jobs:
         displayName: 'Execute Linting'
         inputs:
           command: 'custom'
-          customCommand: 'run lint'
+          customCommand: 'run lint:ci'
           workingDir: ${{ parameters.angularApplicationPath }}
 
       - task: Npm@1
@@ -47,27 +53,6 @@ jobs:
           command: 'custom'
           customCommand: 'run build --configuration=production'
           workingDir: ${{ parameters.angularApplicationPath }}
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Add Manifest for tool installation'
-        inputs:
-          command: 'custom'
-          custom: 'new'
-          arguments: tool-manifest --force
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Install EF Tool'
-        inputs:
-          command: 'custom'
-          custom: 'tool '
-          arguments: install dotnet-ef --version 10.0.1
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Install workload for Aspire'
-        inputs:
-          command: 'custom'
-          custom: 'workload'
-          arguments: 'install aspire'
 
       - task: DotNetCoreCLI@2
         displayName: 'Restoring NuGet Packages'
@@ -84,44 +69,42 @@ jobs:
 
       - task: DotNetCoreCLI@2
         displayName: 'Packing artifacts'
+        condition: and(succeeded(), eq(variables['ShouldPublish'], 'True'))
         inputs:
           command: 'publish'
           configuration: Release
-          nobuild: True 
+          nobuild: True
           publishWebProjects: True
-          arguments: -r win-x64 --output $(Build.ArtifactStagingDirectory) -p:EnvironmentName=_-_-environment-_-_ $(BuildParameters)
+          arguments: -r win-x64 --output $(ApplicationStagingPath) -p:EnvironmentName=_-_-environment-_-_ $(BuildParameters)
           zipAfterPublish: True
 
-      - task: PublishBuildArtifacts@1
+      - task: PublishPipelineArtifact@1
         displayName: 'Publishing artifacts'
+        condition: and(succeeded(), eq(variables['ShouldPublish'], 'True'))
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: ${{ parameters.artifactName }}-$(Build.BuildNumber)
-          publishLocation: 'Container'
+          targetPath: $(ApplicationStagingPath)
+          artifact: ${{ parameters.artifactName }}-$(Build.BuildNumber)
 
       - task: DotNetCoreCLI@2
         displayName: Create Entity Framework's Bundle for SQL
+        condition: and(succeeded(), eq(variables['ShouldPublish'], 'True'))
         inputs:
           command: 'custom'
           workingDirectory: $(FullAppPath)
-          custom: 'ef '
-          arguments: migrations bundle --output $(Build.ArtifactStagingDirectory)/Migrations/${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration Release --runtime win-x64 --force --verbose
+          custom: 'dnx'
+          arguments: dotnet-ef@10.0.* -- migrations bundle --output $(MigrationsStagingPath)/${{ parameters.dbContextName }}-efbundle.exe --project ${{ parameters.migrationsAssemblyPath }} --startup-project ./${{ parameters.apiApplicationPath }}.csproj --context ${{ parameters.dbContextName }} --configuration Release --runtime win-x64 --force --verbose
 
-      - task: PublishBuildArtifacts@1
+      - task: CopyFiles@2
+        displayName: 'Add appsettings.json to migration artifacts'
+        condition: and(succeeded(), eq(variables['ShouldPublish'], 'True'))
+        inputs:
+          SourceFolder: $(FullAppPath)
+          Contents: appsettings.json
+          TargetFolder: $(MigrationsStagingPath)
+
+      - task: PublishPipelineArtifact@1
         displayName: 'Publishing migration artifacts'
+        condition: and(succeeded(), eq(variables['ShouldPublish'], 'True'))
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)\Migrations'
-          ArtifactName: $(MigrationsArtifact)
-          publishLocation: 'Container'
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish SQL artifacts - appsettings.json'
-        inputs:
-          PathtoPublish: $(Build.SourcesDirectory)/$(FullAppPath)/appsettings.json
-          ArtifactName: $(MigrationsArtifact)
-          publishLocation: 'Container'
-
-      - task: CmdLine@2
-        displayName: 'Reset local changes'
-        inputs:
-          script: 'git reset --hard'
+          targetPath: $(MigrationsStagingPath)
+          artifact: ${{ parameters.artifactName }}-migrations-$(Build.BuildNumber)
