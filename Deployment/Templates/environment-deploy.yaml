@@ -112,6 +112,8 @@ jobs:
             workingDirectory: 'C:\Program Files\IIS\Microsoft Web Deploy V3\'
             failOnStderr: true
             displayName: 'Remove App Offline pages'
+            # Runs even when database preparation or deployment fails, so a failed release never leaves the site offline.
+            condition: always()
             retryCountOnTaskFailure: 3
 
           - task: PowerShell@2
@@ -145,7 +147,7 @@ jobs:
 
   - job: git_tag
     displayName: Create Git tag
-    dependsOn: ${{ parameters.deploymentName }}
+    dependsOn: smoke_test
     pool:
       vmImage: ubuntu-latest
     steps:
