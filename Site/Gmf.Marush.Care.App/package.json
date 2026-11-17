@@ -15,7 +15,8 @@
     "test": "ng test",
     "translate": "ng extract-i18n && sortjson src/locale",
     "serve:ssr": "node dist/server/server.mjs",
-    "lint": "eslint --fix && stylelint --fix src/**/*.scss"
+    "lint": "eslint --fix && stylelint --fix src/**/*.scss",
+    "lint:ci": "eslint && stylelint \"src/**/*.scss\""
   },
   "private": true,
   "dependencies": {
