@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Gmf.DDD.Common.Abstractions;
 using Gmf.Marush.Care.Api.Models;
 using Gmf.Marush.Care.Api.Resources;
 using Gmf.Marush.Care.Domain.Models;
@@ -24,7 +23,7 @@ public class AppointmentRequestValidator : AbstractValidator<AppointmentRequest>
         _ = RuleFor(request => request.Date)
             .NotNull()
             .WithMessage(Labels.ValidationRequired)
-            .Must((request, date) => new Period(DateTime.UtcNow, DateTime.UtcNow.AddDays(32)).Contains(date.ToDateTime(new TimeOnly(0))))
+            .Must(date => new AppointmentBookingWindow(DateTimeOffset.UtcNow).Contains(date))
             .WithMessage(Labels.ValidationInterval);
         _ = RuleFor(request => request.Time)
             .NotNull()
