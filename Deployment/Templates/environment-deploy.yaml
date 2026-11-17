@@ -125,6 +125,14 @@ jobs:
               script: |
                 # Page routes are proxied to the Node SSR server, which the ASP.NET Core app starts.
                 # IIS starts that app only for a request it handles itself, so request robots.txt first, then wait for SSR.
+                # Probe SSR once beforehand: a 200 here means web.config's applicationInitialization already started Node,
+                # and this step can be removed.
+                try {
+                  $null = Invoke-WebRequest -Uri "$(applicationUrl)/sr/" -UseBasicParsing -TimeoutSec 30
+                  Write-Host "##[section]SSR was already up: IIS warm-up started Node on its own"
+                } catch {
+                  Write-Host "##[warning]SSR was not up yet ($($_.Exception.Message)): IIS warm-up did not start Node"
+                }
                 $urls = @("$(applicationUrl)/robots.txt", "$(applicationUrl)/sr/")
                 foreach ($url in $urls) {
                   $isUp = $false
