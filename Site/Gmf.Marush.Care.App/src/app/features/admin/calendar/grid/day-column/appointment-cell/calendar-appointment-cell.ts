@@ -18,7 +18,7 @@ export class CalendarAppointmentCell {
     protected readonly summary = computed(() => CalendarCellSummary.ofRequest(this.appointment()));
     protected readonly tooltip = computed(() => `Onlajn zahtev: ${this.summary().tooltip()}`);
 
-    readonly positionClasses = computed(() => this.summary().positionClasses());
+    protected readonly positionClasses = computed(() => this.summary().positionClasses());
 
     protected readonly select = () => this.appointmentSelected.emit(this.appointment());
 }

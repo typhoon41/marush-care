@@ -12,7 +12,7 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
   host: { class: 'row' }
 })
 export class ExpansionPanel {
-  readonly panel = viewChild<ElementRef>('panel');
+  private readonly panel = viewChild<ElementRef>('panel');
   readonly panelHeaderClass = input<string>('');
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   readonly index = input<number>(-1);

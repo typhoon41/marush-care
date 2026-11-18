@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { afterNextRender, ChangeDetectionStrategy, Component, effect, ElementRef,
-  Injector, input, runInInjectionContext, viewChild, viewChildren } from '@angular/core';
+  inject, Injector, input, runInInjectionContext, signal, viewChild, viewChildren } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ExpansionPanel } from '@shared/components/expansion-panel/expansion-panel';
 import supportedTreatments from '@shared/models/services/treatments/supported-treatments';
@@ -17,12 +17,14 @@ import { RouteTranslator } from '@shared/pipes/routing-translator';
 })
 export class TreatmentSelector {
   readonly selectedService = input.required<SelectedService>();
-  readonly panels = viewChildren<ExpansionPanel>('panels');
-  readonly treatmentsContainer = viewChild<ElementRef>('treatmentsContainer');
+  protected readonly treatments = signal<TreatmentDefinition[]>([]);
+  private readonly panels = viewChildren<ExpansionPanel>('panels');
+  private readonly treatmentsContainer = viewChild<ElementRef>('treatmentsContainer');
+  private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
+  private readonly routeTranslator = inject(RouteTranslator);
 
-  protected treatments: TreatmentDefinition[] = [];
-
-  constructor(private readonly router: Router, private readonly injector: Injector, private readonly routeTranslator: RouteTranslator) {
+  constructor() {
     afterNextRender(() => {
       runInInjectionContext(this.injector, () => {
         effect(() => {
@@ -45,7 +47,7 @@ export class TreatmentSelector {
   };
 
   private readonly handleSelectedService = (selectedService: SelectedService) => {
-    this.treatments = supportedTreatments.find(treatment => treatment.key === selectedService)?.treatments
-      ?.filter(treatment => !treatment.clone) ?? [];
+    this.treatments.set(supportedTreatments.find(treatment => treatment.key === selectedService)?.treatments
+      ?.filter(treatment => !treatment.clone) ?? []);
   };
 }

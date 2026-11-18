@@ -20,9 +20,8 @@ export class DatePicker extends Field {
     readonly validation = input<string[]>(['required']);
     readonly startDate = input<Date | undefined>();
     readonly selectedDate = input<Date | undefined>(undefined);
-    readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
-    // eslint-disable-next-line @angular-eslint/prefer-signals
-    private datePicker = signal<AirDatepicker | undefined>(undefined);
+    private readonly date = viewChild<ElementRef<HTMLInputElement>>('date');
+    private readonly datePicker = signal<AirDatepicker | undefined>(undefined);
 
     constructor() {
         super();

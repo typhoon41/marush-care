@@ -4,7 +4,6 @@ import { Dialog } from '@shared/components/dialog/dialog';
 import { ImageLoader } from '@shared/components/images/loader';
 import { BasePage } from '@shared/components/page/base/base-page';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
-import { Stapler } from '@shared/services/metadata/stapler';
 import { GalleryImage, GalleryImageDefinition } from './image';
 import { GalleryPageMetadata } from './page-metadata';
 
@@ -17,7 +16,7 @@ import { GalleryPageMetadata } from './page-metadata';
   host: { class: 'gallery' }
 })
 export class GalleryPage extends BasePage {
-  readonly detailsDialog = viewChild<Dialog>(Dialog);
+  private readonly detailsDialog = viewChild<Dialog>(Dialog);
   private readonly imagesRequest = httpResource<{ images: GalleryImageDefinition[] }>(() => ({
     url: GalleryImage.filePath,
     method: 'GET'
@@ -34,8 +33,8 @@ export class GalleryPage extends BasePage {
   protected readonly fetchedImages = signal<GalleryImage[]>([]);
   protected readonly selectedImage = linkedSignal<GalleryImage | undefined>(() => this.fetchedImages()[0]);
 
-  constructor(protected override readonly stapler: Stapler) {
-    super(stapler, new GalleryPageMetadata());
+  constructor() {
+    super(new GalleryPageMetadata());
     const effectReference = effect(() => {
       if (this.allImages().length) {
         this.loadMoreImages();

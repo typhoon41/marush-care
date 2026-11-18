@@ -23,8 +23,8 @@ export class ComboBox {
   readonly id = input<string>('combo-box');
   readonly placeholder = input<string>('');
   readonly autoComplete = input<boolean>(false);
-  readonly combo = viewChild<ElementRef<HTMLElement>>('combo');
-  readonly options = viewChildren<ElementRef<HTMLLIElement>>('option');
+  private readonly combo = viewChild<ElementRef<HTMLElement>>('combo');
+  private readonly options = viewChildren<ElementRef<HTMLLIElement>>('option');
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   readonly onValueChanged = input<(item: IComboBoxItem) => void>(() => { });
 

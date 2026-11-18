@@ -50,7 +50,7 @@ export class CalendarEntryDialog {
         this.entryForm.group.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => this.operation.reset());
     }
 
-    readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
+    public readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
         this.operation.reset();
@@ -58,7 +58,7 @@ export class CalendarEntryDialog {
     };
 
     /** Opens a new entry for an online request, at the time and for the client it asked for. */
-    readonly openForRequest = (request: PublicAppointment) => {
+    public readonly openForRequest = (request: PublicAppointment) => {
         this.editingEntry.set(null);
         this.entryForm.resetForRequest(request);
         this.operation.reset();

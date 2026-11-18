@@ -1,5 +1,4 @@
-/* eslint-disable max-params */
-import { afterNextRender, ChangeDetectionStrategy, Component, Renderer2, signal } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, inject, Renderer2, signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -16,14 +15,16 @@ import { Captcha } from '@shared/services/captcha';
   styleUrl: './login-page.scss'
 })
 export class LoginPage {
-  form: FormGroup;
-  readonly globalError = signal('');
-  constructor(private readonly captcha: Captcha,
-    private readonly authentication: Authentication,
-    private readonly router: Router,
-    private readonly renderer: Renderer2,
-    private readonly title: Title,
-    private readonly formBuilder: NonNullableFormBuilder) {
+  protected readonly form: FormGroup;
+  protected readonly globalError = signal('');
+  private readonly captcha = inject(Captcha);
+  private readonly authentication = inject(Authentication);
+  private readonly router = inject(Router);
+  private readonly renderer = inject(Renderer2);
+  private readonly title = inject(Title);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
+  constructor() {
     const userFieldLength = 64;
     const passwordFieldLength = 512;
     this.title.setTitle('Marush: Space of Care - prijava');

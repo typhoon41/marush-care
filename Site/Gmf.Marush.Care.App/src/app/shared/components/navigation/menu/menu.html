@@ -3,21 +3,21 @@
         @if(authentication.isAuthenticated())
         {
             <a #adminLogo="routerLinkActive" class="admin-logo-container" routerLinkActive="active" ariaCurrentWhenActive="page" routerLink="admin/klijenti" tabindex="0" (click)="hideMobileMenu()">
-                <img class="admin-logo" alt="Marush: Space of Care - idi na zaštićeni deo" [src]="adminLogoPath()" (mouseover)="adminLogoHovered = true"
-                    (mouseleave)="adminLogoHovered = false" (focus)="adminLogo.isActive" />
+                <img class="admin-logo" alt="Marush: Space of Care - idi na zaštićeni deo" [src]="adminLogoPath()" (mouseover)="adminLogoHovered.set(true)"
+                    (mouseleave)="adminLogoHovered.set(false)" (focus)="adminLogo.isActive" />
             </a>
         }
         <a #logo="routerLinkActive" class="logo-container" routerLinkActive="active" ariaCurrentWhenActive="page"
             tabindex="0" [routerLink]="'home' | translateRoute" [ariaLabel]="marushDetails.name" [title]="marushDetails.name"
             (click)="hideMobileMenu()">
-            <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered = true"
-                (mouseleave)="logoHovered = false" (focus)="logo.isActive" />
+            <img class="logo" alt="Marush: Space of Care - idi na početnu" i18n-alt="@@logo" [src]="logoPath()" (mouseover)="logoHovered.set(true)"
+                (mouseleave)="logoHovered.set(false)" (focus)="logo.isActive" />
         </a>
     </div>
 
     @if(screenSize.lastKnownSize()) {
         @if(isMobile()) {
-            <marush-hamburger-button role="button" aria-controls="mobile-menu" [ariaExpanded]="showMobileMenu"
+            <marush-hamburger-button role="button" aria-controls="mobile-menu" [ariaExpanded]="showMobileMenu()"
                 [(collapsed)]="showMobileMenu" />
         }
 
@@ -35,6 +35,6 @@
 </nav>
 
 @if(isMobile()) {
-    <marush-mobile-menu id="mobile-menu" role="navigation" class="mobile-menu" [collapsed]="showMobileMenu"
-        [class.collapsed]="showMobileMenu" (hideMobileMenu)="hideMobileMenu()" />
+    <marush-mobile-menu id="mobile-menu" role="navigation" class="mobile-menu" [collapsed]="showMobileMenu()"
+        [class.collapsed]="showMobileMenu()" (hideMobileMenu)="hideMobileMenu()" />
 }

@@ -25,7 +25,7 @@ export class CalendarEntryCell {
         ? `${bookedOnlineLine}: ${this.summary().tooltip()}`
         : this.summary().tooltip());
 
-    readonly positionClasses = computed(() => this.summary().positionClasses());
+    protected readonly positionClasses = computed(() => this.summary().positionClasses());
 
     protected readonly select = () => this.entrySelected.emit(this.entry());
 }
