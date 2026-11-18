@@ -35,6 +35,8 @@ dotnet ef database update \
   --startup-project Gmf.Marush.Care.Host
 ```
 
+**Squash at 7 migrations.** When adding a migration would make the 7th in `Migrations/`, stop and ask the user to confirm every environment (local, test, production) is on the latest migration, then merge them into one that keeps the oldest migration's ID. Steps in the `csharp` skill and `MigrationCommands.md`.
+
 ## Architecture
 
 ### Solution Layout
@@ -90,6 +92,8 @@ These apply to every file in every stack. Skills carry the full detail; this is 
 - **Never style a library-generated class** — `.row`, `.column-N`, `.ellipsis` and friends are applied in HTML, never used as selectors in app SCSS. Add a semantic class and style that.
 - **Signals, never getters** — derived state on any class is a `computed()` signal invoked with `()`; never a `get` accessor.
 - **Functions are arrow-function properties** — `readonly name = (...) => ...` (`static readonly` for statics); no method declarations beside the constructor and lifecycle hooks, and never both styles in one class.
+- **`inject()` only** — dependencies come from `inject()` field initializers, never constructor parameters or `@Inject()` (lint: `@angular-eslint/prefer-inject`).
+- **Template members are `protected readonly`** — only inputs, models, outputs and members another class really calls are public (explicit `public`); internals are `private`. Changing template state is a signal (lint: `marush/component-member-visibility`).
 - **No `ChangeDetectorRef`** — the app is zoneless; state a template reads is a signal, and DOM work that needs the rendered view uses `afterNextRender`. Never `detectChanges()` / `markForCheck()`.
 - **Search before you add** — a constant, factory or rule that already exists in the feature is reused, not redeclared.
 - **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's `:host` (`host: { class: ... }` + `:host` styles) or an existing element. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
