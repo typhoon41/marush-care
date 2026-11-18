@@ -20,7 +20,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -31,6 +31,9 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("BookedOnline")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -39,16 +42,18 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTimeOffset>("ExpectedEndTime")
+                    b.Property<DateTimeOffset?>("ExpectedEndTime")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Language")
-                        .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
+
+                    b.Property<decimal?>("Money")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -101,7 +106,68 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                         {
                             Id = new Guid("b14a3e57-15c6-4de2-bd70-431e00e14520"),
                             Name = "Approved"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f8b1835-c724-4635-bef7-30b2f1c37965"),
+                            Name = "Performed"
                         });
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentTreatmentDto", b =>
+                {
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("AppointmentId", "Name");
+
+                    b.ToTable("AppointmentTreatments", (string)null);
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarEntryDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique();
+
+                    b.ToTable("CalendarEntries", (string)null);
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarNoteDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("NoteType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date", "NoteType")
+                        .IsUnique();
+
+                    b.ToTable("CalendarNotes", (string)null);
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerDto", b =>
@@ -153,6 +219,76 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.ToTable("CustomerPhones", (string)null);
                 });
 
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerPropertiesDto", b =>
+                {
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Allergies")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("DateOfBirth")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Diagnosis")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<DateTime>("LastEditAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LastEditedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(4096)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlaceOfResidence")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("CustomerId");
+
+                    b.HasIndex("LastEditedById");
+
+                    b.ToTable("CustomerProperties", (string)null);
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.UserDto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Users", (string)null);
+                });
+
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", b =>
                 {
                     b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerDto", "Customer")
@@ -170,8 +306,7 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerEmailDto", "CustomerEmail")
                         .WithMany("Appointments")
                         .HasForeignKey("CustomerId", "Email")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerPhoneDto", "CustomerPhone")
                         .WithMany("Appointments")
@@ -186,6 +321,28 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.Navigation("CustomerPhone");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentTreatmentDto", b =>
+                {
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", "Appointment")
+                        .WithMany("Treatments")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarEntryDto", b =>
+                {
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", "Appointment")
+                        .WithOne()
+                        .HasForeignKey("Gmf.Marush.Care.Infrastructure.Data.Entities.Calendar.CalendarEntryDto", "AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerEmailDto", b =>
@@ -210,6 +367,30 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerPropertiesDto", b =>
+                {
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerDto", "Customer")
+                        .WithOne("Properties")
+                        .HasForeignKey("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerPropertiesDto", "CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gmf.Marush.Care.Infrastructure.Data.Entities.UserDto", "LastEditedBy")
+                        .WithMany()
+                        .HasForeignKey("LastEditedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("LastEditedBy");
+                });
+
+            modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentDto", b =>
+                {
+                    b.Navigation("Treatments");
+                });
+
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Appointments.AppointmentStatusDto", b =>
                 {
                     b.Navigation("Appointments");
@@ -222,6 +403,8 @@ namespace Gmf.Marush.Care.Infrastructure.Migrations
                     b.Navigation("Emails");
 
                     b.Navigation("Phones");
+
+                    b.Navigation("Properties");
                 });
 
             modelBuilder.Entity("Gmf.Marush.Care.Infrastructure.Data.Entities.Customers.CustomerEmailDto", b =>
