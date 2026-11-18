@@ -13,8 +13,8 @@ import { SelectedService } from '@shared/models/services/treatments/types';
   styleUrl: './type-selector.scss'
 })
 export class TypeSelector {
-  services = supportedTreatments;
-  readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
+  protected readonly services = supportedTreatments;
+  protected readonly servicesImageFor = (imageName: string) => `${environment.staticContentUrl}images/services/${imageName}.jpg`;
   readonly selectedService = model.required<SelectedService>();
   readonly selectedServiceChange = output<SelectedService>();
 

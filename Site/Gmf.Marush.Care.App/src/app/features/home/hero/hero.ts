@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { RouteTranslator } from '@shared/pipes/routing-translator';
 
@@ -10,7 +10,8 @@ import { RouteTranslator } from '@shared/pipes/routing-translator';
   styleUrl: './hero.scss'
 })
 export class HomeHero {
-  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) { }
+  private readonly router = inject(Router);
+  private readonly routeTranslator = inject(RouteTranslator);
 
   protected readonly redirectToAppointments = async() => {
     await this.router.navigate([this.routeTranslator.transform('appointment')]);

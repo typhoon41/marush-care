@@ -1,8 +1,11 @@
+import { inject } from '@angular/core';
 import { Stapler } from '@shared/services/metadata/stapler';
 import { PageMetadata } from './page-metadata';
 
 export abstract class BasePage {
-  constructor(protected readonly stapler: Stapler, protected readonly metadata: PageMetadata) {
+  private readonly stapler = inject(Stapler);
+
+  constructor(metadata: PageMetadata) {
     this.stapler.attach(metadata);
   }
 }

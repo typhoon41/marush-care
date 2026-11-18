@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { environment } from '@env';
 import { Authentication } from '@shared/services/authentication';
@@ -17,8 +17,7 @@ export class MobileMenu {
   readonly collapsed = input<boolean>(true);
   readonly hideMobileMenu = output();
   protected readonly environment = environment;
-
-  constructor(protected readonly authentication: Authentication) { }
+  protected readonly authentication = inject(Authentication);
 
   protected readonly hideMenu = () => this.hideMobileMenu.emit();
 }

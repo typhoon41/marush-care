@@ -18,13 +18,15 @@ import { Clients } from './clients';
     host: { class: 'clients-page' }
 })
 export class ClientsPage {
-    form: FormGroup;
-    defaultFieldLength = 100;
+    protected readonly form: FormGroup;
+    private readonly defaultFieldLength = 100;
     private readonly clients = inject(Clients);
     private readonly router = inject(Router);
-    retrievedClients = this.clients.getAll();
+    private readonly title = inject(Title);
+    private readonly formBuilder = inject(FormBuilder);
+    private readonly retrievedClients = this.clients.getAll();
 
-    constructor(private readonly title: Title, private readonly formBuilder: FormBuilder) {
+    constructor() {
         this.title.setTitle('Marush: Space of Care - klijenti');
         this.form = this.formBuilder.group({
             name: new FormControl('', [Validators.maxLength(this.defaultFieldLength)])

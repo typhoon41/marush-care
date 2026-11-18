@@ -11,7 +11,7 @@ import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-even
     host: { class: 'marush-dialog stretch' }
 })
 export class Dialog {
-    readonly dialog = viewChild<ElementRef>('dialog');
+    private readonly dialog = viewChild<ElementRef>('dialog');
     readonly title = input<string>();
     readonly bodyClass = input<string>('');
     readonly footerClass = input<string>('');
@@ -24,12 +24,12 @@ export class Dialog {
         });
     }
 
-    readonly open = () => {
+    public readonly open = () => {
         this.dialog()?.nativeElement.showModal();
         document.body.classList.add('dialog-open');
     };
 
-    readonly dismiss = () => {
+    public readonly dismiss = () => {
         this.dialog()?.nativeElement.close();
     };
 

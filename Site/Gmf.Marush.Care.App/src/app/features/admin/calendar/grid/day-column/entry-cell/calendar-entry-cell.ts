@@ -25,5 +25,5 @@ export class CalendarEntryCell {
     protected readonly notes = computed(() => this.entry().notes ?? '');
     protected readonly hasNotes = computed(() => this.notes().length > 0);
 
-    readonly positionClasses = computed(() => `entry-cell-container ${this.interval().positionClasses()}`);
+    protected readonly positionClasses = computed(() => `entry-cell-container ${this.interval().positionClasses()}`);
 }

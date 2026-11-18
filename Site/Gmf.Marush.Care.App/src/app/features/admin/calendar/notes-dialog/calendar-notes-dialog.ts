@@ -30,7 +30,7 @@ export class CalendarNotesDialog {
         content: new FormControl('', { nonNullable: true })
     });
 
-    readonly open = (date: string, type: CalendarNoteType, existingNote?: CalendarNote) => {
+    public readonly open = (date: string, type: CalendarNoteType, existingNote?: CalendarNote) => {
         this.noteDate.set(date);
         this.noteType.set(type);
         this.existingNoteId.set(existingNote?.id ?? null);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { OptionalKeyboardEvent, isAction } from '@shared/functions/keyboard-event';
 import marushDetails from '@shared/models/marush-details';
@@ -15,7 +15,8 @@ import { RouteTranslator } from '@shared/pipes/routing-translator';
 export class Footer {
   protected readonly marushDetails = marushDetails;
 
-  constructor(private readonly router: Router, private readonly routeTranslator: RouteTranslator) { }
+  private readonly router = inject(Router);
+  private readonly routeTranslator = inject(RouteTranslator);
 
   protected readonly redirectToContact = async(event?: OptionalKeyboardEvent) => {
     if (isAction(event)) {

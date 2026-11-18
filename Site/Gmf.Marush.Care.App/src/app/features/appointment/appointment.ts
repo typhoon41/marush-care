@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '@env';
 import { AppointmentRequest } from '@features/appointment/request';
 import { lastValueFrom } from 'rxjs';
@@ -8,7 +8,7 @@ import { lastValueFrom } from 'rxjs';
     providedIn: 'root'
 })
 export class Appointment {
-    constructor(private readonly http: HttpClient) { }
+    private readonly http = inject(HttpClient);
 
     readonly makeRequest = async(data: AppointmentRequest, captchaToken: string, captchaAction: string) => {
         const appointmentUrl = `${environment.apiUrl}appointment`;

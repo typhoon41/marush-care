@@ -17,5 +17,5 @@ export class CalendarAppointmentCell {
 
     protected readonly timeRange = computed(() => this.interval().range());
 
-    readonly positionClasses = computed(() => `public-appointment-cell ${this.interval().positionClasses()}`);
+    protected readonly positionClasses = computed(() => `public-appointment-cell ${this.interval().positionClasses()}`);
 }

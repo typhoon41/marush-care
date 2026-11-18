@@ -37,7 +37,7 @@ export class CalendarEntryDialog {
     protected readonly entryForm = new EntryDialogForm(
         inject(NonNullableFormBuilder), inject(Clients), this.editingEntry);
 
-    readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
+    public readonly open = (selection?: CalendarSelection, entry?: CalendarEntry) => {
         this.editingEntry.set(entry ?? null);
         this.entryForm.reset(selection, entry);
         this.operation.reset();

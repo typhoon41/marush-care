@@ -25,6 +25,7 @@ export class CalendarPage {
     private readonly calendarService = inject(Calendar);
     private readonly entryDialog = viewChild.required(CalendarEntryDialog);
     private readonly notesDialog = viewChild.required(CalendarNotesDialog);
+    private readonly title = inject(Title);
 
     protected readonly week = signal(WorkingWeek.containing(new Date()));
     protected readonly weekStart = computed(() => this.week().start.iso);
@@ -57,8 +58,8 @@ export class CalendarPage {
 
     protected readonly formatMoney = formatMoney;
 
-    constructor(title: Title) {
-        title.setTitle('Marush: Space of Care - kalendar');
+    constructor() {
+        this.title.setTitle('Marush: Space of Care - kalendar');
     }
 
     protected readonly goToPreviousWeek = () => this.week.update(week => week.previous());

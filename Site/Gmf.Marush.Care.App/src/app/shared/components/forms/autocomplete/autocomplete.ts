@@ -27,8 +27,8 @@ export class Autocomplete extends Field {
   readonly minimumQueryLength = input<number>(Autocomplete.defaultMinimumQueryLength);
   readonly onSelected = input<((item: IComboBoxItem) => void) | undefined>(undefined);
   readonly onDismissed = input<(() => void) | undefined>(undefined);
-  readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('inputElement');
-  readonly suggestionElements = viewChildren<ElementRef<HTMLLIElement>>('suggestion');
+  private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('inputElement');
+  private readonly suggestionElements = viewChildren<ElementRef<HTMLLIElement>>('suggestion');
   private readonly query = signal('');
   private readonly dismissed = signal(false);
   private debounceTimeout?: ReturnType<typeof setTimeout>;
