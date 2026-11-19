@@ -151,7 +151,7 @@ readonly description = input<string>('');
 Use `model<T>()` only when the parent needs two-way binding.
 
 ### Dependency injection — `inject()`, never constructor parameters
-Every `@Component`, `@Directive`, `@Injectable` and `@Pipe` gets its dependencies through `inject()` field initializers. Never constructor parameter properties, never `@Inject(TOKEN)`. Enforced by `@angular-eslint/prefer-inject`.
+Every `@Component`, `@Directive`, `@Injectable` and `@Pipe` gets its dependencies through `inject()` field initializers. Never constructor parameter properties, never `@Inject(TOKEN)`.
 
 ```ts
 // Wrong
@@ -162,10 +162,10 @@ private readonly router = inject(Router);
 private readonly locale = inject(LOCALE_ID);
 ```
 
-A constructor stays only for setup work (`afterNextRender`, `effect`, a one-off `title.setTitle`). A base class injects what it needs itself instead of receiving it from every subclass through `super(...)`: `BasePage` injects `Stapler` and its constructor takes only the page metadata. Plain classes created with `new` (`ClientSelection`, `CanonicalUrl`, ...) are not DI and keep ordinary constructor parameters.
+A constructor is only for setup work. A base class injects its own dependencies (`BasePage` injects `Stapler`). Plain classes created with `new` keep ordinary constructor parameters.
 
 ### Markup members are `protected readonly`
-A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Never write `public`; it is the default. Enforced by `marush/component-member-visibility` (`eslint-rules/`) and `@typescript-eslint/explicit-member-accessibility`.
+A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Never write `public`; it is the default.
 
 ```ts
 // Wrong
