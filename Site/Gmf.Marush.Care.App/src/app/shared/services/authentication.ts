@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { afterNextRender, effect, Injectable, Injector, runInInjectionContext, Signal, signal, WritableSignal } from '@angular/core';
+import { afterNextRender, effect, inject, Injectable, Injector, runInInjectionContext, Signal, signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { environment } from '@env';
 import { LoginRequest } from '@shared/models/authentication/login-request';
@@ -20,7 +20,11 @@ export class Authentication {
     private readonly store = (token: string) => localStorage.setItem('token', token);
     private readonly removeToken = () => localStorage.removeItem('token');
 
-    constructor(private readonly location: Location, private readonly injector: Injector, private readonly http: HttpClient) {
+    private readonly location = inject(Location);
+    private readonly injector = inject(Injector);
+    private readonly http = inject(HttpClient);
+
+    constructor() {
         afterNextRender(() => {
             runInInjectionContext(this.injector, () => {
                 this.storage = toSignal(fromEvent(window, 'storage'));

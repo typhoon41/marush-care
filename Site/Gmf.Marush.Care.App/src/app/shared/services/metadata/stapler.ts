@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { PageMetadata } from '@shared/components/page/base/page-metadata';
 import Language from '@shared/models/language';
@@ -11,8 +11,10 @@ import { StructuredData } from './structured-data';
     providedIn: 'root'
 })
 export class Stapler {
-    constructor(@Inject(LOCALE_ID) protected readonly locale: string, @Inject(DOCUMENT)private readonly document: Document,
-      protected readonly meta: Meta, protected readonly title: Title) {}
+    private readonly locale = inject(LOCALE_ID);
+    private readonly document = inject(DOCUMENT);
+    private readonly meta = inject(Meta);
+    private readonly title = inject(Title);
 
     readonly attach = (metadata: PageMetadata) => {
         this.setBasic(metadata);

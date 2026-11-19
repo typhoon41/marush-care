@@ -15,10 +15,10 @@ import { TreatmentDefinition } from '@shared/models/services/treatments/treatmen
 export class ServicesSelector {
     readonly checkedServices = input.required<TreatmentDefinition[]>();
     readonly toggleSelection = output<{ item: TreatmentDefinition; checked: boolean }>();
-    readonly panels = viewChildren<ExpansionPanel>('panels');
-    services = supportedTreatments;
+    protected readonly services = supportedTreatments;
+    private readonly panels = viewChildren<ExpansionPanel>('panels');
 
-    readonly collapseOpenedPanel = (indexToSkip: number) => {
+    protected readonly collapseOpenedPanel = (indexToSkip: number) => {
         this.panels().filter(panel => panel.index() !== indexToSkip && panel.collapsed)
             .forEach(panel => {
                 panel.collapsed.set(false);

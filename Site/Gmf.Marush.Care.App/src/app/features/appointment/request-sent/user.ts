@@ -21,7 +21,7 @@ export class RequestUser {
         services: (form.get('treatments')?.value as unknown as string[]).join(' & ')
     } as IRepresentUserRequest);
 
-    private static toIsoFormat = (date: string) => {
+    private static readonly toIsoFormat = (date: string) => {
         const normalizedDate = date.trim().replace(/\.$/u, '')
             .replace(/\//ug, '.');
         const dayMonthLimit = 2;

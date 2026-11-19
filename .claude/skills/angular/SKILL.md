@@ -150,6 +150,33 @@ readonly description = input<string>('');
 
 Use `model<T>()` only when the parent needs two-way binding.
 
+### Dependency injection — `inject()`, never constructor parameters
+Every `@Component`, `@Directive`, `@Injectable` and `@Pipe` gets its dependencies through `inject()` field initializers. Never constructor parameter properties, never `@Inject(TOKEN)`.
+
+```ts
+// Wrong
+constructor(private readonly router: Router, @Inject(LOCALE_ID) private readonly locale: string) { }
+
+// Right
+private readonly router = inject(Router);
+private readonly locale = inject(LOCALE_ID);
+```
+
+A constructor is only for setup work. A base class injects its own dependencies (`BasePage` injects `Stapler`). Plain classes created with `new` keep ordinary constructor parameters.
+
+### Markup members are `protected readonly`
+A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Never write `public`; it is the default.
+
+```ts
+// Wrong
+form: FormGroup;
+protected showMobileMenu = false;
+
+// Right
+protected readonly form: FormGroup;
+protected readonly showMobileMenu = signal(false);
+```
+
 ### Control flow — never `*ngIf` / `*ngFor`
 ```html
 <!-- Wrong -->

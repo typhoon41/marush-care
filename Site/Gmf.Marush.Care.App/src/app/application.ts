@@ -18,16 +18,17 @@ import { ScreenSize } from '@shared/services/screen-size';
   styleUrl: './application.scss'
 })
 export class Application {
+  protected readonly loader = inject(GlobalLoader);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly screenSize = inject(ScreenSize);
+  private readonly renderer = inject(Renderer2);
 
-  constructor(private readonly router: Router,
-    protected readonly loader: GlobalLoader,
-    private readonly screenSize: ScreenSize,
-    private readonly renderer: Renderer2) {
+  constructor() {
     this.router.events
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(routingEvent => {
-        loader.intercept(routingEvent.type);
+        this.loader.intercept(routingEvent.type);
       });
 
     afterNextRender(() => {

@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -34,7 +34,10 @@ export class ErrorPage {
 
     protected readonly currentError: { route: string; title: string; message: string; image: string };
 
-    constructor(private readonly title: Title, private readonly route: ActivatedRoute) {
+    private readonly title = inject(Title);
+    private readonly route = inject(ActivatedRoute);
+
+    constructor() {
         const errorType = this.route.snapshot.paramMap.get('errorType');
         this.currentError = this.errors.find(error => error.route === errorType) || this.errors[0];
 

@@ -1,6 +1,5 @@
-
-/* eslint-disable @stylistic/max-len, max-params */
-import { afterNextRender, ChangeDetectionStrategy, Component, computed, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
+/* eslint-disable @stylistic/max-len */
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, inject, Renderer2, Signal, signal, WritableSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Appointment } from '@features/appointment/appointment';
@@ -9,7 +8,6 @@ import marushDetails from '@shared/models/marush-details';
 import { TreatmentDefinition } from '@shared/models/services/treatments/treatment-definition';
 import { RouteTranslator } from '@shared/pipes/routing-translator';
 import { Captcha } from '@shared/services/captcha';
-import { Stapler } from '@shared/services/metadata/stapler';
 import { CustomerDetails } from './customer-details/customer-details';
 import { AppointmentPageMetadata } from './page-metadata';
 import { requestFormWith } from './request';
@@ -26,19 +24,22 @@ import { AppointmentSummary } from './summary/summary';
   host: { class: 'row appointment-container' }
 })
 export class AppointmentPage extends BasePage {
-  marushDetails = marushDetails;
-  form: FormGroup;
-  readonly globalError = signal('');
-  disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
-  readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
+  protected readonly marushDetails = marushDetails;
+  protected readonly form: FormGroup;
+  protected readonly globalError = signal('');
+  protected readonly disclaimer = `* ${$localize`:@@appointment.disclaimer:U slučaju otkazivanja, molimo Vas da nas na vreme (najkasnije 24h pre zakazanog termina) obavestite porukom ili pozivom na broj`} `;
+  protected readonly checkedServices: WritableSignal<FormArray<FormControl<TreatmentDefinition>>>;
   protected readonly totalCost: Signal<number>;
 
-  constructor(protected override readonly stapler: Stapler, private readonly router: Router,
-    private readonly routeTranslator: RouteTranslator,
-    private readonly captcha: Captcha,
-    private readonly renderer: Renderer2,
-    private readonly appointment: Appointment, private readonly formBuilder: NonNullableFormBuilder) {
-    super(stapler, new AppointmentPageMetadata());
+  private readonly router = inject(Router);
+  private readonly routeTranslator = inject(RouteTranslator);
+  private readonly captcha = inject(Captcha);
+  private readonly renderer = inject(Renderer2);
+  private readonly appointment = inject(Appointment);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
+  constructor() {
+    super(new AppointmentPageMetadata());
     this.form = requestFormWith(this.formBuilder);
 
     this.checkedServices = signal(this.form.get('checkedServices') as FormArray<FormControl<TreatmentDefinition>>);

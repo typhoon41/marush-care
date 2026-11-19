@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { isAction, OptionalKeyboardEvent } from '@shared/functions/keyboard-event';
 import marushDetails from '@shared/models/marush-details';
@@ -17,7 +17,8 @@ import { Authentication } from '@shared/services/authentication';
   }
 })
 export class MenuItems {
-  constructor(protected readonly authentication: Authentication, private readonly router: Router) { }
+  protected readonly authentication = inject(Authentication);
+  private readonly router = inject(Router);
 
   protected readonly classAttribute = computed(() =>
     this.authentication.isCurrentRouteProtected() ? 'protected-menu-items aligned-centrally stretch-between' : '');

@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { BasePage } from '@shared/components/page/base/base-page';
 import marushDetails from '@shared/models/marush-details';
 import { RouteTranslator } from '@shared/pipes/routing-translator';
-import { Stapler } from '@shared/services/metadata/stapler';
 import { ContactPageMetadata } from './page-metadata';
 
 @Component({
@@ -18,7 +17,7 @@ import { ContactPageMetadata } from './page-metadata';
 export class ContactPage extends BasePage {
   protected readonly marushDetails = marushDetails;
 
-  constructor(protected override readonly stapler: Stapler) {
-    super(stapler, new ContactPageMetadata());
+  constructor() {
+    super(new ContactPageMetadata());
   }
 }
