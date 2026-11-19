@@ -141,19 +141,6 @@ No mapping frameworks. All conversions are explicit methods on the record.
 ### Domain events
 Add events to `EntityDto.DomainEvents` inside repository methods. `BaseDbContext.SaveChangesAsync` dispatches them automatically. Never dispatch events from a controller or service.
 
-### Database migrations — squash at 7
-Migrations live in `Site/Gmf.Marush.Care.Infrastructure/Migrations/` and are applied on deploy by the EF bundle (`Deployment/Templates/update-database.yaml`).
-
-When adding a migration would make it the **7th** migration, merge all existing ones into a single migration first:
-
-1. **Stop and ask the user** to confirm that every environment (local, test, production) has applied the latest migration. Never squash without that confirmation: a database that is behind would silently skip the changes folded into the merged migration.
-2. Delete every migration file and `MarushCareContextModelSnapshot.cs`.
-3. Run `dotnet ef migrations add InitialCreate --project Site/Gmf.Marush.Care.Infrastructure --startup-project Gmf.Marush.Care.Host`.
-4. Rename the two generated files and the `[Migration("...")]` attribute in the Designer file to the **oldest** migration's ID (currently `20241105222844_InitialCreate`). Every existing database already has that row in `__EFMigrationsHistory`, so the deploy sees nothing pending; a fresh database gets the whole schema at once. Leftover history rows of the removed migrations are harmless.
-5. Verify: the new snapshot matches the old one, and a database built from the old chain reports no pending migrations against the merged one.
-
-Data-only SQL from old migrations (backfills, moves) is dropped by the squash: it has already run everywhere. Only then add the new migration on top.
-
 ## Email and culture
 
 ### Always resolve culture before sending a customer email
@@ -194,6 +181,5 @@ RuleFor(x => x.Name).NotEmpty().WithMessage("Ime je obavezno");
 - [ ] All control-flow bodies have braces
 - [ ] No `SaveChangesAsync` call in any repository method
 - [ ] New DI registrations added to the correct Autofac module
-- [ ] Adding a 7th migration: user confirmed all environments are on the latest one, and the existing migrations were squashed first
 - [ ] Customer emails set culture before formatting dates or accessing `Labels`
 - [ ] Admin validator messages are hard-coded Serbian strings

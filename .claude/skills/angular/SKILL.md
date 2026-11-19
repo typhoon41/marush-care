@@ -164,32 +164,18 @@ private readonly locale = inject(LOCALE_ID);
 
 A constructor stays only for setup work (`afterNextRender`, `effect`, a one-off `title.setTitle`). A base class injects what it needs itself instead of receiving it from every subclass through `super(...)`: `BasePage` injects `Stapler` and its constructor takes only the page metadata. Plain classes created with `new` (`ClientSelection`, `CanonicalUrl`, ...) are not DI and keep ordinary constructor parameters.
 
-### Member visibility — template members are `protected readonly`
-A component's class is not a public API. Its members fall into four groups:
-
-| Member | Modifier |
-|--------|----------|
-| `input()`, `input.required()`, `model()`, `output()` | public (no modifier) |
-| Read or called only by this component's template or `host` bindings | `protected readonly` |
-| Used only inside the class (injected services, `viewChild` queries, helpers) | `private readonly` (`private` only when it really is reassigned) |
-| Called by another class, e.g. a parent through `viewChild(...)().open()` | explicit `public readonly` |
+### Markup members are `protected readonly`
+A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Enforced by `marush/component-member-visibility` (`eslint-rules/`).
 
 ```ts
 // Wrong
 form: FormGroup;
-services = supportedTreatments;
-readonly detailsDialog = viewChild(Dialog);
 protected showMobileMenu = false;
 
 // Right
 protected readonly form: FormGroup;
-protected readonly services = supportedTreatments;
-private readonly detailsDialog = viewChild(Dialog);
 protected readonly showMobileMenu = signal(false);
-public readonly open = () => { ... };
 ```
-
-A template member that has to change is a `signal`, never a reassigned field. Enforced by the local `marush/component-member-visibility` rule (`eslint-rules/`) and `@typescript-eslint/prefer-readonly`.
 
 ### Control flow — never `*ngIf` / `*ngFor`
 ```html
@@ -382,8 +368,6 @@ Use `` $localize`:@@key.name:default string` `` for all user-facing strings. Def
 
 - [ ] Component is standalone with `ChangeDetectionStrategy.OnPush`
 - [ ] Inputs use `input()` / `input.required()` — no `@Input()` decorators
-- [ ] Dependencies come from `inject()` — no constructor parameter injection, no `@Inject()`
-- [ ] Template-only members are `protected readonly`, internals `private`, only inputs/models/outputs and real external callers public
 - [ ] Templates use `@if` / `@for` — no `*ngIf` / `*ngFor`
 - [ ] No `:host` in stylesheets — host class declared in decorator, styled by the stylesheet of the template that renders it (global partials only for routed pages)
 - [ ] State uses signals (`signal`, `computed`, `linkedSignal`, `effect`) — no NgRx
