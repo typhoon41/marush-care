@@ -45,6 +45,13 @@
 	line-height: 25px;
 }
 
+// Overpass ships a single 400 face, so a heavier weight on it is synthesised by the browser.
+// Bold text uses the dedicated face instead, at the weight it is declared with.
+@mixin marush-bold() {
+	font-family: 'Overpass-bold', sans-serif;
+	font-weight: 600;
+}
+
 %marush-header {
 	@include marush-header();
 	letter-spacing: 1px;

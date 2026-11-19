@@ -1,11 +1,12 @@
 @use 'breakpoints';
+@use 'buttons';
+@use 'headers';
 @use 'variables';
 @use './calendar-variables' as calendar;
 
 %header-emphasis {
 	color: variables.$font-color;
 	font-size: calendar.$header-font-size;
-	font-weight: 600;
 
 	@include breakpoints.apply-from-desktop() {
 		font-size: calendar.$header-font-size-desktop;
@@ -40,38 +41,36 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: calendar.$navigation-padding;
-	font-size: calendar.$navigation-font-size;
-	line-height: calendar.$navigation-line-height;
 
-	&:hover, &.has-note {
+	// Filled only while it carries state. A hover fill would stick after a tap on touch screens,
+	// and the site's buttons answer with `:active` alone.
+	&.has-note {
 		background-color: variables.$accent;
 		color: variables.$body-color;
 	}
 
 	.arrow-icon {
 		width: calendar.$navigation-icon-width;
-		height: calendar.$navigation-line-height;
+		height: buttons.$compact-line-height;
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: contain;
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		padding: calendar.$navigation-padding-desktop;
-		font-size: calendar.$header-font-size-desktop;
-		line-height: calendar.$navigation-line-height-desktop;
-
 		.arrow-icon {
 			width: calendar.$navigation-icon-width-desktop;
-			height: calendar.$navigation-line-height-desktop;
 		}
 	}
 }
 
+.week-label, .weekly-total {
+	@include headers.marush-bold();
+}
+
 .weekly-total {
 	@extend %header-emphasis;
-	font-size: calendar.$navigation-font-size;
+	font-size: buttons.$compact-font-size;
 	letter-spacing: calendar.$header-letter-spacing;
 }
 
@@ -79,7 +78,6 @@
 	@extend %header-emphasis;
 	margin: 0;
 	padding: calendar.$weekly-note-padding;
-	font-weight: 400;
 	text-align: center;
 }
 

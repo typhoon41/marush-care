@@ -24,6 +24,8 @@ $footer-height: 75px;
 	padding: 0;
 	border: 1px solid variables.$font-color;
 	background-color: variables.$body-color;
+	// The user agent paints a dialog's text in the system colour; it reads as the page text instead.
+	color: variables.$font-color;
 
 	@include breakpoints.apply-from-desktop() {
 		width: calc(100% - 70px);
@@ -68,7 +70,7 @@ $footer-height: 75px;
 
 	.close-button {
 		@include absolute.unset-position(12px, 12px);
-		border-radius: 6px;
+		border-radius: variables.$radius-small;
 		background-color: variables.$body-color;
 	}
 }

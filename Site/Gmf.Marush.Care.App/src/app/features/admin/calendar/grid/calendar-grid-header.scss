@@ -1,4 +1,5 @@
 @use 'breakpoints';
+@use 'headers';
 @use 'variables';
 @use './calendar-grid-variables' as grid;
 
@@ -16,7 +17,7 @@
 	order: 1;
 	color: variables.$font-color;
 	font-size: grid.$day-header-font-size-mobile;
-	font-weight: 600;
+	@include headers.marush-bold();
 	line-height: 1.2;
 	text-align: center;
 	text-transform: capitalize;

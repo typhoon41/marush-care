@@ -39,6 +39,7 @@ $side-gap: 10px;
 }
 
 .table-header {
+	@include headers.marush-bold();
 	padding: 0 $side-gap 10px;
 	text-align: left;
 	text-transform: uppercase;
