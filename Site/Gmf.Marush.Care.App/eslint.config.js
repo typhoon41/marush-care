@@ -18,6 +18,7 @@ export default defineConfig([
             "marush/component-member-visibility": "error",
             "@angular-eslint/prefer-inject": "error",
             "@typescript-eslint/prefer-readonly": "error",
+            "@typescript-eslint/explicit-member-accessibility": ["error", { "accessibility": "no-public" }],
             "max-lines": ["error", { "max": 100, "skipBlankLines": true, "skipComments": true }],
             "@angular-eslint/component-class-suffix": "off",
             "@angular-eslint/component-selector": [

@@ -165,7 +165,7 @@ private readonly locale = inject(LOCALE_ID);
 A constructor stays only for setup work (`afterNextRender`, `effect`, a one-off `title.setTitle`). A base class injects what it needs itself instead of receiving it from every subclass through `super(...)`: `BasePage` injects `Stapler` and its constructor takes only the page metadata. Plain classes created with `new` (`ClientSelection`, `CanonicalUrl`, ...) are not DI and keep ordinary constructor parameters.
 
 ### Markup members are `protected readonly`
-A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Enforced by `marush/component-member-visibility` (`eslint-rules/`).
+A member the template or a `host` binding uses is `protected readonly`; changing state is a `signal`, never a reassigned field. Never write `public`; it is the default. Enforced by `marush/component-member-visibility` (`eslint-rules/`) and `@typescript-eslint/explicit-member-accessibility`.
 
 ```ts
 // Wrong
