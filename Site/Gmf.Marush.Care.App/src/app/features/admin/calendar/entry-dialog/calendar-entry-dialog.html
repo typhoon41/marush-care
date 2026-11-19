@@ -58,12 +58,12 @@
             <p class="invalid-field-message" aria-live="polite">Čuvanje nije uspelo. Proverite podatke i pokušajte ponovo.</p>
         }
         @if (isEditing()) {
-            <button type="button" class="cancel-action"
+            <button type="button" class="cancel-action compact-action"
                     [disabled]="operation.isLoading()" (click)="onDelete()">
                 <span>Obriši termin</span>
             </button>
         }
-        <button type="button" class="main-action"
+        <button type="button" class="main-action compact-action"
                 [disabled]="operation.isLoading()" (click)="onSave()">
             <span>Sačuvaj</span>
         </button>

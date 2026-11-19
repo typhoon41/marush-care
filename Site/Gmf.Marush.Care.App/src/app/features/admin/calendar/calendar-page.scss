@@ -1,4 +1,5 @@
 @use 'breakpoints';
+@use 'buttons';
 @use 'variables';
 @use './calendar-variables' as calendar;
 
@@ -40,9 +41,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: calendar.$navigation-padding;
-	font-size: calendar.$navigation-font-size;
-	line-height: calendar.$navigation-line-height;
 
 	&:hover, &.has-note {
 		background-color: variables.$accent;
@@ -51,27 +49,22 @@
 
 	.arrow-icon {
 		width: calendar.$navigation-icon-width;
-		height: calendar.$navigation-line-height;
+		height: buttons.$compact-line-height;
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: contain;
 	}
 
 	@include breakpoints.apply-from-desktop() {
-		padding: calendar.$navigation-padding-desktop;
-		font-size: calendar.$header-font-size-desktop;
-		line-height: calendar.$navigation-line-height-desktop;
-
 		.arrow-icon {
 			width: calendar.$navigation-icon-width-desktop;
-			height: calendar.$navigation-line-height-desktop;
 		}
 	}
 }
 
 .weekly-total {
 	@extend %header-emphasis;
-	font-size: calendar.$navigation-font-size;
+	font-size: buttons.$compact-font-size;
 	letter-spacing: calendar.$header-letter-spacing;
 }
 

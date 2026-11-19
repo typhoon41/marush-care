@@ -1,7 +1,32 @@
 @use 'sass:math';
+@use 'breakpoints';
+@use 'headers';
 @use 'units';
 
 $line-button-width: 34px;
+
+$compact-line-height: 24px;
+$compact-padding: 8px 24px;
+$compact-desktop-padding: 8px 32px;
+$compact-font-size: 14px;
+
+// The global `button` look one size down, for buttons that sit inside a toolbar or a dialog rather than
+// closing a page. Overrides only the sizes the global rule grows per breakpoint.
+@mixin compact-button-size() {
+	padding: $compact-padding;
+	line-height: $compact-line-height;
+
+	@include breakpoints.apply-from-tablet() {
+		font-size: $compact-font-size;
+		line-height: $compact-line-height;
+	}
+
+	@include breakpoints.apply-from-desktop() {
+		padding: $compact-desktop-padding;
+		@include headers.marush-caption();
+		line-height: $compact-line-height;
+	}
+}
 
 @mixin line-button-size($button-width: $line-button-width) {
 	$button-height: $button-width * .75;

@@ -1,10 +1,15 @@
 @use 'variables';
 @use 'breakpoints';
+@use 'buttons';
 @use 'scss-solutions/src/modules/position/absolute';
 @use 'sass:color';
 
 $button-size: 42px;
 $button-desktop-size: 51px;
+
+.compact-action {
+	@include buttons.compact-button-size();
+}
 
 .main-action {
 	background-color: variables.$accent;
