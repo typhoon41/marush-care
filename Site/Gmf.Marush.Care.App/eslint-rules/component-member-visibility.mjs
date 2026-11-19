@@ -1,56 +1,37 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { MarkupMemberReads } from './markup-member-reads.mjs';
 
 const publicApiFactories = new Set(['input', 'model', 'output', 'outputFromObservable']);
-const bindingExpressions = [
-    /\{\{([\s\S]*?)\}\}/gu,
-    /[[(][^\]\s=]+[\])]\]?\s*=\s*"([^"]*)"/gu,
-    /@(?:if|for|switch|case|else if|let|defer)\b([^{]*)/gu
-];
 
 const componentMetadata = classNode => (classNode.decorators ?? [])
     .map(decorator => decorator.expression)
     .find(expression => expression.type === 'CallExpression' && expression.callee.name === 'Component')
     ?.arguments[0];
 
-const metadataValue = (metadata, name) => metadata.properties
-    .find(property => property.key?.name === name || property.key?.value === name)?.value;
+const keyOf = property => property.key?.name ?? property.key?.value;
 
-const markupOf = (metadata, sourceFile) => {
+const properties = objectNode => objectNode?.type === 'ObjectExpression' ?
+    objectNode.properties.filter(property => property.type === 'Property') : [];
+
+const metadataValue = (metadata, name) => properties(metadata).find(property => keyOf(property) === name)?.value;
+
+const templateOf = (metadata, sourceFile) => {
     const templateUrl = metadataValue(metadata, 'templateUrl');
     const template = metadataValue(metadata, 'template');
-    const host = metadataValue(metadata, 'host');
-    const parts = [];
     if (templateUrl?.type === 'Literal') {
-        parts.push(readFileSync(resolve(dirname(sourceFile), templateUrl.value), 'utf8'));
+        const path = resolve(dirname(sourceFile), templateUrl.value);
+        return existsSync(path) ? readFileSync(path, 'utf8') : undefined;
     }
-    if (template?.type === 'TemplateLiteral') {
-        parts.push(template.quasis.map(quasi => quasi.value.cooked).join(''));
+    if (template?.type === 'Literal') {
+        return template.value;
     }
-    const hostBindings = host?.type === 'ObjectExpression' ? host.properties : [];
-    for (const binding of hostBindings) {
-        if (binding.value.type === 'Literal' && /^[[(]/u.test(binding.key.value ?? '')) {
-            parts.push(`{{${binding.value.value}}}`);
-        }
-    }
-    return parts.join('\n');
+    return template?.type === 'TemplateLiteral' ? template.quasis.map(quasi => quasi.value.cooked).join('') : undefined;
 };
 
-const identifiersUsedIn = markup => {
-    const identifiers = new Set();
-    for (const pattern of bindingExpressions) {
-        for (const match of markup.matchAll(pattern)) {
-            for (const identifier of match[1].matchAll(/(?<![\w$.])[A-Za-z_$][\w$]*/gu)) {
-                identifiers.add(identifier[0]);
-            }
-        }
-    }
-    const declaredByMarkup = /#([A-Za-z_$][\w$]*)|\blet\s+([A-Za-z_$][\w$]*)|@for\s*\(\s*([A-Za-z_$][\w$]*)|\bas\s+([A-Za-z_$][\w$]*)/gu;
-    for (const match of markup.matchAll(declaredByMarkup)) {
-        identifiers.delete(match.slice(1).find(Boolean));
-    }
-    return identifiers;
-};
+const hostBindingsOf = metadata => properties(metadataValue(metadata, 'host'))
+    .filter(binding => binding.value.type === 'Literal' && /^[[(]/u.test(keyOf(binding) ?? ''))
+    .map(binding => [keyOf(binding), binding.value.value]);
 
 const isPublicApi = property => property.value?.type === 'CallExpression' &&
     publicApiFactories.has(property.value.callee.name ?? property.value.callee.object?.name);
@@ -63,20 +44,21 @@ export default {
         schema: []
     },
     create: context => {
-        const markupIdentifiers = new WeakMap();
-        const usedByMarkup = classNode => {
-            if (!markupIdentifiers.has(classNode)) {
+        const markupReads = new WeakMap();
+        const readsOf = classNode => {
+            if (!markupReads.has(classNode)) {
                 const metadata = componentMetadata(classNode);
-                markupIdentifiers.set(classNode, metadata?.type === 'ObjectExpression' ?
-                    identifiersUsedIn(markupOf(metadata, context.filename)) : new Set());
+                markupReads.set(classNode, metadata?.type === 'ObjectExpression' ?
+                    MarkupMemberReads.of(templateOf(metadata, context.filename), hostBindingsOf(metadata), context.filename) :
+                    new Set());
             }
-            return markupIdentifiers.get(classNode);
+            return markupReads.get(classNode);
         };
 
         return {
             PropertyDefinition: property => {
                 const name = property.key.name;
-                if (property.static || isPublicApi(property) || !usedByMarkup(property.parent.parent).has(name)) {
+                if (property.static || isPublicApi(property) || !readsOf(property.parent.parent).has(name)) {
                     return;
                 }
                 if (property.accessibility !== 'protected' || !property.readonly) {
