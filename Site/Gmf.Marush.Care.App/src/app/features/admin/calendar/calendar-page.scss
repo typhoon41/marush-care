@@ -42,7 +42,9 @@
 	align-items: center;
 	justify-content: center;
 
-	&:hover, &.has-note {
+	// Filled only while it carries state. A hover fill would stick after a tap on touch screens,
+	// and the site's buttons answer with `:active` alone.
+	&.has-note {
 		background-color: variables.$accent;
 		color: variables.$body-color;
 	}
