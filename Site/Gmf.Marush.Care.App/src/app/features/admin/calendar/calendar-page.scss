@@ -1,12 +1,12 @@
 @use 'breakpoints';
 @use 'buttons';
+@use 'headers';
 @use 'variables';
 @use './calendar-variables' as calendar;
 
 %header-emphasis {
 	color: variables.$font-color;
 	font-size: calendar.$header-font-size;
-	font-weight: 600;
 
 	@include breakpoints.apply-from-desktop() {
 		font-size: calendar.$header-font-size-desktop;
@@ -62,6 +62,10 @@
 	}
 }
 
+.week-label, .weekly-total {
+	@include headers.marush-bold();
+}
+
 .weekly-total {
 	@extend %header-emphasis;
 	font-size: buttons.$compact-font-size;
@@ -72,7 +76,6 @@
 	@extend %header-emphasis;
 	margin: 0;
 	padding: calendar.$weekly-note-padding;
-	font-weight: 400;
 	text-align: center;
 }
 

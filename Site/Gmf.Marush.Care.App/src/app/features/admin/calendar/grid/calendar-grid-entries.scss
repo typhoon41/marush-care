@@ -1,4 +1,5 @@
 @use 'buttons';
+@use 'headers';
 @use 'variables';
 @use './calendar-grid-entry-box';
 
@@ -42,7 +43,7 @@
 
 .entry-client {
 	@extend %entry-content;
-	font-weight: 600;
+	@include headers.marush-bold();
 }
 
 .entry-treatment {
