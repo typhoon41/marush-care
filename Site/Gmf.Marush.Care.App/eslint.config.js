@@ -1,7 +1,7 @@
 import defaultConfiguration from "@typhoon41/eslint-config-angular";
 import angular from "angular-eslint";
 import { defineConfig } from "eslint/config";
-import componentMemberVisibility from "./eslint-rules/component-member-visibility.js";
+import componentMemberVisibility from "./eslint-rules/component-member-visibility.mjs";
 
 export default defineConfig([
     {
