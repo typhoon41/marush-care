@@ -2,6 +2,7 @@
 @use 'headers';
 
 .form-group .title {
+	@include headers.marush-bold();
 	margin-left: 10px;
 }
 
