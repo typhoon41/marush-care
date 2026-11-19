@@ -24,12 +24,12 @@ export class Dialog {
         });
     }
 
-    public readonly open = () => {
+    readonly open = () => {
         this.dialog()?.nativeElement.showModal();
         document.body.classList.add('dialog-open');
     };
 
-    public readonly dismiss = () => {
+    readonly dismiss = () => {
         this.dialog()?.nativeElement.close();
     };
 
