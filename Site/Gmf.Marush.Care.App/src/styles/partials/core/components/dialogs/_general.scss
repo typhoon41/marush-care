@@ -68,7 +68,7 @@ $footer-height: 75px;
 
 	.close-button {
 		@include absolute.unset-position(12px, 12px);
-		border-radius: 6px;
+		border-radius: variables.$radius-small;
 		background-color: variables.$body-color;
 	}
 }

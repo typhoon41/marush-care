@@ -6,10 +6,10 @@
 	border: 1px solid variables.$accent;
 	background-color: variables.$body-color;
 	@if $with-edged-border {
-		border-radius: 0 0 12px 12px;
+		border-radius: 0 0 variables.$radius variables.$radius;
 	}
 	@else {
-		border-radius: 12px;
+		border-radius: variables.$radius;
 	}
 }
 
