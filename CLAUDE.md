@@ -69,33 +69,9 @@ DI uses **Autofac**; JWT auth + Swagger configured in `Site/Gmf.Marush.Care.Api/
 
 ---
 
-## Universal Conventions
+## Conventions
 
-These apply to every file in every stack. Skills carry the full detail; this is the cross-cutting reminder.
-
-- **No abbreviations** — write every identifier in full. Accepted acronyms: `Id`, `Url`, `Http`, `Api`, `Dto` (as Infrastructure persistence-record suffix only).
-- **One file per type** — each class, record or interface in its own file, named after the type.
-- **No enums** — the `enum` keyword is banned in both stacks. An enum of outcomes or states is a missing abstraction: put the rule on a rich domain model, express found/not found as `bool`/`null`, a broken invariant as a domain exception (`DomainConflictException` → 409), and a fixed set of persisted values as an `Enumeration<T>` class.
-- **Rich models, thin services** — a model owns the rules and values derived from its own data; a service orchestrates and holds none.
-- **Build one object, then ask it** — when several values derive from one input, create one object through a single factory and read its members. Never call a static helper once per value (`Helper.A(x)`, `Helper.B(x)`).
-- **Braces required** — every control-flow body has explicit `{ }` in 1tbs style, both C# and TypeScript.
-- **~120 lines is a split trigger** — a file approaching 120 lines is holding more than one responsibility. Split it into the abstractions it hides.
-- **No grab-bag files** — every file holds one named abstraction. A file accumulating unrelated exports must be split by responsibility; prefer a class over a pile of loose `export const` / `export function`.
-- **Thin controllers** — controllers bind, delegate to a service, and return a status code. Mapping, orchestration and notification decisions live in `Services/`.
-- **No "utils" naming** — files or modules named `*-utils`, `*Utils`, `helpers`, or any other catch-all label are banned. Every abstraction must be named for what it does, not that it is a collection (e.g., `CalendarSlotCalculator`, not `calendar-utils`).
-
----
-
-## Frontend Conventions (Angular / SCSS)
-
-- **No viewport units** — never use `vh`/`vw`/`vmin`/`vmax`; they are buggy on iOS Safari (the dynamic toolbar resizes the viewport). Use `%` instead. For modal `<dialog>`/overlays, `%` resolves against the viewport, so `max-width: 50%` / `max-height: 80%` behave like `vw`/`vh` without the bug.
-- **No conditional expressions in templates** — no ternaries, comparisons or non-null assertions inside a binding or interpolation. Move them into a `computed()` or onto the model. `@if` / `@for` on a boolean signal or collection is control flow and stays.
-- **Never style a library-generated class** — `.row`, `.column-N`, `.ellipsis` and friends are applied in HTML, never used as selectors in app SCSS. Add a semantic class and style that.
-- **Signals, never getters** — derived state on any class is a `computed()` signal invoked with `()`; never a `get` accessor.
-- **Functions are arrow-function properties** — `readonly name = (...) => ...` (`static readonly` for statics); no method declarations beside the constructor and lifecycle hooks, and never both styles in one class.
-- **No `ChangeDetectorRef`** — the app is zoneless; state a template reads is a signal, and DOM work that needs the rendered view uses `afterNextRender`. Never `detectChanges()` / `markForCheck()`.
-- **Search before you add** — a constant, factory or rule that already exists in the feature is reused, not redeclared.
-- **No extra template wrappers** — don't add wrapper `<div>`s for layout. Put the responsibility on the component's host element (`host: { class: ... }`, never `:host`) or an existing element. Style a host class in the stylesheet of the component whose template renders it; global partials only for routed pages. Custom elements default to `display: inline`, so set `display: block` for `overflow` to take effect.
+Coding conventions come from the `conventions` plugin ([typhoon41/toolkit](https://github.com/typhoon41/toolkit)). The project skills in `.claude/skills/` (`csharp`, `angular`, `html-scss`) add only Marush-specific facts on top of it.
 
 ---
 
