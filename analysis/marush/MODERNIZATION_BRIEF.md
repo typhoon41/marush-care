@@ -112,9 +112,10 @@ Entry criteria:
 - [x] The RULE-030 / SEC-001 conflict is decided (§7) and `RULE_REVIEWS.json` updated
 - [ ] First slice named: the SSR smoke for the `sr` locale home route (`/sr/početna`)
 Exit criteria:
-- [ ] `analysis/marush/BASELINE.md` records, for every route in sr/en/ru: the status, `<html lang>`, title and meta, and the first localized heading. Each is recorded with the production Host and with the localhost Host, against Angular 20.3.
-- [ ] Each Behavior Contract rule in §5 has at least one characterization or contract test that passes on the current code
+- [x] `analysis/marush/BASELINE.md` records, for every route in sr/en/ru: the status, `<html lang>`, title and meta, and the first localized heading. Each is recorded with the production Host and with the localhost Host, against Angular 20.3.
+- [x] Each Behavior Contract rule in §5 has at least one characterization or contract test that passes on the current code
 - [ ] The test suite runs in CI (`Deployment/Templates/build.yaml`) and fails the build on a regression
+  Note: steps added (commit `80c7764`); tick after the first pipeline run on this change. RULE-030 Production path and RULE-056 SQL cascade are not testable here (see `BASELINE.md`).
 
 #### Phase 2 — Pilot: Node 26 runtime and in-house style packages
 Command: /code-modernization:modernize-uplift
