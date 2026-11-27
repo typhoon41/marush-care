@@ -1,0 +1,7 @@
+root = false
+
+[*.{cs,csx,vb,vbx}]
+# Test names read as specifications and carry the rule id: Rule047_DecisionOnlyFromRequested_SecondDecisionChangesNothing.
+dotnet_diagnostic.CA1707.severity = none # CA1707: Identifiers should not contain underscores
+# xUnit discovers only public test classes and fixtures.
+dotnet_diagnostic.CA1515.severity = none # CA1515: Consider making public types internal

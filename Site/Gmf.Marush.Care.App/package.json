@@ -12,7 +12,11 @@
     "start-ru": "ng serve --configuration=development,ru",
     "build": "ng build && copyfiles -E -u 2 src/assets/**/* dist/browser/assets",
     "watch": "ng build --watch --configuration development",
+    "pretest": "node tests/unit/clean-test-output.mjs",
     "test": "ng test",
+    "posttest": "node tests/unit/clean-test-output.mjs",
+    "test:ssr": "node --test tests/ssr/ssr-baseline.test.mjs",
+    "test:ssr:record": "node tests/ssr/record.mjs",
     "translate": "ng extract-i18n && sortjson src/locale",
     "serve:ssr": "node dist/server/server.mjs",
     "lint": "eslint --fix && stylelint --fix src/**/*.scss",
@@ -45,8 +49,10 @@
     "@typhoon41/scss-solutions": "0.2.1",
     "@typhoon41/stylelint-config": "1.1.2",
     "copyfiles": "2.4.1",
+    "jsdom": "31.0.1",
     "json-sort-cli": "4.0.10",
     "run-script-os": "1.1.6",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "3.2.7"
   }
 }

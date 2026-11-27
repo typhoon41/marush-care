@@ -19,6 +19,7 @@
   </Folder>
   <Folder Name="/Site/">
     <Project Path="Site/Gmf.Marush.Care.Api/Gmf.Marush.Care.Api.csproj" />
+    <Project Path="Site/Gmf.Marush.Care.Api.Tests/Gmf.Marush.Care.Api.Tests.csproj" />
     <Project Path="Site/Gmf.Marush.Care.App/Gmf.Marush.Care.App.esproj" Type="C#" />
     <Project Path="Site/Gmf.Marush.Care.Domain/Gmf.Marush.Care.Domain.csproj" />
     <Project Path="Site/Gmf.Marush.Care.Infrastructure/Gmf.Marush.Care.Infrastructure.csproj" />
