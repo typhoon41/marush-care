@@ -1,4 +1,5 @@
-﻿using Gmf.Marush.Care.Api.Resources;
+﻿using System.Net;
+using Gmf.Marush.Care.Api.Resources;
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
@@ -12,7 +13,7 @@ internal class AppointmentConfirmationTemplate(string phoneNumber, string date) 
         { "{{location}}", Labels.Location },
         { "{{location-value}}", "Višegradska 25/7" },
         { "{{date}}", Labels.AppointmentTime },
-        { "{{date-value}}", date },
+        { "{{date-value}}", WebUtility.HtmlEncode(date) },
         { "{{disclaimer}}", Labels.Disclaimer },
         { "{{phone-number}}", phoneNumber },
         { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }

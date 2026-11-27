@@ -1,0 +1,62 @@
+graph TD
+  dom_D1["Public site & treatment catalog — 5 entry points"]
+  dom_D2["Online booking — 4 entry points"]
+  dom_D3["Admin calendar — 2 entry points"]
+  dom_D4["Customer (CRM) management — 3 entry points"]
+  dom_D5["Identity & access — 2 entry points"]
+  dom_D6["Frontend shell / SSR / i18n — 3 entry points"]
+  dom_D7["Notifications & email"]
+  dom_D8["Domain events & audit — 1 entry points"]
+  dom_D9["Persistence"]
+  dom_D10["API hosting platform — 1 entry points"]
+  dom_D11["Ops / delivery — 4 entry points"]
+  dom_D1 -->|32| dom_D6
+  dom_D9 -->|25| dom_D4
+  dom_D10 -->|22| dom_D9
+  dom_D2 -->|22| dom_D6
+  dom_D3 -->|17| dom_D6
+  dom_D9 -->|17| dom_D2
+  dom_D9 -->|16| dom_D3
+  dom_D8 -->|15| dom_D9
+  dom_D2 -->|14| dom_D7
+  dom_D3 -->|12| dom_D9
+  dom_D7 -->|11| dom_D10
+  dom_D2 -->|11| dom_D9
+  dom_D4 -->|11| dom_D6
+  dom_D5 -->|9| dom_D9
+  dom_D9 -->|8| dom_D5
+  dom_D10 -->|7| dom_D8
+  dom_D2 -->|7| dom_D10
+  dom_D2 -->|6| dom_D4
+  dom_D5 -->|6| dom_D6
+  dom_D2 -->|6| dom_D1
+  dom_D6 -->|6| dom_D5
+  dom_D9 -.->|5| dom_D8
+  dom_D4 -->|5| dom_D10
+  dom_D6 -.->|5| dom_D1
+  dom_D9 -.->|4| dom_D5
+  dom_D4 -->|4| dom_D5
+  dom_D4 -->|4| dom_D2
+  dom_D3 -->|4| dom_D2
+  dom_D3 -->|4| dom_D1
+  dom_D11 -.->|3| dom_D6
+  dom_D4 -->|3| dom_D9
+  dom_D5 -->|3| dom_D10
+  dom_D10 -->|3| dom_D7
+  dom_D7 -->|3| dom_D2
+  dom_D10 -->|3| dom_D5
+  dom_D3 -->|3| dom_D4
+  dom_D11 -.->|2| dom_D9
+  dom_D11 -.->|2| dom_D10
+  dom_D9 -.->|2| dom_D2
+  dom_D9 -.->|2| dom_D10
+  classDef entry fill:#cc785c,color:#fff,stroke:#cc785c
+  class dom_D1 entry
+  class dom_D2 entry
+  class dom_D3 entry
+  class dom_D4 entry
+  class dom_D5 entry
+  class dom_D6 entry
+  class dom_D8 entry
+  class dom_D10 entry
+  class dom_D11 entry

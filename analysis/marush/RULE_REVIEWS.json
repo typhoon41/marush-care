@@ -1,0 +1,122 @@
+{
+  "system": "marush",
+  "version": 1,
+  "reviews": {
+    "RULE-001": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Online booking price is the sum of selected treatment prices"
+    },
+    "RULE-002": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Online booking end = start + summed duration, in server-local time"
+    },
+    "RULE-003": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Server accepts the browser's price and duration unchecked"
+    },
+    "RULE-006": {
+      "verdict": "wrong",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Calendar entries and online requests store time differently",
+      "note": "Should be unified: one time-storage form (chosen option)."
+    },
+    "RULE-012": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Treatment prices and durations are fixed in the browser"
+    },
+    "RULE-017": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Online booking window: today to the same day next month, weekdays only"
+    },
+    "RULE-019": {
+      "verdict": "wrong",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Online start time 12:00–20:45 on quarter hours (UI offers only to 20:00)",
+      "note": "Last online start should match the UI (20:00) and/or the booking must end by closing time (chosen option)."
+    },
+    "RULE-021": {
+      "verdict": "wrong",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Phone must be a Serbian mobile or international number, max 16 characters",
+      "note": "Server regex should be anchored like the browser regex (chosen option)."
+    },
+    "RULE-023": {
+      "verdict": "wrong",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Admin entry: 11:00–22:00, 15-minute grid, at most 4 hours",
+      "note": "Sundays / non-working days should be blocked for admin entries (chosen option)."
+    },
+    "RULE-030": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Captcha verdict: rejected only if the token is invalid AND the score < 0.25",
+      "note": "Confirmed: keep current AND logic. Owner chose to drop SEC-001 from the security patch (2026-11-27)."
+    },
+    "RULE-031": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Admin login: password-hash check, audit on success and failure"
+    },
+    "RULE-033": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Slot conflict: no overlap, back-to-back allowed (admin entries only)"
+    },
+    "RULE-036": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Returning client matched only when both email and phone match"
+    },
+    "RULE-037": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Decision link: anonymous GET, date taken from the query, fixed Serbian redirects"
+    },
+    "RULE-038": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "JWT: signed, bound to issuer and audience, expires after configured minutes"
+    },
+    "RULE-039": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Client and calendar APIs accept any logged-in user (no roles)"
+    },
+    "RULE-041": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Admin user creation exists only in DEBUG builds"
+    },
+    "RULE-042": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Database commit condition per request"
+    },
+    "RULE-046": {
+      "verdict": "wrong",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "A booking is saved only if both notification emails are sent",
+      "note": "Email order / atomicity of the booking save should change (chosen option)."
+    },
+    "RULE-050": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Placing an online request on the calendar keeps its status"
+    },
+    "RULE-054": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Deleting a calendar entry hard-deletes its appointment silently"
+    },
+    "RULE-056": {
+      "verdict": "confirmed",
+      "at": "2026-11-27T19:01:52+00:00",
+      "title": "Saving the client card marks history visits Performed and deletes other appointments"
+    }
+  }
+}

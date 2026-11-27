@@ -1,0 +1,13 @@
+flowchart TD
+  %% Book an appointment online (Salon customer); no production telemetry, so no p50/p99
+  S1["1. Choose treatments, date and time<br/><small>appointment-page, services-selector, summary</small>"]
+  S2["2. Send the request with a captcha check<br/><small>appointment, ValidateCaptchaAttribute, AppointmentController</small>"]
+  S1 --> S2
+  S3["3. Check the request is valid and inside the booking window<br/><small>AppointmentRequestValidator, AppointmentBookingWindow</small>"]
+  S2 --> S3
+  S4["4. Save the customer and the requested appointment<br/><small>Service, AppointmentRepository, SQL table Appointments, SQL table Customers</small>"]
+  S3 --> S4
+  S5["5. Email the owner (with Accept/Reject links) and the customer<br/><small>AppointmentNotificationService, AppointmentRequestTemplate, AppointmentSubmittedTemplate, SMTP server (MailKit)</small>"]
+  S4 --> S5
+  S6["6. Show the request-sent page<br/><small>request-sent-page</small>"]
+  S5 --> S6
