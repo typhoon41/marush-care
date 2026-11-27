@@ -1,0 +1,74 @@
+graph LR
+  Packages_Gmf_Mail_Common_EmailClient_cs["EmailClient"]
+  Packages_Gmf_Net_Core_Common_Security_ValidateCaptchaAttribute_cs["ValidateCaptchaAttribute"]
+  Site_Gmf_Marush_Care_App_src_app_features_gallery_image_ts["image"]
+  Site_Gmf_Marush_Care_App_src_app_features_home_home_page_ts["home-page"]
+  Site_Gmf_Marush_Care_App_src_app_features_home_instagram_instagram_ts["instagram"]
+  Site_Gmf_Marush_Care_App_src_app_features_home_space_space_ts["space"]
+  Site_Gmf_Marush_Care_App_src_app_features_services_type_selector_type_selector_ts["type-selector"]
+  Site_Gmf_Marush_Care_App_src_app_shared_components_page_base_page_metadata_ts["page-metadata"]
+  Site_Gmf_Marush_Care_App_src_app_shared_components_page_simple_page_ts["simple-page"]
+  Site_Gmf_Marush_Care_App_src_app_shared_models_marush_details_ts["marush-details"]
+  Site_Gmf_Marush_Care_App_src_app_shared_services_authentication_ts["authentication"]
+  Site_Gmf_Marush_Care_App_src_app_shared_services_captcha_ts["captcha"]
+  Site_Gmf_Marush_Care_App_src_environments_environment_development_ts["environment.development"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs["AppointmentRepository"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarEntryAppointments_cs["CalendarEntryAppointments"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarModificationRepository_cs["CalendarModificationRepository"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarRetrievalRepository_cs["CalendarRetrievalRepository"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs["CustomerModificationRepository"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerRetrievalRepository_cs["CustomerRetrievalRepository"]
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_UserRepository_cs["UserRepository"]
+  ds_browser_storage[("Browser localStorage (JWT)")]
+  ds_recaptcha[("Google reCAPTCHA Enterprise")]
+  ds_smtp[("SMTP server (MailKit)")]
+  ds_sql_AppointmentStatus[("SQL table AppointmentStatus")]
+  ds_sql_Appointments[("SQL table Appointments")]
+  ds_sql_CalendarEntries[("SQL table CalendarEntries")]
+  ds_sql_CalendarNotes[("SQL table CalendarNotes")]
+  ds_sql_CustomerEmails[("SQL table CustomerEmails")]
+  ds_sql_CustomerPhones[("SQL table CustomerPhones")]
+  ds_sql_Customers[("SQL table Customers")]
+  ds_sql_Users[("SQL table Users")]
+  ds_static_files[("Static files marushcare.com/files")]
+  Packages_Gmf_Mail_Common_EmailClient_cs ==>|write| ds_smtp
+  Packages_Gmf_Net_Core_Common_Security_ValidateCaptchaAttribute_cs -.->|read| ds_recaptcha
+  Site_Gmf_Marush_Care_App_src_app_features_gallery_image_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_features_home_home_page_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_features_home_instagram_instagram_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_features_home_space_space_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_features_services_type_selector_type_selector_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_shared_components_page_base_page_metadata_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_shared_components_page_simple_page_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_shared_models_marush_details_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_App_src_app_shared_services_authentication_ts -.->|read| ds_browser_storage
+  Site_Gmf_Marush_Care_App_src_app_shared_services_authentication_ts ==>|write| ds_browser_storage
+  Site_Gmf_Marush_Care_App_src_app_shared_services_captcha_ts -.->|read| ds_recaptcha
+  Site_Gmf_Marush_Care_App_src_environments_environment_development_ts -.->|read| ds_static_files
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs -.->|read| ds_sql_AppointmentStatus
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs -.->|read| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs ==>|write| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs -.->|read| ds_sql_CustomerEmails
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs -.->|read| ds_sql_CustomerPhones
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs -.->|read| ds_sql_Customers
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_AppointmentRepository_cs ==>|write| ds_sql_Customers
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarEntryAppointments_cs -.->|read| ds_sql_AppointmentStatus
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarEntryAppointments_cs -.->|read| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarEntryAppointments_cs ==>|write| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarEntryAppointments_cs -.->|read| ds_sql_Customers
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarModificationRepository_cs -.->|read| ds_sql_CalendarEntries
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarModificationRepository_cs ==>|write| ds_sql_CalendarEntries
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarModificationRepository_cs -.->|read| ds_sql_CalendarNotes
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarModificationRepository_cs ==>|write| ds_sql_CalendarNotes
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarRetrievalRepository_cs -.->|read| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarRetrievalRepository_cs -.->|read| ds_sql_CalendarEntries
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CalendarRetrievalRepository_cs -.->|read| ds_sql_CalendarNotes
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs -.->|read| ds_sql_AppointmentStatus
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs -.->|read| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs ==>|write| ds_sql_Appointments
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs -.->|read| ds_sql_CustomerEmails
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs ==>|write| ds_sql_CustomerEmails
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs -.->|read| ds_sql_CustomerPhones
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs ==>|write| ds_sql_CustomerPhones
+  Site_Gmf_Marush_Care_Infrastructure_Data_Repositories_CustomerModificationRepository_cs -.->|read| ds_sql_Customers
+  %% 45 read/write edges (40 shown); EF configurations and migrations (schema owners) omitted
