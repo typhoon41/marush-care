@@ -4,7 +4,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     {
-        "ignores": ['.angular/**/*.js'],
+        "ignores": ['.angular/**/*.js', 'dist/**'],
     },
     ...defaultConfiguration,
     {
