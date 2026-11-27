@@ -35,6 +35,12 @@
         <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.2.3" />
         <PackageVersion Include="System.Resources.ResourceManager" Version="4.3.0" />
+        <!-- Test tooling (Site/Gmf.Marush.Care.Api.Tests) -->
+        <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(DotnetVersion)" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
+        <PackageVersion Include="xunit.v3.mtp-off" Version="4.0.3" />
 		<!-- Try removing packages below this line next time you upgrade packages. Pinned here only due to security issues, but not needed -->
         <PackageVersion Include="OpenTelemetry.Api" Version="1.17.0" />        
         <PackageVersion Include="MessagePack" Version="2.5.307" />
