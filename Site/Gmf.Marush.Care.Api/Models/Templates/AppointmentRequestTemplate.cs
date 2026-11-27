@@ -1,4 +1,6 @@
-﻿namespace Gmf.Marush.Care.Api.Models.Templates;
+﻿using System.Net;
+
+namespace Gmf.Marush.Care.Api.Models.Templates;
 
 internal class AppointmentRequestTemplate(AppointmentRequest appointment,
     string apiLocation, string phoneNumber, Guid appointmentId) : BaseMarushRequestTemplate(appointment, phoneNumber)
@@ -10,7 +12,7 @@ internal class AppointmentRequestTemplate(AppointmentRequest appointment,
     protected override IEnumerable<KeyValuePair<string, string>> AdditionalReplacements() => new Dictionary<string, string>()
     {
         { "{{date}}", Appointment.SerbianAppointmentStart },
-        { "{{client}}", _appointment.FullName },
+        { "{{client}}", WebUtility.HtmlEncode(_appointment.FullName) },
         { "{{endpoint}}", apiLocation },
         { "{{services}}", GenerateListFrom(Appointment.SerbianTreatments) },
         { "{{appointmentId}}", appointmentId.ToString() }

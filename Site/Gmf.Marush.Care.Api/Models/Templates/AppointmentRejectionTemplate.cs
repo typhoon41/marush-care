@@ -1,4 +1,5 @@
-﻿using Gmf.Marush.Care.Api.Resources;
+﻿using System.Net;
+using Gmf.Marush.Care.Api.Resources;
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
@@ -9,7 +10,7 @@ internal class AppointmentRejectionTemplate(string phoneNumber, string date) : B
     {
         { "{{title}}", Labels.AppointmentRejectedSubtitle },
         { "{{text}}", Labels.AppointmentRejectedText },
-        { "{{date}}", date },
+        { "{{date}}", WebUtility.HtmlEncode(date) },
         { "{{phone-number}}", phoneNumber },
         { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
     };

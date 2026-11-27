@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net;
 
 namespace Gmf.Marush.Care.Api.Models.Templates;
 
@@ -14,7 +15,7 @@ internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment
         var result = string.Empty;
         foreach (var treatment in treatments)
         {
-            result += $"<h4 style=\"font-size: 24px;line-height: 37px;letter-spacing: 3px;margin-bottom: 15px;font-family: 'Overpass-bold', 'Arial', 'Helvetica', 'Tahoma';margin-top: 0;text-transform: uppercase;\"><span style=\"color:#f5b57b;margin-right:10px;\">*</span><span>{treatment}</span></h4>";
+            result += $"<h4 style=\"font-size: 24px;line-height: 37px;letter-spacing: 3px;margin-bottom: 15px;font-family: 'Overpass-bold', 'Arial', 'Helvetica', 'Tahoma';margin-top: 0;text-transform: uppercase;\"><span style=\"color:#f5b57b;margin-right:10px;\">*</span><span>{WebUtility.HtmlEncode(treatment)}</span></h4>";
         }
 
         return result;
@@ -27,7 +28,7 @@ internal abstract class BaseMarushRequestTemplate(AppointmentRequest appointment
             NumberGroupSeparator = ".",
             NumberDecimalDigits = 0
         })},
-        { "{{phone-number}}", phoneNumber },
-        { "{{phone-number-formatted}}", phoneNumber.ToFormattedPhone() }
+        { "{{phone-number}}", WebUtility.HtmlEncode(phoneNumber) },
+        { "{{phone-number-formatted}}", WebUtility.HtmlEncode(phoneNumber.ToFormattedPhone()) }
     };
 }
