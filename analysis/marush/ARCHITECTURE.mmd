@@ -1,0 +1,69 @@
+graph TD
+  subgraph Frontend
+    D1[Public site & catalog]
+    D6[FE shell / SSR / i18n]
+    FB[Booking UI]
+    FC[Calendar UI]
+    FK[Clients UI]
+    FA[Login / guards / captcha]
+  end
+  subgraph API
+    AC[AppointmentController]
+    CC[CalendarController]
+    KC[CustomerController]
+    UC[UserController]
+    SV[Services: Appointment / Calendar / User]
+    EV[Domain events & audit handlers]
+    NT[Notification + templates]
+  end
+  subgraph Shared_packages
+    NCC[Gmf.Net.Core.Common]
+    MAIL[Gmf.Mail.Common]
+    DDD[Gmf.DDD.Common]
+  end
+  subgraph Data
+    REPO[Infrastructure repositories]
+    DB[(SQL Server MarushCare)]
+  end
+  subgraph Ops
+    HOST[Aspire host]
+    PIPE[Azure Pipelines]
+    NODE[NodeJsRunnerService]
+  end
+  D6 --> D1
+  D6 --> FB
+  D6 --> FC
+  D6 --> FK
+  D6 --> FA
+  FB -- POST /api/appointment --> AC
+  FC -- GET/POST/PUT/DELETE /api/calendar/* --> CC
+  FK -- GET/POST/PUT /api/customer --> KC
+  FA -- POST /api/user/login --> UC
+  FA --> FC
+  FA --> FK
+  AC --> SV
+  AC --> NT
+  CC --> SV
+  UC --> SV
+  KC --> REPO
+  SV --> REPO
+  SV --> EV
+  NT --> REPO
+  NT --> MAIL
+  EV --> NT
+  EV --> NCC
+  REPO --> DB
+  REPO --> NCC
+  NCC --> DDD
+  MAIL --> NCC
+  AC --> NCC
+  KC --> NCC
+  UC --> NCC
+  NT -. email link GET /api/appointment/decision .-> AC
+  AC -. 302 /sr/klijent-obavešten .-> FB
+  HOST --> DB
+  HOST --> AC
+  HOST --> D6
+  PIPE --> DB
+  PIPE --> NODE
+  NODE --> D6
