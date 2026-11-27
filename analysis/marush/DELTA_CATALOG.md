@@ -37,6 +37,11 @@
 
 (Paths without a prefix are relative to `Site/Gmf.Marush.Care.App/`.)
 
+**Correction to DELTA-007, from the Phase 1 characterization (2026-11-28):** the parent component receives the change event **once** per action today, not twice. The explicit `output()` has the same public name as the model's implicit `…Change` output and overrides it, so only one output is registered. Two emitters fire internally, but the parent listens to only one.
+- **The real Phase 4 risk:** the hamburger button also emits once on creation, from its `ngOnInit` (`[false]`), and `menu.html` relies on that initial `false`.
+- **What the migration may do:** it can remove that emission while keeping one event per action.
+- **Where it is pinned:** `type-selector.spec.ts` and `hamburger/button.spec.ts`.
+
 ## Migration tools and what they reported
 
 - **`ng update` (list mode):** "@angular/cli 20.3.4 -> 21.2.9 … @angular/core 20.3.3 -> 21.2.9"; it installed 21.2.31 / 21.2.26. On CLI 20, `ng version` reported "Node: 26.13.1 (Unsupported)", a warning only.

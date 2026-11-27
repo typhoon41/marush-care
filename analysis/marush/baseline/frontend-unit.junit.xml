@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="72" failures="0" errors="0" time="3.1652299">
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-appointment-page.spec.js" timestamp="2026-11-27T23:45:59.552Z" hostname="MAHINA" tests="4" failures="0" errors="0" skipped="0" time="0.5908491">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-appointment-page.spec.js" name="AppointmentPage booking total &gt; RULE-001 starts at 0 with nothing selected" time="0.3423282">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-appointment-page.spec.js" name="AppointmentPage booking total &gt; RULE-001 sums the catalog prices of the ticked treatments (3,500 + 6,500 = 10,000)" time="0.1261569">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-appointment-page.spec.js" name="AppointmentPage booking total &gt; RULE-001 drops the price of an unticked or removed treatment" time="0.0645981">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-appointment-page.spec.js" name="AppointmentPage booking total &gt; RULE-001 does not block ticking the same treatment twice" time="0.0543508">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" timestamp="2026-11-27T23:45:59.555Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="0.355259">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; exposes one collapsedChange output: the explicit output shadows the model change output" time="0.0061422">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; emits from both the model and the explicit output on one click (two emitters fire today)" time="0.1300076">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; delivers collapsedChange to the parent ONCE on creation with the initial value (ngOnInit emit)" time="0.0488755">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; delivers collapsedChange to the parent ONCE per click, opening then closing" time="0.0580607">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; delivers ONCE for Enter and prevents its default, and not at all for another key" time="0.052114">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-button.spec.js" name="HamburgerButton &gt; describes the action it will take in its label" time="0.0569125">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" timestamp="2026-11-27T23:45:59.558Z" hostname="MAHINA" tests="8" failures="0" errors="0" skipped="0" time="0.0603691">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; RULE-007 moves a Sunday back to the Monday of the week before it" time="0.0062849">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; RULE-007 keeps a Monday and moves Tuesday..Saturday back to that Monday" time="0.0015378">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; RULE-007 crosses month and year boundaries when finding the Monday" time="0.0011197">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; converts between ISO and the Serbian form without zero padding" time="0.0022496">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; builds from a local Date and back to local midnight" time="0.0024641">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; adds days across month ends, including negative shifts" time="0.001286">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; compares against a moment by its local midnight" time="0.0008745">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-date.spec.js" name="CalendarDate &gt; formats with the sr-Latn-RS locale" time="0.0410514">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" timestamp="2026-11-27T23:45:59.561Z" hostname="MAHINA" tests="7" failures="0" errors="0" skipped="0" time="0.0175157">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 counts 44 quarter-hour slots between 11:00 and 22:00" time="0.004724">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 maps slot indexes to the time each slot starts" time="0.001339">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 maps a time to the slot containing it, flooring to the quarter hour" time="0.0014323">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 clamps slot indexes to 0..44, letting NaN through" time="0.0009443">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 labels only full hours and marks the slot that ends each hour" time="0.0031118">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 offers 11:00..21:45 as starts and 11:15..22:00 as ends" time="0.0015228">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-calendar-time-slots.spec.js" name="CalendarTimeSlots &gt; RULE-011 finds a grid option only for an exact quarter-hour boundary" time="0.0013099">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" timestamp="2026-11-27T23:45:59.564Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="1.1149125">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 enables only weekdays from today to the end of the current month view" time="0.3449648">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 stops at the same day next month" time="0.178849">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 clamps the last day to the end of a shorter next month (Jan 31 to Feb 28)" time="0.1437746">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 writes the clicked day to the control in the Serbian format" time="0.2263979">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 ignores a click on a disabled Saturday" time="0.1588761">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-date-picker.spec.js" name="DatePicker &gt; RULE-018 lifts every limit when a start date is given (admin use)" time="0.0587998">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-money-formatter.spec.js" timestamp="2026-11-27T23:45:59.567Z" hostname="MAHINA" tests="2" failures="0" errors="0" skipped="0" time="0.0557611">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-formatter.spec.js" name="formatMoney &gt; RULE-015 groups thousands with &quot;.&quot; in sr-RS and shows no decimals" time="0.0505034">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-formatter.spec.js" name="formatMoney &gt; RULE-015 rounds fractions to whole dinars and shows 0 and negatives" time="0.0019744">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" timestamp="2026-11-27T23:45:59.568Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="0.2313745">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 fills money with the treatment total and keeps following it while untouched" time="0.0974813">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 leaves money empty for a total of 0" time="0.035309">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 stops following once the admin types an amount" time="0.0515272">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 resumes following after the admin clears the field, on the next total change" time="0.0175693">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 keeps an existing entry amount that differs from the total" time="0.0127713">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money-synchronization.spec.js" name="MoneySynchronization &gt; RULE-009 follows the total for an entry whose amount equals it or is missing" time="0.0127683">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-money.spec.js" timestamp="2026-11-27T23:45:59.570Z" hostname="MAHINA" tests="3" failures="0" errors="0" skipped="0" time="0.0115622">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money.spec.js" name="Money pipe &gt; RULE-015 inserts &quot;.&quot; every three digits from the right" time="0.0063124">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money.spec.js" name="Money pipe &gt; RULE-015 shows an empty string for 0 and for an empty value" time="0.001127">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-money.spec.js" name="Money pipe &gt; RULE-015 groups only the integer part before a decimal point and keeps a minus sign" time="0.0011503">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" timestamp="2026-11-27T23:45:59.571Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="0.0224913">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 accepts 06 followed by 7 or 8 digits" time="0.0098068">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 rejects 06 with 6 or 9 digits and numbers not starting with 06" time="0.0027511">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 accepts + followed by 10 to 13 digits" time="0.0018195">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 rejects + with 9 or 14 digits" time="0.0021448">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 is anchored at both ends, so trailing or leading text is rejected" time="0.0018455">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-request.spec.js" name="Booking phone pattern &gt; RULE-021 leaves an empty phone to the required validator" time="0.0011116">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" timestamp="2026-11-27T23:45:59.573Z" hostname="MAHINA" tests="8" failures="0" errors="0" skipped="0" time="0.0209056">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-011 RULE-023 places 18:00-22:00 on slots 28..44 with a 16-slot span and no violation" time="0.0081837">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-023 flags 17:45-22:00 (17 slots) as longer than the 16-slot maximum" time="0.0014071">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-023 does not flag 18:00-22:15 because the end clamps to the grid edge" time="0.001258">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-023 does not flag 14:10-15:10, an interval off the quarter-hour grid" time="0.0011345">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-023 flags a zero-length or reversed interval as an order violation, drawn one slot high" time="0.0017036">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-011 clamps an interval outside opening hours to the grid edges" time="0.0013496">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-023 treats a missing time as incomplete, with NaN slots and no violation" time="0.0015171">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-time-interval.spec.js" name="TimeInterval &gt; RULE-011 builds an interval from slot indexes and compares by start and end time" time="0.0010908">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" timestamp="2026-11-27T23:45:59.576Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="0.138044">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; RULE-010 counts a treatment missing from the catalog as price 0 and duration 0" time="0.0731838">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; RULE-009 RULE-010 totals the catalog prices of the selected names" time="0.0133192">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; RULE-010 ignores selecting the same name twice" time="0.0108089">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; RULE-010 recomputes the total after a removal or a reset" time="0.0208826">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; clears the search query after each selection" time="0.008936">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-treatment-selection.spec.js" name="TreatmentSelection &gt; RULE-010 leaves already selected treatments out of the search results" time="0.0074752">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" timestamp="2026-11-27T23:45:59.578Z" hostname="MAHINA" tests="6" failures="0" errors="0" skipped="0" time="0.4615269">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; renders the four service groups in catalog order" time="0.2371552">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; exposes one selectedServiceChange output: the explicit output shadows the model change output" time="0.0024444">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; emits from both the model and the explicit output on one click (two emitters fire today)" time="0.0921217">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; delivers selectedServiceChange to the parent ONCE per click and nothing on creation" time="0.034801">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; delivers ONCE again when the selected group is clicked to deselect it" time="0.0459888">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-type-selector.spec.js" name="TypeSelector &gt; delivers ONCE for Enter or Space and not at all for another key" time="0.045867">
+        </testcase>
+    </testsuite>
+    <testsuite name="dist/test-out/20261127T234512071Z-105c1e61/spec-working-week.spec.js" timestamp="2026-11-27T23:45:59.580Z" hostname="MAHINA" tests="4" failures="0" errors="0" skipped="0" time="0.0846589">
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-working-week.spec.js" name="WorkingWeek &gt; RULE-007 starts the week containing Sunday 2026-11-29 on Monday 2026-11-23" time="0.0081347">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-working-week.spec.js" name="WorkingWeek &gt; RULE-007 lists six working days, Monday to Saturday" time="0.0028839">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-working-week.spec.js" name="WorkingWeek &gt; RULE-007 moves seven days for the previous and next week" time="0.0016659">
+        </testcase>
+        <testcase classname="dist/test-out/20261127T234512071Z-105c1e61/spec-working-week.spec.js" name="WorkingWeek &gt; RULE-007 labels the week from Monday to Saturday in sr-Latn-RS short dates" time="0.0681988">
+        </testcase>
+    </testsuite>
+</testsuites>

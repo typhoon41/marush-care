@@ -149,7 +149,7 @@ Exit criteria:
 Command: /code-modernization:modernize-uplift
 Modules: dom:D1, dom:D2, dom:D3, dom:D4, dom:D5, dom:D6
 Scale: L
-Risk: High. (1) A wrong host allowlist turns every page into a 400 (DELTA-005): verify which Host ARR forwards before the cut, keep `security.allowedHosts` in `angular.json`, and gate the test deploy on the SSR smoke. (2) Two behavior-silent migrations (DELTA-007 single vs double change events; DELTA-008 null vs undefined) plus 107 new lint errors (DELTA-011): review each migrated file, cover type-selector and the hamburger button with characterization tests in Phase 1, and treat lint fixes as no-behavior-change refactors.
+Risk: High. (1) A wrong host allowlist turns every page into a 400 (DELTA-005): verify which Host ARR forwards before the cut, keep `security.allowedHosts` in `angular.json`, and gate the test deploy on the SSR smoke. (2) Two behavior-silent migrations (DELTA-007: per-action events stay at one, but the hamburger button's initial `false` emission that `menu.html` relies on may disappear; DELTA-008 null vs undefined) plus 107 new lint errors (DELTA-011): review each migrated file, cover type-selector and the hamburger button with characterization tests in Phase 1, and treat lint fixes as no-behavior-change refactors.
 Entry criteria:
 - [ ] Phase 3 exit criteria all ticked
 - [ ] Node 26 is installed on the production IIS host
@@ -275,7 +275,7 @@ The SSR outputs in `BASELINE.md` are also part of the contract: status, lang, ti
 - [x] **In-house lint 1.2.0:** fix all 107 violations; no config tuning.
 - [x] **stylelint-config 1.2.0 drops smacss property ordering:** acceptable.
 - [x] **Test harness scope:** SSR smoke + API contract tests + Vitest unit tests through `@angular/build:unit-test`. Remove the stale esproj `JavaScriptTestFramework=Jest`.
-- [x] **v22 migration output:** accept it, including the change event firing once instead of twice (DELTA-007, an accepted difference). Clean the generated code up to project conventions in the Phase 4 cut.
+- [x] **v22 migration output:** accept it, including DELTA-007. The Phase 1 specs showed one event per action today, not two; the initial hamburger emission must be kept or `menu.html` adjusted.. Clean the generated code up to project conventions in the Phase 4 cut.
 - [x] **RULE-006:** store true UTC instants everywhere, converted with an explicit Europe/Belgrade zone. Migrate the existing entry rows with a reversible EF migration, after a database backup.
 - [x] **RULE-019:** the last online start is 20:00 on the server, matching the form.
 - [x] **RULE-021:** anchor the server phone regex to `^(?:06\d{7,8}|\+\d{10,13})$`.
