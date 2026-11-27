@@ -58,6 +58,13 @@
             "outputMode": "server",
             "ssr": {
               "entry": "src/server.ts"
+            },
+            "security": {
+              "allowedHosts": [
+                "marushcare.com",
+                "test.marushcare.com",
+                "localhost"
+              ]
             }
           },
           "configurations": {
