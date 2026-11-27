@@ -12,7 +12,9 @@ npm run start-en     # Dev server, English locale
 npm run start-ru     # Dev server, Russian locale
 npm run build        # Production build
 npm run lint         # ESLint + Stylelint (auto-fix)
-npm run test         # Jasmine unit tests
+npm run test         # Vitest unit tests (@angular/build:unit-test); CI adds -- --watch=false
+npm run test:ssr     # SSR snapshot check of the built app against tests/ssr/baseline.json
+npm run test:ssr:record  # re-record the SSR baseline after an intended change
 npm run translate    # Extract i18n strings, then sort locale files
 ```
 
@@ -20,7 +22,7 @@ npm run translate    # Extract i18n strings, then sort locale files
 
 ```bash
 dotnet build         # Compile solution
-dotnet test          # Run all tests
+dotnet test          # API contract tests (Site/Gmf.Marush.Care.Api.Tests, EF InMemory)
 ```
 
 ### Database Migrations
