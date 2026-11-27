@@ -4,6 +4,7 @@ using Autofac;
 using Gmf.Marush.Care.Api.Initialization;
 using Gmf.Marush.Care.Api.Services;
 using Gmf.Marush.Care.Infrastructure.Data;
+using Gmf.Marush.Care.Infrastructure.Data.Seeding;
 using Gmf.Net.Core.Common;
 using Gmf.Net.Core.Common.Configuration;
 using Gmf.Net.Core.Common.Initialization;
@@ -73,6 +74,10 @@ void ServiceCallback(WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.ResolveFrom<string>("ConnectionStrings:MarushCare");
         _ = options.UseSqlServer(connectionString);
+        if (builder.Environment.IsDevelopment())
+        {
+            _ = options.UseAsyncSeeding(new DevelopmentData(TimeProvider.System).Seed);
+        }
     });
 
     _ = builder.Services.AddCors();
@@ -82,7 +87,11 @@ void ServiceCallback(WebApplicationBuilder builder)
     _ = builder.Services.AddAuthorization();
     _ = builder.Services.AddMvc([], [new DateOnlyJsonConverter()], marushAssembly.Api);
 
-    if (!builder.Environment.IsDevelopment())
+    if (builder.Environment.IsDevelopment())
+    {
+        _ = builder.Services.AddHostedService<DevelopmentDatabaseMigrator>();
+    }
+    else
     {
         _ = builder.Services.AddHostedService<NodeJsRunnerService>();
     }
