@@ -4,7 +4,7 @@ The person who knows the business reviewed the 22 flagged P0 rules from `BUSINES
 
 The rules marked Wrong (RULE-006, 019, 021, 023, 046) are known bugs to fix, under INTENT.md "Fix known bugs". They are not settled: `brief` lists them as open questions and intended differences, never as Behavior Contract anchors.
 
-**Conflict to resolve:** RULE-030 (captcha AND logic) was confirmed as correct. The pending security patch SEC-001 (`security_remediation.patch`) changes exactly this behavior to OR, and checks the action on the server. Settle it before `brief`: either drop SEC-001 or change this review to Wrong.
+**Conflict resolved:** RULE-030 (captcha AND logic) is confirmed. The owner chose to drop SEC-001 from `security_remediation.patch` (2026-11-27).
 
 Several Right verdicts keep behavior that the extraction flagged as a suspected defect: RULE-003, 033, 037, 054 and 056. They are now the intended legacy behavior and must be preserved exactly.
 
@@ -19,7 +19,7 @@ Several Right verdicts keep behavior that the extraction flagged as a suspected 
 | RULE-019 | Wrong / not wanted | 2026-11-27T19:01:52+00:00 | Online start time 12:00–20:45 on quarter hours (UI offers only to 20:00) | Last online start should match the UI (20:00) and/or the booking must end by closing time (chosen option). |
 | RULE-021 | Wrong / not wanted | 2026-11-27T19:01:52+00:00 | Phone must be a Serbian mobile or international number, max 16 characters | Server regex should be anchored like the browser regex (chosen option). |
 | RULE-023 | Wrong / not wanted | 2026-11-27T19:01:52+00:00 | Admin entry: 11:00–22:00, 15-minute grid, at most 4 hours | Sundays / non-working days should be blocked for admin entries (chosen option). |
-| RULE-030 | Right | 2026-11-27T19:01:52+00:00 | Captcha verdict: rejected only if the token is invalid AND the score < 0.25 | Confirmed as current behavior. Conflicts with the pending security patch SEC-001 (OR logic + server-side action): resolve before brief. |
+| RULE-030 | Right | 2026-11-27T19:01:52+00:00 | Captcha verdict: rejected only if the token is invalid AND the score < 0.25 | Confirmed as current behavior. Owner chose to drop SEC-001 from the security patch (2026-11-27). |
 | RULE-031 | Right | 2026-11-27T19:01:52+00:00 | Admin login: password-hash check, audit on success and failure |  |
 | RULE-033 | Right | 2026-11-27T19:01:52+00:00 | Slot conflict: no overlap, back-to-back allowed (admin entries only) |  |
 | RULE-036 | Right | 2026-11-27T19:01:52+00:00 | Returning client matched only when both email and phone match |  |

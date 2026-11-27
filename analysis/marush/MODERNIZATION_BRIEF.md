@@ -108,8 +108,8 @@ Modules: Site/Gmf.Marush.Care.App/src/server.ts, Site/Gmf.Marush.Care.Api/Contro
 Scale: M
 Risk: Medium. (1) Tests may pin behavior through the wrong seam: put the SSR smoke at the HTTP level, independent of the Angular version, and test the API contracts through the controllers. (2) No database fixtures exist: use the Aspire SQL container with seeded data. The captcha is skipped outside Production.
 Entry criteria:
-- [ ] `security_remediation.patch` applied, built and deployed to the test environment; `npm audit --omit=dev` shows no critical or high runtime advisory
-- [ ] The RULE-030 / SEC-001 conflict is decided (§7) and `RULE_REVIEWS.json` updated
+- [ ] `security_remediation.patch` (without SEC-001) applied, built and deployed to the test environment; `npm audit --omit=dev` shows no critical or high runtime advisory
+- [x] The RULE-030 / SEC-001 conflict is decided (§7) and `RULE_REVIEWS.json` updated
 - [ ] First slice named: the SSR smoke for the `sr` locale home route (`/sr/početna`)
 Exit criteria:
 - [ ] `analysis/marush/BASELINE.md` records, for every route in sr/en/ru: the status, `<html lang>`, title and meta, and the first localized heading. Each is recorded with the production Host and with the localhost Host, against Angular 20.3.
@@ -185,7 +185,7 @@ The .NET backend is not version-migrated. Its steps are covered by the Phase 1 c
 | Step | Legacy modules | Replaced or proven in |
 |---|---|---|
 | Choose treatments, date and time | appointment-page, services-selector, summary | Phase 3 → 4 (Angular) |
-| Send the request with a captcha check | appointment (FE), ValidateCaptchaAttribute, AppointmentController | Phase 4 (FE); Gate (SEC-001) |
+| Send the request with a captcha check | appointment (FE), ValidateCaptchaAttribute, AppointmentController | Phase 4 (FE); unchanged (RULE-030 kept) |
 | Check the request is valid and inside the booking window | AppointmentRequestValidator, AppointmentBookingWindow | Phase 1 contract; **Phase 5** (RULE-019, 021) |
 | Save the customer and the requested appointment | Appointment Service, AppointmentRepository, Appointments/Customers tables | Phase 1 contract |
 | Email the owner (with Accept/Reject links) and the customer | AppointmentNotificationService, request and submitted templates, SMTP | Gate (SEC-002); **Phase 5** (RULE-046) |
@@ -215,7 +215,7 @@ The .NET backend is not version-migrated. Its steps are covered by the Phase 1 c
 |---|---|---|
 | Search and page through clients | clients-page, clients, CustomerController, CustomerRetrievalRepository | Phase 3 → 4; Phase 1 contract |
 | Edit phones, emails and properties | clients-edit-page | Phase 3 → 4; **Phase 5** (RULE-021) |
-| Save with captcha | ValidateCaptchaAttribute, CustomerModificationRepository | Phase 1 contract; Gate (SEC-001) |
+| Save with captcha | ValidateCaptchaAttribute, CustomerModificationRepository | Phase 1 contract; unchanged (RULE-030 kept) |
 
 ## 5. Behavior contract
 
@@ -230,7 +230,7 @@ For an uplift, the contract is **the recorded baseline** (`analysis/marush/BASEL
 | RULE-005 | A missing end time means 1 hour | High |
 | RULE-012 | Prices and durations are fixed in the browser catalog | confirmed |
 | RULE-017 | Booking window: today to +1 month, weekdays, server clock | confirmed |
-| RULE-030 | Captcha verdict | **blocked**: conflicts with SEC-001 (§7) |
+| RULE-030 | Captcha rejected only if the token is invalid AND the score < 0.25; action from the header | confirmed (keep; SEC-001 dropped) |
 | RULE-031 | Login hash check, audit on success and failure, 400 on failure | confirmed |
 | RULE-033 | Slot conflict for admin entries only; online booking unchecked | confirmed (keep) |
 | RULE-036 | Returning client matched on email AND phone | confirmed |
@@ -266,26 +266,26 @@ The SSR outputs in `BASELINE.md` are also part of the contract: status, lang, ti
 | 4 | Re-run plus the host-allowlist cases (allowed → 200 SSR, forged → 400) | Re-run | SSR HTML diff (Angular 20.3 vs 22); event-count check for DELTA-007 | — | Full UAT of the four walkthroughs on test before the manual approval gate |
 | 5 | Re-run (unchanged rules) | New tests for the five fixed rules | Database row comparison before and after the RULE-006 migration | Phone regex over generated strings (RULE-021) | Staff confirm the new behaviors on test |
 
-## 7. Open questions (decide before Phase 1 unless marked)
+## 7. Open questions: decided 2026-11-27 by the owner (review pop-ups)
 
-- [ ] **RULE-030 vs SEC-001:** the reviewer confirmed today's captcha AND logic, but security patch SEC-001 changes it to OR and checks the action on the server. Drop SEC-001, or re-mark RULE-030 as Wrong? This blocks the Gate and Phase 1.
-- [ ] **Apply and deploy `security_remediation.patch`** (14 reviewed hunks; Angular 20.3.35/43 stop-gap, captcha, email encoding, `allowedHosts`). Angular 20 support ends 2026-11-28.
-- [ ] **Hosts:** does IIS ARR keep the public Host on the rewrite to `localhost:<ssrPort>`, or send `localhost` plus `X-Forwarded-Host`? Is `www.marushcare.com` bound? This decides `allowedHosts` and whether to keep the `trustProxyHeaders` that the v22 migration adds (DELTA-005, -006). *Before Phase 4.*
-- [ ] **Node on the IIS hosts:** who installs Node 26 on test and production? Is 26 the host target, or 24.15 LTS? (DELTA-002) *Before Phase 2.*
-- [ ] **In-house lint 1.2.0:** fix all 107 new violations, or tune `@typhoon41/eslint-config-angular` first? `inject-at-top` (42 hits) and `prefer-service-decorator` (11 hits) may clash with project conventions. A config change means a toolkit release PR. *Before Phase 4.*
-- [ ] **stylelint-config 1.2.0 drops smacss property ordering:** acceptable? (DELTA-012) *Before Phase 2.*
-- [ ] **Test harness scope:** SSR smoke plus API contract tests only, or also Vitest through `@angular/build:unit-test`? Remove the stale esproj `JavaScriptTestFramework=Jest`? (DELTA-014)
-- [ ] **v22 migration output:** accept as is (the `$safeNavigationMigration` wrapper, `*Input` aliases, `extendedDiagnostics` suppressions), or clean up in the same cut? Is the change event firing once instead of twice (DELTA-007) an accepted difference? *Before Phase 4.*
-- [ ] **RULE-006 (Wrong): unify time storage.** Which single form (UTC plus Europe/Belgrade?), and may the existing entry rows be migrated? *Before Phase 5.*
-- [ ] **RULE-019 (Wrong):** is the last online start 20:00 (as the form shows), and must a booking end by closing time? *Before Phase 5.*
-- [ ] **RULE-021 (Wrong):** anchor the server phone regex to `^(?:06\d{7,8}|\+\d{10,13})$`, as the browser does? *Before Phase 5.*
-- [ ] **RULE-023 (Wrong):** block admin entries on Sundays only, or also on days with a NonWorkingDay note? Past dates too? *Before Phase 5.*
-- [ ] **RULE-046 (Wrong):** send the customer email before the owner's, or save first and send both after the commit? What happens to the owner's links if the customer email fails? *Before Phase 5.*
-- [ ] **Push and PR:** this branch (`worktree-modernize-marush`) exists locally only; earlier pushes were blocked by the permission check. Push it so the plan is reviewable?
+- [x] **RULE-030 vs SEC-001:** keep today's captcha logic. The SEC-001 hunks are removed from `security_remediation.patch`; RULE-030 stays confirmed and is in the Behavior Contract.
+- [x] **Apply and deploy `security_remediation.patch`:** applied on this branch (SEC-002 email encoding, SEC-003 Angular 20.3.35/43 + Express 5.3.0, SEC-004 `allowedHosts`). Deployment goes through the pipeline once merged.
+- [x] **Hosts:** ARR keeps the public Host; `www.marushcare.com` is not bound. `allowedHosts` = marushcare.com, test.marushcare.com, localhost. Drop the `trustProxyHeaders` the v22 migration adds (DELTA-006): no X-Forwarded-Host is used.
+- [x] **Node on the IIS hosts:** Node 26 LTS on test and production, installed by the owner.
+- [x] **In-house lint 1.2.0:** fix all 107 violations; no config tuning.
+- [x] **stylelint-config 1.2.0 drops smacss property ordering:** acceptable.
+- [x] **Test harness scope:** SSR smoke + API contract tests + Vitest unit tests through `@angular/build:unit-test`. Remove the stale esproj `JavaScriptTestFramework=Jest`.
+- [x] **v22 migration output:** accept it, including the change event firing once instead of twice (DELTA-007, an accepted difference). Clean the generated code up to project conventions in the Phase 4 cut.
+- [x] **RULE-006:** store true UTC instants everywhere, converted with an explicit Europe/Belgrade zone. Migrate the existing entry rows with a reversible EF migration, after a database backup.
+- [x] **RULE-019:** the last online start is 20:00 on the server, matching the form.
+- [x] **RULE-021:** anchor the server phone regex to `^(?:06\d{7,8}|\+\d{10,13})$`.
+- [x] **RULE-023:** block admin entries on Sundays and on dates with a NonWorkingDay note. Past dates stay allowed.
+- [x] **RULE-046:** commit the booking first, then send both emails. A failed email is logged and alerted; the booking stays.
+- [x] **Push and PR:** push this branch and open a draft PR.
 
 ## 8. Approval
 
 ```
-Approved by: ________________  Date: __________
-Approval covers: Phase 1 only | Full plan
+Approved by: Nikola Dragićević (owner, via review pop-up)  Date: 2026-11-27
+Approval covers: Full plan
 ```

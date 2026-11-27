@@ -1,125 +1,3 @@
-# SEC-001: new attribute naming the captcha action each protected endpoint expects
---- /dev/null
-+++ b/Packages/Gmf.Net.Core.Common/Security/CaptchaActionAttribute.cs
-@@ -0,0 +1,7 @@
-+﻿namespace Gmf.Net.Core.Common.Security;
-+
-+[AttributeUsage(AttributeTargets.Method)]
-+public sealed class CaptchaActionAttribute(string name) : Attribute
-+{
-+    public string Name { get; } = name;
-+}
-# SEC-001: fail captcha when the token is invalid OR the score is low OR the token action differs from the expected action (was AND)
---- a/Packages/Gmf.Net.Core.Common/Security/Response.cs
-+++ b/Packages/Gmf.Net.Core.Common/Security/Response.cs
-@@ -5,7 +5,8 @@
-     public ResponseAnalysis RiskAnalysis { get; set; } = new ResponseAnalysis();
-     public ResponseToken TokenProperties { get; set; } = new ResponseToken();
- 
--    public bool Invalid(double threshold) => !TokenProperties.Valid && RiskAnalysis.Score < threshold;
-+    public bool Invalid(double threshold, string expectedAction) =>
-+        !TokenProperties.Valid || RiskAnalysis.Score < threshold || !string.Equals(TokenProperties.Action, expectedAction, StringComparison.Ordinal);
- 
--    public string InvalidReason => TokenProperties.Valid ? string.Join(',', RiskAnalysis.Reasons) : TokenProperties.InvalidReason;
-+    public string InvalidReason => TokenProperties.Valid ? $"action={TokenProperties.Action};{string.Join(',', RiskAnalysis.Reasons)}" : TokenProperties.InvalidReason;
- }
-# SEC-001: read the action Google bound the token to
---- a/Packages/Gmf.Net.Core.Common/Security/ResponseToken.cs
-+++ b/Packages/Gmf.Net.Core.Common/Security/ResponseToken.cs
-@@ -3,4 +3,5 @@
- {
-     public bool Valid { get; set; }
-     public string InvalidReason { get; set; } = string.Empty;
-+    public string Action { get; set; } = string.Empty;
- }
-# SEC-001: take the expected action from the endpoint (server side), never from the client header; send it to Google and check it in the verdict
---- a/Packages/Gmf.Net.Core.Common/Security/ValidateCaptchaAttribute.cs
-+++ b/Packages/Gmf.Net.Core.Common/Security/ValidateCaptchaAttribute.cs
-@@ -37,6 +37,14 @@
-             return;
-         }
- 
-+        var expectedAction = context.ActionDescriptor.EndpointMetadata.OfType<CaptchaActionAttribute>().FirstOrDefault()?.Name;
-+        if (expectedAction is null)
-+        {
-+            _logger.LogError("Endpoint {Endpoint} is captcha-protected but declares no CaptchaAction. Returning status code 400...", context.ActionDescriptor.DisplayName);
-+            context.Result = new BadRequestResult();
-+            return;
-+        }
-+
-         var captchaHeader = context.HttpContext.Request.Headers[CaptchaHeader];
-         var captchaAction = context.HttpContext.Request.Headers[CaptchaAction];
- 
-@@ -54,16 +62,17 @@
-         {
-             Event = new RequestBody
-             {
--                ExpectedAction = captchaAction.First()!,
-+                ExpectedAction = expectedAction,
-                 SiteKey = _settings.ClientKey,
-                 Token = captchaHeader.First()!
-             }
-         };
-         var result = await httpClient.PostWithResponseAsync<Request, Response>(url, input);
- 
--        if (result.Invalid(Threshold))
-+        if (result.Invalid(Threshold, expectedAction))
-         {
--            _logger.LogWarning("Captcha validation failed due to low result score of {Score}. Reasons: {Reasons}", result.RiskAnalysis.Score, result.InvalidReason);
-+            _logger.LogWarning("Captcha validation failed (valid token: {Valid}, score: {Score}, expected action: {Action}). Reasons: {Reasons}",
-+                result.TokenProperties.Valid, result.RiskAnalysis.Score, expectedAction, result.InvalidReason);
-             context.Result = new BadRequestResult();
-             return;
-         }
-# SEC-001: bind booking to the APPOINTMENT captcha action
---- a/Site/Gmf.Marush.Care.Api/Controllers/AppointmentController.cs
-+++ b/Site/Gmf.Marush.Care.Api/Controllers/AppointmentController.cs
-@@ -22,6 +22,7 @@
- 
-     [HttpPost]
-     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
-+    [CaptchaAction("APPOINTMENT")]
-     [ProducesResponseType(StatusCodes.Status200OK)]
-     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-     public async Task<IActionResult> Post([FromBody][Required] AppointmentRequest data)
-# SEC-001: bind customer create/update to the CLIENT_EDIT captcha action
---- a/Site/Gmf.Marush.Care.Api/Controllers/CustomerController.cs
-+++ b/Site/Gmf.Marush.Care.Api/Controllers/CustomerController.cs
-@@ -44,6 +44,7 @@
- 
-     [HttpPost]
-     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
-+    [CaptchaAction("CLIENT_EDIT")]
-     [ProducesResponseType(typeof(CustomerDetails), StatusCodes.Status201Created)]
-     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-@@ -56,6 +57,7 @@
- 
-     [HttpPut]
-     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
-+    [CaptchaAction("CLIENT_EDIT")]
-     [ProducesResponseType(StatusCodes.Status204NoContent)]
-     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-# SEC-001: bind login to LOGIN (and the DEBUG-only create to USER_CREATE)
---- a/Site/Gmf.Marush.Care.Api/Controllers/UserController.cs
-+++ b/Site/Gmf.Marush.Care.Api/Controllers/UserController.cs
-@@ -14,6 +14,7 @@
- {
-     [HttpPost("login")]
-     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
-+    [CaptchaAction("LOGIN")]
-     [ProducesResponseType(StatusCodes.Status200OK)]
-     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-     public async Task<IActionResult> Login([FromBody][Required] LoginRequest request)
-@@ -33,6 +34,7 @@
- #if DEBUG
-     [HttpPost("create")]
-     [ServiceFilter(typeof(ValidateCaptchaAttribute))]
-+    [CaptchaAction("USER_CREATE")]
-     [ProducesResponseType(StatusCodes.Status200OK)]
-     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
 # SEC-002: HTML-encode the query-string date placed into the acceptance email
 --- a/Site/Gmf.Marush.Care.Api/Models/Templates/AppointmentConfirmationTemplate.cs
 +++ b/Site/Gmf.Marush.Care.Api/Models/Templates/AppointmentConfirmationTemplate.cs
@@ -206,10 +84,10 @@
 +        { "{{phone-number-formatted}}", WebUtility.HtmlEncode(phoneNumber.ToFormattedPhone()) }
      };
  }
-# SEC-004: allowlist the hosts SSR may render for; with the list set, patched @angular/ssr answers 400 to any other Host (without a list it would silently drop to client-side rendering for every public host)
+# SEC-004: allowlist the hosts SSR may render for; hosts per the owner: ARR keeps the public Host, www is not bound; with the list set, patched @angular/ssr answers 400 to any other Host (without a list it would silently drop to client-side rendering for every public host)
 --- a/Site/Gmf.Marush.Care.App/angular.json
 +++ b/Site/Gmf.Marush.Care.App/angular.json
-@@ -58,6 +58,14 @@
+@@ -58,6 +58,13 @@
              "outputMode": "server",
              "ssr": {
                "entry": "src/server.ts"
@@ -217,7 +95,6 @@
 +            "security": {
 +              "allowedHosts": [
 +                "marushcare.com",
-+                "www.marushcare.com",
 +                "test.marushcare.com",
 +                "localhost"
 +              ]

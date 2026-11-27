@@ -55,7 +55,7 @@
       "verdict": "confirmed",
       "at": "2026-11-27T19:01:52+00:00",
       "title": "Captcha verdict: rejected only if the token is invalid AND the score < 0.25",
-      "note": "Confirmed as current behavior. Conflicts with the pending security patch SEC-001 (OR logic + server-side action): resolve before brief."
+      "note": "Confirmed: keep current AND logic. Owner chose to drop SEC-001 from the security patch (2026-11-27)."
     },
     "RULE-031": {
       "verdict": "confirmed",

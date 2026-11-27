@@ -46,7 +46,7 @@ The counts and the false-positive rate cover the judged findings only. If the Wo
 | ID | Severity | CWE | Finding | file:line | Fix / status |
 |---|---|---|---|---|---|
 | SEC-003 | **Critical** | CWE-1395 | The locked Angular 20.3.3 / `@angular/ssr` 20.3.9 and Express 5.1.0 chain carries 18 runtime advisories, including SSR SSRF and header injection, open redirect, path traversal, SSR XSS and `proxy-addr` IP spoofing (dependency table below) | `Site/Gmf.Marush.Care.App/package.json:15-33`, `package-lock.json` | **Patched.** Same-major bump to patched 20.3.x |
-| SEC-001 | **High** | CWE-697 / CWE-804 | Captcha verdict is `!Valid && Score < threshold`, so a valid token with a bot score passes. The expected action came from a client header and was never checked against the token. This covers booking, login and customer writes. | `Packages/Gmf.Net.Core.Common/Security/Response.cs:8`; `ValidateCaptchaAttribute.cs:41,57,64` | **Patched** |
+| SEC-001 | **High** | CWE-697 / CWE-804 | Captcha verdict is `!Valid && Score < threshold`, so a valid token with a bot score passes. The expected action came from a client header and was never checked against the token. This covers booking, login and customer writes. | `Packages/Gmf.Net.Core.Common/Security/Response.cs:8`; `ValidateCaptchaAttribute.cs:41,57,64` | **Accepted risk**: the owner keeps the current behavior (RULE-030 confirmed, 2026-11-27); not patched |
 | SEC-002 | **High** | CWE-79 / CWE-80 | Name, surname, treatments, phone and the query-string `Date` are string-replaced raw into HTML email, so anyone can send attacker HTML through the salon's SMTP to any address. `Treatments` has no validator at all. | `Packages/Gmf.Mail.Common/Models/BaseEmailTemplate.cs:14-17`; `Site/Gmf.Marush.Care.Api/Models/Templates/*.cs` | **Patched** |
 | SEC-004 | **High** | CWE-918 | SSR has no host allowlist. Patched `@angular/ssr` without `allowedHosts` would also silently serve client-rendered pages for every public host, which is an SEO regression. | `Site/Gmf.Marush.Care.App/angular.json:57-60`; `src/server.ts:14-26` | **Patched** |
 | SEC-005 | Medium | CWE-306 / CWE-352 | Anonymous `GET api/appointment/decision` accepts or rejects a booking and emails the customer. A link scanner prefetching the owner's email could trigger it, and the free-text `Date` can be spoofed. | `Site/Gmf.Marush.Care.Api/Controllers/AppointmentController.cs:40-59` | Open. Signed, expiring decision token; POST; date read from the DB. |
@@ -91,10 +91,10 @@ The counts and the false-positive rate cover the judged findings only. If the Wo
 
 | ID | Fix | Patch |
 |---|---|---|
-| SEC-001 | `Invalid = !Valid \|\| Score < threshold \|\| token action ≠ expected`. The expected action is now declared on each endpoint with the new `[CaptchaAction("…")]` attribute (APPOINTMENT, CLIENT_EDIT ×2, LOGIN, USER_CREATE in DEBUG), sent to Google, and checked. The client `CaptchaAction` header must still be present but is no longer trusted. A protected endpoint without an action fails closed (400 plus an error log). The warning log message was rewritten. | `security_remediation.patch` (7 hunks) |
+| SEC-001 | **Dropped by owner decision (2026-11-27)**: the reviewed hunks were removed from the patch; the captcha logic is unchanged (RULE-030 confirmed). The hunks below stay on record. | none |
 | SEC-002 | `WebUtility.HtmlEncode` on each request-derived replacement: client name, each treatment item (markup kept), phone and formatted phone, and the decision `Date` in both the acceptance and rejection templates. The encoding happens per template, not globally, because `{{services}}` carries intended HTML. | `security_remediation.patch` (4 hunks) |
 | SEC-003 | `@angular/*` ^20.3.35 (ssr, build, cli ^20.3.43) and Express ^5.3.0, with a lock refresh. Only `@angular/*` and the Express chain were re-resolved; the other lock changes follow from `@angular/build` 20.3.43. `air-datepicker` stays at 3.5.3. | `security_remediation.patch` (2 hunks) |
-| SEC-004 | `security.allowedHosts: marushcare.com, www.marushcare.com, test.marushcare.com, localhost`. `localhost` is needed because IIS rewrites page routes to `http://localhost:<ssrPort>` (`web.config:57`). | `security_remediation.patch` (1 hunk) |
+| SEC-004 | `security.allowedHosts: marushcare.com, test.marushcare.com, localhost (owner: ARR keeps the public Host, www is not bound)`. `localhost` is needed because IIS rewrites page routes to `http://localhost:<ssrPort>` (`web.config:57`). | `security_remediation.patch` (1 hunk) |
 | SEC-005 to SEC-018 | Not patched: Medium and Low, logged above with the recommended fix. | none |
 
 ### Checks I ran
@@ -113,9 +113,11 @@ The counts and the false-positive rate cover the judged findings only. If the Wo
 - **Email text:** characters U+00A0–U+00FF (e.g. `é`) in names and treatments become numeric entities in the email HTML. They render the same, and Serbian Latin and Cyrillic are unchanged.
 - **SSR host check:** requests whose Host isn't on the allowlist get 400 from SSR.
 
-**Open item for a person:** confirm which host names actually reach the IIS site (bindings and DNS for `www.marushcare.com`), and whether ARR keeps the Host header. Extend `allowedHosts` if another name is bound.
+**Host question resolved (owner, 2026-11-27):** ARR keeps the public Host and `www.marushcare.com` is not bound, so `www` was removed from `allowedHosts`.
 
 ## Patch Review
+
+**Applied 2026-11-27, without the SEC-001 hunks** (owner decision). The SEC-001 rows below record that review; those hunks are not in the shipped patch.
 
 The independent security-auditor reviewed the patch in rounds until every hunk passed. No raw credential appears in the patch; it has no keys, passwords or connection strings, and every lock-file `resolved` URL is `registry.npmjs.org`.
 
