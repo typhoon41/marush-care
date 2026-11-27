@@ -14,7 +14,7 @@ public static class DevelopmentCustomers
             new CustomerPropertiesDto { PlaceOfResidence = "Novi Sad", Diagnosis = "Rozacea", Comments = "Blagi tretmani, bez jakih pilinga." }),
         Create(editor, editedAt, "Ana", "Nikolić", "+381641234503", "ana.nikolic@example.com",
             new CustomerPropertiesDto { DateOfBirth = new DateOnly(1986, 11, 3), PlaceOfResidence = "Beograd" }),
-        Create(editor, editedAt, "Marija", "Ilić", "+381641234504", null,
+        Create(editor, editedAt, "Marija", "Ilić", "+381641234504", "marija.ilic@example.com",
             new CustomerPropertiesDto { PlaceOfResidence = "Pančevo", Comments = "Preferira jutarnje termine." }),
         Create(editor, editedAt, "Ivana", "Stojanović", "+381641234505", "ivana.stojanovic@example.com",
             new CustomerPropertiesDto { PlaceOfResidence = "Zemun", Notes = "Osetljiva koža." }),
@@ -27,7 +27,7 @@ public static class DevelopmentCustomers
     ];
 
     private static CustomerDto Create(UserDto editor, DateTime editedAt, string name, string surname, string phone,
-        string? email, CustomerPropertiesDto properties)
+        string email, CustomerPropertiesDto properties)
     {
         var customer = new CustomerDto { Id = Guid.NewGuid(), Name = name, Surname = surname, Properties = properties };
         properties.CustomerId = customer.Id;
@@ -35,10 +35,7 @@ public static class DevelopmentCustomers
         properties.LastEditedBy = editor;
         properties.LastEditAt = editedAt;
         customer.Phones.Add(new CustomerPhoneDto { CustomerId = customer.Id, Customer = customer, PhoneNumber = phone });
-        if (email is not null)
-        {
-            customer.Emails.Add(new CustomerEmailDto { CustomerId = customer.Id, Customer = customer, Email = email });
-        }
+        customer.Emails.Add(new CustomerEmailDto { CustomerId = customer.Id, Customer = customer, Email = email });
 
         return customer;
     }
