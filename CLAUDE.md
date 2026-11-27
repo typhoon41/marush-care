@@ -30,10 +30,9 @@ dotnet ef migrations add <Name> \
   --project Site/Gmf.Marush.Care.Infrastructure \
   --startup-project Gmf.Marush.Care.Host
 
-dotnet ef database update \
-  --project Site/Gmf.Marush.Care.Infrastructure \
-  --startup-project Gmf.Marush.Care.Host
 ```
+
+The local database is migrated by the API on startup. A manual `dotnet ef database update` needs `--connection` (see `Site/Gmf.Marush.Care.Infrastructure/MigrationCommands.md`).
 
 ## Architecture
 
@@ -78,12 +77,13 @@ Coding conventions come from the `conventions` plugin ([typhoon41/toolkit](https
 ## Local Development Setup
 
 1. .NET 10.0 SDK
-2. Node.js 22.20.0
-3. Docker Desktop (SQL Server container via Aspire)
-4. `dotnet tool install --global dotnet-ef`
-5. Configure user secrets on `Gmf.Marush.Care.Api` (JWT key, SMTP credentials, DB connection string)
+2. Node.js 22.20.0, then `npm ci` in `Site/Gmf.Marush.Care.App`
+3. Docker Desktop, running
+4. `dotnet tool install --global dotnet-ef` (only to author migrations)
 
-Run the Aspire host (`Gmf.Marush.Care.Host`) to start all services together. The Angular frontend has `WithExplicitStart()` — trigger it manually from the Aspire dashboard.
+Run the Aspire host (`Gmf.Marush.Care.Host`) to start everything: a persistent SQL Server container (`127.0.0.1,14330`, data volume), the API and the Angular app (http://localhost:4200). No user secrets are needed. Aspire generates the sa password and JWT key into the host's user secrets, and the other dev settings live in the API's `appsettings.Development.json` (emails go to `.eml` files in `C:/Temp/Marush/Emails`).
+
+In Development the API migrates on startup (`DevelopmentDatabaseMigrator`), and EF Core seeding (`Infrastructure/Data/Seeding/`) fills an empty database. Log in with `admin@marushcare.local` / `Marush!2026`. See `README.md` for the seeded data and how to reset it.
 
 ## CI/CD
 
